@@ -207,7 +207,7 @@ class ElebeePublic {
         }
 
         $sticky = new Sticky();
-        $sticky->load();
+        $sticky->getLoader()->run();
 
     }
 }

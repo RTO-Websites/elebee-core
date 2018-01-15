@@ -10,10 +10,13 @@ namespace ElebeeCore\Extensions\Sticky;
 
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\ElebeeLoader;
+use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
 
 class Sticky {
+
+    use Hooking;
 
     /**
      * @var string
@@ -36,11 +39,6 @@ class Sticky {
     private $controlStickyOffsetId;
 
     /**
-     * @var ElebeeLoader
-     */
-    private $loader;
-
-    /**
      * @var bool
      */
     private static $enqueueScripts = false;
@@ -54,20 +52,25 @@ class Sticky {
         $this->controlStickyPlaceholderId = 'sticky-placeholder';
         $this->controlStickyPositionId = 'sticky-position';
         $this->controlStickyOffsetId = 'sticky-offset';
-        $this->loader = new ElebeeLoader();
+
+        $this->defineAdminHooks();
+        $this->definePublicHooks();
 
     }
 
     /**
-     *
+     * @since 0.2.0
      */
-    public function load() {
+    public function defineAdminHooks() {}
 
-        $this->loader->addAction( 'elementor/element/section/section_custom_css/after_section_end', $this, 'extend', 50 );
-        $this->loader->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScrips' );
-        $this->loader->addAction( 'elementor/frontend/element/before_render', $this, 'setRenderAttributes' );
+    /**
+     * @since 0.2.0
+     */
+    public function definePublicHooks() {
 
-        $this->loader->run();
+        $this->getLoader()->addAction( 'elementor/element/section/section_custom_css/after_section_end', $this, 'extend', 50 );
+        $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScrips' );
+        $this->getLoader()->addAction( 'elementor/frontend/element/before_render', $this, 'setRenderAttributes' );
 
     }
 
