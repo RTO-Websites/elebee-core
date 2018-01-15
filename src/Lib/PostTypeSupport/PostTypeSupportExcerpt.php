@@ -5,12 +5,12 @@
  * @licence MIT
  */
 
-namespace ElebeeCore\Lib\ThemeSupport;
+namespace ElebeeCore\Lib\PostTypeSupport;
 
 
 use ElebeeCore\Lib\Hooking;
 
-class ThemeSupportExcerpt {
+class PostTypeSupportExcerpt {
 
     use Hooking;
 

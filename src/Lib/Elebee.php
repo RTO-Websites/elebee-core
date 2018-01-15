@@ -9,6 +9,7 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportExcerpt;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
@@ -60,6 +61,7 @@ class Elebee {
 
         $this->loadDependencies();
         $this->setLocale();
+        $this->setupPostTypeSupport();
         $this->setupThemeSupport();
         $this->defineAdminHooks();
         $this->definePublicHooks();
@@ -106,15 +108,22 @@ class Elebee {
     }
 
     /**
+     * @since 0.2.0
+     */
+    private function setupPostTypeSupport() {
+
+        $themeSupportExcerpt = new PostTypeSupportExcerpt();
+        $themeSupportExcerpt->getLoader()->run();
+
+    }
+
+    /**
      * @since 0.1.0
      */
     private function setupThemeSupport() {
 
         $themeSupportHTML5 = new ThemeSupportHTML5();
         $themeSupportHTML5->getLoader()->run();
-
-        $themeSupportExcerpt = new ThemeSupportExcerpt();
-        $themeSupportExcerpt->getLoader()->run();
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
         $themeSupportFeaturedImage->getLoader()->run();
