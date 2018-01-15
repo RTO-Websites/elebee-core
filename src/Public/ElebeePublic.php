@@ -1,5 +1,6 @@
 <?php namespace ElebeeCore\Pub;
 
+use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
@@ -195,10 +196,14 @@ class ElebeePublic {
             if ( isset( $elementor->widgets_manager ) && method_exists( $elementor->widgets_manager, 'register_widget_type' ) ) {
                 require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
                 require_once dirname( __DIR__ ) . '/overrides/Elementor/Core/Settings/General/Model.php';
-                // only works with pro:
+
+                // only with elementor pro:
                 if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
                     require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-                    require_once dirname( __DIR__ ) . '/Extensions/Slides/Slides.php';
+
+                    $slides = new Slides();
+                    $slides->getLoader()->run();
+
                 }
 
                 do_action( 'rto_init_extensions' );
