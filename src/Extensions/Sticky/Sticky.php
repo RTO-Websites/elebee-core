@@ -8,15 +8,12 @@
 namespace ElebeeCore\Extensions\Sticky;
 
 
+use ElebeeCore\Extensions\ExtensionBase;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\ElebeeLoader;
-use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
 
-class Sticky {
-
-    use Hooking;
+class Sticky extends ExtensionBase {
 
     /**
      * @var string
@@ -48,13 +45,11 @@ class Sticky {
      */
     public function __construct() {
 
+        parent::__construct();
         $this->controlStickyId = 'sticky';
         $this->controlStickyPlaceholderId = 'sticky-placeholder';
         $this->controlStickyPositionId = 'sticky-position';
         $this->controlStickyOffsetId = 'sticky-offset';
-
-        $this->defineAdminHooks();
-        $this->definePublicHooks();
 
     }
 
