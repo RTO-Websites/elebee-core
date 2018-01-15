@@ -1,0 +1,1 @@
+<li class="arrow"><a href="<?php echo $url; ?>" class="page-numbers"><i class="<?php echo $iconClass; ?>"></i></a></li>

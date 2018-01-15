@@ -1,0 +1,76 @@
+.elementor-widget-post-type-archive figure {
+  float: left;
+}
+
+/* effect grayscale */
+.elementor-widget-post-type-archive .effect-grayscale .post-type-archive-inner-wrap {
+  filter: grayscale(1);
+  transition: 0.6s;
+}
+
+.elementor-widget-post-type-archive .effect-grayscale a {
+  position: relative;
+  display: block;
+}
+
+.elementor-widget-post-type-archive .effect-grayscale a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: 0.6s;
+  background-color: rgba(100, 100, 100, 0.8);
+}
+
+.elementor-widget-post-type-archive .effect-grayscale .post-type-archive-inner-wrap:hover {
+  filter: grayscale(0);
+}
+
+.elementor-widget-post-type-archive .effect-grayscale .post-type-archive-inner-wrap:hover a::after {
+  top: 66%;
+}
+
+.elementor-widget-post-type-archive .effect-grayscale .post-type-archive-logo,
+.elementor-widget-post-type-archive .effect-grayscale svg {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+
+.elementor-widget-post-type-archive .effect-grayscale svg * {
+  fill: #ccc;
+}
+
+.elementor-widget-post-type-archive .effect-grayscale .post-type-archive-inner-wrap:hover svg * {
+  fill: #fff;
+}
+
+/* in archive */
+.elementor-widget-post-type-archive .in-archive .title,
+.elementor-widget-post-type-archive .in-archive .excerpt {
+  float: left;
+}
+
+.elementor-widget-post-type-archive .in-archive .link {
+  float: right;
+}
+
+.elementor-widget-post-type-archive .in-archive .post-type-archive-divider:first-child {
+  margin-top: 0 !important;
+}
+
+.elementor-widget-post-type-archive .in-archive .post-type-archive-divider:last-child {
+  margin-bottom: 0 !important;
+}
+
+@media all and (min-width: 1025px) {
+  .elementor-widget-post-type-archive .in-archive .title {
+    width: 30%;
+  }
+
+  .elementor-widget-post-type-archive .in-archive .excerpt {
+    width: 50%;
+  }
+}

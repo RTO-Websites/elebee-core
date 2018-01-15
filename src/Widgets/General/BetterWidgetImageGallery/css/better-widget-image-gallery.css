@@ -1,0 +1,66 @@
+.rto-gallery-item-overlay {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rto-gallery-item-overlay:hover {
+  opacity: 1;
+}
+
+.rto-gallery-icon-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rto-gallery-container,
+.rto-image-columns .rto-gallery-image-container,
+.rto-image-columns-modal .rto-gallery-image-container{
+  float: left;
+  vertical-align: top;
+  width: 100%;
+}
+
+.rto-gallery-image-ratio-container {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  height: 0px;
+}
+
+.rto-image-ratio-container .image,
+.rto-gallery-image-ratio-container .gallery-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  background-size: cover;
+}

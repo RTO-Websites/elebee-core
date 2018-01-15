@@ -1,0 +1,341 @@
+<?php
+namespace ElebeeCore\Widgets\General\AspectRatioImage;
+
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Box_Shadow;
+use Elementor\Group_Control_Image_Size;
+use Elementor\Group_Control_Typography;
+use Elementor\Scheme_Color;
+use Elementor\Scheme_Typography;
+use Elementor\Utils;
+use Elementor\Widget_Base;
+use ElebeeCore\Lib\ElebeeWidget;
+use ElebeeCore\Lib\Template;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/**
+ * Image Widget
+ */
+class AspectRatioImage extends ElebeeWidget {
+
+    public function enqueueStyles() {
+        // TODO: Implement enqueueStyles() method.
+    }
+
+    public function enqueueScripts() {
+        // TODO: Implement enqueueScripts() method.
+    }
+
+	/**
+	 * Retrieve image widget name.
+	 *
+	 * @access public
+	 *
+	 * @return string Widget name.
+	 */
+	public function get_name() {
+		return 'aspect_image_image';
+	}
+
+	/**
+	 * Retrieve image widget title.
+	 *
+	 * @access public
+	 *
+	 * @return string Widget title.
+	 */
+	public function get_title() {
+		return __( 'Aspect Ratio Image', TEXTDOMAIN );
+	}
+
+	/**
+	 * Retrieve image widget icon.
+	 *
+	 * @access public
+	 *
+	 * @return string Widget icon.
+	 */
+	public function get_icon() {
+		return 'eicon-insert-image';
+	}
+
+	/**
+	 * Register image widget controls.
+	 *
+	 * Adds different input fields to allow the user to change and customize the widget settings.
+	 *
+	 * @access protected
+	 */
+	protected function _register_controls() {
+		$this->start_controls_section(
+			'section_image',
+			[
+				'label' => __( 'Image', TEXTDOMAIN ),
+			]
+		);
+
+		$this->add_control(
+			'image',
+			[
+				'label' => __( 'Choose Image', TEXTDOMAIN ),
+				'type' => Controls_Manager::MEDIA,
+				'default' => [
+					'url' => Utils::get_placeholder_image_src(),
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Image_Size::get_type(),
+			[
+				'name' => 'image', // Actually its `image_size`.
+				'label' => __( 'Image Size', TEXTDOMAIN ),
+				'default' => 'large',
+			]
+		);
+
+		$this->add_responsive_control(
+			'aspect-ratio',
+			[
+				'label' => __( 'Image Aspect Ratio', TEXTDOMAIN ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ '%' ],
+				'range' => [
+					'%' => [
+						'min' => 25.00,
+						'max' => 400.00,
+					],
+				],
+				'tablet_range' => [
+					'%' => [
+						'min' => 25.00,
+						'max' => 400.00,
+					],
+				],
+				'mobile_range' => [
+					'%' => [
+						'min' => 25.00,
+						'max' => 400.00,
+					],
+				],
+				'default' => [
+					'size' => 56.25,
+					'unit' => '%',
+				],
+				'tablet_default' => [
+					'size' => 56.25,
+					'unit' => '%',
+				],
+				'mobile_default' => [
+					'size' => 56.25,
+					'unit' => '%',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .rto-image-ratio-container' => 'padding-top: {{SIZE}}%;',
+				],
+			]
+		);
+
+		$this->add_control(
+			'link_to',
+			[
+				'label' => __( 'Link to', TEXTDOMAIN ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'none',
+				'options' => [
+					'none' => __( 'None', TEXTDOMAIN ),
+					'file' => __( 'Media File', TEXTDOMAIN ),
+					'custom' => __( 'Custom URL', TEXTDOMAIN ),
+				],
+			]
+		);
+
+		$this->add_control(
+			'link',
+			[
+				'label' => __( 'Link to', TEXTDOMAIN ),
+				'type' => Controls_Manager::URL,
+				'placeholder' => __( 'http://your-link.com', TEXTDOMAIN ),
+				'condition' => [
+					'link_to' => 'custom',
+				],
+				'show_label' => false,
+			]
+		);
+
+		$this->add_control(
+			'open_lightbox',
+			[
+				'label' => __( 'Lightbox', TEXTDOMAIN ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' => __( 'Default', TEXTDOMAIN ),
+					'yes' => __( 'Yes', 'elementor' ),
+					'no' => __( 'No', 'elementor' ),
+				],
+				'condition' => [
+					'link_to' => 'file',
+				],
+			]
+		);
+
+		$this->add_control(
+			'view',
+			[
+				'label' => __( 'View', TEXTDOMAIN ),
+				'type' => Controls_Manager::HIDDEN,
+				'default' => 'traditional',
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_style_image',
+			[
+				'label' => __( 'Image', TEXTDOMAIN ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_control(
+			'opacity',
+			[
+				'label' => __( 'Opacity (%)', TEXTDOMAIN ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 1,
+				],
+				'range' => [
+					'px' => [
+						'max' => 1,
+						'min' => 0.10,
+						'step' => 0.01,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .rto-image-ratio-container .image' => 'opacity: {{SIZE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hover_animation',
+			[
+				'label' => __( 'Hover Animation', TEXTDOMAIN ),
+				'type' => Controls_Manager::HOVER_ANIMATION,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name' => 'image_border',
+				'label' => __( 'Image Border', TEXTDOMAIN ),
+				'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_responsive_control(
+			'image_border_radius',
+			[
+				'label' => __( 'Border Radius', TEXTDOMAIN ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .rto-image-ratio-container .image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'image_box_shadow',
+				'exclude' => [
+					'box_shadow_position',
+				],
+				'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Render image widget output on the frontend.
+	 *
+	 * Written in PHP and used to generate the final HTML.
+	 *
+	 * @access protected
+	 */
+    protected function render() {
+
+        $settings = $this->get_settings();
+
+        if ( empty( $settings['image']['url'] ) ) {
+            return;
+        }
+
+        $this->add_render_attribute( 'wrapper', 'class', 'elementor-image' );
+
+
+        $link = $this->get_link_url( $settings );
+
+        if ( $link ) {
+            $this->add_render_attribute( 'link', [
+                'href' => $link['url'],
+                'class' => 'elementor-clickable',
+                'data-elementor-open-lightbox' => $settings['open_lightbox'],
+            ] );
+
+            if ( !empty( $link['is_external'] ) ) {
+                $this->add_render_attribute( 'link', 'target', '_blank' );
+            }
+
+            if ( !empty( $link['nofollow'] ) ) {
+                $this->add_render_attribute( 'link', 'rel', 'nofollow' );
+            }
+        }
+
+        $aspectRatioImageTemplate = new Template( __DIR__ . '/partials/aspect-ratio-image.php', [
+            'link' => $link,
+            'linkAttributes' => $this->get_render_attribute_string( 'link' ),
+            'backgroundImage' => $settings['image']['url'],
+        ] );
+        $aspectRatioImageTemplate->render();
+    }
+
+	/**
+	 * Retrieve image widget link URL.
+	 *
+	 * @access private
+	 *
+	 * @param object $instance
+	 *
+	 * @return array|string|false An array/string containing the link URL, or false if no link.
+	 */
+	private function get_link_url( $instance ) {
+		if ( 'none' === $instance['link_to'] ) {
+			return false;
+		}
+
+		if ( 'custom' === $instance['link_to'] ) {
+			if ( empty( $instance['link']['url'] ) ) {
+				return false;
+			}
+			return $instance['link'];
+		}
+
+		return [
+			'url' => $instance['image']['url'],
+		];
+	}
+
+}
