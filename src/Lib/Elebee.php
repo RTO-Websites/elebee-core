@@ -163,6 +163,10 @@ class Elebee {
      */
     private function definePublicHooks() {
 
+        $config = new Config();
+
+        $this->loader->addAction( 'status_header', $config, 'disableRedirectGuess' );
+
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'init', $elebeePublic, 'loadExtensions' );
