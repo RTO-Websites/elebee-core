@@ -171,6 +171,10 @@ class Elebee {
 
         $this->loader->addAction( 'status_header', $config, 'disableRedirectGuess' );
 
+        $htmlCompression = new HtmlCompression();
+
+        $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
+
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'init', $elebeePublic, 'loadExtensions' );
