@@ -165,6 +165,9 @@ class Elebee {
 
         $config = new Config();
 
+        $this->loader->addAction( 'init', $config, 'disableEmojies' );
+        $this->loader->addFilter( 'tiny_mce_plugins', $config, 'disableTinymceEmojies' );
+
         $this->loader->addAction( 'status_header', $config, 'disableRedirectGuess' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
