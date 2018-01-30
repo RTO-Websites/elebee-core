@@ -1,8 +1,8 @@
 <?php
 /**
- * @since 1.0.0
- * @author hterhoeven
- * @licence MIT
+ * @since 0.2.0
+ * @author RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
  */
 
 namespace ElebeeCore\Lib;
@@ -21,7 +21,7 @@ class Config {
      * @param $header
      * @return mixed
      */
-    function disableRedirectGuess( $header ) {
+    public static function disableRedirectGuess( $header ) {
 
         global $wp_query;
 
@@ -35,7 +35,7 @@ class Config {
     /**
      *
      */
-    function disableEmojies() {
+    public static function disableEmojies() {
 
         remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
         remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
@@ -51,7 +51,7 @@ class Config {
      * @param $plugins
      * @return array
      */
-    function disableTinymceEmojies( $plugins ) {
+    public static function disableTinymceEmojies( $plugins ) {
 
         if ( !is_array( $plugins ) ) {
             return [];
@@ -66,7 +66,7 @@ class Config {
     /**
      *
      */
-    function cleanUpHeader() {
+    public static function cleanUpHead() {
 
         remove_action( 'wp_head', 'rsd_link' );
         remove_action( 'wp_head', 'wp_generator' );
@@ -81,6 +81,5 @@ class Config {
         remove_action( 'wp_head', 'wp_shortlink_header', 10 );
 
     }
-
 
 }
