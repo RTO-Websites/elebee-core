@@ -1,9 +1,8 @@
 <?php namespace ElebeeCore\Lib;
-
 /**
- * @since 1.0.0
- * @author hterhoeven
- * @licence MIT
+ * @since 0.2.0
+ * @author RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
  */
 
 class HtmlCompression {

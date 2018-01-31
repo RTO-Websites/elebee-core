@@ -2,7 +2,7 @@
 /**
  * @since 1.0.0
  * @author hterhoeven
- * @licence MIT
+ * @licence GPL-3.0
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;

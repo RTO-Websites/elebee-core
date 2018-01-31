@@ -7,7 +7,7 @@
  * https://github.com/RTO-Websites/CoffeeScript-Style-Guide
  *
  * @author RTO GmbH <info@rto.de>
- * @license MIT
+ * @licence GPL-3.0
  */
 'use strict';
 var Sticky;

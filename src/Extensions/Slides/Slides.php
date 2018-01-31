@@ -2,7 +2,7 @@
 /**
  * @since 0.1.0
  * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * @licence GPL-3.0
  */
 
 namespace ElebeeCore\Extensions\Slides;

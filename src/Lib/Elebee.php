@@ -2,7 +2,7 @@
 /**
  * @since 0.1.0
  * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * @licence GPL-3.0
  */
 
 namespace ElebeeCore\Lib;
@@ -169,7 +169,6 @@ class Elebee {
         $this->loader->addAction( 'status_header', Config::class, 'disableRedirectGuess' );
 
         $htmlCompression = new HtmlCompression();
-
         $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
