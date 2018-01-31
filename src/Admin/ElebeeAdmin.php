@@ -76,7 +76,7 @@ class ElebeeAdmin {
          * class.
          */
 
-        wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/css/admin.min.css', [], $this->version, 'all' );
+        wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/css/admin.min.css', [], $this->version, 'all' );
         wp_enqueue_style( $this->themeName . '-elementor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/css/elementor-rto-admin.css', [], $this->version, 'all' );
 
     }
