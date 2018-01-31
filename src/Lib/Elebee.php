@@ -163,9 +163,14 @@ class Elebee {
      */
     private function definePublicHooks() {
 
-        $config = new Config();
+        $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
+        $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
+        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        $this->loader->addAction( 'status_header', Config::class, 'disableRedirectGuess' );
 
-        $this->loader->addAction( 'status_header', $config, 'disableRedirectGuess' );
+        $htmlCompression = new HtmlCompression();
+
+        $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
