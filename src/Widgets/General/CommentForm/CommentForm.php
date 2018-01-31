@@ -785,21 +785,21 @@ class CommentForm extends ElebeeWidget {
 
 			'author' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="author">' . __( 'Name', 'domainreference' ) . '</label> ' .
+				<label for="author">' . __( 'Name', TEXTDOMAIN ) . '</label> ' .
 				( $req ? '<span class="required">*</span>' : '' ) .
 				'<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
 				'" size="30"' . $aria_req . ' /></div>',
 
 			'email' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="email">' . __( 'Email', 'domainreference' ) . '</label> ' .
+				<label for="email">' . __( 'Email', TEXTDOMAIN ) . '</label> ' .
 				( $req ? '<span class="required">*</span>' : '' ) .
 				'<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) .
 				'" size="30"' . $aria_req . ' /></div>',
 
 			'url' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="url">' . __( 'Website', 'domainreference' ) . '</label>' .
+				<label for="url">' . __( 'Website', TEXTDOMAIN ) . '</label>' .
 				'<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
 				'" size="30" /></div>',
 		);

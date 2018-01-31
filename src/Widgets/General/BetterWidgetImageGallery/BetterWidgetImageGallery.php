@@ -164,8 +164,8 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                         'label' => __( 'Custom Caption', TEXTDOMAIN ),
                         'type' => Controls_Manager::SWITCHER,
                         'default' => 'No',
-                        'label_on' => __( 'Yes', 'your-plugin' ),
-                        'label_off' => __( 'No', 'your-plugin' ),
+                        'label_on' => __( 'Yes', TEXTDOMAIN ),
+                        'label_off' => __( 'No', TEXTDOMAIN ),
                         'return_value' => 'yes',
                     ],
                     [
