@@ -122,6 +122,9 @@ class Elebee {
      */
     private function setupThemeSupport() {
 
+        $themeSupportTitleTag = new ThemeSupportTitleTag();
+        $themeSupportTitleTag->addThemeSupport();
+
         $themeSupportHTML5 = new ThemeSupportHTML5();
         $themeSupportHTML5->addThemeSupport();
 
