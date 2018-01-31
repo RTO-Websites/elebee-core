@@ -10,9 +10,9 @@ namespace ElebeeCore\Lib;
 
 use ElebeeCore\Admin\ElebeeAdmin;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportExcerpt;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
@@ -113,7 +113,7 @@ class Elebee {
     private function setupPostTypeSupport() {
 
         $themeSupportExcerpt = new PostTypeSupportExcerpt();
-        $themeSupportExcerpt->getLoader()->run();
+        $themeSupportExcerpt->addPostTypeSupport();
 
     }
 
@@ -123,10 +123,10 @@ class Elebee {
     private function setupThemeSupport() {
 
         $themeSupportHTML5 = new ThemeSupportHTML5();
-        $themeSupportHTML5->getLoader()->run();
+        $themeSupportHTML5->addThemeSupport();
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
-        $themeSupportFeaturedImage->getLoader()->run();
+        $themeSupportFeaturedImage->addThemeSupport();
 
     }
 

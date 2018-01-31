@@ -1,37 +1,29 @@
 <?php
 /**
- * @since 1.0.0
- * @author hterhoeven
+ * @since 0.2.0
+ * @author RTO GmbH <info@rto.de>
  * @licence GPL-3.0
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
-
-class ThemeSupportHTML5 {
-
-    use Hooking;
+class ThemeSupportHTML5 extends ThemeSupport {
 
     /**
-     * @since 0.1.0
+     * ThemeSupportHTML5 constructor.
+     * @param string $hook
      */
-    public function defineAdminHooks() {}
+    public function __construct( string $hook = 'after_setup_theme' ) {
 
-    /**
-     * @since 0.1.0
-     */
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( 'after_setup_theme', $this, 'addThemeSupportHTML5' );
+        parent::__construct( $hook );
 
     }
 
     /**
      * @since 0.1.0
      */
-    public function addThemeSupportHTML5() {
+    public function hookCallback() {
 
         $args = [
             'search-form',

@@ -8,11 +8,17 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
+class ThemeSupportFeaturedImage extends ThemeSupport {
 
-class ThemeSupportFeaturedImage {
+    /**
+     * ThemeSupportFeaturedImage constructor.
+     * @param string $hook
+     */
+    public function __construct( string $hook = 'after_setup_theme' ) {
 
-    use Hooking;
+        parent::__construct( $hook );
+
+    }
 
     /**
      * @since    0.1.0
@@ -28,24 +34,9 @@ class ThemeSupportFeaturedImage {
     }
 
     /**
-     * @since    0.1.0
+     * @inheritdoc
      */
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( 'after_setup_theme', $this, 'addThemeSupportFeaturedImages' );
-
-        $this->getLoader()->addFilter( 'manage_posts_columns', $this, 'customColumns' );
-        $this->getLoader()->addFilter( 'manage_pages_columns', $this, 'customColumns' );
-
-        $this->getLoader()->addAction( 'manage_posts_custom_column', $this, 'customColumnsData', 10, 2 );
-        $this->getLoader()->addAction( 'manage_pages_custom_column', $this, 'customColumnsData', 10, 2 );
-
-    }
-
-    /**
-     *
-     */
-    public function addThemeSupportFeaturedImages() {
+    public function hookCallback() {
 
         add_theme_support( 'post-thumbnails' );
 

@@ -8,30 +8,22 @@
 namespace ElebeeCore\Lib\PostTypeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
-
-class PostTypeSupportExcerpt {
-
-    use Hooking;
+class PostTypeSupportExcerpt extends PostTypeSupport {
 
     /**
-     * @since 0.1.0
+     * PostTypeSupportExcerpt constructor.
+     * @param string $hook
      */
-    public function defineAdminHooks() {}
+    public function __construct( string $hook = 'after_setup_theme' ) {
 
-    /**
-     * @since 0.1.0
-     */
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( 'after_setup_theme', $this, 'addPostTypeSupportExcerpt' );
+        parent::__construct( $hook );
 
     }
 
     /**
      * @since 0.1.0
      */
-    public function addPostTypeSupportExcerpt() {
+    public function hookCallback() {
 
         add_post_type_support( 'page', 'excerpt', true );
 

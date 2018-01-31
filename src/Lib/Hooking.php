@@ -8,7 +8,7 @@
 namespace ElebeeCore\Lib;
 
 
-trait Hooking {
+abstract class Hooking {
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power

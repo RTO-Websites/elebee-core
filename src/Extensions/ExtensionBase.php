@@ -11,9 +11,7 @@ namespace ElebeeCore\Extensions;
 use ElebeeCore\Lib\Hooking;
 use Elementor\Element_Base;
 
-abstract class ExtensionBase {
-
-    use Hooking;
+abstract class ExtensionBase extends Hooking {
 
     /**
      * @param Element_Base $element
