@@ -193,7 +193,7 @@ class Renderer implements Visitor {
      */
     private function getRenderedTitle( string $content ): string  {
 
-        $galleryTitleTemplate = new Template( ELEMENTOR_RTO__DIR__ . '/public/partials/general/element-default.php', [
+        $galleryTitleTemplate = new Template( get_stylesheet_directory() . '/vendor//public/partials/general/element-default.php', [
             'tag' => $this->widgetSettings['header_size'],
             'attributes' => Template::toHtmlAttributes( [
                 'class' => 'gallery-title'
