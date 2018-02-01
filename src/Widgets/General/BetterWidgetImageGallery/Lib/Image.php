@@ -5,7 +5,7 @@
  * @licence GPL-3.0
  */
 
-namespace ElebeeCore\Widgets\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Visitee;

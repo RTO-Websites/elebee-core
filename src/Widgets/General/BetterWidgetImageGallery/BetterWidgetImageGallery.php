@@ -1,6 +1,12 @@
 <?php
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
 
+use ElebeeCore\Lib\Elebee;
+use ElebeeCore\Lib\ElebeeWidget;
+use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Album;
+use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Gallery;
+use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Image;
+use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Renderer;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
@@ -8,15 +14,16 @@ use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
-use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\ElebeeWidget;
-use ElebeeCore\Widgets\BetterWidgetImageGallery\Lib\Album;
-use ElebeeCore\Widgets\BetterWidgetImageGallery\Lib\Renderer;
-use ElebeeCore\Widgets\BetterWidgetImageGallery\Lib\Gallery;
-use ElebeeCore\Widgets\BetterWidgetImageGallery\Lib\Image;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
+}
+
+/**
+ *
+ */
+if( ! defined( '__GESAMT__' ) ) {
+    define( '__GESAMT__', '/var/www/html/global' );
 }
 
 /**
