@@ -126,10 +126,10 @@ class ElebeeAdmin {
     public function get_post_id_by_url() {
         $url = url_to_postid( $_POST['url'] );
         wp_send_json(
-            array(
+            [
                 'postId' => $url,
                 'path' => get_site_url(),
-            )
+            ]
         );
         die();
     }

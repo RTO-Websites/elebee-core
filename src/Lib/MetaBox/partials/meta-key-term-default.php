@@ -14,10 +14,10 @@
 
     <?php
 
-    $subterms = get_terms( $metaKey->getTaxonomies(), array(
+    $subterms = get_terms( $metaKey->getTaxonomies(), [
         'parent' => $term->term_id,
         'hide_empty' => false,
-    ) );
+    ] );
 
     if ( !empty( $subterms ) ) : ?>
 
@@ -25,10 +25,10 @@
 
             <?php foreach ( $subterms as $subterm ) : ?>
 
-                <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', array(
+                <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', [
                     'term' => $subterm,
                     'metaKey' => $metaKey,
-                ) ); ?>
+                ] ); ?>
 
                 <?php $listItem->render(); ?>
 

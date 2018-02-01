@@ -781,7 +781,7 @@ class CommentForm extends ElebeeWidget {
 			$settings['comment_field_width'] = '100';
 		}
 
-		$fields =  array(
+		$fields =  [
 
 			'author' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
@@ -802,9 +802,9 @@ class CommentForm extends ElebeeWidget {
 				<label for="url">' . __( 'Website', 'elebee' ) . '</label>' .
 				'<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
 				'" size="30" /></div>',
-		);
+		];
 
-		$comments_args = array(
+		$comments_args = [
 			'label_submit'=>$settings['comment_button'],
 			'title_reply'=>$settings['comment_title'],
 			'comment_notes_after' => '',
@@ -814,7 +814,7 @@ class CommentForm extends ElebeeWidget {
 			'class_submit' => 'submit elementor-animation-' . $settings['button_hover_animation'],
 			'fields' => apply_filters( 'comment_form_default_fields', $fields ),
 			'comment_field' => '<div class="elementor-field-group elementor-column elementor-col-'.$settings['comment_field_width'].'"><label for="comment">' . _x( $settings['comment_label'], 'noun' ) . '</label><br /><textarea id="comment" name="comment" aria-required="true"></textarea></p></div>',
-		);
+		];
 
 
 		add_filter('comment_form_fields',function($fields) {

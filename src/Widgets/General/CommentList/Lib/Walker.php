@@ -61,17 +61,17 @@ class Walker extends Walker_Comment {
             ?>
         </div>
 
-        <?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+        <?php comment_text( $comment, array_merge( $args, [ 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ] ) ); ?>
 
         <?php
         if ('yes' === $this->settings['comment_list_allow_reply']) {
-            comment_reply_link( array_merge( $args, array(
+            comment_reply_link( array_merge( $args, [
                 'add_below' => $add_below,
                 'depth' => $depth,
                 'max_depth' => $args['max_depth'],
                 'before' => '<div class="reply">',
                 'after' => '</div>'
-            ) ) );
+            ] ) );
         }
         ?>
 
@@ -126,13 +126,13 @@ class Walker extends Walker_Comment {
 
             <?php
             if ('yes' === $this->settings['comment_list_allow_reply']) {
-                comment_reply_link( array_merge( $args, array(
+                comment_reply_link( array_merge( $args, [
                     'add_below' => 'div-comment',
                     'depth'     => $depth,
                     'max_depth' => $args['max_depth'],
                     'before'    => '<div class="reply">',
                     'after'     => '</div>'
-                ) ) );
+                ] ) );
             }
             ?>
         </article><!-- .comment-body -->

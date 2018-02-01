@@ -5,7 +5,7 @@
     </p>
     <?php
 
-    $args = array(
+    $args = [
         'orderby'           => 'name',
         'order'             => 'ASC',
         'hide_empty'        => false,
@@ -15,14 +15,14 @@
         'child_of'          => 0,
         'pad_counts'        => false,
         'cache_domain'      => 'core'
-    );
+    ];
 
     $termList = get_terms( $metaKey->getTaxonomies(), $args );
 
     $metaValues = $metaKey->getValue();
 
     if ( empty( $metaValues ) ) {
-        $metaValues = array();
+        $metaValues = [];
     }
 
     ?>
@@ -32,10 +32,10 @@
 
         <?php foreach ( $termList as $term ) : ?>
 
-            <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', array(
+            <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', [
                 'term' => $term,
                 'metaKey' => $metaKey,
-            ) ); ?>
+            ] ); ?>
 
             <?php $listItem->render(); ?>
 

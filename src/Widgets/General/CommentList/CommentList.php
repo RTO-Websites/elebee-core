@@ -768,9 +768,9 @@ class CommentList extends Widget_Base {
      */
     protected function render() {
         $settings = $this->get_settings();
-        $args = array(
+        $args = [
             'post_id' => $settings['comments_from_post'],
-        );
+        ];
         $comments = get_comments( $args );
         $this->setPaginationSettings( $comments );
 
