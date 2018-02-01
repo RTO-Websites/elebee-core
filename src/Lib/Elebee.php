@@ -10,6 +10,9 @@ namespace ElebeeCore\Lib;
 
 use ElebeeCore\Admin\ElebeeAdmin;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeCustomizer\Section;
+use ElebeeCore\Lib\ThemeCustomizer\Setting;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
@@ -63,6 +66,7 @@ class Elebee {
         $this->setLocale();
         $this->setupPostTypeSupport();
         $this->setupThemeSupport();
+        $this->setupThemeCustomizer();
         $this->defineAdminHooks();
         $this->definePublicHooks();
 
@@ -134,6 +138,78 @@ class Elebee {
     }
 
     /**
+     * @since 0.2.0
+     */
+    public function setupThemeCustomizer() {
+
+        $this->themeCustomizer = new ThemeCustommizer();
+        $this->setupThemeSettingsCoreData();
+        $this->themeCustomizer->register();
+
+    }
+
+    /*
+     * @since 0.2.0
+     */
+    public function setupThemeSettingsCoreData() {
+
+        $settingCoreDataAddress = new Setting(
+            'elebee_core_data_address',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'Address', TEXTDOMAIN ),
+                'description' => __( '[coredata]address[/coredata]' ),
+                'type' => 'textarea',
+            ]
+        );
+
+        $settingCoreDataEmail = new Setting(
+            'elebee_core_data_email',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'E-Mail address', TEXTDOMAIN ),
+                'description' => __( '[coredata]email[/coredata]' ),
+                'type' => 'text',
+            ]
+        );
+
+        $settingCoreDataPhone = new Setting(
+            'elebee_core_data_phone',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'Phone', TEXTDOMAIN ),
+                'description' => __( '[coredata]phone[/coredata]' ),
+                'type' => 'text',
+            ]
+        );
+
+        $sectionCoreData = new Section( 'elebee_core_data_section', [
+            'title' => __( 'Core data', TEXTDOMAIN ),
+            'priority' => 700,
+            'description' => __(
+                'You can use the [coredata]key[/coredata]' .
+                ' shortcode to display the core data field inside a post.',
+                TEXTDOMAIN
+            ),
+        ] );
+        $sectionCoreData->addSetting( $settingCoreDataAddress );
+        $sectionCoreData->addSetting( $settingCoreDataEmail );
+        $sectionCoreData->addSetting( $settingCoreDataPhone );
+
+        $this->themeCustomizer->addSection( $sectionCoreData );
+
+    }
+
+    /**
      * Register all of the hooks related to the admin area functionality
      * of the theme.
      *
@@ -141,6 +217,8 @@ class Elebee {
      * @access   private
      */
     private function defineAdminHooks() {
+
+        $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
@@ -198,6 +276,7 @@ class Elebee {
      * @return    string    The name of the theme.
      */
     public function getThemeName() {
+
         return $this->themeName;
     }
 
@@ -249,7 +328,7 @@ class Elebee {
 
         $elebee = new self();
 
-        if ( ! version_compare( PHP_VERSION, '7.0', '>=' ) ) {
+        if ( !version_compare( PHP_VERSION, '7.0', '>=' ) ) {
 
             $elebee->getLoader()->addAction( 'admin_notices', $elebee, 'phpVersionFail' );
 
