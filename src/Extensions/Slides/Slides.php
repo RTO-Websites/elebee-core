@@ -41,11 +41,11 @@ class Slides extends ExtensionBase {
         $element->add_control(
             'use_ratio_hight',
             [
-                'label' => __( 'Use Ratio Height', TEXTDOMAIN ),
+                'label' => __( 'Use Ratio Height', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'No',
-                'label_on' => __( 'Yes', TEXTDOMAIN ),
-                'label_off' => __( 'No', TEXTDOMAIN ),
+                'label_on' => __( 'Yes', 'elebee' ),
+                'label_off' => __( 'No', 'elebee' ),
                 'return_value' => 'elementor-rto-aspect-ratio-slider',
                 'prefix_class' => '',
             ]);
@@ -53,7 +53,7 @@ class Slides extends ExtensionBase {
         $element->add_responsive_control(
             'aspect-ratio',
             [
-                'label' => __( 'Slider Ratio', TEXTDOMAIN ),
+                'label' => __( 'Slider Ratio', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ '%' ],
                 'range' => [

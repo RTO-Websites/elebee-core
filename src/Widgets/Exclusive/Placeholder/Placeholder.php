@@ -24,7 +24,7 @@ class Placeholder extends Widget_Base {
      * @return string Widget title.
      */
     public function get_title() {
-        return __( 'Placeholder', TEXTDOMAIN );
+        return __( 'Placeholder', 'elebee' );
     }
 
     /**
@@ -62,14 +62,14 @@ class Placeholder extends Widget_Base {
         $this->start_controls_section(
             'section_placeholder',
             [
-                'label' => __( 'Placeholder', TEXTDOMAIN ),
+                'label' => __( 'Placeholder', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'placeholder',
             [
-                'label'       => __( 'Placeholder', TEXTDOMAIN ),
+                'label'       => __( 'Placeholder', 'elebee' ),
                 'type'        => Controls_Manager::TEXT,
             ]
         );

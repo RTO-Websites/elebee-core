@@ -57,7 +57,7 @@ class Walker extends Walker_Comment {
         <div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
                 <?php
                 /* translators: 1: comment date, 2: comment time */
-                printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
+                printf( __( '%1$s at %2$s', 'elebee' ), get_comment_date( '', $comment ),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
             ?>
         </div>
 

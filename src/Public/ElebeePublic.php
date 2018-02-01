@@ -81,7 +81,7 @@ class ElebeePublic {
         $elementor->elements_manager->add_category(
             'rto-elements',
             [
-                'title' => __( 'RTO Elements', TEXTDOMAIN ),
+                'title' => __( 'RTO Elements', 'elebee' ),
                 'icon' => 'font',
             ],
             1
@@ -90,7 +90,7 @@ class ElebeePublic {
         $elementor->elements_manager->add_category(
             'rto-elements-exclusive',
             [
-                'title' => __( 'RTO Elements - Exclusive', TEXTDOMAIN ),
+                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
                 'icon' => 'font',
             ],
             2

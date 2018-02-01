@@ -133,7 +133,7 @@ add_action( 'elementor/element/form/section_form_fields/before_section_end', fun
 	$placeholderControl =
 		[
 			'name' => 'placeholder2',
-			'label' => __( 'Placeholder Bis', TEXTDOMAIN ),
+			'label' => __( 'Placeholder Bis', 'elebee' ),
 			'type' => \Elementor\Controls_Manager::TEXT,
 			'default' => '',
 			'conditions' => [

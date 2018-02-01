@@ -43,7 +43,7 @@ class PostTypeArchive extends ElebeeWidget {
      * @return string|void
      */
     public function get_title() {
-        return __( 'Post type archive', TEXTDOMAIN );
+        return __( 'Post type archive', 'elebee' );
     }
 
     /**
@@ -79,14 +79,14 @@ class PostTypeArchive extends ElebeeWidget {
         $this->start_controls_section(
             'archive_section',
             [
-                'label' => __( 'Archive settings', TEXTDOMAIN ),
+                'label' => __( 'Archive settings', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'type',
             [
-                'label' => __( 'Post type', TEXTDOMAIN ),
+                'label' => __( 'Post type', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'post',
                 'options' => $this->postTypes,
@@ -107,7 +107,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'count',
             [
-                'label' => __( 'Number of results', TEXTDOMAIN ),
+                'label' => __( 'Number of results', 'elebee' ),
                 'type' => Controls_Manager::NUMBER,
                 'default' => -1,
             ]
@@ -116,7 +116,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'per_row',
             [
-                'label' => __( 'Per row', TEXTDOMAIN ),
+                'label' => __( 'Per row', 'elebee' ),
                 'type' => Controls_Manager::NUMBER,
                 'min' => 1,
                 'default' => 4,
@@ -129,7 +129,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'horizontal_spacing',
             [
-                'label' => __( 'Horizontal spacing', TEXTDOMAIN ),
+                'label' => __( 'Horizontal spacing', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
                 'range' => [
@@ -152,7 +152,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'vertical_spacing',
             [
-                'label' => __( 'Vertical spacing', TEXTDOMAIN ),
+                'label' => __( 'Vertical spacing', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
                 'range' => [
@@ -175,11 +175,11 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'effect',
             [
-                'label' => __( 'Effect', TEXTDOMAIN ),
+                'label' => __( 'Effect', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'effect-grayscale',
                 'options' => [
-                    'effect-grayscale' => __( 'Grayscale', TEXTDOMAIN ),
+                    'effect-grayscale' => __( 'Grayscale', 'elebee' ),
                 ],
             ]
         );
@@ -187,7 +187,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'grayscale-slide-color',
             [
-                'label' => __( 'Slide color', TEXTDOMAIN ),
+                'label' => __( 'Slide color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'default' => 'effect-grayscale',
                 'condition' => [
@@ -202,7 +202,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'transition',
             [
-                'label' => __( 'Transition', TEXTDOMAIN ),
+                'label' => __( 'Transition', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 's' ],
                 'range' => [
@@ -229,7 +229,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->start_controls_section(
             'archive_style',
             [
-                'label' => __( 'Post', TEXTDOMAIN ),
+                'label' => __( 'Post', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -237,7 +237,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'color',
             [
-                'label' => __( 'Color', TEXTDOMAIN ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}}' => 'color: {{VALUE}};',
@@ -259,7 +259,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->start_controls_section(
                 'archive_divider',
                 [
-                    'label' => __( 'Divider', TEXTDOMAIN ),
+                    'label' => __( 'Divider', 'elebee' ),
                     'tab' => Controls_Manager::TAB_STYLE,
                 ]
             );
@@ -267,13 +267,13 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_style',
                 [
-                    'label' => __( 'Style', TEXTDOMAIN ),
+                    'label' => __( 'Style', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'solid',
                     'options' => [
-                        'solid' => __( 'Solid', TEXTDOMAIN ),
-                        'dashed' => __( 'Dashed', TEXTDOMAIN ),
-                        'dotted' => __( 'Dotted', TEXTDOMAIN ),
+                        'solid' => __( 'Solid', 'elebee' ),
+                        'dashed' => __( 'Dashed', 'elebee' ),
+                        'dotted' => __( 'Dotted', 'elebee' ),
                     ],
                     'selectors' => [
                         '{{WRAPPER}} .post-type-archive-divider' => 'border-top-style: {{VALUE}}',
@@ -284,7 +284,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_width',
                 [
-                    'label' => __( 'Width', TEXTDOMAIN ),
+                    'label' => __( 'Width', 'elebee' ),
                     'type' => Controls_Manager::SLIDER,
                     'range' => [
                         'px' => [
@@ -305,7 +305,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_color',
                 [
-                    'label' => __( 'Color', TEXTDOMAIN ),
+                    'label' => __( 'Color', 'elebee' ),
                     'type' => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPER}} .post-type-archive-divider' => 'border-top-color: {{VALUE}};',
@@ -316,7 +316,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_spacing',
                 [
-                    'label' => __( 'Spacing', TEXTDOMAIN ),
+                    'label' => __( 'Spacing', 'elebee' ),
                     'type' => Controls_Manager::SLIDER,
                     'range' => [
                         'px' => [
@@ -339,7 +339,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->start_controls_section(
                 'more_link',
                 [
-                    'label' => __( 'More link', TEXTDOMAIN ),
+                    'label' => __( 'More link', 'elebee' ),
                     'tab' => Controls_Manager::TAB_STYLE,
                 ]
             );
@@ -347,7 +347,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'more_color',
                 [
-                    'label' => __( 'Color', TEXTDOMAIN ),
+                    'label' => __( 'Color', 'elebee' ),
                     'type' => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPPER}} .link a' => 'color: {{VALUE}};',
@@ -381,7 +381,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'filter_' . $typeName,
                 [
-                    'label' => __( 'Filter', TEXTDOMAIN ),
+                    'label' => __( 'Filter', 'elebee' ),
                     'type' => Controls_Manager::SWITCHER,
                     'condition' => [
                         'type' => $typeName,
@@ -392,7 +392,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'type_' . $typeName . '_taxonomy',
                 [
-                    'label' => __( 'Taxonomy', TEXTDOMAIN ),
+                    'label' => __( 'Taxonomy', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => array_keys( array_slice( $taxonomies, 0, 1 ) )[0],
                     'options' => $taxonomies,
@@ -417,7 +417,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'type_' . $postType . '_taxonomy_' . $taxName . '_term',
                 [
-                    'label' => __( 'Term', TEXTDOMAIN ),
+                    'label' => __( 'Term', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => array_keys( array_slice( $terms, 0, 1 ) )[0],
                     'options' => $terms,

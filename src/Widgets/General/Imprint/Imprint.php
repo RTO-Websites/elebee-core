@@ -61,7 +61,7 @@ class Imprint extends ElebeeWidget {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Imprint', TEXTDOMAIN );
+		return __( 'Imprint', 'elebee' );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_section(
             'section_content',
             [
-                'label' => __( 'Imprint', TEXTDOMAIN ),
+                'label' => __( 'Imprint', 'elebee' ),
             ]
         );
 
@@ -136,27 +136,27 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'title',
             [
-                'label' => __( 'Title', TEXTDOMAIN ),
+                'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
-                'default' => __( 'Impressum' , TEXTDOMAIN),
+                'default' => __( 'Impressum' , 'elebee'),
             ]
         );
 
         $this->add_control(
             'header_size',
             [
-                'label' => __( 'HTML Tag', TEXTDOMAIN ),
+                'label' => __( 'HTML Tag', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'h1' => __( 'H1', TEXTDOMAIN ),
-                    'h2' => __( 'H2', TEXTDOMAIN ),
-                    'h3' => __( 'H3', TEXTDOMAIN ),
-                    'h4' => __( 'H4', TEXTDOMAIN ),
-                    'h5' => __( 'H5', TEXTDOMAIN ),
-                    'h6' => __( 'H6', TEXTDOMAIN ),
-                    'div' => __( 'div', TEXTDOMAIN ),
-                    'span' => __( 'span', TEXTDOMAIN ),
-                    'p' => __( 'p', TEXTDOMAIN ),
+                    'h1' => __( 'H1', 'elebee' ),
+                    'h2' => __( 'H2', 'elebee' ),
+                    'h3' => __( 'H3', 'elebee' ),
+                    'h4' => __( 'H4', 'elebee' ),
+                    'h5' => __( 'H5', 'elebee' ),
+                    'h6' => __( 'H6', 'elebee' ),
+                    'div' => __( 'div', 'elebee' ),
+                    'span' => __( 'span', 'elebee' ),
+                    'p' => __( 'p', 'elebee' ),
                 ],
                 'default' => 'h2',
             ]
@@ -165,23 +165,23 @@ class Imprint extends ElebeeWidget {
         $this->add_responsive_control(
             'align',
             [
-                'label' => __( 'Alignment', TEXTDOMAIN ),
+                'label' => __( 'Alignment', 'elebee' ),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __( 'Left', TEXTDOMAIN ),
+                        'title' => __( 'Left', 'elebee' ),
                         'icon' => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __( 'Center', TEXTDOMAIN ),
+                        'title' => __( 'Center', 'elebee' ),
                         'icon' => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __( 'Right', TEXTDOMAIN ),
+                        'title' => __( 'Right', 'elebee' ),
                         'icon' => 'fa fa-align-right',
                     ],
                     'justify' => [
-                        'title' => __( 'Justified', TEXTDOMAIN ),
+                        'title' => __( 'Justified', 'elebee' ),
                         'icon' => 'fa fa-align-justify',
                     ],
                 ],
@@ -204,7 +204,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'text',
             [
-                'label' => __( 'Text', TEXTDOMAIN ),
+                'label' => __( 'Text', 'elebee' ),
                 'type' => Controls_Manager::WYSIWYG,
                 'default' => (new Template( __DIR__ . '/partials/text-default.php' ))->getRendered(),
             ]
@@ -213,7 +213,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'view',
             [
-                'label' => __( 'View', TEXTDOMAIN ),
+                'label' => __( 'View', 'elebee' ),
                 'type' => Controls_Manager::HIDDEN,
                 'default' => 'traditional',
             ]
@@ -233,7 +233,7 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_section(
             'section_title_style',
             [
-                'label' => __( 'Title', TEXTDOMAIN ),
+                'label' => __( 'Title', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -241,7 +241,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'title_color',
             [
-                'label' => __( 'Title Color', TEXTDOMAIN ),
+                'label' => __( 'Title Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -284,7 +284,7 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_section(
             'section_text_style',
             [
-                'label' => __( 'Text', TEXTDOMAIN ),
+                'label' => __( 'Text', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -292,7 +292,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'h_tag_color',
             [
-                'label' => __( 'H-Tag Color', TEXTDOMAIN ),
+                'label' => __( 'H-Tag Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -311,7 +311,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'text_color',
             [
-                'label' => __( 'Text Color', TEXTDOMAIN ),
+                'label' => __( 'Text Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -354,7 +354,7 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_section(
             'section_link_style',
             [
-                'label' => __( 'Links', TEXTDOMAIN ),
+                'label' => __( 'Links', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -363,13 +363,13 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_tab(
             'tab_link',
             [
-                'label' => __( 'Normal', TEXTDOMAIN ),
+                'label' => __( 'Normal', 'elebee' ),
             ]
         );
         $this->add_control(
             'link_color',
             [
-                'label' => __( 'Link Color', TEXTDOMAIN ),
+                'label' => __( 'Link Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -384,13 +384,13 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_tab(
             'tab_link_hover',
             [
-                'label' => __( 'Hover', TEXTDOMAIN ),
+                'label' => __( 'Hover', 'elebee' ),
             ]
         );
         $this->add_control(
             'link_color_hover',
             [
-                'label' => __( 'Link Color Hover', TEXTDOMAIN ),
+                'label' => __( 'Link Color Hover', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -405,7 +405,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'link_hover_time',
             [
-                'label' => __( 'Speed (ms)', TEXTDOMAIN ),
+                'label' => __( 'Speed (ms)', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'ms' ],
                 'range' => [

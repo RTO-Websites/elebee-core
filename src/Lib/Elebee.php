@@ -160,8 +160,8 @@ class Elebee {
                 'default' => '',
             ],
             [
-                'label' => __( 'Address', TEXTDOMAIN ),
-                'description' => __( '[coredata]address[/coredata]' ),
+                'label' => __( 'Address', 'elebee' ),
+                'description' => __( '[coredata]address[/coredata]', 'elebee' ),
                 'type' => 'textarea',
             ]
         );
@@ -173,8 +173,8 @@ class Elebee {
                 'default' => '',
             ],
             [
-                'label' => __( 'E-Mail address', TEXTDOMAIN ),
-                'description' => __( '[coredata]email[/coredata]' ),
+                'label' => __( 'E-Mail address', 'elebee' ),
+                'description' => __( '[coredata]email[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
@@ -186,20 +186,17 @@ class Elebee {
                 'default' => '',
             ],
             [
-                'label' => __( 'Phone', TEXTDOMAIN ),
-                'description' => __( '[coredata]phone[/coredata]' ),
+                'label' => __( 'Phone', 'elebee' ),
+                'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
 
+        $description = __( 'You can use the [coredata]key[/coredata] shortcode to display the core data field inside a post.', 'elebee' );
         $sectionCoreData = new Section( 'elebee_core_data_section', [
-            'title' => __( 'Core data', TEXTDOMAIN ),
+            'title' => __( 'Core data', 'elebee' ),
             'priority' => 700,
-            'description' => __(
-                'You can use the [coredata]key[/coredata]' .
-                ' shortcode to display the core data field inside a post.',
-                TEXTDOMAIN
-            ),
+            'description' => __( $description, 'elebee' ),
         ] );
         $sectionCoreData->addSetting( $settingCoreDataAddress );
         $sectionCoreData->addSetting( $settingCoreDataEmail );
@@ -309,7 +306,7 @@ class Elebee {
      */
     public function phpVersionFail() {
 
-        $message = esc_html__( 'The Elementor RTO plugin requires PHP version 7.0+, plugin is currently NOT ACTIVE.', TEXTDOMAIN );
+        $message = esc_html__( 'The Elementor RTO plugin requires PHP version 7.0+, plugin is currently NOT ACTIVE.', 'elebee' );
         $errorTemplate = new Template( dirname( __DIR__ ) . '/public/partials/general/element-default.php', [
             'tag' => 'div',
             'attributes' => 'class="error"',

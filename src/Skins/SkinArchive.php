@@ -14,7 +14,7 @@ class SkinArchive extends Skin_Base {
     }
 
     public function get_title() {
-        return __( 'RTO', TEXTDOMAIN );
+        return __( 'RTO', 'elebee' );
     }
 
     protected function _register_controls_actions() {
@@ -28,7 +28,7 @@ class SkinArchive extends Skin_Base {
         $this->start_controls_section(
             'section_archive',
             [
-                'label' => __( 'Archive', TEXTDOMAIN ),
+                'label' => __( 'Archive', 'elebee' ),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -36,14 +36,14 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'add_archive_link',
             [
-                'label' => __( 'Add archive link', TEXTDOMAIN ),
+                'label' => __( 'Add archive link', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => '',
                 'options' => [
-                    '' => __( 'No', TEXTDOMAIN ),
-                    'below' => __( 'Below', TEXTDOMAIN ),
-                    'above' => __( 'Above', TEXTDOMAIN ),
-                    'both' => __( 'Both', TEXTDOMAIN ),
+                    '' => __( 'No', 'elebee' ),
+                    'below' => __( 'Below', 'elebee' ),
+                    'above' => __( 'Above', 'elebee' ),
+                    'both' => __( 'Both', 'elebee' ),
                 ],
             ]
         );
@@ -51,7 +51,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'single_text',
             [
-                'label' => __( 'Single category text', TEXTDOMAIN ),
+                'label' => __( 'Single category text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => 'Show all posts in the category %1$s.',
             ]
@@ -60,7 +60,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'multi_text',
             [
-                'label' => __( 'Multiple category text', TEXTDOMAIN ),
+                'label' => __( 'Multiple category text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => 'Show all posts in the category:',
             ]
@@ -75,7 +75,7 @@ class SkinArchive extends Skin_Base {
         $this->start_controls_section(
             'section_archive_design',
             [
-                'label' => __( 'Archive', TEXTDOMAIN ),
+                'label' => __( 'Archive', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -83,7 +83,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'archive_color',
             [
-                'label' => __( 'Color', TEXTDOMAIN ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .link-to-archive' => 'color: {{VALUE}};',

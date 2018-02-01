@@ -116,11 +116,11 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'use_custom_icon',
             [
-                'label' => __( 'Custom Icon', TEXTDOMAIN ),
+                'label' => __( 'Custom Icon', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'No',
-                'label_on' => __( 'Yes', TEXTDOMAIN ),
-                'label_off' => __( 'No', TEXTDOMAIN ),
+                'label_on' => __( 'Yes', 'elebee' ),
+                'label_off' => __( 'No', 'elebee' ),
                 'return_value' => 'yes',
             ]
         );
@@ -128,7 +128,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'icon',
             [
-                'label' => __( 'Accordion Icon', TEXTDOMAIN ),
+                'label' => __( 'Accordion Icon', 'elebee' ),
                 'type' => Controls_Manager::ICON,
                 'default' => 'fa fa-plus',
                 'include' => [
@@ -156,7 +156,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'custom_icon',
             [
-                'label' => __( 'Custom Icon', TEXTDOMAIN ),
+                'label' => __( 'Custom Icon', 'elebee' ),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [
                     'url' => Utils::get_placeholder_image_src(),
@@ -170,16 +170,16 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'icon_animation',
             [
-                'label'       => __( 'Icon Animation', TEXTDOMAIN ),
+                'label'       => __( 'Icon Animation', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => ' ',
                 'options' => [
-                    ' '   => __( 'None', TEXTDOMAIN ),
-                    'left-90'  => __( 'Turn left 90°', TEXTDOMAIN ),
-                    'left-180' => __( 'Turn left 180°', TEXTDOMAIN ),
-                    'right-90' => __( 'Turn right 90°', TEXTDOMAIN ),
-                    'right-180' => __( 'Turn right 180°', TEXTDOMAIN ),
-                    'hide-icon' => __( 'Hide', TEXTDOMAIN ),
+                    ' '   => __( 'None', 'elebee' ),
+                    'left-90'  => __( 'Turn left 90°', 'elebee' ),
+                    'left-180' => __( 'Turn left 180°', 'elebee' ),
+                    'right-90' => __( 'Turn right 90°', 'elebee' ),
+                    'right-180' => __( 'Turn right 180°', 'elebee' ),
+                    'hide-icon' => __( 'Hide', 'elebee' ),
                 ],
                 'prefix_class' => '',
             ]
@@ -188,7 +188,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_responsive_control(
             'icon_size',
             [
-                'label' => __( 'Icons size', TEXTDOMAIN ),
+                'label' => __( 'Icons size', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 16,
@@ -215,7 +215,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_responsive_control(
             'icon_margin',
             [
-                'label' => __( 'Icon Margin', TEXTDOMAIN ),
+                'label' => __( 'Icon Margin', 'elebee' ),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em' ],
                 'selectors' => [

@@ -140,14 +140,14 @@ class ElebeeAdmin {
     public function settingsApiInit() {
 //        add_settings_section(
 //            'elementor_rto_default_section',
-//            __('Settings', TEXTDOMAIN),
+//            __('Settings', 'elebee'),
 //            [$this, 'sectionCallback'],
 //            'elementor_rto_settings'
 //        );
 
         add_settings_field(
             'is_exclusive',
-            __( 'Is Exclusive', TEXTDOMAIN ),
+            __( 'Is Exclusive', 'elebee' ),
             [ $this, 'settingCallback' ],
             'elementor_rto_settings'
         );
@@ -165,8 +165,8 @@ class ElebeeAdmin {
     public function addMenuPage() {
         add_submenu_page(
             Settings::PAGE_ID,
-            __( 'RTO Settings', TEXTDOMAIN ),
-            __( 'RTO Settings', TEXTDOMAIN ),
+            __( 'RTO Settings', 'elebee' ),
+            __( 'RTO Settings', 'elebee' ),
             'manage_options',
             'elementor_rto_settings',
             [ $this, 'renderAdminPage' ]

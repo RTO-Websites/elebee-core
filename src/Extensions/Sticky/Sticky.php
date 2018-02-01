@@ -77,14 +77,14 @@ class Sticky extends ExtensionBase {
         // TODO: implement usage of responsive controls.
 
         $element->start_controls_section('section_sticky', [
-                'label' => __( 'Sticky', TEXTDOMAIN ),
+                'label' => __( 'Sticky', 'elebee' ),
                 'tab' => Controls_Manager::TAB_ADVANCED,
             ]
         );
 
         $element->add_responsive_control (
             $this->controlStickyId, [
-                'label' => __( 'Make this section sticky', TEXTDOMAIN ),
+                'label' => __( 'Make this section sticky', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => '',
                 'label_on' => __( 'Sticky', 'elementor' ),
@@ -95,7 +95,7 @@ class Sticky extends ExtensionBase {
 
         $element->add_responsive_control (
             $this->controlStickyPlaceholderId, [
-                'label' => __( 'Add a placeholder', TEXTDOMAIN ),
+                'label' => __( 'Add a placeholder', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'true',
                 'label_on' => __( 'Show', 'elementor' ),
@@ -109,11 +109,11 @@ class Sticky extends ExtensionBase {
 
         $element->add_responsive_control (
             $this->controlStickyPositionId, [
-                'label' => __( 'Position', TEXTDOMAIN ),
+                'label' => __( 'Position', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'true',
-                'label_on' => __( 'Top', TEXTDOMAIN ),
-                'label_off' => __( 'Bottom', TEXTDOMAIN ),
+                'label_on' => __( 'Top', 'elebee' ),
+                'label_off' => __( 'Bottom', 'elebee' ),
                 'return_value' => 'true',
                 'condition' => [
                     $this->controlStickyId => 'true'
@@ -124,7 +124,7 @@ class Sticky extends ExtensionBase {
         $element->add_responsive_control (
             $this->controlStickyOffsetId,
             [
-                'label' => __( 'Offset', TEXTDOMAIN ),
+                'label' => __( 'Offset', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
                 'default' => [

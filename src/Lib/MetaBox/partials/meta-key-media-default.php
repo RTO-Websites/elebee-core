@@ -14,15 +14,15 @@
     <a href="javascript:;"
         id="<?php echo $metaKey->getKey(); ?>-remove"
         style="display: <?php echo !empty( $metaValue ) ? 'block' : 'none'; ?>;" >
-        <?php esc_html_e( sprintf( '%s entfernen', $metaKey->getLabel() ), TEXTDOMAIN ); ?>
+        <?php esc_html_e( sprintf( '%s entfernen', $metaKey->getLabel() ), 'elebee' ); ?>
     </a>
-    <a title="<?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), TEXTDOMAIN ); ?>"
+    <a title="<?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), 'elebee' ); ?>"
         href="javascript:;"
         id="<?php echo $metaKey->getKey(); ?>-upload"
         style="display: <?php echo empty( $metaValue ) ? 'block' : 'none'; ?>;"
         data-uploader_title="<?php echo $metaKey->getLabel(); ?>"
-        data-uploader_button_text="<?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), TEXTDOMAIN ); ?>">
-        <?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), TEXTDOMAIN ); ?>
+        data-uploader_button_text="<?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), 'elebee' ); ?>">
+        <?php esc_html_e( sprintf( '%s festlegen', $metaKey->getLabel() ), 'elebee' ); ?>
     </a>
 </p>
 <input type="hidden" id="<?php echo $metaKey->getKey(); ?>-value" name="<?php echo $metaKey->getKey(); ?>" value="<?php echo esc_attr( $metaValue ); ?>" />

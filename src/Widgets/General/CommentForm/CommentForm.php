@@ -53,7 +53,7 @@ class CommentForm extends ElebeeWidget {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Comment Form', TEXTDOMAIN );
+		return __( 'Comment Form', 'elebee' );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_comments',
 			[
-				'label' => __( 'Comment Form', TEXTDOMAIN ),
+				'label' => __( 'Comment Form', 'elebee' ),
 			]
 		);
 
@@ -88,7 +88,7 @@ class CommentForm extends ElebeeWidget {
 				'label' => __( 'Page', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT2,
 				'label_block' => true,
-				'default' => [ get_the_ID() => __('Aktuelle Seite', TEXTDOMAIN) ],
+				'default' => [ get_the_ID() => __('Aktuelle Seite', 'elebee') ],
 				'options' => $this->get_comment_all_pages(),
 			]
 		);
@@ -96,29 +96,29 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'comment_title',
 			[
-				'label'       => __( 'Title', TEXTDOMAIN ),
+				'label'       => __( 'Title', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Write a Reply or Comment', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your comment from title text here', TEXTDOMAIN ),
+				'default'     => __( 'Write a Reply or Comment', 'elebee' ),
+				'placeholder' => __( 'Type your comment from title text here', 'elebee' ),
 			]
 		);
 
 		$this->add_responsive_control(
 			'comment_title_align',
 			[
-				'label' => __( 'Alignment Title', TEXTDOMAIN ),
+				'label' => __( 'Alignment Title', 'elebee' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', TEXTDOMAIN ),
+						'title' => __( 'Left', 'elebee' ),
 						'icon' => 'fa fa-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', TEXTDOMAIN ),
+						'title' => __( 'Center', 'elebee' ),
 						'icon' => 'fa fa-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', TEXTDOMAIN ),
+						'title' => __( 'Right', 'elebee' ),
 						'icon' => 'fa fa-align-right',
 					],
 				],
@@ -132,59 +132,59 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'comment_log_in',
 			[
-				'label'       => __( 'Log in Text', TEXTDOMAIN ),
+				'label'       => __( 'Log in Text', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'You must be logged in to post a comment.', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your log in as text here', TEXTDOMAIN ),
+				'default'     => __( 'You must be logged in to post a comment.', 'elebee' ),
+				'placeholder' => __( 'Type your log in as text here', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_logged_in_as',
 			[
-				'label'       => __( 'Logged in Text', TEXTDOMAIN ),
+				'label'       => __( 'Logged in Text', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Logged in as', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your logged in as text here', TEXTDOMAIN ),
+				'default'     => __( 'Logged in as', 'elebee' ),
+				'placeholder' => __( 'Type your logged in as text here', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_log_out',
 			[
-				'label'       => __( 'Log out Text', TEXTDOMAIN ),
+				'label'       => __( 'Log out Text', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Log out?', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your log out text here', TEXTDOMAIN ),
+				'default'     => __( 'Log out?', 'elebee' ),
+				'placeholder' => __( 'Type your log out text here', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_required_text',
 			[
-				'label'       => __( 'Required Text', TEXTDOMAIN ),
+				'label'       => __( 'Required Text', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Required fields are marked %s', TEXTDOMAIN ),
-				'placeholder' => __( '%s is placeholder for sign', TEXTDOMAIN ),
+				'default'     => __( 'Required fields are marked %s', 'elebee' ),
+				'placeholder' => __( '%s is placeholder for sign', 'elebee' ),
 			]
 		);
 
 		$this->add_responsive_control(
 			'comment_log_in_out_align',
 			[
-				'label' => __( 'Alignment Log in/out', TEXTDOMAIN ),
+				'label' => __( 'Alignment Log in/out', 'elebee' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', TEXTDOMAIN ),
+						'title' => __( 'Left', 'elebee' ),
 						'icon' => 'fa fa-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', TEXTDOMAIN ),
+						'title' => __( 'Center', 'elebee' ),
 						'icon' => 'fa fa-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', TEXTDOMAIN ),
+						'title' => __( 'Right', 'elebee' ),
 						'icon' => 'fa fa-align-right',
 					],
 				],
@@ -198,39 +198,39 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'comment_label',
 			[
-				'label'       => __( 'Comment', TEXTDOMAIN ),
+				'label'       => __( 'Comment', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Comment', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your comment label text here', TEXTDOMAIN ),
+				'default'     => __( 'Comment', 'elebee' ),
+				'placeholder' => __( 'Type your comment label text here', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_button',
 			[
-				'label'       => __( 'Send Button Text', TEXTDOMAIN ),
+				'label'       => __( 'Send Button Text', 'elebee' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Send', TEXTDOMAIN ),
-				'placeholder' => __( 'Type your send button text here', TEXTDOMAIN ),
+				'default'     => __( 'Send', 'elebee' ),
+				'placeholder' => __( 'Type your send button text here', 'elebee' ),
 			]
 		);
 
 		$this->add_responsive_control(
 			'comment_button_align',
 			[
-				'label' => __( 'Alignment Button', TEXTDOMAIN ),
+				'label' => __( 'Alignment Button', 'elebee' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', TEXTDOMAIN ),
+						'title' => __( 'Left', 'elebee' ),
 						'icon' => 'fa fa-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', TEXTDOMAIN ),
+						'title' => __( 'Center', 'elebee' ),
 						'icon' => 'fa fa-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', TEXTDOMAIN ),
+						'title' => __( 'Right', 'elebee' ),
 						'icon' => 'fa fa-align-right',
 					],
 				],
@@ -246,7 +246,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_form_style',
 			[
-				'label' => __( 'Form', TEXTDOMAIN ),
+				'label' => __( 'Form', 'elebee' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -297,7 +297,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_title_style',
 			[
-				'label' => __( 'Title', TEXTDOMAIN ),
+				'label' => __( 'Title', 'elebee' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -305,7 +305,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'comment_title_color',
 			[
-				'label' => __( 'Title', TEXTDOMAIN ),
+				'label' => __( 'Title', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'scheme' => [
 					'type' => Scheme_Color::get_type(),
@@ -331,7 +331,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_text_style',
 			[
-				'label' => __( 'Text', TEXTDOMAIN ),
+				'label' => __( 'Text', 'elebee' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -339,7 +339,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'comment_log_color',
 			[
-				'label' => __( 'Log in/out Text Color', TEXTDOMAIN ),
+				'label' => __( 'Log in/out Text Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'scheme' => [
 					'type' => Scheme_Color::get_type(),
@@ -365,14 +365,14 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_tab(
 			'tab_links_normal',
 			[
-				'label' => __( 'Normal', TEXTDOMAIN ),
+				'label' => __( 'Normal', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_log_link_color',
 			[
-				'label' => __( 'Link Color', TEXTDOMAIN ),
+				'label' => __( 'Link Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'scheme' => [
 					'type' => Scheme_Color::get_type(),
@@ -389,14 +389,14 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_tab(
 			'tab_links_hover',
 			[
-				'label' => __( 'Hover', TEXTDOMAIN ),
+				'label' => __( 'Hover', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'comment_log_link_hover_color',
 			[
-				'label' => __( 'HoverColor', TEXTDOMAIN ),
+				'label' => __( 'HoverColor', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'scheme' => [
 					'type' => Scheme_Color::get_type(),
@@ -426,7 +426,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_field_style',
 			[
-				'label' => __( 'Field', TEXTDOMAIN ),
+				'label' => __( 'Field', 'elebee' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -434,7 +434,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_label_text_color',
 			[
-				'label' => __( 'Label Color', TEXTDOMAIN ),
+				'label' => __( 'Label Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} label' => 'color: {{VALUE}};',
@@ -449,7 +449,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_text_color',
 			[
-				'label' => __( 'Input Color', TEXTDOMAIN ),
+				'label' => __( 'Input Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} input[type=text], {{WRAPPER}} input[type=email],
@@ -482,7 +482,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_background_color',
 			[
-				'label' => __( 'Background Color', TEXTDOMAIN ),
+				'label' => __( 'Background Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '#ffffff',
 				'selectors' => [
@@ -499,7 +499,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_border_color',
 			[
-				'label' => __( 'Border Color', TEXTDOMAIN ),
+				'label' => __( 'Border Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} input[type=text], {{WRAPPER}} input[type=email],
@@ -515,7 +515,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_border_width',
 			[
-				'label' => __( 'Border Width', TEXTDOMAIN ),
+				'label' => __( 'Border Width', 'elebee' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'placeholder' => '1',
 				'size_units' => [ 'px' ],
@@ -532,7 +532,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'field_border_radius',
 			[
-				'label' => __( 'Border Radius', TEXTDOMAIN ),
+				'label' => __( 'Border Radius', 'elebee' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -594,7 +594,7 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_button_style',
 			[
-				'label' => __( 'Button', TEXTDOMAIN ),
+				'label' => __( 'Button', 'elebee' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -604,14 +604,14 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_tab(
 			'tab_button_normal',
 			[
-				'label' => __( 'Normal', TEXTDOMAIN ),
+				'label' => __( 'Normal', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'button_text_color',
 			[
-				'label' => __( 'Text Color', TEXTDOMAIN ),
+				'label' => __( 'Text Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
@@ -624,7 +624,7 @@ class CommentForm extends ElebeeWidget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'button_typography',
-				'label' => __( 'Typography', TEXTDOMAIN ),
+				'label' => __( 'Typography', 'elebee' ),
 				'scheme' => Scheme_Typography::TYPOGRAPHY_4,
 				'selector' => '{{WRAPPER}} #submit.submit',
 			]
@@ -633,7 +633,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_background_color',
 			[
-				'label' => __( 'Background Color', TEXTDOMAIN ),
+				'label' => __( 'Background Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'scheme' => [
 					'type' => Scheme_Color::get_type(),
@@ -648,7 +648,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_group_control(
 			Group_Control_Border::get_type(), [
 				'name' => 'button_border',
-				'label' => __( 'Border', TEXTDOMAIN ),
+				'label' => __( 'Border', 'elebee' ),
 				'placeholder' => '1px',
 				'default' => '1px',
 				'selector' => '{{WRAPPER}} #submit.submit',
@@ -659,7 +659,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_border_radius',
 			[
-				'label' => __( 'Border Radius', TEXTDOMAIN ),
+				'label' => __( 'Border Radius', 'elebee' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -671,7 +671,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_text_padding',
 			[
-				'label' => __( 'Text Padding', TEXTDOMAIN ),
+				'label' => __( 'Text Padding', 'elebee' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors' => [
@@ -685,14 +685,14 @@ class CommentForm extends ElebeeWidget {
 		$this->start_controls_tab(
 			'tab_button_hover',
 			[
-				'label' => __( 'Hover', TEXTDOMAIN ),
+				'label' => __( 'Hover', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'button_hover_color',
 			[
-				'label' => __( 'Text Color', TEXTDOMAIN ),
+				'label' => __( 'Text Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #submit.submit:hover' => 'color: {{VALUE}};',
@@ -703,7 +703,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_background_hover_color',
 			[
-				'label' => __( 'Background Color', TEXTDOMAIN ),
+				'label' => __( 'Background Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #submit.submit:hover' => 'background-color: {{VALUE}};',
@@ -714,7 +714,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_hover_border_color',
 			[
-				'label' => __( 'Border Color', TEXTDOMAIN ),
+				'label' => __( 'Border Color', 'elebee' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #submit.submit:hover' => 'border-color: {{VALUE}};',
@@ -728,7 +728,7 @@ class CommentForm extends ElebeeWidget {
 		$this->add_control(
 			'button_hover_animation',
 			[
-				'label' => __( 'Animation', TEXTDOMAIN ),
+				'label' => __( 'Animation', 'elebee' ),
 				'type' => Controls_Manager::HOVER_ANIMATION,
 			]
 		);
@@ -747,7 +747,7 @@ class CommentForm extends ElebeeWidget {
 
 		foreach ($pages as $page) {
 			if($page->ID == get_the_ID() && $page->comment_status == 'open'){
-				$options = [ get_the_ID() => __('Aktuelle Seite', TEXTDOMAIN) ];
+				$options = [ get_the_ID() => __('Aktuelle Seite', 'elebee') ];
 			} else if($page->comment_status == 'open') {
 				$options[ $page->ID ] = $page->post_name;
 			}
@@ -785,21 +785,21 @@ class CommentForm extends ElebeeWidget {
 
 			'author' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="author">' . __( 'Name', TEXTDOMAIN ) . '</label> ' .
+				<label for="author">' . __( 'Name', 'elebee' ) . '</label> ' .
 				( $req ? '<span class="required">*</span>' : '' ) .
 				'<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
 				'" size="30"' . $aria_req . ' /></div>',
 
 			'email' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="email">' . __( 'Email', TEXTDOMAIN ) . '</label> ' .
+				<label for="email">' . __( 'Email', 'elebee' ) . '</label> ' .
 				( $req ? '<span class="required">*</span>' : '' ) .
 				'<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) .
 				'" size="30"' . $aria_req . ' /></div>',
 
 			'url' =>
 				'<div class="elementor-field-group elementor-column elementor-col-'.$settings['field_width'].'">
-				<label for="url">' . __( 'Website', TEXTDOMAIN ) . '</label>' .
+				<label for="url">' . __( 'Website', 'elebee' ) . '</label>' .
 				'<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
 				'" size="30" /></div>',
 		);
@@ -808,7 +808,7 @@ class CommentForm extends ElebeeWidget {
 			'label_submit'=>$settings['comment_button'],
 			'title_reply'=>$settings['comment_title'],
 			'comment_notes_after' => '',
-			'logged_in_as' => '<div class="elementor-field-group elementor-column"><p class="logged-in-as">' . sprintf( __(  $settings['comment_logged_in_as'].' <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">'.$settings['comment_log_out'].'</a>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) ) ). '</p></div>',
+			'logged_in_as' => '<div class="elementor-field-group elementor-column"><p class="logged-in-as">' . sprintf( __(  $settings['comment_logged_in_as'] . ' <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">'.$settings['comment_log_out'].'</a>', 'elebee' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) ) ). '</p></div>',
 			'must_log_in' => '<div class="elementor-field-group elementor-column"><p class="must-log-in">' .  sprintf( __( '<a href="%s">'.$settings['comment_log_in'].'</a>' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( ) ) ) ) . '</p></div>',
 			'comment_notes_before' => '<div class="elementor-field-group elementor-column elementor-col-100"><p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p></div>',
 			'class_submit' => 'submit elementor-animation-' . $settings['button_hover_animation'],

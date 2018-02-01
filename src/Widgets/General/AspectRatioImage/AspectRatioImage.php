@@ -49,7 +49,7 @@ class AspectRatioImage extends ElebeeWidget {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Aspect Ratio Image', TEXTDOMAIN );
+		return __( 'Aspect Ratio Image', 'elebee' );
 	}
 
 	/**
@@ -74,14 +74,14 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_image',
 			[
-				'label' => __( 'Image', TEXTDOMAIN ),
+				'label' => __( 'Image', 'elebee' ),
 			]
 		);
 
 		$this->add_control(
 			'image',
 			[
-				'label' => __( 'Choose Image', TEXTDOMAIN ),
+				'label' => __( 'Choose Image', 'elebee' ),
 				'type' => Controls_Manager::MEDIA,
 				'default' => [
 					'url' => Utils::get_placeholder_image_src(),
@@ -93,7 +93,7 @@ class AspectRatioImage extends ElebeeWidget {
 			Group_Control_Image_Size::get_type(),
 			[
 				'name' => 'image', // Actually its `image_size`.
-				'label' => __( 'Image Size', TEXTDOMAIN ),
+				'label' => __( 'Image Size', 'elebee' ),
 				'default' => 'large',
 			]
 		);
@@ -101,7 +101,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_responsive_control(
 			'aspect-ratio',
 			[
-				'label' => __( 'Image Aspect Ratio', TEXTDOMAIN ),
+				'label' => __( 'Image Aspect Ratio', 'elebee' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ '%' ],
 				'range' => [
@@ -143,13 +143,13 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'link_to',
 			[
-				'label' => __( 'Link to', TEXTDOMAIN ),
+				'label' => __( 'Link to', 'elebee' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'none',
 				'options' => [
-					'none' => __( 'None', TEXTDOMAIN ),
-					'file' => __( 'Media File', TEXTDOMAIN ),
-					'custom' => __( 'Custom URL', TEXTDOMAIN ),
+					'none' => __( 'None', 'elebee' ),
+					'file' => __( 'Media File', 'elebee' ),
+					'custom' => __( 'Custom URL', 'elebee' ),
 				],
 			]
 		);
@@ -157,9 +157,9 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'link',
 			[
-				'label' => __( 'Link to', TEXTDOMAIN ),
+				'label' => __( 'Link to', 'elebee' ),
 				'type' => Controls_Manager::URL,
-				'placeholder' => __( 'http://your-link.com', TEXTDOMAIN ),
+				'placeholder' => __( 'http://your-link.com', 'elebee' ),
 				'condition' => [
 					'link_to' => 'custom',
 				],
@@ -170,11 +170,11 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'open_lightbox',
 			[
-				'label' => __( 'Lightbox', TEXTDOMAIN ),
+				'label' => __( 'Lightbox', 'elebee' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => [
-					'default' => __( 'Default', TEXTDOMAIN ),
+					'default' => __( 'Default', 'elebee' ),
 					'yes' => __( 'Yes', 'elementor' ),
 					'no' => __( 'No', 'elementor' ),
 				],
@@ -187,7 +187,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'view',
 			[
-				'label' => __( 'View', TEXTDOMAIN ),
+				'label' => __( 'View', 'elebee' ),
 				'type' => Controls_Manager::HIDDEN,
 				'default' => 'traditional',
 			]
@@ -198,7 +198,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->start_controls_section(
 			'section_style_image',
 			[
-				'label' => __( 'Image', TEXTDOMAIN ),
+				'label' => __( 'Image', 'elebee' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -206,7 +206,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'opacity',
 			[
-				'label' => __( 'Opacity (%)', TEXTDOMAIN ),
+				'label' => __( 'Opacity (%)', 'elebee' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 1,
@@ -227,7 +227,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_control(
 			'hover_animation',
 			[
-				'label' => __( 'Hover Animation', TEXTDOMAIN ),
+				'label' => __( 'Hover Animation', 'elebee' ),
 				'type' => Controls_Manager::HOVER_ANIMATION,
 			]
 		);
@@ -236,7 +236,7 @@ class AspectRatioImage extends ElebeeWidget {
 			Group_Control_Border::get_type(),
 			[
 				'name' => 'image_border',
-				'label' => __( 'Image Border', TEXTDOMAIN ),
+				'label' => __( 'Image Border', 'elebee' ),
 				'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
 				'separator' => 'before',
 			]
@@ -245,7 +245,7 @@ class AspectRatioImage extends ElebeeWidget {
 		$this->add_responsive_control(
 			'image_border_radius',
 			[
-				'label' => __( 'Border Radius', TEXTDOMAIN ),
+				'label' => __( 'Border Radius', 'elebee' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
