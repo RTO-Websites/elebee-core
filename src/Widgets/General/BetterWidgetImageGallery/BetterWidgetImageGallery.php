@@ -1,4 +1,5 @@
 <?php
+
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
 
 use ElebeeCore\Lib\Elebee;
@@ -15,15 +16,16 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if ( !defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
 }
 
 /**
  *
  */
-if( ! defined( '__GESAMT__' ) ) {
-    define( '__GESAMT__', '/var/www/html/global' );
+if ( !defined( '__GESAMT__' ) ) {
+//    define( '__GESAMT__', '/var/www/html/global' );
+    define( '__GESAMT__', 'D:\htdocs\common\global' );
 }
 
 /**
@@ -53,38 +55,44 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         // TODO: Implement enqueueScripts() method.
     }
 
-	/**
-	 * Retrieve image gallery widget name.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget name.
-	 */
-	public function get_name() {
-		return 'better-image-gallery';
-	}
+    /**
+     * Retrieve image gallery widget name.
+     *
+     * @access public
+     *
+     * @return string Widget name.
+     */
+    public function get_name() {
 
-	/**
-	 * Retrieve image gallery widget title.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget title.
-	 */
-	public function get_title() {
-		return __( 'Better Image Gallery', 'elebee' );
-	}
+        return 'better-image-gallery';
 
-	/**
-	 * Retrieve image gallery widget icon.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget icon.
-	 */
-	public function get_icon() {
-		return 'eicon-gallery-grid';
-	}
+    }
+
+    /**
+     * Retrieve image gallery widget title.
+     *
+     * @access public
+     *
+     * @return string Widget title.
+     */
+    public function get_title() {
+
+        return __( 'Better Image Gallery', 'elebee' );
+
+    }
+
+    /**
+     * Retrieve image gallery widget icon.
+     *
+     * @access public
+     *
+     * @return string Widget icon.
+     */
+    public function get_icon() {
+
+        return 'eicon-gallery-grid';
+
+    }
 
     /**
      * Retrieve button sizes.
@@ -95,6 +103,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
      * @return array An array containing button sizes.
      */
     public static function get_button_sizes() {
+
         return [
             'xs' => __( 'Extra Small', 'elebee' ),
             'sm' => __( 'Small', 'elebee' ),
@@ -102,47 +111,51 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             'lg' => __( 'Large', 'elebee' ),
             'xl' => __( 'Extra Large', 'elebee' ),
         ];
+
     }
 
 
     /**
-	 * Add lightbox data to image link.
-	 *
-	 * Used to add lightbox data attributes to image link HTML.
-	 *
-	 * @access public
-	 *
-	 * @param string $link_html Image link HTML.
-	 *
-	 * @return string Image link HTML with lightbox data attributes.
-	 */
-	public function add_lightbox_data_to_image_link( $link_html ) {
-		return preg_replace( '/^<a/', '<a ' . $this->get_render_attribute_string( 'link' ), $link_html );
-	}
+     * Add lightbox data to image link.
+     *
+     * Used to add lightbox data attributes to image link HTML.
+     *
+     * @access public
+     *
+     * @param string $link_html Image link HTML.
+     *
+     * @return string Image link HTML with lightbox data attributes.
+     */
+    public function add_lightbox_data_to_image_link( $link_html ) {
 
-	/**
-	 * Register image gallery widget controls.
-	 *
-	 * Adds different input fields to allow the user to change and customize the widget settings.
-	 *
-	 * @access protected
-	 */
-	protected function _register_controls() {
-		$this->start_controls_section(
-			'section_gallery',
-			[
-				'label' => __( 'Galleries', 'elebee' ),
-			]
-		);
+        return preg_replace( '/^<a/', '<a ' . $this->get_render_attribute_string( 'link' ), $link_html );
+
+    }
+
+    /**
+     * Register image gallery widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @access protected
+     */
+    protected function _register_controls() {
+
+        $this->start_controls_section(
+            'section_gallery',
+            [
+                'label' => __( 'Galleries', 'elebee' ),
+            ]
+        );
 
         $this->add_control(
             'gallery_type',
             [
-                'label'       => __( 'Type of Gallery', 'elebee' ),
+                'label' => __( 'Type of Gallery', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'wp',
                 'options' => [
-                    'wp'  => __( 'Wordpress', 'elebee' ),
+                    'wp' => __( 'Wordpress', 'elebee' ),
                     'gesamt' => __( 'Gesamt', 'elebee' ),
                     'both' => __( 'Both', 'elebee' ),
                 ],
@@ -160,9 +173,9 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                         'type' => Controls_Manager::GALLERY,
                     ],
                     [
-                        'name'        => 'gallery_title',
-                        'label'       => __( 'Gallery Title', 'elebee' ),
-                        'type'        => Controls_Manager::TEXT,
+                        'name' => 'gallery_title',
+                        'label' => __( 'Gallery Title', 'elebee' ),
+                        'type' => Controls_Manager::TEXT,
                         'placeholder' => __( 'Gallery Title', 'elebee' ),
 
                     ],
@@ -176,10 +189,10 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                         'return_value' => 'yes',
                     ],
                     [
-                        'name'        => 'custom_caption_text',
-                        'label'       => __( 'Custom Caption', 'elebee' ),
-                        'type'        => Controls_Manager::TEXT,
-                        'default'     => __( 'Default caption', 'elebee' ),
+                        'name' => 'custom_caption_text',
+                        'label' => __( 'Custom Caption', 'elebee' ),
+                        'type' => Controls_Manager::TEXT,
+                        'default' => __( 'Default caption', 'elebee' ),
                         'placeholder' => __( 'Type your caption text here', 'elebee' ),
                     ],
                 ],
@@ -192,8 +205,8 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_control(
             'gesamt_rubid',
             [
-                'label'       => __( 'Rubric ID', 'elebee' ),
-                'type'        => Controls_Manager::TEXT,
+                'label' => __( 'Rubric ID', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
                 'placeholder' => __( 'Type the Rubric ID here', 'elebee' ),
                 'condition' => [
                     'gallery_type!' => 'wp',
@@ -204,8 +217,8 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_control(
             'gesamt_kid',
             [
-                'label'       => __( 'Customer ID', 'elebee' ),
-                'type'        => Controls_Manager::TEXT,
+                'label' => __( 'Customer ID', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
                 'placeholder' => __( 'Type the Customer ID here', 'elebee' ),
                 'condition' => [
                     'gallery_type!' => 'wp',
@@ -216,8 +229,8 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_control(
             'gesamt_pid',
             [
-                'label'       => __( 'Publication ID', 'elebee' ),
-                'type'        => Controls_Manager::TEXT,
+                'label' => __( 'Publication ID', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
                 'placeholder' => __( 'Type the Publication ID here', 'elebee' ),
                 'condition' => [
                     'gallery_type!' => 'wp',
@@ -372,11 +385,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_control(
             'gallery_sort',
             [
-                'label'       => __( 'First Gallery', 'elebee' ),
+                'label' => __( 'First Gallery', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'wp',
                 'options' => [
-                    'wp'  => __( 'Wordpress', 'elebee' ),
+                    'wp' => __( 'Wordpress', 'elebee' ),
                     'gesamt' => __( 'Gesamt', 'elebee' ),
                 ],
                 'condition' => [
@@ -385,13 +398,13 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_group_control(
-			Group_Control_Image_Size::get_type(),
-			[
-				'name' => 'thumbnail',
-				'exclude' => [ 'custom' ],
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Image_Size::get_type(),
+            [
+                'name' => 'thumbnail',
+                'exclude' => [ 'custom' ],
+            ]
+        );
 
         $this->add_control(
             'first_image',
@@ -400,7 +413,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                 'type' => Controls_Manager::SELECT,
                 'default' => 'no',
                 'options' => [
-                    'yes'  => __( 'Yes', 'elebee' ),
+                    'yes' => __( 'Yes', 'elebee' ),
                     'no' => __( 'No', 'elebee' ),
                 ],
             ]
@@ -413,7 +426,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                 'type' => Controls_Manager::SELECT,
                 'default' => '',
                 'options' => [
-                    'modal'  => __( 'Modal', 'elebee' ),
+                    'modal' => __( 'Modal', 'elebee' ),
                     '' => __( 'Default', 'elebee' ),
                 ],
                 'condition' => [
@@ -423,8 +436,8 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$gallery_columns = range( 1, 5 );
-		$gallery_columns = array_combine( $gallery_columns, $gallery_columns );
+        $gallery_columns = range( 1, 5 );
+        $gallery_columns = array_combine( $gallery_columns, $gallery_columns );
 
         $this->add_responsive_control(
             'gallery_columns',
@@ -435,7 +448,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                 'options' => $gallery_columns,
                 'selectors' => [
                     '{{WRAPPER}} .rto-image-columns .rto-gallery-container' => 'width: calc(100%/{{UNIT}});',
-					'{{WRAPPER}} .rto-image-columns-modal .rto-gallery-container' => 'width: 100%;'
+                    '{{WRAPPER}} .rto-image-columns-modal .rto-gallery-container' => 'width: 100%;',
                 ],
             ]
         );
@@ -486,21 +499,21 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_control(
-			'open_lightbox',
-			[
-				'label' => __( 'Lightbox', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'no',
-				'options' => [
-					'yes' => __( 'Yes', 'elebee' ),
-					'no' => __( 'No', 'elebee' ),
-				],
-				'condition' => [
-					'gallery_link' => 'file',
-				],
-			]
-		);
+        $this->add_control(
+            'open_lightbox',
+            [
+                'label' => __( 'Lightbox', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'no',
+                'options' => [
+                    'yes' => __( 'Yes', 'elebee' ),
+                    'no' => __( 'No', 'elebee' ),
+                ],
+                'condition' => [
+                    'gallery_link' => 'file',
+                ],
+            ]
+        );
 
         $this->add_control(
             'galleries_rand',
@@ -515,116 +528,116 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_control(
-			'gallery_rand',
-			[
-				'label' => __( 'Image Ordering', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'options' => [
-					'' => __( 'Default', 'elebee' ),
-					'rand' => __( 'Random', 'elebee' ),
-				],
-				'default' => '',
-			]
-		);
+        $this->add_control(
+            'gallery_rand',
+            [
+                'label' => __( 'Image Ordering', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __( 'Default', 'elebee' ),
+                    'rand' => __( 'Random', 'elebee' ),
+                ],
+                'default' => '',
+            ]
+        );
 
-		$this->add_control(
-			'view',
-			[
-				'label' => __( 'View', 'elebee' ),
-				'type' => Controls_Manager::HIDDEN,
-				'default' => 'traditional',
-			]
-		);
+        $this->add_control(
+            'view',
+            [
+                'label' => __( 'View', 'elebee' ),
+                'type' => Controls_Manager::HIDDEN,
+                'default' => 'traditional',
+            ]
+        );
 
-		$this->end_controls_section();
+        $this->end_controls_section();
 
-		$this->start_controls_section(
-			'section_gallery_images',
-			[
-				'label' => __( 'Images', 'elebee' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-			]
-		);
+        $this->start_controls_section(
+            'section_gallery_images',
+            [
+                'label' => __( 'Images', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
 
-		$this->add_responsive_control(
-			'aspect-ratio',
-			[
-				'label' => __( 'Image Aspect Ratio', 'elebee' ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ '%' ],
-				'range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'tablet_range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'mobile_range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'tablet_default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'mobile_default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rto-image-ratio-container' => 'padding-top: {{SIZE}}%;',
-				],
-			]
-		);
+        $this->add_responsive_control(
+            'aspect-ratio',
+            [
+                'label' => __( 'Image Aspect Ratio', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ '%' ],
+                'range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'tablet_range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'mobile_range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'tablet_default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'mobile_default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rto-image-ratio-container' => 'padding-top: {{SIZE}}%;',
+                ],
+            ]
+        );
 
-		$this->add_responsive_control(
-			'image_spacing',
-			[
-				'label' => __( 'Spacing', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'options' => [
-					'custom' => __( 'Custom', 'elebee' ),
-				],
-				'prefix_class' => 'gallery-spacing-',
-				'default' => 'custom',
-			]
-		);
+        $this->add_responsive_control(
+            'image_spacing',
+            [
+                'label' => __( 'Spacing', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'custom' => __( 'Custom', 'elebee' ),
+                ],
+                'prefix_class' => 'gallery-spacing-',
+                'default' => 'custom',
+            ]
+        );
 
-		$this->add_responsive_control(
-			'image_spacing_custom',
-			[
-				'label' => __( 'Image Spacing', 'elebee' ),
-				'type' => Controls_Manager::SLIDER,
-				'show_label' => false,
-				'range' => [
+        $this->add_responsive_control(
+            'image_spacing_custom',
+            [
+                'label' => __( 'Image Spacing', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'show_label' => false,
+                'range' => [
                     'px' => [
                         'max' => 100,
                     ],
-				],
-				'default' => [
-					'size' => 10,
-				],
-				'selectors' => [
+                ],
+                'default' => [
+                    'size' => 10,
+                ],
+                'selectors' => [
                     '{{WRAPPER}} .gallery-image' => 'top: {{SIZE}}{{UNIT}}; bottom: {{SIZE}}{{UNIT}}; left: {{SIZE}}{{UNIT}}; right: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .rto-gallery-item-overlay' => 'top: {{SIZE}}{{UNIT}}; bottom: {{SIZE}}{{UNIT}}; left: {{SIZE}}{{UNIT}}; right: {{SIZE}}{{UNIT}};',
-				],
-				'condition' => [
-					'image_spacing' => 'custom',
-				],
-			]
-		);
+                ],
+                'condition' => [
+                    'image_spacing' => 'custom',
+                ],
+            ]
+        );
 
         $this->add_group_control(
             Group_Control_Box_Shadow::get_type(),
@@ -682,168 +695,168 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_control(
-			'sedcard_key_color',
-			[
-				'label' => __( 'Key Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .rto-gallery-sedcard-key' => 'color: {{VALUE}};',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_control(
+            'sedcard_key_color',
+            [
+                'label' => __( 'Key Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .rto-gallery-sedcard-key' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'sedcard_value_color',
-			[
-				'label' => __( 'Value Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .rto-gallery-sedcard-value' => 'color: {{VALUE}};',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_control(
+            'sedcard_value_color',
+            [
+                'label' => __( 'Value Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .rto-gallery-sedcard-value' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'sedcard_key_typography',
-				'label' => __( 'Typography Key', 'elebee' ),
-				'scheme' => Scheme_Typography::TYPOGRAPHY_4,
-				'selector' => '{{WRAPPER}} .rto-gallery-sedcard-key',
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'sedcard_key_typography',
+                'label' => __( 'Typography Key', 'elebee' ),
+                'scheme' => Scheme_Typography::TYPOGRAPHY_4,
+                'selector' => '{{WRAPPER}} .rto-gallery-sedcard-key',
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'sedcard_value_typography',
-				'label' => __( 'Typography Value', 'elebee' ),
-				'scheme' => Scheme_Typography::TYPOGRAPHY_4,
-				'selector' => '{{WRAPPER}} .rto-gallery-sedcard-value',
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'sedcard_value_typography',
+                'label' => __( 'Typography Value', 'elebee' ),
+                'scheme' => Scheme_Typography::TYPOGRAPHY_4,
+                'selector' => '{{WRAPPER}} .rto-gallery-sedcard-value',
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_responsive_control(
-			'sedcard-key-align',
-			[
-				'label'       => __( 'Sedcard Key Align', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'center',
-				'options' => [
-					'left'  => __( 'Left', 'elebee' ),
-					'center' => __( 'Center', 'elebee' ),
-					'right' => __( 'Right', 'elebee' ),
-				],
-				'selectors' => [ // You can use the selected value in an auto-generated css rule.
-					'{{WRAPPER}} .rto-gallery-sedcard-key' => 'text-align: {{VALUE}}',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_responsive_control(
+            'sedcard-key-align',
+            [
+                'label' => __( 'Sedcard Key Align', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'center',
+                'options' => [
+                    'left' => __( 'Left', 'elebee' ),
+                    'center' => __( 'Center', 'elebee' ),
+                    'right' => __( 'Right', 'elebee' ),
+                ],
+                'selectors' => [ // You can use the selected value in an auto-generated css rule.
+                    '{{WRAPPER}} .rto-gallery-sedcard-key' => 'text-align: {{VALUE}}',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_responsive_control(
-			'sedcard-value-align',
-			[
-				'label'       => __( 'Sedcard Value Align', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'center',
-				'options' => [
-					'left'  => __( 'Left', 'elebee' ),
-					'center' => __( 'Center', 'elebee' ),
-					'right' => __( 'Right', 'elebee' ),
-				],
-				'selectors' => [ // You can use the selected value in an auto-generated css rule.
-					'{{WRAPPER}} .rto-gallery-sedcard-value' => 'text-align: {{VALUE}}',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_responsive_control(
+            'sedcard-value-align',
+            [
+                'label' => __( 'Sedcard Value Align', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'center',
+                'options' => [
+                    'left' => __( 'Left', 'elebee' ),
+                    'center' => __( 'Center', 'elebee' ),
+                    'right' => __( 'Right', 'elebee' ),
+                ],
+                'selectors' => [ // You can use the selected value in an auto-generated css rule.
+                    '{{WRAPPER}} .rto-gallery-sedcard-value' => 'text-align: {{VALUE}}',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'sedcard_table_color',
-			[
-				'label' => __( 'Table Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .rto-gallery-sedcard table' => 'background-color: {{VALUE}};',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_control(
+            'sedcard_table_color',
+            [
+                'label' => __( 'Table Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .rto-gallery-sedcard table' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'sedcard_odd_color',
-			[
-				'label' => __( 'Odd Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .rto-gallery-sedcard table tr:nth-child(odd)' => 'background-color: {{VALUE}};',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_control(
+            'sedcard_odd_color',
+            [
+                'label' => __( 'Odd Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .rto-gallery-sedcard table tr:nth-child(odd)' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'sedcard_even_color',
-			[
-				'label' => __( 'Even Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .rto-gallery-sedcard table tr:nth-child(even)' => 'background-color: {{VALUE}};',
-				],
-				'condition' => [
-					'show_sedcard' => 'yes',
-				],
-			]
-		);
+        $this->add_control(
+            'sedcard_even_color',
+            [
+                'label' => __( 'Even Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .rto-gallery-sedcard table tr:nth-child(even)' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_sedcard' => 'yes',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'sedcard_margin',
-			[
-				'label' => __( 'Sedcard Margin', 'elebee' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', 'em', '%' ],
-				'selectors' => [
-					'{{WRAPPER}} table' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'separator' => 'before',
-			]
-		);
+        $this->add_control(
+            'sedcard_margin',
+            [
+                'label' => __( 'Sedcard Margin', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} table' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Border::get_type(),
-			[
-				'name' => 'table_border',
-				'label' => __( 'Table Border', 'elebee' ),
-				'selector' => '{{WRAPPER}} .rto-gallery-sedcard table, {{WRAPPER}} .rto-gallery-sedcard td, {{WRAPPER}} .rto-gallery-sedcard th',
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'table_border',
+                'label' => __( 'Table Border', 'elebee' ),
+                'selector' => '{{WRAPPER}} .rto-gallery-sedcard table, {{WRAPPER}} .rto-gallery-sedcard td, {{WRAPPER}} .rto-gallery-sedcard th',
+            ]
+        );
 
         $this->end_controls_section();
 
@@ -855,15 +868,15 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_control(
-			'icon',
-			[
-				'label' => __( 'Icon', 'elebee' ),
-				'type' => Controls_Manager::ICON,
-				'label_block' => true,
-				'default' => 'fa fa-image',
-			]
-		);
+        $this->add_control(
+            'icon',
+            [
+                'label' => __( 'Icon', 'elebee' ),
+                'type' => Controls_Manager::ICON,
+                'label_block' => true,
+                'default' => 'fa fa-image',
+            ]
+        );
 
         $this->add_responsive_control(
             'icon-size',
@@ -907,11 +920,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_control(
             'icon-align',
             [
-                'label'       => __( 'Icon Align', 'elebee' ),
+                'label' => __( 'Icon Align', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'center',
                 'options' => [
-                    'left'  => __( 'Left', 'elebee' ),
+                    'left' => __( 'Left', 'elebee' ),
                     'center' => __( 'Center', 'elebee' ),
                     'right' => __( 'Right', 'elebee' ),
                 ],
@@ -924,11 +937,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_responsive_control(
             'icon-justify',
             [
-                'label'       => __( 'Icon Justify', 'elebee' ),
+                'label' => __( 'Icon Justify', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'center',
                 'options' => [
-                    'flex-start'  => __( 'Top', 'elebee' ),
+                    'flex-start' => __( 'Top', 'elebee' ),
                     'center' => __( 'Center', 'elebee' ),
                     'flex-end' => __( 'Bottom', 'elebee' ),
                 ],
@@ -956,7 +969,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->end_controls_section();
+        $this->end_controls_section();
 
         $this->start_controls_section(
             'section_back_button',
@@ -1161,13 +1174,13 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
         $this->end_controls_section();
 
-		$this->start_controls_section(
-			'section_hover',
-			[
-				'label' => __( 'Hover', 'elebee' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-			]
-		);
+        $this->start_controls_section(
+            'section_hover',
+            [
+                'label' => __( 'Hover', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
 
         $this->add_control(
             'hover_color',
@@ -1200,7 +1213,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                 'selectors' => [
                     '{{WRAPPER}} .gallery-image,
                     {{WRAPPER}} .rto-gallery-item-overlay,
-                    {{WRAPPER}} .rto-gallery-icon-overlay'=> 'transition: {{SIZE}}{{UNIT}};',
+                    {{WRAPPER}} .rto-gallery-icon-overlay' => 'transition: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1213,45 +1226,45 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_control(
-			'gallery_display_caption',
-			[
-				'label' => __( 'Display', 'elebee' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => '',
-				'options' => [
-					'' => __( 'Show', 'elebee' ),
-					'none' => __( 'Hide', 'elebee' ),
-				],
-				'selectors' => [
-					'{{WRAPPER}} .gallery-item .caption' => 'display: {{VALUE}};',
-				],
-			]
-		);
+        $this->add_control(
+            'gallery_display_caption',
+            [
+                'label' => __( 'Display', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => __( 'Show', 'elebee' ),
+                    'none' => __( 'Hide', 'elebee' ),
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .gallery-item .caption' => 'display: {{VALUE}};',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'text_color',
-			[
-				'label' => __( 'Text Color', 'elebee' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .caption' => 'color: {{VALUE}};',
-				],
-				'condition' => [
-					'gallery_display_caption' => '',
-				],
-			]
-		);
+        $this->add_control(
+            'text_color',
+            [
+                'label' => __( 'Text Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .caption' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'gallery_display_caption' => '',
+                ],
+            ]
+        );
 
         $this->add_responsive_control(
             'caption-align',
             [
-                'label'       => __( 'Caption Align', 'elebee' ),
+                'label' => __( 'Caption Align', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'center',
                 'options' => [
-                    'left'  => __( 'Left', 'elebee' ),
+                    'left' => __( 'Left', 'elebee' ),
                     'center' => __( 'Center', 'elebee' ),
                     'right' => __( 'Right', 'elebee' ),
                 ],
@@ -1267,11 +1280,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
         $this->add_responsive_control(
             'caption-justify',
             [
-                'label'       => __( 'Caption Justify', 'elebee' ),
+                'label' => __( 'Caption Justify', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'center',
                 'options' => [
-                    'flex-start'  => __( 'Top', 'elebee' ),
+                    'flex-start' => __( 'Top', 'elebee' ),
                     'center' => __( 'Center', 'elebee' ),
                     'flex-end' => __( 'Bottom', 'elebee' ),
                 ],
@@ -1305,21 +1318,22 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             ]
         );
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'typography',
-				'label' => __( 'Typography', 'elebee' ),
-				'scheme' => Scheme_Typography::TYPOGRAPHY_4,
-				'selector' => '{{WRAPPER}} .caption',
-				'condition' => [
-					'gallery_display_caption' => '',
-				],
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'typography',
+                'label' => __( 'Typography', 'elebee' ),
+                'scheme' => Scheme_Typography::TYPOGRAPHY_4,
+                'selector' => '{{WRAPPER}} .caption',
+                'condition' => [
+                    'gallery_display_caption' => '',
+                ],
+            ]
+        );
 
-		$this->end_controls_section();
-	}
+        $this->end_controls_section();
+
+    }
 
     /**
      * Init galleries.
@@ -1328,7 +1342,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
         $settings = $this->get_settings();
 
-        switch( $settings['gallery_type'] ) {
+        switch ( $settings['gallery_type'] ) {
 
             case 'wp':
                 $this->initWordpressGalleries();
@@ -1342,8 +1356,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
                 if ( $settings['gallery_sort'] == 'wp' ) {
                     $this->initWordpressGalleries();
                     $this->initGesamtGalleries();
-                }
-                else {
+                } else {
                     $this->initGesamtGalleries();
                     $this->initWordpressGalleries();
                 }
@@ -1373,11 +1386,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             // Sort images by settings
             foreach ( $galleryItem['wp_gallery'] as $image ) {
 
-            	$caption = ($galleryItem['custom_caption'] == 'yes' && $settings['first_image'] == 'yes')
-					? $galleryItem['custom_caption_text']
-					: wp_get_attachment_caption( $image['id'] );
+                $caption = ( $galleryItem['custom_caption'] == 'yes' && $settings['first_image'] == 'yes' )
+                    ? $galleryItem['custom_caption_text']
+                    : wp_get_attachment_caption( $image['id'] );
 
-            	$gallery->addImage( new Image( $image['url'], $caption, $settings['gallery_link'] ) );
+                $gallery->addImage( new Image( $image['url'], $caption, $settings['gallery_link'] ) );
 
             }
 
@@ -1388,7 +1401,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
     /**
      * Init Gesamt galleries.
      */
-    function initGesamtGalleries(){
+    function initGesamtGalleries() {
 
         require_once( __GESAMT__ . '/get-functions.php' );
         require_once( __GESAMT__ . '/extensions/quotesmart.inc.php' );
@@ -1416,7 +1429,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
             // Sort images by settings
             foreach ( $item['pics'] as $image ) {
 
-                $caption = (!empty($item['zusatztext']))? $item['zusatztext'] : $item['name'];
+                $caption = ( !empty( $item['zusatztext'] ) ) ? $item['zusatztext'] : $item['name'];
                 $src = $item['path'] . $image['big'];
                 $gallery->addImage( new Image( $src, $caption, $settings['gallery_link'] ) );
 
@@ -1426,23 +1439,23 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
     }
 
-	/**
-	 * Render image gallery widget output on the frontend.
-	 *
-	 * Written in PHP and used to generate the final HTML.
-	 *
-	 * @access protected
-	 */
-	protected function render() {
+    /**
+     * Render image gallery widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @access protected
+     */
+    protected function render() {
 
-	    $settings = $this->get_settings();
+        $settings = $this->get_settings();
 
         $this->album = new Album( $this->get_id() );
         $this->initGalleries();
 
-	    $renderer = new Renderer( $settings );
-	    $this->album->accept( $renderer );
+        $renderer = new Renderer( $settings );
+        $this->album->accept( $renderer );
 
-	}
+    }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace ElebeeCore\Widgets\General\Imprint;
 
 use Elementor\Group_Control_Text_Shadow;
@@ -10,7 +11,7 @@ use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Elementor Hello World
@@ -38,77 +39,85 @@ class Imprint extends ElebeeWidget {
         // TODO: Implement enqueueScripts() method.
     }
 
-	/**
-	 * Retrieve the widget name.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget name.
-	 */
-	public function get_name() {
-		return 'imprint';
-	}
+    /**
+     * Retrieve the widget name.
+     *
+     * @since 0.1.0
+     *
+     * @access public
+     *
+     * @return string Widget name.
+     */
+    public function get_name() {
 
-	/**
-	 * Retrieve the widget title.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget title.
-	 */
-	public function get_title() {
-		return __( 'Imprint', 'elebee' );
-	}
+        return 'imprint';
 
-	/**
-	 * Retrieve the widget icon.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget icon.
-	 */
-	public function get_icon() {
-		return 'eicon-posts-ticker';
-	}
+    }
 
-	/**
-	 * Retrieve the list of scripts the widget depended on.
-	 *
-	 * Used to set scripts dependencies required to run the widget.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @access public
-	 *
-	 * @return array Widget scripts dependencies.
-	 */
-	public function get_script_depends() {
-		return [ 'imprint' ];
-	}
+    /**
+     * Retrieve the widget title.
+     *
+     * @since 0.1.0
+     *
+     * @access public
+     *
+     * @return string Widget title.
+     */
+    public function get_title() {
 
-	/**
-	 * Register the widget controls.
-	 *
-	 * Adds different input fields to allow the user to change and customize the widget settings.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function _register_controls() {
+        return __( 'Imprint', 'elebee' );
 
-	    $this->registerSectionContent();
-		$this->registerSectionTitleStyle();
+    }
+
+    /**
+     * Retrieve the widget icon.
+     *
+     * @since 0.1.0
+     *
+     * @access public
+     *
+     * @return string Widget icon.
+     */
+    public function get_icon() {
+
+        return 'eicon-posts-ticker';
+
+    }
+
+    /**
+     * Retrieve the list of scripts the widget depended on.
+     *
+     * Used to set scripts dependencies required to run the widget.
+     *
+     * @since 1.3.0
+     *
+     * @access public
+     *
+     * @return array Widget scripts dependencies.
+     */
+    public function get_script_depends() {
+
+        return [ 'imprint' ];
+
+    }
+
+    /**
+     * Register the widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @since 0.1.0
+     *
+     * @access protected
+     */
+    protected function _register_controls() {
+
+        $this->registerSectionContent();
+        $this->registerSectionTitleStyle();
         $this->registerSectionTextStyle();
         $this->registerSectionLinkStyle();
 
-	}
+    }
 
     /**
      *
@@ -138,7 +147,7 @@ class Imprint extends ElebeeWidget {
             [
                 'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
-                'default' => __( 'Impressum' , 'elebee'),
+                'default' => __( 'Impressum', 'elebee' ),
             ]
         );
 
@@ -206,7 +215,7 @@ class Imprint extends ElebeeWidget {
             [
                 'label' => __( 'Text', 'elebee' ),
                 'type' => Controls_Manager::WYSIWYG,
-                'default' => (new Template( __DIR__ . '/partials/text-default.php' ))->getRendered(),
+                'default' => ( new Template( __DIR__ . '/partials/text-default.php' ) )->getRendered(),
             ]
         );
 
@@ -410,8 +419,8 @@ class Imprint extends ElebeeWidget {
                 'size_units' => [ 'ms' ],
                 'range' => [
                     'ms' => [
-                        'min'  => 0,
-                        'max'  => 2000,
+                        'min' => 0,
+                        'max' => 2000,
                         'step' => 1,
                     ],
                 ],
@@ -447,26 +456,26 @@ class Imprint extends ElebeeWidget {
 
     }
 
-	/**
-	 * Render the widget output on the frontend.
-	 *
-	 * Written in PHP and used to generate the final HTML.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function render() {
+    /**
+     * Render the widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 0.1.0
+     *
+     * @access protected
+     */
+    protected function render() {
 
-		$settings = $this->get_settings();
+        $settings = $this->get_settings();
 
-		if ( empty( $settings['title'] ) ) {
-			return;
-		}
+        if ( empty( $settings['title'] ) ) {
+            return;
+        }
 
-		$this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
+        $this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
 //		$this->add_inline_editing_attributes( 'title' );
-		
+
         $imprintTemplate = new Template( __DIR__ . '/partials/imprint.php', [
             'title' => $settings['title'],
             'headerSize' => $settings['header_size'],
@@ -474,22 +483,22 @@ class Imprint extends ElebeeWidget {
             'text' => $settings['text'],
         ] );
         $imprintTemplate->render();
-	}
+    }
 
-	/**
-	 * Render the widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function _content_template() {
+    /**
+     * Render the widget output in the editor.
+     *
+     * Written as a Backbone JavaScript template and used to generate the live preview.
+     *
+     * @since 0.1.0
+     *
+     * @access protected
+     */
+    protected function _content_template() {
 
-	    $contentTemplate = new Template( __DIR__ . '/partials/editor-content.php' );
-	    $contentTemplate->render();
+        $contentTemplate = new Template( __DIR__ . '/partials/editor-content.php' );
+        $contentTemplate->render();
 
-	}
+    }
 
 }

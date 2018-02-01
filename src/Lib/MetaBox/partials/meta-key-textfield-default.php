@@ -5,6 +5,6 @@
 
 </p>
 <input type="text"
-    id="<?php echo $metaKey->getKey(); ?>"
-    name="<?php echo $metaKey->getKey(); ?>"
-    value="<?php echo $metaKey->getValue(); ?>"/>
+        id="<?php echo $metaKey->getKey(); ?>"
+        name="<?php echo $metaKey->getKey(); ?>"
+        value="<?php echo $metaKey->getValue(); ?>"/>

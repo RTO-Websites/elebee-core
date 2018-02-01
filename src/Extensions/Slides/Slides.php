@@ -48,7 +48,7 @@ class Slides extends ExtensionBase {
                 'label_off' => __( 'No', 'elebee' ),
                 'return_value' => 'elementor-rto-aspect-ratio-slider',
                 'prefix_class' => '',
-            ]);
+            ] );
 
         $element->add_responsive_control(
             'aspect-ratio',
@@ -101,6 +101,5 @@ class Slides extends ExtensionBase {
         );
 
     }
-
 
 }

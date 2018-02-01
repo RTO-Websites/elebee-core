@@ -5,11 +5,11 @@
 
 </p>
 <input type="text"
-    id="<?php echo $metaKey->getKey(); ?>"
-    name="<?php echo $metaKey->getKey(); ?>"
-    value="<?php echo $metaKey->getValue(); ?>" />
+        id="<?php echo $metaKey->getKey(); ?>"
+        name="<?php echo $metaKey->getKey(); ?>"
+        value="<?php echo $metaKey->getValue(); ?>"/>
 <script type="text/javascript">
-    jQuery(document).ready(function($){
-        $('#<?php echo $metaKey->getKey(); ?>').wpColorPicker();
-    });
+  jQuery(document).ready(function ($) {
+    $('#<?php echo $metaKey->getKey(); ?>').wpColorPicker();
+  });
 </script>

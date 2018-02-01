@@ -12,16 +12,16 @@
 
     <?php if ( $link ) : ?>
 
-        <a <?php echo $linkAttributes; ?>>
+    <a <?php echo $linkAttributes; ?>>
 
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <span class="image" style="background-image: url('<?php echo $backgroundImage; ?>');"></span>
+        <span class="image" style="background-image: url('<?php echo $backgroundImage; ?>');"></span>
 
-    <?php if ( $link ) : ?>
+        <?php if ( $link ) : ?>
 
-        </a>
+    </a>
 
-    <?php endif; ?>
+<?php endif; ?>
 
 </div>

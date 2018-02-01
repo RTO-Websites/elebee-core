@@ -96,12 +96,12 @@ class Config {
                 'remove' => 'all',
                 'split' => true,
                 'expand' => false,
-                'block_expand'=> true,
+                'block_expand' => true,
                 'deep' => true,
             ],
             [
                 'selector' => 'span',
-                'attributes' => ['style', 'class'],
+                'attributes' => [ 'style', 'class' ],
                 'remove' => 'empty',
                 'split' => true,
                 'expand' => false,
@@ -109,10 +109,10 @@ class Config {
             ],
             [
                 'selector' => '*',
-                'attributes' => ['style', 'class'],
+                'attributes' => [ 'style', 'class' ],
                 'split' => false,
                 'expand' => false,
-                'deep' => true
+                'deep' => true,
             ],
         ];
         $settings['formats'] = json_encode( $formats );

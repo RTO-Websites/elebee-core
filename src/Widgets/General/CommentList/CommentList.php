@@ -18,6 +18,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Image Widget
  */
 class CommentList extends Widget_Base {
+
     /**
      * @var string
      *
@@ -44,10 +45,12 @@ class CommentList extends Widget_Base {
     ];
 
     public function __construct( array $data = [], $args = null ) {
+
         parent::__construct( $data, $args );
 
         $this->commentPaginationPageTemplate = '<li>%s</li>';
         $this->pageComments = get_option( 'page_comments' );
+
     }
 
     /**
@@ -58,7 +61,9 @@ class CommentList extends Widget_Base {
      * @return string Widget name.
      */
     public function get_name() {
+
         return 'comments';
+
     }
 
     /**
@@ -69,7 +74,9 @@ class CommentList extends Widget_Base {
      * @return string Widget title.
      */
     public function get_title() {
+
         return __( 'Comments', 'elebee' );
+
     }
 
     /**
@@ -80,7 +87,9 @@ class CommentList extends Widget_Base {
      * @return string Widget icon.
      */
     public function get_icon() {
+
         return 'fa fa-comments-o';
+
     }
 
     /**
@@ -93,7 +102,9 @@ class CommentList extends Widget_Base {
      * @return array Widget categories.
      */
     public function get_categories() {
+
         return [ 'rto-elements' ];
+
     }
 
     /**
@@ -104,6 +115,7 @@ class CommentList extends Widget_Base {
      * @access protected
      */
     protected function _register_controls() {
+
         $this->start_controls_section(
             'section_comments',
             [
@@ -519,7 +531,7 @@ class CommentList extends Widget_Base {
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_3
+                    'value' => Scheme_Color::COLOR_3,
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .page-numbers' => 'color: {{VALUE}};',
@@ -555,7 +567,7 @@ class CommentList extends Widget_Base {
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_3
+                    'value' => Scheme_Color::COLOR_3,
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .page-numbers:not(.current):hover' => 'color: {{VALUE}};',
@@ -611,9 +623,11 @@ class CommentList extends Widget_Base {
         );
 
         $this->end_controls_section();
+
     }
 
     protected function getFirstButton( Template $renderer ): string {
+
         $settings = $this->get_settings();
         $link = str_replace( '%_%', '', $this->paginationSettings['pagenumLink'] );
         $link = str_replace( '%#%', '', $link );
@@ -623,9 +637,11 @@ class CommentList extends Widget_Base {
         $renderer->setVar( 'url', esc_url( apply_filters( 'paginate_links', $link ) ) );
         $renderer->setVar( 'iconClass', $settings['comment_list_pagination_first_button'] );
         return $renderer->getRendered();
+
     }
 
     protected function getLastButton( Template $renderer ): string {
+
         $settings = $this->get_settings();
         $link = str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] );
         $link = str_replace( '%#%', $this->paginationSettings['totalPages'], $link );
@@ -635,9 +651,11 @@ class CommentList extends Widget_Base {
         $renderer->setVar( 'url', esc_url( apply_filters( 'paginate_links', $link ) ) );
         $renderer->setVar( 'iconClass', $settings['comment_list_pagination_last_button'] );
         return $renderer->getRendered();
+
     }
 
     protected function getCommentPagination(): string {
+
         $settings = $this->get_settings();
 
         $pagination = paginate_comments_links( [
@@ -698,9 +716,11 @@ class CommentList extends Widget_Base {
             'paginationLast' => $paginationLast,
         ] );
         return $template->getRendered();
+
     }
 
     protected function getAllCommentPages(): array {
+
         global $wpdb;
 
         $options = [];
@@ -719,9 +739,11 @@ class CommentList extends Widget_Base {
             $options[$commentPost['ID']] = $name;
         }
         return $options;
+
     }
 
     protected function setPaginationSettings( array $comments ) {
+
         $settings = $this->get_settings();
         $this->paginationSettings['totalPages'] = get_comment_pages_count( $comments, $settings['comment_list_per_page'] );
 
@@ -757,6 +779,7 @@ class CommentList extends Widget_Base {
 
             $this->paginationSettings['addArgs'] = urlencode_deep( $url_query_args );
         }
+
     }
 
     /**
@@ -767,6 +790,7 @@ class CommentList extends Widget_Base {
      * @access protected
      */
     protected function render() {
+
         $settings = $this->get_settings();
         $args = [
             'post_id' => $settings['comments_from_post'],
@@ -797,5 +821,7 @@ class CommentList extends Widget_Base {
         if ( $allowPagination && in_array( $settings['comment_list_pagination_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
         }
+
     }
+
 }

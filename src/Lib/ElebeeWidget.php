@@ -49,7 +49,6 @@ abstract class ElebeeWidget extends Widget_Base {
     public function defineAdminHooks() {
 
 
-
     }
 
     /**
@@ -60,24 +59,26 @@ abstract class ElebeeWidget extends Widget_Base {
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueStyles' );
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScripts' );
 
-        if ($this->isPreviewMode()) {
-            add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
-            add_action( 'wp_enqueue_scripts', [$this, 'enqueueScripts'] );
+        if ( $this->isPreviewMode() ) {
+            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueStyles' ] );
+            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ] );
             wp_enqueue_scripts();
         }
 
     }
 
     public function isPreviewMode() {
-        if ( ! User::is_current_user_can_edit() ) {
+
+        if ( !User::is_current_user_can_edit() ) {
             return false;
         }
 
-        if ( ! isset( $_GET['elementor-preview'] ) ) {
+        if ( !isset( $_GET['elementor-preview'] ) ) {
             return false;
         }
 
         return true;
+
     }
 
     /**

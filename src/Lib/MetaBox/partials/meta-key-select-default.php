@@ -5,7 +5,7 @@
 
 </p>
 <select id="<?php echo $metaKey->getKey(); ?>"
-    name="<?php echo $metaKey->getKey(); ?>">
+        name="<?php echo $metaKey->getKey(); ?>">
 
     <?php foreach ( $metaKey->getChoices() as $choice ) : ?>
         <option value="<?php echo $choice['value']; ?>"<?php selected( $choice['value'], $metaKey->getValue() ); ?>>

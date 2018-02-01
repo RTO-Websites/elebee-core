@@ -124,6 +124,7 @@ class ElebeeAdmin {
     }
 
     public function get_post_id_by_url() {
+
         $url = url_to_postid( $_POST['url'] );
         wp_send_json(
             [
@@ -132,12 +133,14 @@ class ElebeeAdmin {
             ]
         );
         die();
+
     }
 
     /**
      *
      */
     public function settingsApiInit() {
+
 //        add_settings_section(
 //            'elementor_rto_default_section',
 //            __('Settings', 'elebee'),
@@ -153,16 +156,20 @@ class ElebeeAdmin {
         );
 
         register_setting( 'elementor_rto_settings', 'is_exclusive' );
+
     }
 
     public function settingCallback() {
+
         echo '<input name="is_exclusive" id="is_exclusive" type="checkbox" value="1" ' . checked( 1, get_option( 'is_exclusive' ), false ) . '>';
+
     }
 
     /**
      *
      */
     public function addMenuPage() {
+
         add_submenu_page(
             Settings::PAGE_ID,
             __( 'RTO Settings', 'elebee' ),
@@ -171,13 +178,16 @@ class ElebeeAdmin {
             'elementor_rto_settings',
             [ $this, 'renderAdminPage' ]
         );
+
     }
 
     /**
      *
      */
     public function renderAdminPage() {
+
         ( new Template( dirname( __DIR__ ) . '/admin/partials/elementor-rto-admin-display.php' ) )->render();
+
     }
 
 }

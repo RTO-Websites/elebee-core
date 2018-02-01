@@ -5,4 +5,4 @@
 
 </p>
 <textarea id="<?php echo $metaKey->getKey(); ?>"
-    name="<?php echo $metaKey->getKey(); ?>"><?php echo $metaKey->getValue(); ?></textarea>
+        name="<?php echo $metaKey->getKey(); ?>"><?php echo $metaKey->getValue(); ?></textarea>

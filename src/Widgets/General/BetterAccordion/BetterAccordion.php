@@ -1,4 +1,5 @@
 <?php
+
 namespace ElebeeCore\Widgets\General\BetterAccordion;
 
 use Elementor\Controls_Manager;
@@ -9,7 +10,7 @@ use Elementor\Utils;
 use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
@@ -35,7 +36,9 @@ class BetterAccordion extends ElebeeWidget {
      * @return string Widget name.
      */
     public function get_name() {
+
         return 'accordion';
+
     }
 
     /**
@@ -47,7 +50,9 @@ class BetterAccordion extends ElebeeWidget {
      * @return string Widget title.
      */
     public function get_title() {
+
         return __( 'Better Accordion', 'elementor' );
+
     }
 
     /**
@@ -59,7 +64,9 @@ class BetterAccordion extends ElebeeWidget {
      * @return string Widget icon.
      */
     public function get_icon() {
+
         return 'eicon-accordion';
+
     }
 
     /**
@@ -71,6 +78,7 @@ class BetterAccordion extends ElebeeWidget {
      * @access protected
      */
     protected function _register_controls() {
+
         $this->start_controls_section(
             'section_title',
             [
@@ -98,7 +106,7 @@ class BetterAccordion extends ElebeeWidget {
                         'name' => 'tab_title',
                         'label' => __( 'Title & Content', 'elementor' ),
                         'type' => Controls_Manager::TEXT,
-                        'default' => __( 'Accordion Title' , 'elementor' ),
+                        'default' => __( 'Accordion Title', 'elementor' ),
                         'label_block' => true,
                     ],
                     [
@@ -170,12 +178,12 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'icon_animation',
             [
-                'label'       => __( 'Icon Animation', 'elebee' ),
+                'label' => __( 'Icon Animation', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => ' ',
                 'options' => [
-                    ' '   => __( 'None', 'elebee' ),
-                    'left-90'  => __( 'Turn left 90°', 'elebee' ),
+                    ' ' => __( 'None', 'elebee' ),
+                    'left-90' => __( 'Turn left 90°', 'elebee' ),
                     'left-180' => __( 'Turn left 180°', 'elebee' ),
                     'right-90' => __( 'Turn right 90°', 'elebee' ),
                     'right-180' => __( 'Turn right 180°', 'elebee' ),
@@ -419,6 +427,7 @@ class BetterAccordion extends ElebeeWidget {
         );
 
         $this->end_controls_section();
+
     }
 
     /**
@@ -430,6 +439,7 @@ class BetterAccordion extends ElebeeWidget {
      * @access protected
      */
     protected function render() {
+
         $settings = $this->get_settings();
 
         $id_int = substr( $this->get_id_int(), 0, 3 );
@@ -448,10 +458,13 @@ class BetterAccordion extends ElebeeWidget {
                 $this->add_inline_editing_attributes( $tab_content_setting_key, 'advanced' );
                 ?>
                 <div class="elementor-accordion-item">
-                    <div class="elementor-tab-title" tabindex="<?php echo $id_int . $counter; ?>" data-tab="<?php echo $counter; ?>" role="tab">
+                    <div class="elementor-tab-title"
+                            tabindex="<?php echo $id_int . $counter; ?>"
+                            data-tab="<?php echo $counter; ?>"
+                            role="tab">
 						<span class="elementor-better-accordion-icon elementor-accordion-icon-<?php echo $settings['icon_align']; ?>">
-							<i class="<?php echo($settings['use_custom_icon'] != 'yes' ? esc_attr( $settings['icon']) : ''  ) ?>">
-                                <?php echo($settings['use_custom_icon'] == 'yes' ? $this->inlineSvg($this->get_settings( 'custom_icon' )[url]) : ''  ) ?></i>
+							<i class="<?php echo( $settings['use_custom_icon'] != 'yes' ? esc_attr( $settings['icon'] ) : '' ) ?>">
+                                <?php echo( $settings['use_custom_icon'] == 'yes' ? $this->inlineSvg( $this->get_settings( 'custom_icon' )[url] ) : '' ) ?></i>
 						</span>
                         <?php echo $item['tab_title']; ?>
                     </div>
@@ -463,13 +476,17 @@ class BetterAccordion extends ElebeeWidget {
             ?>
         </div>
         <?php
+
     }
 
-    function inlineSvg($url) {
-        if (end(explode('.', $url)) == 'svg') {
-            return file_get_contents($url);
+    function inlineSvg( $url ) {
+
+        if ( end( explode( '.', $url ) ) == 'svg' ) {
+            return file_get_contents( $url );
         } else {
             return '<img class="custom-icon" src="' . $url . '">';
         }
+
     }
+
 }

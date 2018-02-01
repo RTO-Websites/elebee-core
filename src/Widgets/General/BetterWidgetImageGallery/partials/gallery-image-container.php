@@ -17,9 +17,9 @@
         <div class="gallery-item">
 
             <a class="elementor-clickable <?php echo $settings['gallery_style']; ?>"
-                data-elementor-open-lightbox="<?php echo $settings['open_lightbox']; ?>"
-                data-elementor-lightbox-slideshow="<?php echo $galleryId; ?>"
-                href="<?php echo $href; ?>"
+                    data-elementor-open-lightbox="<?php echo $settings['open_lightbox']; ?>"
+                    data-elementor-lightbox-slideshow="<?php echo $galleryId; ?>"
+                    href="<?php echo $href; ?>"
             >
                 <?php echo $thumbnail; ?>
 

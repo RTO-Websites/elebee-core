@@ -56,7 +56,8 @@ class Sticky extends ExtensionBase {
     /**
      * @since 0.2.0
      */
-    public function defineAdminHooks() {}
+    public function defineAdminHooks() {
+    }
 
     /**
      * @since 0.2.0
@@ -76,13 +77,13 @@ class Sticky extends ExtensionBase {
 
         // TODO: implement usage of responsive controls.
 
-        $element->start_controls_section('section_sticky', [
+        $element->start_controls_section( 'section_sticky', [
                 'label' => __( 'Sticky', 'elebee' ),
                 'tab' => Controls_Manager::TAB_ADVANCED,
             ]
         );
 
-        $element->add_responsive_control (
+        $element->add_responsive_control(
             $this->controlStickyId, [
                 'label' => __( 'Make this section sticky', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
@@ -93,7 +94,7 @@ class Sticky extends ExtensionBase {
             ]
         );
 
-        $element->add_responsive_control (
+        $element->add_responsive_control(
             $this->controlStickyPlaceholderId, [
                 'label' => __( 'Add a placeholder', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
@@ -102,12 +103,12 @@ class Sticky extends ExtensionBase {
                 'label_off' => __( 'Hide', 'elementor' ),
                 'return_value' => 'true',
                 'condition' => [
-                    $this->controlStickyId => 'true'
-                ]
+                    $this->controlStickyId => 'true',
+                ],
             ]
         );
 
-        $element->add_responsive_control (
+        $element->add_responsive_control(
             $this->controlStickyPositionId, [
                 'label' => __( 'Position', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
@@ -116,23 +117,23 @@ class Sticky extends ExtensionBase {
                 'label_off' => __( 'Bottom', 'elebee' ),
                 'return_value' => 'true',
                 'condition' => [
-                    $this->controlStickyId => 'true'
-                ]
+                    $this->controlStickyId => 'true',
+                ],
             ]
         );
 
-        $element->add_responsive_control (
+        $element->add_responsive_control(
             $this->controlStickyOffsetId,
             [
                 'label' => __( 'Offset', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
                 'default' => [
-                    'size' => 0
+                    'size' => 0,
                 ],
                 'condition' => [
-                    $this->controlStickyId => 'true'
-                ]
+                    $this->controlStickyId => 'true',
+                ],
             ]
         );
 
@@ -145,7 +146,7 @@ class Sticky extends ExtensionBase {
      */
     public function enqueueScrips() {
 
-        if( !self::$enqueueScripts ) {
+        if ( !self::$enqueueScripts ) {
             return;
         }
 
@@ -158,30 +159,30 @@ class Sticky extends ExtensionBase {
      */
     public function setRenderAttributes( Element_Base $element ) {
 
-        if( $element->get_name() != 'section' ) {
+        if ( $element->get_name() != 'section' ) {
             return;
         }
 
-        if( $element->get_settings( $this->controlStickyId ) != true ) {
+        if ( $element->get_settings( $this->controlStickyId ) != true ) {
             return;
         }
 
         self::$enqueueScripts = true;
 
         $attributes = [
-            'data-elebee-sticky' => ''
+            'data-elebee-sticky' => '',
         ];
 
-        if( $element->get_settings( $this->controlStickyPlaceholderId ) ) {
+        if ( $element->get_settings( $this->controlStickyPlaceholderId ) ) {
             $attributes['data-sticky-placeholder'] = '';
         }
 
-        if( !$element->get_settings( $this->controlStickyPositionId ) ) {
+        if ( !$element->get_settings( $this->controlStickyPositionId ) ) {
             $attributes['data-stick-to-bottom'] = '';
         }
 
         $offset = $element->get_settings( $this->controlStickyOffsetId );
-        if( $offset ) {
+        if ( $offset ) {
             $attributes['data-sticky-offset'] = $offset['size'] . $offset['unit'];
         }
 

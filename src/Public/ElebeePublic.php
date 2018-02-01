@@ -133,6 +133,7 @@ class ElebeePublic {
         Plugin::instance()->widgets_manager->register_widget_type( new BigAndSmallImageWithDescription() );
         Plugin::instance()->widgets_manager->register_widget_type( new Placeholder() );
         Plugin::instance()->widgets_manager->register_widget_type( new PostTypeArchive() );
+
     }
 
     /**
@@ -185,6 +186,7 @@ class ElebeePublic {
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
+
     }
 
     /**
@@ -219,4 +221,5 @@ class ElebeePublic {
         $sticky->getLoader()->run();
 
     }
+
 }

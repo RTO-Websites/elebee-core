@@ -1,24 +1,30 @@
 <?php
+
 namespace Elementor\Core\Settings\General;
 
 use Elementor\Controls_Manager;
 use Elementor\Core\Settings\Base\Model as BaseModel;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
 class Model extends BaseModel {
 
     public function get_name() {
+
         return 'global-settings';
+
     }
 
     public function get_css_wrapper_selector() {
+
         return '';
+
     }
 
     public function get_panel_page_settings() {
+
         return [
             'title' => __( 'Global Settings', 'elementor' ),
             'menu' => [
@@ -26,6 +32,7 @@ class Model extends BaseModel {
                 'beforeItem' => 'clear-page',
             ],
         ];
+
     }
 
     public static function get_controls_list() {
@@ -126,9 +133,11 @@ class Model extends BaseModel {
         $controls = apply_filters( 'elementor/editor/global-settings', $controls );
 
         return $controls;
+
     }
 
     protected function _register_controls() {
+
         $controls_list = self::get_controls_list();
 
         foreach ( $controls_list as $tab_name => $sections ) {
@@ -149,5 +158,7 @@ class Model extends BaseModel {
                 $this->end_controls_section();
             }
         }
+
     }
+
 }

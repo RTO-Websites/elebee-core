@@ -12,6 +12,7 @@ use ElebeeCore\Lib\Template;
 use WP_Query;
 
 class PostTypeArchive extends ElebeeWidget {
+
     /**
      * @var
      */
@@ -36,28 +37,36 @@ class PostTypeArchive extends ElebeeWidget {
      * @return string
      */
     public function get_name() {
+
         return 'post-type-archive';
+
     }
 
     /**
      * @return string|void
      */
     public function get_title() {
+
         return __( 'Post type archive', 'elebee' );
+
     }
 
     /**
      * @return array
      */
     public function get_categories() {
+
         return [ 'rto-elements-exclusive' ];
+
     }
 
     /**
      *
      */
     public function enqueueStyles() {
+
         wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/Exclusive/PostTypeArchive/css/' . $this->get_name() . '.css' );
+
     }
 
     /**
@@ -71,6 +80,7 @@ class PostTypeArchive extends ElebeeWidget {
      *
      */
     protected function _register_controls() {
+
         $this->postTypes = $this->getPostTypes();
         $this->taxonomies = get_taxonomies( null, 'objects' );
         $this->terms = get_terms( [ 'hide_empty' => false ] );
@@ -366,12 +376,14 @@ class PostTypeArchive extends ElebeeWidget {
 
             $this->end_controls_section();
         }
+
     }
 
     /**
      *
      */
     private function addTaxonomyControls() {
+
         foreach ( $this->postTypes as $typeName => $postType ) {
             $taxonomies = $this->getTaxonomiesForPostType( $typeName );
             if ( empty( $taxonomies ) ) {
@@ -404,6 +416,7 @@ class PostTypeArchive extends ElebeeWidget {
             );
             $this->addTermControls( $taxonomies, $typeName );
         }
+
     }
 
     /**
@@ -411,6 +424,7 @@ class PostTypeArchive extends ElebeeWidget {
      * @param $postType
      */
     private function addTermControls( $taxonomies, $postType ) {
+
         foreach ( $taxonomies as $taxName => $name ) {
             $terms = $this->getTermsForTaxonomy( $taxName );
 
@@ -429,12 +443,14 @@ class PostTypeArchive extends ElebeeWidget {
                 ]
             );
         }
+
     }
 
     /**
      * @return array
      */
     private function getPostTypes(): array {
+
         $tmp = get_post_types( null, 'objects' );
         $types = [];
 
@@ -442,6 +458,7 @@ class PostTypeArchive extends ElebeeWidget {
             $types[$name] = $type->labels->name;
         }
         return $types;
+
     }
 
     /**
@@ -449,6 +466,7 @@ class PostTypeArchive extends ElebeeWidget {
      * @return array
      */
     private function getTaxonomiesForPostType( $name ): array {
+
         $taxonomies = [];
 
         foreach ( $this->taxonomies as $taxName => $taxonomy ) {
@@ -457,6 +475,7 @@ class PostTypeArchive extends ElebeeWidget {
             }
         }
         return $taxonomies;
+
     }
 
     /**
@@ -464,6 +483,7 @@ class PostTypeArchive extends ElebeeWidget {
      * @return array
      */
     private function getTermsForTaxonomy( $name ): array {
+
         $terms = [];
 
         foreach ( $this->terms as $term ) {
@@ -472,12 +492,14 @@ class PostTypeArchive extends ElebeeWidget {
             }
         }
         return $terms;
+
     }
 
     /**
      * @return bool
      */
     protected function isForArchive() {
+
         if ( is_archive() ) {
             return true;
         }
@@ -490,18 +512,22 @@ class PostTypeArchive extends ElebeeWidget {
         }
 
         return false;
+
     }
 
     /**
      * @return array
      */
     protected function getArchiveSettings() {
+
         return [
             'posts_per_page' => -1,
         ];
+
     }
 
     protected function getQuerySettings( $postType ) {
+
         $settings = $this->get_settings();
         $args = [
             'post_type' => $postType,
@@ -518,12 +544,14 @@ class PostTypeArchive extends ElebeeWidget {
             ];
         }
         return $args;
+
     }
 
     /**
      *
      */
     protected function render() {
+
         $settings = $this->get_settings();
         $postType = $settings['type'];
         $this->isForArchive = $this->isForArchive();
@@ -565,12 +593,14 @@ class PostTypeArchive extends ElebeeWidget {
             }
             $wrapper->render();
         }
+
     }
 
     /**
      * @param Template $renderer
      */
     protected function setRendererVarsForGrayscale( Template &$renderer ) {
+
         $imageID = get_post_meta( get_the_ID(), 'additional-image', true );
         $imagePath = get_attached_file( $imageID );
         if ( 'svg' === substr( $imagePath, -3 ) ) {
@@ -587,14 +617,17 @@ class PostTypeArchive extends ElebeeWidget {
         }
 
         $renderer->setVar( 'figureContent', $image );
+
     }
 
     /**
      * @param Template $renderer
      */
     protected function setRendererVarsForExcerpts( Template &$renderer ) {
+
         $renderer->setVar( 'title', get_the_title() );
         $renderer->setVar( 'excerpt', get_the_excerpt() );
         $renderer->setVar( 'link', get_the_permalink() );
+
     }
 }

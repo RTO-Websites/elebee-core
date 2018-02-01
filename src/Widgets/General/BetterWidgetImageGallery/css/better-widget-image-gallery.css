@@ -41,7 +41,7 @@
 
 .rto-gallery-container,
 .rto-image-columns .rto-gallery-image-container,
-.rto-image-columns-modal .rto-gallery-image-container{
+.rto-image-columns-modal .rto-gallery-image-container {
   float: left;
   vertical-align: top;
   width: 100%;

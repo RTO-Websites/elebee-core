@@ -2,9 +2,9 @@
 <li id="<?php echo $metaKey->getKey(); ?>-<?php echo $term->term_id; ?>" class="toggle">
     <label class="selectit">
         <input value="<?php echo $term->term_id; ?>"
-            type="checkbox"
-            name="<?php echo $metaKey->getKey(); ?>[]"
-            id="in-category-<?php echo $term->term_id; ?>"
+                type="checkbox"
+                name="<?php echo $metaKey->getKey(); ?>[]"
+                id="in-category-<?php echo $term->term_id; ?>"
             <?php checked( true, in_array( $term->term_id, $metaValues ) ); ?>>
         <?php echo $term->name; ?>
         <span class="cat-description">

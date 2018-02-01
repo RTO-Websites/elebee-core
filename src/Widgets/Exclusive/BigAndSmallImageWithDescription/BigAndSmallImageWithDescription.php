@@ -12,18 +12,25 @@ use ElebeeCore\Lib\Template;
 class BigAndSmallImageWithDescription extends Widget_Base {
 
     public function get_name() {
+
         return 'big-and-small-image-with-description';
+
     }
 
     public function get_title() {
+
         return __( 'Big and small image with description', 'elebee' );
+
     }
 
     public function get_categories() {
+
         return [ 'rto-elements-exclusive' ];
+
     }
 
     protected function _register_controls() {
+
         $this->start_controls_section(
             'default',
             [
@@ -132,11 +139,11 @@ class BigAndSmallImageWithDescription extends Widget_Base {
         $this->add_control(
             'color',
             [
-                'label' => __('Color', 'elebee'),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .small-image div' => 'color: {{VALUE}};',
-                ]
+                ],
             ]
         );
 
@@ -150,9 +157,11 @@ class BigAndSmallImageWithDescription extends Widget_Base {
         );
 
         $this->end_controls_section();
+
     }
 
     protected function render() {
+
         $settings = $this->get_settings();
         $bigImage = new Template( __DIR__ . '/partials/big-image.php', [ 'image' => $settings['big-image'] ] );
         $smallImage = new Template( __DIR__ . '/partials/small-image.php', [ 'image' => $settings['small-image'], 'desc' => $settings['description'] ] );
@@ -166,6 +175,7 @@ class BigAndSmallImageWithDescription extends Widget_Base {
         }
         $wrap = new Template( __DIR__ . '/partials/wrap.php', [ 'orientation' => $settings['orientation'], 'content' => $content ] );
         $wrap->render();
+
     }
 
 }

@@ -6,15 +6,15 @@
     <?php
 
     $args = [
-        'orderby'           => 'name',
-        'order'             => 'ASC',
-        'hide_empty'        => false,
-        'fields'            => 'all',
-        'parent'            => 0,
-        'hierarchical'      => true,
-        'child_of'          => 0,
-        'pad_counts'        => false,
-        'cache_domain'      => 'core'
+        'orderby' => 'name',
+        'order' => 'ASC',
+        'hide_empty' => false,
+        'fields' => 'all',
+        'parent' => 0,
+        'hierarchical' => true,
+        'child_of' => 0,
+        'pad_counts' => false,
+        'cache_domain' => 'core',
     ];
 
     $termList = get_terms( $metaKey->getTaxonomies(), $args );

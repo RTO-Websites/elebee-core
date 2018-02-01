@@ -20,7 +20,7 @@
     <form method="POST" action="options.php">
         <?php settings_fields( 'elementor_rto_settings' ); ?>
         <table class="form-table">
-            <?php do_settings_fields('elementor_rto_settings', 'default' ); ?>
+            <?php do_settings_fields( 'elementor_rto_settings', 'default' ); ?>
         </table>
         <?php submit_button(); ?>
     </form>

@@ -9,22 +9,30 @@ use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
 
 class SkinArchive extends Skin_Base {
+
     public function get_id() {
+
         return 'rto';
+
     }
 
     public function get_title() {
+
         return __( 'RTO', 'elebee' );
+
     }
 
     protected function _register_controls_actions() {
+
         add_action( 'elementor/element/posts/section_layout/before_section_end', [ $this, 'register_controls' ] );
         add_action( 'elementor/element/posts/section_query/after_section_end', [ $this, 'register_style_sections' ] );
         add_action( 'elementor/element/posts/section_pagination/after_section_end', [ $this, 'registerArchiveSection' ] );
 //        add_action( 'elementor/element/posts/section_design_content/after_section_end', [ $this, 'registerArchiveStyleSection' ] );
+
     }
 
     public function registerArchiveSection( Widget_Base $widget ) {
+
         $this->start_controls_section(
             'section_archive',
             [
@@ -69,9 +77,11 @@ class SkinArchive extends Skin_Base {
         $this->end_controls_section();
 
         $this->registerArchiveStyleSection(); // TODO: try doing this per hook like in the commented line above.
+
     }
 
     public function registerArchiveStyleSection() {
+
         $this->start_controls_section(
             'section_archive_design',
             [
@@ -101,9 +111,11 @@ class SkinArchive extends Skin_Base {
         );
 
         $this->end_controls_section();
+
     }
 
     protected function render_post() {
+
         $this->render_post_header();
         $this->render_thumbnail();
         $this->render_text_header();
@@ -113,20 +125,25 @@ class SkinArchive extends Skin_Base {
         $this->render_read_more();
         $this->render_text_footer();
         $this->render_post_footer();
+
     }
 
     protected function render_loop_header() {
+
         $this->render_archive_link( 'above' );
         parent::render_loop_header();
 
     }
 
     protected function render_loop_footer() {
+
         parent::render_loop_footer();
         $this->render_archive_link( 'below' );
+
     }
 
     private function render_archive_link( $where ) {
+
         $parentSettings = $this->parent->get_settings();
         $showArchiveLink = in_array( $parentSettings[$this->get_id() . '_add_archive_link'], [ $where, 'both' ] );
         if ( $showArchiveLink && is_array( $parentSettings['posts_category_ids'] ) ) {
@@ -153,5 +170,7 @@ class SkinArchive extends Skin_Base {
                 echo '</ul>';
             }
         }
+
     }
+
 }

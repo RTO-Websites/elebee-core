@@ -174,7 +174,7 @@ class Renderer implements Visitor {
         $showSedcard = $showSedcard && !empty( $attributeList );
         $showSedcard = $showSedcard && ( $this->inModal() || $this->widgetSettings['gallery_style'] != 'modal' );
 
-        if( !$showSedcard ) {
+        if ( !$showSedcard ) {
 
             return '';
 
@@ -191,12 +191,12 @@ class Renderer implements Visitor {
      * @param string $content
      * @return string
      */
-    private function getRenderedTitle( string $content ): string  {
+    private function getRenderedTitle( string $content ): string {
 
         $galleryTitleTemplate = new Template( get_stylesheet_directory() . '/vendor//public/partials/general/element-default.php', [
             'tag' => $this->widgetSettings['header_size'],
             'attributes' => Template::toHtmlAttributes( [
-                'class' => 'gallery-title'
+                'class' => 'gallery-title',
             ] ),
             'content' => $content,
         ] );
@@ -209,10 +209,9 @@ class Renderer implements Visitor {
      */
     private function renderImage( Image $image ) {
 
-        if( $this->inModal() || $this->widgetSettings['first_image'] ) {
+        if ( $this->inModal() || $this->widgetSettings['first_image'] ) {
             $title = $image->getCaption();
-        }
-        else {
+        } else {
             $title = $image->getGallery()->getTitle();
         }
 
@@ -233,7 +232,7 @@ class Renderer implements Visitor {
      * @param Image $image
      * @return string
      */
-    private function getRenderedThumbnail( Image $image ): string  {
+    private function getRenderedThumbnail( Image $image ): string {
 
         $galleryImageTemplate = new Template( dirname( __DIR__ ) . '/partials/gallery-image.php', [
             'src' => $image->getSrc(),

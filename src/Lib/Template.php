@@ -90,7 +90,7 @@ class Template {
 
         foreach ( $attributes as $name => $value ) {
 
-            $htmlAttributes .= empty( $htmlAttributes ) ? '': ' ';
+            $htmlAttributes .= empty( $htmlAttributes ) ? '' : ' ';
             $htmlAttributes .= $name . '="' . htmlspecialchars( $value ) . '"';
 
         }
