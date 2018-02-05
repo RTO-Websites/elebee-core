@@ -5,7 +5,7 @@
  * @licence GPL-3.0
  */
 
-namespace ElebeeCore\Lib;
+namespace ElebeeCore\Lib\Util;
 
 
 /**
