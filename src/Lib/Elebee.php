@@ -196,7 +196,7 @@ class Elebee {
         $sectionCoreData = new Section( 'elebee_core_data_section', [
             'title' => __( 'Core data', 'elebee' ),
             'priority' => 700,
-            'description' => __( $description, 'elebee' ),
+            'description' => $description,
         ] );
         $sectionCoreData->addSetting( $settingCoreDataAddress );
         $sectionCoreData->addSetting( $settingCoreDataEmail );
