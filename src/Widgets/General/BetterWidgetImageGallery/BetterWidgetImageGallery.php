@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
 
+
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Album;
@@ -26,9 +27,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  *

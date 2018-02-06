@@ -13,6 +13,8 @@
 namespace ElebeeCore\Lib\ThemeCustomizer;
 
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Control
  *

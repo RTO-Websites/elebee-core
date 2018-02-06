@@ -1,5 +1,4 @@
-<?php namespace ElebeeCore\Lib;
-
+<?php
 /**
  * Register all actions and filters for the theme
  *
@@ -10,6 +9,11 @@
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeLoader.html
  */
+
+namespace ElebeeCore\Lib;
+
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Register all actions and filters for the theme.

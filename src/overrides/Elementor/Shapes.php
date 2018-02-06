@@ -2,9 +2,8 @@
 
 namespace Elementor;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+
+defined( 'ABSPATH' ) || exit;
 
 class Shapes {
 

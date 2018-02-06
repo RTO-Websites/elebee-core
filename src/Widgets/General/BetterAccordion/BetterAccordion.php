@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\General\BetterAccordion;
 
+
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
@@ -19,9 +20,7 @@ use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use ElebeeCore\Lib\ElebeeWidget;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Accordion Widget

@@ -15,6 +15,8 @@ namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 use ElebeeCore\Lib\Visitee;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Gallery
  *

@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\Exclusive\PostTypeArchive;
 
+
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
@@ -19,6 +20,8 @@ use Elementor\Group_Control_Image_Size;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 use WP_Query;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class PostTypeArchive

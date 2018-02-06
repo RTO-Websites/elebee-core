@@ -12,8 +12,11 @@
 
 namespace ElebeeCore\Widgets\Exclusive\Placeholder;
 
+
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Placeholder

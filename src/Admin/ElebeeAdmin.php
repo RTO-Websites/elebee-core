@@ -17,6 +17,8 @@ namespace ElebeeCore\Admin;
 use ElebeeCore\Lib\Template;
 use Elementor\Settings;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * The admin-specific functionality of the theme.
  *

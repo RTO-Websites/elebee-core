@@ -1,5 +1,4 @@
-<?php namespace ElebeeCore\Lib;
-
+<?php
 /**
  * Define the internationalization functionality
  *
@@ -13,6 +12,11 @@
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeI18n.html
  */
+
+namespace ElebeeCore\Lib;
+
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Define the internationalization functionality.

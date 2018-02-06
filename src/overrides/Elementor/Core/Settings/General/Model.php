@@ -2,12 +2,11 @@
 
 namespace Elementor\Core\Settings\General;
 
+
 use Elementor\Controls_Manager;
 use Elementor\Core\Settings\Base\Model as BaseModel;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 class Model extends BaseModel {
 

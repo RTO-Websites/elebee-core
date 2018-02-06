@@ -1,4 +1,17 @@
-<?php namespace ElebeeCore\Pub;
+<?php
+/**
+ * The public-facing functionality of the theme.
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Pub
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
+ */
+
+namespace ElebeeCore\Pub;
+
 
 use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Skins\SkinArchive;
@@ -16,16 +29,7 @@ use Elementor;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
-/**
- * The public-facing functionality of the theme.
- *
- * @since   0.1.0
- *
- * @package ElebeeCore\Pub
- * @author  RTO GmbH <info@rto.de>
- * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
- */
+defined( 'ABSPATH' ) || exit;
 
 /**
  * The public-facing functionality of the theme.

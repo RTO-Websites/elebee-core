@@ -13,6 +13,9 @@
 namespace ElebeeCore\Lib\PostTypeSupport;
 
 
+defined( 'ABSPATH' ) || exit;
+
+
 /**
  * Class PostTypeSupportExcerpt
  *

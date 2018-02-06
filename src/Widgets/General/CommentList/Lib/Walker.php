@@ -12,10 +12,13 @@
 
 namespace ElebeeCore\Widgets\General\CommentList\Lib;
 
+
 use \WP_Comment;
 use \Walker_Comment;
 use \DateTime;
 use \DateTimeZone;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Walker

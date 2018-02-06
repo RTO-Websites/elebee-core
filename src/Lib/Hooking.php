@@ -12,6 +12,9 @@
 
 namespace ElebeeCore\Lib;
 
+
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class HookingHooking.php
  *

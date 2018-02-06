@@ -16,6 +16,8 @@ namespace ElebeeCore\Lib;
 use Elementor\Widget_Base;
 use Elementor\User;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class ElebeeWidget
  *

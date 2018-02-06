@@ -25,6 +25,8 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Elebee
  *

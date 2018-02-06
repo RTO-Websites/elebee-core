@@ -1,5 +1,7 @@
 <?php
 /**
+ * Sticky.php
+ *
  * @since   0.1.0
  *
  * @package ElebeeCore\Extensions\Sticky
@@ -15,6 +17,8 @@ use ElebeeCore\Extensions\ExtensionBase;
 use ElebeeCore\Lib\Elebee;
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Sticky

@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\General\AspectRatioImage;
 
+
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
@@ -23,9 +24,7 @@ use Elementor\Utils;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Image Widget

@@ -13,6 +13,8 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class ThemeSupportTitleTag
  *

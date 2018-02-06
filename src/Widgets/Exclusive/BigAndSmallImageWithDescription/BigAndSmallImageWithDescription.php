@@ -12,12 +12,15 @@
 
 namespace ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription;
 
+
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use Elementor\Widget_Base;
 use ElebeeCore\Lib\Template;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class BigAndSmallImageWithDescription

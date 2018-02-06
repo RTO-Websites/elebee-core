@@ -17,6 +17,8 @@ use ElebeeCore\Lib\Template;
 use ElebeeCore\Lib\Visitee;
 use ElebeeCore\Lib\Visitor;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Renderer
  *

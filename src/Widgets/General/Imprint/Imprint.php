@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\General\Imprint;
 
+
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
@@ -21,7 +22,7 @@ use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
-if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Elementor Hello World

@@ -14,6 +14,8 @@
 namespace ElebeeCore\Lib\Util;
 
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Session
  *

@@ -12,6 +12,7 @@
 
 namespace ElebeeCore\Widgets\General\CommentList;
 
+
 use ElebeeCore\Lib\Template;
 use ElebeeCore\Widgets\General\CommentList\Lib\Walker;
 use Elementor\Controls_Manager;
@@ -20,9 +21,7 @@ use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Widget_Base;
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Image Widget

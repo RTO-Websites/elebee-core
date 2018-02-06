@@ -15,6 +15,8 @@ namespace ElebeeCore\Lib\ThemeSupport;
 
 use ElebeeCore\Lib\Hooking;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class ThemeSupport
  *
