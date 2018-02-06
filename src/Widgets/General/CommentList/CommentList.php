@@ -1,14 +1,24 @@
 <?php
+/**
+ * CommentList.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/CommentList.html
+ */
 
 namespace ElebeeCore\Widgets\General\CommentList;
 
+use ElebeeCore\Lib\Template;
+use ElebeeCore\Widgets\General\CommentList\Lib\Walker;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Widget_Base;
-use ElebeeCore\Lib\Template;
-use ElebeeCore\Widgets\CommentList\Lib\Walker;
 
 if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
@@ -16,23 +26,30 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Image Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/CommentList.html
  */
 class CommentList extends Widget_Base {
 
     /**
+     * @since 0.1.0
      * @var string
-     *
-     * @since 1.1.0
-     * @ignore
      */
     protected $commentPaginationPageTemplate;
 
     /**
+     * @since 0.1.0
      * @var mixed|void
      */
     protected $pageComments;
 
     /**
+     * @since 0.1.0
      * @var array
      */
     protected $paginationSettings = [
@@ -44,7 +61,16 @@ class CommentList extends Widget_Base {
         'totalPages' => '',
     ];
 
-    public function __construct( array $data = [], $args = null ) {
+    /**
+     * CommentList constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param array $data
+     * @param array $args
+     * @throws \Exception
+     */
+    public function __construct( array $data = [], array $args = null ) {
 
         parent::__construct( $data, $args );
 
@@ -56,9 +82,7 @@ class CommentList extends Widget_Base {
     /**
      * Retrieve image widget name.
      *
-     * @access public
-     *
-     * @return string Widget name.
+     * @since 0.1.0
      */
     public function get_name() {
 
@@ -69,9 +93,7 @@ class CommentList extends Widget_Base {
     /**
      * Retrieve image widget title.
      *
-     * @access public
-     *
-     * @return string Widget title.
+     * @since 0.1.0
      */
     public function get_title() {
 
@@ -82,9 +104,7 @@ class CommentList extends Widget_Base {
     /**
      * Retrieve image widget icon.
      *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @since 0.1.0
      */
     public function get_icon() {
 
@@ -97,9 +117,7 @@ class CommentList extends Widget_Base {
      *
      * Used to determine where to display the widget in the editor.
      *
-     * @access public
-     *
-     * @return array Widget categories.
+     * @since 0.1.0
      */
     public function get_categories() {
 
@@ -112,7 +130,7 @@ class CommentList extends Widget_Base {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @access protected
+     * @since 0.1.0
      */
     protected function _register_controls() {
 
@@ -626,6 +644,12 @@ class CommentList extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Template $renderer
+     * @return string
+     */
     protected function getFirstButton( Template $renderer ): string {
 
         $settings = $this->get_settings();
@@ -640,6 +664,12 @@ class CommentList extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Template $renderer
+     * @return string
+     */
     protected function getLastButton( Template $renderer ): string {
 
         $settings = $this->get_settings();
@@ -654,6 +684,11 @@ class CommentList extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
     protected function getCommentPagination(): string {
 
         $settings = $this->get_settings();
@@ -719,6 +754,11 @@ class CommentList extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return array
+     */
     protected function getAllCommentPages(): array {
 
         global $wpdb;
@@ -742,6 +782,11 @@ class CommentList extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param array $comments
+     */
     protected function setPaginationSettings( array $comments ) {
 
         $settings = $this->get_settings();
@@ -787,7 +832,9 @@ class CommentList extends Widget_Base {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function render() {
 

@@ -1,16 +1,47 @@
 <?php
+/**
+ * Walker.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ */
 
-namespace ElebeeCore\Widgets\CommentList\Lib;
+namespace ElebeeCore\Widgets\General\CommentList\Lib;
 
 use \WP_Comment;
 use \Walker_Comment;
 use \DateTime;
 use \DateTimeZone;
 
+/**
+ * Class Walker
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ */
 class Walker extends Walker_Comment {
 
+    /**
+     * @since 0.1.0
+     * @var array
+     */
     private $settings;
 
+    /**
+     * Walker constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param array $args
+     */
     public function __construct( $args = [] ) {
 
         $defaults = [];
@@ -22,13 +53,13 @@ class Walker extends Walker_Comment {
     /**
      * Outputs a single comment.
      *
-     * @since 3.6.0
+     * @since 0.1.0
      *
-     * @see wp_list_comments()
+     * @see   wp_list_comments()
      *
      * @param WP_Comment $comment Comment to display.
-     * @param int $depth Depth of the current comment.
-     * @param array $args An array of arguments.
+     * @param int        $depth   Depth of the current comment.
+     * @param array      $args    An array of arguments.
      */
     protected function comment( $comment, $depth, $args ) {
 
@@ -90,13 +121,13 @@ class Walker extends Walker_Comment {
     /**
      * Outputs a comment in the HTML5 format.
      *
-     * @since 3.6.0
+     * @since 0.1.0
      *
-     * @see wp_list_comments()
+     * @see   wp_list_comments()
      *
      * @param WP_Comment $comment Comment to display.
-     * @param int $depth Depth of the current comment.
-     * @param array $args An array of arguments.
+     * @param int        $depth   Depth of the current comment.
+     * @param array      $args    An array of arguments.
      */
     protected function html5_comment( $comment, $depth, $args ) {
 

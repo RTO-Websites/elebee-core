@@ -2,6 +2,13 @@
 
 /**
  * MetaKeyTextarea.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTextarea.html
  */
 
 namespace ElebeeCore\Lib\MetaBox;
@@ -12,21 +19,25 @@ use ElebeeCore\Lib\Template;
 /**
  * Class MetaKeyTextarea
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTextarea.html
  */
 class MetaKeyTextarea extends MetaKey {
 
     /**
      * MetaKeyTextfield constructor.
      *
-     * @param $key
-     * @param $label
-     * @param int $type (optional)
+     * @since 0.2.0
+     *
+     * @param string $key
+     * @param string $label
+     * @param int    $type (optional)
      */
-    public function __construct( $key, $label, $type = self::TYPE_DEFAULT ) {
+    public function __construct( string $key, string $label, int $type = self::TYPE_DEFAULT ) {
 
         $defaultTemplate = new Template( __DIR__ . '/partials/meta-key-textarea-default.php' );
         $this->setTemplate( $defaultTemplate );

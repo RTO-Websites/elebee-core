@@ -2,6 +2,13 @@
 
 /**
  * ThemeCustommizer.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizer.html
  */
 
 namespace ElebeeCore\Lib\ThemeCustomizer;
@@ -10,22 +17,25 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 /**
  * Class ThemeCustommizer
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizer.html
  */
 class ThemeCustommizer {
 
     /**
+     * @since 0.2.0
      * @var array
-     *
-     * @ignore
      */
     private $elementList;
 
     /**
      * ThemeCustommizer constructor.
+     *
+     * @since 0.2.0
      */
     public function __construct() {
 
@@ -36,8 +46,9 @@ class ThemeCustommizer {
     /**
      * Add a panel.
      *
-     * @param Panel $panel
+     * @since 0.2.0
      *
+     * @param Panel $panel
      * @return void
      */
     public function addPanel( Panel $panel ) {
@@ -49,8 +60,9 @@ class ThemeCustommizer {
     /**
      * Add a section.
      *
-     * @param Section $section
+     * @since 0.2.0
      *
+     * @param Section $section
      * @return void
      */
     public function addSection( Section $section ) {
@@ -62,11 +74,12 @@ class ThemeCustommizer {
     /**
      * Get an element.
      *
-     * @param $id
+     * @since 0.2.0
      *
+     * @param string $id
      * @return ThemeCustommizerElement|null
      */
-    public function getElement( $id ) {
+    public function getElement( string $id ): ThemeCustommizerElement {
 
         return isset( $this->elementList[$id] ) ? $this->elementList[$id] : null;
 
@@ -74,6 +87,8 @@ class ThemeCustommizer {
 
     /**
      * Add the Wordpress action hook to register the theme customizer elements.
+     *
+     * @since 0.2.0
      *
      * @return void
      */
@@ -86,11 +101,12 @@ class ThemeCustommizer {
     /**
      * Register all theme customizer elements.
      *
-     * @param $wpCustomize
+     * @since 0.2.0
      *
+     * @param \WP_Customize_Manager $wpCustomize
      * @return void
      */
-    public function actionCustomizeRegister( $wpCustomize ) {
+    public function actionCustomizeRegister( \WP_Customize_Manager $wpCustomize ) {
 
         foreach ( $this->elementList as $element ) {
             $element->register( $wpCustomize );

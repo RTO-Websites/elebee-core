@@ -2,6 +2,13 @@
 
 /**
  * Section.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Section.html
  */
 
 namespace ElebeeCore\Lib\ThemeCustomizer;
@@ -10,27 +17,30 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 /**
  * Class Section
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Section.html
  */
 class Section extends ThemeCustommizerElement {
 
     /**
+     * @since 0.2.0
      * @var array
-     *
-     * @ignore
      */
     private $settingList;
 
     /**
      * Section constructor.
      *
-     * @param $id
-     * @param array $args
+     * @since 0.2.0
+     *
+     * @param string $id
+     * @param array  $args
      */
-    public function __construct( $id, array $args ) {
+    public function __construct( string $id, array $args ) {
 
         parent::__construct( $id, $args );
         $this->settingList = [];
@@ -40,8 +50,9 @@ class Section extends ThemeCustommizerElement {
     /**
      * Add a setting.
      *
-     * @param Setting $setting
+     * @since 0.2.0
      *
+     * @param Setting $setting
      * @return void
      */
     public function addSetting( Setting $setting ) {
@@ -52,7 +63,7 @@ class Section extends ThemeCustommizerElement {
     }
 
     /**
-     * {@inheritdoc}
+     * @since 0.2.0
      */
     public function register( \WP_Customize_Manager $wpCustomize ) {
 

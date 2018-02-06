@@ -1,4 +1,14 @@
 <?php
+/**
+ * BetterWidgetImageGallery.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/BetterWidgetImageGallery.html
+ */
 
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
 
@@ -24,33 +34,51 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  */
 if ( !defined( '__GESAMT__' ) ) {
-//    define( '__GESAMT__', '/var/www/html/global' );
-    define( '__GESAMT__', 'D:\htdocs\common\global' );
+    define( '__GESAMT__', '/var/www/html/global' );
 }
 
 /**
  * Image Gallery Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/BetterWidgetImageGallery.html
  */
 class BetterWidgetImageGallery extends ElebeeWidget {
 
     /**
+     * @since 0.1.0
      * @var Album
      */
     private $album;
 
-    public function __construct( $data = [], $args = null ) {
+    /**
+     * BetterWidgetImageGallery constructor.
+     *
+     * @since 0.1.0
+     */
+    public function __construct( array $data = [], array $args = null ) {
 
         parent::__construct( $data, $args );
         $this->album = null;
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/General/BetterWidgetImageGallery/css/better-widget-image-gallery.css', [], Elebee::VERSION, 'all' );
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -58,11 +86,9 @@ class BetterWidgetImageGallery extends ElebeeWidget {
     /**
      * Retrieve image gallery widget name.
      *
-     * @access public
-     *
-     * @return string Widget name.
+     * @since 0.1.0
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'better-image-gallery';
 
@@ -71,11 +97,9 @@ class BetterWidgetImageGallery extends ElebeeWidget {
     /**
      * Retrieve image gallery widget title.
      *
-     * @access public
-     *
-     * @return string Widget title.
+     * @since 0.1.0
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Better Image Gallery', 'elebee' );
 
@@ -84,11 +108,9 @@ class BetterWidgetImageGallery extends ElebeeWidget {
     /**
      * Retrieve image gallery widget icon.
      *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @since 0.1.0
      */
-    public function get_icon() {
+    public function get_icon(): string {
 
         return 'eicon-gallery-grid';
 
@@ -97,12 +119,11 @@ class BetterWidgetImageGallery extends ElebeeWidget {
     /**
      * Retrieve button sizes.
      *
-     * @access public
-     * @static
+     * @since 0.1.0
      *
      * @return array An array containing button sizes.
      */
-    public static function get_button_sizes() {
+    public static function get_button_sizes(): array {
 
         return [
             'xs' => __( 'Extra Small', 'elebee' ),
@@ -120,13 +141,13 @@ class BetterWidgetImageGallery extends ElebeeWidget {
      *
      * Used to add lightbox data attributes to image link HTML.
      *
-     * @access public
+     * @since 0.1.0
      *
      * @param string $link_html Image link HTML.
      *
      * @return string Image link HTML with lightbox data attributes.
      */
-    public function add_lightbox_data_to_image_link( $link_html ) {
+    public function add_lightbox_data_to_image_link( string $link_html ): string {
 
         return preg_replace( '/^<a/', '<a ' . $this->get_render_attribute_string( 'link' ), $link_html );
 
@@ -137,7 +158,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @access protected
+     * @since 0.1.0
      */
     protected function _register_controls() {
 
@@ -1337,6 +1358,10 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
     /**
      * Init galleries.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function initGalleries() {
 
@@ -1371,6 +1396,10 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
     /**
      * Init Wordpress galleries.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function initWordpressGalleries() {
 
@@ -1400,6 +1429,10 @@ class BetterWidgetImageGallery extends ElebeeWidget {
 
     /**
      * Init Gesamt galleries.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
     function initGesamtGalleries() {
 
@@ -1444,7 +1477,7 @@ class BetterWidgetImageGallery extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @access protected
+     * @since 0.1.0
      */
     protected function render() {
 

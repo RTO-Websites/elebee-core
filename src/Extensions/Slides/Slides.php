@@ -1,8 +1,11 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Extensions\Slides
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Slides.html
  */
 
 namespace ElebeeCore\Extensions\Slides;
@@ -14,6 +17,16 @@ use Elementor\Element_Base;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Class Slides
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Extensions\Slides
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Slides.html
+ */
 class Slides extends ExtensionBase {
 
     /**
@@ -34,7 +47,6 @@ class Slides extends ExtensionBase {
 
     /**
      * @since 0.2.0
-     * @param Element_Base $element
      */
     public function extend( Element_Base $element ) {
 

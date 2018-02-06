@@ -1,39 +1,63 @@
-<?php namespace ElebeeCore\Lib;
+<?php
 /**
- * @since 0.2.0
- * @author RTO GmbH <info@rto.de>
+ * HtmlCompression.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/HtmlCompression.html
  */
 
+namespace ElebeeCore\Lib;
+
+/**
+ * Class HtmlCompression
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/HtmlCompression.html
+ */
 class HtmlCompression {
 
     /**
+     * @since 0.2.0
      * @var bool
      */
     const COMPRESS_CSS = true;
 
     /**
+     * @since 0.2.0
      * @var bool
      */
     const COMPRESS_JS = false;
 
     /**
+     * @since 0.2.0
      * @var bool
      */
     const INFO_COMMENT = true;
 
     /**
+     * @since 0.2.0
      * @var bool
      */
     const REMOVE_COMMENTS = true;
 
     /**
-     * @var
+     * @since 0.2.0
+     * @var string
      */
     private $html;
 
     /**
-     * @return mixed
+     * @since 0.2.0
+     *
+     * @return string
      */
     public function __toString() {
 
@@ -42,11 +66,13 @@ class HtmlCompression {
     }
 
     /**
-     * @param $raw
-     * @param $compressed
+     * @since 0.2.0
+     *
+     * @param string $raw
+     * @param string $compressed
      * @return string
      */
-    private function bottomComment( $raw, $compressed ) {
+    private function bottomComment( string $raw, string $compressed ): string {
 
         $raw = strlen( $raw );
         $compressed = strlen( $compressed );
@@ -57,10 +83,12 @@ class HtmlCompression {
     }
 
     /**
-     * @param $html
+     * @since 0.2.0
+     *
+     * @param string $html
      * @return string
      */
-    private function minifyHTML( $html ) {
+    private function minifyHTML( string $html ): string {
 
         $pattern = '/<(?<script>script).*?<\/script\s*>|<(?<style>style).*?<\/style\s*>|<!(?<comment>--).*?-->|<(?<tag>[\/\w.:-]*)(?:".*?"|\'.*?\'|[^\'">]+)*>|(?<text>((<[^!\/\w.:-])?[^<]*)+)|/si';
         preg_match_all( $pattern, $html, $matches, PREG_SET_ORDER );
@@ -108,10 +136,12 @@ class HtmlCompression {
     }
 
     /**
-     * @param $html
+     * @since 0.2.0
+     *
+     * @param string $html
      * @return string
      */
-    public function parseHTML( $html ) {
+    public function parseHTML( string $html ): string {
 
         $this->html = $this->minifyHTML( $html );
         if ( self::INFO_COMMENT ) {
@@ -123,10 +153,12 @@ class HtmlCompression {
     }
 
     /**
-     * @param $str
-     * @return mixed
+     * @since 0.2.0
+     *
+     * @param string $str
+     * @return string
      */
-    private function removeWhiteSpace( $str ) {
+    private function removeWhiteSpace( string $str ): string {
 
         $str = str_replace( "\t", ' ', $str );
         $str = str_replace( "\n", '', $str );
@@ -139,7 +171,9 @@ class HtmlCompression {
     }
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public function start() {
 

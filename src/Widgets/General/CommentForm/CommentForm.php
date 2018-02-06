@@ -1,4 +1,14 @@
 <?php
+/**
+ * CommentForm.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentForm
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentForm/CommentForm.html
+ */
 
 namespace ElebeeCore\Widgets\General\CommentForm;
 
@@ -10,9 +20,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
-use ElebeeCore\Lib\Template;
 
 if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
@@ -24,13 +32,26 @@ if ( !defined( '__COMMENTFORM__' ) ) {
 
 /**
  * Image Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentForm
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentForm/CommentForm.html
  */
 class CommentForm extends ElebeeWidget {
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
         // TODO: Implement enqueueStyles() method.
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -38,11 +59,9 @@ class CommentForm extends ElebeeWidget {
     /**
      * Retrieve image widget name.
      *
-     * @access public
-     *
-     * @return string Widget name.
+     * @since 0.1.0
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'comment_form';
 
@@ -51,11 +70,9 @@ class CommentForm extends ElebeeWidget {
     /**
      * Retrieve image widget title.
      *
-     * @access public
-     *
-     * @return string Widget title.
+     * @since 0.1.0
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Comment Form', 'elebee' );
 
@@ -64,11 +81,9 @@ class CommentForm extends ElebeeWidget {
     /**
      * Retrieve image widget icon.
      *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @since 0.1.0
      */
-    public function get_icon() {
+    public function get_icon(): string {
 
         return 'fa fa-wpforms';
 
@@ -79,7 +94,9 @@ class CommentForm extends ElebeeWidget {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function _register_controls() {
 
@@ -749,7 +766,12 @@ class CommentForm extends ElebeeWidget {
 
     }
 
-    protected function get_comment_all_pages() {
+    /**
+     * @since 0.1.0
+     *
+     * @return array
+     */
+    protected function get_comment_all_pages(): array {
 
         $pages = get_pages();
 
@@ -772,7 +794,9 @@ class CommentForm extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function render() {
 

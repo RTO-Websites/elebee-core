@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.2.0
- * @author RTO GmbH <info@rto.de>
+ * PostTypeSupport.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\PostTypeSupport
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupport.html
  */
 
 namespace ElebeeCore\Lib\PostTypeSupport;
@@ -10,15 +15,29 @@ namespace ElebeeCore\Lib\PostTypeSupport;
 
 use ElebeeCore\Lib\Hooking;
 
+/**
+ * Class PostTypeSupport
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\PostTypeSupport
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupport.html
+ */
 abstract class PostTypeSupport extends Hooking {
 
     /**
+     * @since 0.2.0
      * @var string
      */
     private $hook;
 
     /**
      * ThemeSupport constructor.
+     *
+     * @since 0.2.0
+     *
      * @param string $hook
      */
     public function __construct( string $hook ) {
@@ -30,6 +49,8 @@ abstract class PostTypeSupport extends Hooking {
     }
 
     /**
+     * @since 0.2.0
+     *
      * @return string
      */
     public function getHook() {
@@ -38,12 +59,18 @@ abstract class PostTypeSupport extends Hooking {
 
     }
 
+    /**
+     * @since 0.2.0
+     */
     public function defineAdminHooks() {
 
         // TODO: Implement defineAdminHooks() method.
 
     }
 
+    /**
+     * @since 0.2.0
+     */
     public function definePublicHooks() {
 
         $this->getLoader()->addAction( $this->getHook(), $this, 'hookCallback' );
@@ -51,12 +78,16 @@ abstract class PostTypeSupport extends Hooking {
     }
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public abstract function hookCallback();
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public function addPostTypeSupport() {
 

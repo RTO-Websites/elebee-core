@@ -1,4 +1,14 @@
 <?php
+/**
+ * SkinArchive.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Skins
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ */
 
 namespace ElebeeCore\Skins;
 
@@ -8,20 +18,45 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
 
+/**
+ * Class SkinArchive
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Skins
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ */
 class SkinArchive extends Skin_Base {
 
-    public function get_id() {
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function get_id(): string {
 
         return 'rto';
 
     }
 
-    public function get_title() {
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function get_title(): string {
 
         return __( 'RTO', 'elebee' );
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function _register_controls_actions() {
 
         add_action( 'elementor/element/posts/section_layout/before_section_end', [ $this, 'register_controls' ] );
@@ -31,6 +66,12 @@ class SkinArchive extends Skin_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Widget_Base $widget
+     * @return void
+     */
     public function registerArchiveSection( Widget_Base $widget ) {
 
         $this->start_controls_section(
@@ -80,6 +121,11 @@ class SkinArchive extends Skin_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     public function registerArchiveStyleSection() {
 
         $this->start_controls_section(
@@ -114,6 +160,11 @@ class SkinArchive extends Skin_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_post() {
 
         $this->render_post_header();
@@ -128,6 +179,11 @@ class SkinArchive extends Skin_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_loop_header() {
 
         $this->render_archive_link( 'above' );
@@ -135,6 +191,11 @@ class SkinArchive extends Skin_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_loop_footer() {
 
         parent::render_loop_footer();
@@ -142,7 +203,13 @@ class SkinArchive extends Skin_Base {
 
     }
 
-    private function render_archive_link( $where ) {
+    /**
+     * @since 0.1.0
+     *
+     * @param string $where
+     * @return void
+     */
+    private function render_archive_link( string $where ) {
 
         $parentSettings = $this->parent->get_settings();
         $showArchiveLink = in_array( $parentSettings[$this->get_id() . '_add_archive_link'], [ $where, 'both' ] );

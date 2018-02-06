@@ -1,6 +1,13 @@
 <?php
 /**
  * MetaKeyTaxonomy.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTaxonomy.html
  */
 
 namespace ElebeeCore\Lib\MetaBox;
@@ -11,39 +18,37 @@ use ElebeeCore\Lib\Template;
 /**
  * Class MetaKeyTaxonomy
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTaxonomy.html
  */
 class MetaKeyTaxonomy extends MetaKey {
 
     /**
-     * @var array
-     *
      * @since 0.2.0
-     * @ignore
+     * @var array
      */
     private $taxonomy;
 
     /**
-     * @var Template
-     *
      * @since 0.2.0
-     * @ignore
+     * @var Template
      */
     private $termTemplate;
 
     /**
      * MetaKeyCheckbox constructor.
      *
-     * @param $key
-     * @param $label
-     * @param int $type
-     *
      * @since 0.2.0
+     *
+     * @param string $key
+     * @param string $label
+     * @param int    $type
      */
-    public function __construct( $key, $label, $type = self::TYPE_ARRAY ) {
+    public function __construct( string $key, string $label, int $type = self::TYPE_ARRAY ) {
 
         $this->taxonomy = [];
 
@@ -59,11 +64,10 @@ class MetaKeyTaxonomy extends MetaKey {
     /**
      * Add a taxonomy.
      *
-     * @param $taxonomy
-     *
-     * @return void
-     *
      * @since 0.2.0
+     *
+     * @param $taxonomy
+     * @return void
      */
     public function addTaxonomy( $taxonomy ) {
 
@@ -74,11 +78,11 @@ class MetaKeyTaxonomy extends MetaKey {
     /**
      * Get the taxonomies.
      *
-     * @return array
-     *
      * @since 0.2.0
+     *
+     * @return array
      */
-    public function getTaxonomies() {
+    public function getTaxonomies(): array {
 
         return $this->taxonomy;
 
@@ -87,11 +91,10 @@ class MetaKeyTaxonomy extends MetaKey {
     /**
      * Set the term template.
      *
-     * @param Template $template
-     *
-     * @return void
-     *
      * @since 0.2.0
+     *
+     * @param Template $template
+     * @return void
      */
     public function setTermTemplate( Template $template ) {
 
@@ -101,13 +104,11 @@ class MetaKeyTaxonomy extends MetaKey {
     }
 
     /**
-     * {@inheritdoc}
      *
-     * @param $postId
-     *
+     * @param int $postId
      * @return array
      */
-    public function getValue( $postId = null ) {
+    public function getValue( int $postId ): array {
 
         $value = parent::getValue( $postId );
         return empty( $value ) ? [] : $value;

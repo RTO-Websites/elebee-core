@@ -1,6 +1,13 @@
 <?php
 /**
  * Control.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Control.html
  */
 
 namespace ElebeeCore\Lib\ThemeCustomizer;
@@ -9,15 +16,17 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 /**
  * Class Control
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Control.html
  */
 class Control extends ThemeCustommizerElement {
 
     /**
-     * {@inheritdoc}
+     * @since 0.2.0
      */
     public function register( \WP_Customize_Manager $wpCustomize ) {
 

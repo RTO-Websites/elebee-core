@@ -1,8 +1,11 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Extensions\Sticky
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Sticky.html
  */
 
 namespace ElebeeCore\Extensions\Sticky;
@@ -13,35 +16,52 @@ use ElebeeCore\Lib\Elebee;
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
 
+/**
+ * Class Sticky
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Extensions\Sticky
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Sticky.html
+ */
 class Sticky extends ExtensionBase {
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $controlStickyId;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $controlStickyPlaceholderId;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $controlStickyPositionId;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $controlStickyOffsetId;
 
     /**
+     * @since 0.1.0
      * @var bool
      */
     private static $enqueueScripts = false;
 
     /**
      * Sticky constructor.
+     *
+     * @since 0.1.0
      */
     public function __construct() {
 
@@ -71,7 +91,7 @@ class Sticky extends ExtensionBase {
     }
 
     /**
-     * @param Element_Base $element
+     * @since 0.1.0
      */
     public function extend( Element_Base $element ) {
 
@@ -142,7 +162,9 @@ class Sticky extends ExtensionBase {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function enqueueScrips() {
 
@@ -155,7 +177,10 @@ class Sticky extends ExtensionBase {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Element_Base $element
+     * @return void
      */
     public function setRenderAttributes( Element_Base $element ) {
 

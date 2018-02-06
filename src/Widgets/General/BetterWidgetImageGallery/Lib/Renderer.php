@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * Renderer.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Renderer.html
  */
 
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
@@ -12,20 +17,35 @@ use ElebeeCore\Lib\Template;
 use ElebeeCore\Lib\Visitee;
 use ElebeeCore\Lib\Visitor;
 
+/**
+ * Class Renderer
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Renderer.html
+ */
 class Renderer implements Visitor {
 
     /**
+     * @since 0.1.0
      * @var array
      */
     private $widgetSettings;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $modalId;
 
     /**
      * Renderer constructor.
+     *
+     * @since 0.1.0
+     *
      * @param array $widgetSettings
      */
     public function __construct( array $widgetSettings ) {
@@ -36,6 +56,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return bool
      */
     public function inModal(): bool {
@@ -45,6 +67,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     public function getModalId(): string {
@@ -54,6 +78,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Visitee $visitee
      */
     public function visit( Visitee $visitee ) {
@@ -80,6 +106,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Album $album
      */
     private function renderAlbum( Album $album ) {
@@ -98,6 +126,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      */
     private function renderGallery( Gallery $gallery ) {
@@ -125,6 +155,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     private function getRenderedBackLink(): string {
@@ -149,6 +181,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      * @return string
      */
@@ -163,6 +197,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      * @return string
      */
@@ -188,6 +224,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param string $content
      * @return string
      */
@@ -205,7 +243,10 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Image $image
+     * @return void
      */
     private function renderImage( Image $image ) {
 
@@ -229,6 +270,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Image $image
      * @return string
      */

@@ -1,39 +1,54 @@
-<?php namespace ElebeeCore\Lib;
+<?php
+/**
+ * Template.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Template.html
+ */
+
+namespace ElebeeCore\Lib;
 
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * Class Template
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Template.html
  */
 class Template {
 
     /**
      * The variables passed to the template file.
      *
-     * @var array
-     *
      * @since 0.1.0
+     * @var array
      */
     protected $vars;
 
     /**
      * Filename of the view.
      *
-     * @var string
-     *
      * @since 0.1.0
+     * @var string
      */
     protected $file;
 
     /**
      * Template constructor.
      *
-     * @param string $file
-     * @param array $vars (optional)
-     *
      * @since 0.1.0
+     *
+     * @param string $file
+     * @param array  $vars (optional)
      */
-    public function __construct( $file, $vars = [] ) {
+    public function __construct( string $file, array $vars = [] ) {
 
         $this->file = $file;
         $this->vars = $vars;
@@ -43,12 +58,13 @@ class Template {
     /**
      * Set a variable.
      *
-     * @param $var
-     * @param $value
+     * @since 0.1.0
      *
+     * @param string $var
+     * @param mixed  $value
      * @return void
      */
-    public function setVar( $var, $value ) {
+    public function setVar( string $var, $value ) {
 
         $this->vars[$var] = $value;
 
@@ -57,11 +73,11 @@ class Template {
     /**
      * Get the rendered template.
      *
-     * @return string
-     *
      * @since 0.1.0
+     *
+     * @return string
      */
-    public function getRendered() {
+    public function getRendered(): string {
 
         return getContents( $this->file, $this->vars );
 
@@ -70,9 +86,9 @@ class Template {
     /**
      * Renders the template.
      *
-     * @return void
+     * @since 0.1.0
      *
-     * @since 1.7.0
+     * @return void
      */
     public function render() {
 
@@ -81,6 +97,8 @@ class Template {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param array $attributes
      * @return string
      */
@@ -104,11 +122,13 @@ class Template {
 /**
  * Get contents of a template file in a neutral context.
  *
- * @param $file
- * @param $vars
+ * @since 0.1.0
+ *
+ * @param string $file
+ * @param array  $vars
  * @return string
  */
-function getContents( $file, $vars ) {
+function getContents( string $file, array $vars ): string {
 
     extract( $vars );
     ob_start();

@@ -2,6 +2,13 @@
 
 /**
  * ThemeCustommizerElement.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizerElement.html
  */
 
 namespace ElebeeCore\Lib\ThemeCustomizer;
@@ -10,36 +17,36 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 /**
  * Class ThemeCustommizerElement
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizerElement.html
  */
 abstract class ThemeCustommizerElement {
 
     /**
-     * @var
-     *
-     * @ignore
+     * @since 0.2.0
+     * @var string
      */
     private $id;
 
     /**
+     * @since 0.2.0
      * @var array
-     *
-     * @ignore
      */
     private $args;
 
     /**
      * ThemeCustommizerElement constructor.
      *
-     * @param $id
-     * @param array $args
+     * @since 0.2.0
      *
-     * @return void
+     * @param string $id
+     * @param array  $args
      */
-    public function __construct( $id, array $args ) {
+    public function __construct( string $id, array $args ) {
 
         $this->id = $id;
         $this->args = $args;
@@ -49,7 +56,9 @@ abstract class ThemeCustommizerElement {
     /**
      * Get the id.
      *
-     * @return mixed
+     * @since 0.2.0
+     *
+     * @return string
      */
     public function getId() {
 
@@ -59,6 +68,8 @@ abstract class ThemeCustommizerElement {
 
     /**
      * Get the all arguments.
+     *
+     * @since 0.2.0
      *
      * @return array
      */
@@ -71,12 +82,14 @@ abstract class ThemeCustommizerElement {
     /**
      * Set argument.
      *
-     * @param $name
-     * @param $value
+     * @since 0.2.0
+     *
+     * @param string $name
+     * @param string $value
      *
      * @return void
      */
-    public function setArg( $name, $value ) {
+    public function setArg( string $name, string $value ) {
 
         $this->args[$name] = $value;
 
@@ -85,8 +98,9 @@ abstract class ThemeCustommizerElement {
     /**
      * Register the customizer element with the WP_Csutomize_Manager
      *
-     * @param \WP_Customize_Manager $wpCustomize
+     * @since 0.2.0
      *
+     * @param \WP_Customize_Manager $wpCustomize
      * @return void
      */
     public abstract function register( \WP_Customize_Manager $wpCustomize );

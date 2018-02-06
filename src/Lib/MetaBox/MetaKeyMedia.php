@@ -1,6 +1,13 @@
 <?php
 /**
  * MetaKeyMedia.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyMedia.html
  */
 
 namespace ElebeeCore\Lib\MetaBox;
@@ -11,21 +18,23 @@ use ElebeeCore\Lib\Template;
 /**
  * Class MetaKeyMedia
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyMedia.html
  */
 class MetaKeyMedia extends MetaKey {
 
     /**
      * MetaKeyCheckbox constructor.
      *
-     * @param $key
-     * @param $label
-     * @param int $type
+     * @param string $key
+     * @param string $label
+     * @param int    $type
      */
-    public function __construct( $key, $label, $type = self::TYPE_DEFAULT ) {
+    public function __construct( string $key, string $label, int $type = self::TYPE_DEFAULT ) {
 
         $defaultTemplate = new Template( __DIR__ . '/partials/meta-key-media-default.php' );
         $this->setTemplate( $defaultTemplate );
@@ -37,14 +46,16 @@ class MetaKeyMedia extends MetaKey {
     /**
      * Echo the post media.
      *
-     * @param $key
-     * @param null $postId
-     * @param string $size
-     * @param string $attr
+     * @since   0.2.0
+     *
+     * @param string   $key
+     * @param null|int $postId
+     * @param string   $size
+     * @param string   $attr
      *
      * @return void
      */
-    public static function thePostMedia( $key, $postId = null, $size = 'thumbnail', $attr = '' ) {
+    public static function thePostMedia( string $key, int $postId = null, string $size = 'thumbnail', string $attr = '' ) {
 
         echo self::getThePostMedia( $key, $postId, $size, $attr );
 
@@ -53,14 +64,16 @@ class MetaKeyMedia extends MetaKey {
     /**
      * Get the post media.
      *
-     * @param $key
-     * @param null $postId
-     * @param string $size
-     * @param string $attr
+     * @since   0.2.0
+     *
+     * @param string   $key
+     * @param null|int $postId
+     * @param string   $size
+     * @param string   $attr
      *
      * @return string
      */
-    public static function getThePostMedia( $key, $postId = null, $size = 'thumbnail', $attr = '' ) {
+    public static function getThePostMedia( string $key, int $postId = null, string $size = 'thumbnail', string $attr = '' ): string {
 
         return wp_get_attachment_image( self::getPostMediaId( $key, $postId ), $size, false, $attr );
 
@@ -69,12 +82,14 @@ class MetaKeyMedia extends MetaKey {
     /**
      * Get the post media id.
      *
-     * @param $key
-     * @param null $postId
+     * @since   0.2.0
+     *
+     * @param string   $key
+     * @param null|int $postId
      *
      * @return mixed
      */
-    public static function getPostMediaId( $key, $postId = null ) {
+    public static function getPostMediaId( string $key, int $postId = null ) {
 
         if ( null === $postId ) {
             $postId = get_the_ID();

@@ -19,11 +19,12 @@ use Elementor\Widget_Base;
 /**
  * The public-facing functionality of the theme.
  *
- * @link       https://www.rto.de/
- * @since      0.1.0
+ * @since   0.1.0
  *
- * @package    Elebee
- * @subpackage Elebee/public
+ * @package ElebeeCore\Pub
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
  */
 
 /**
@@ -32,38 +33,40 @@ use Elementor\Widget_Base;
  * Defines the theme name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Elebee
- * @subpackage Elebee/public
- * @author     RTO GmbH <info@rto.de>
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Pub
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
  */
 class ElebeePublic {
 
     /**
      * The ID of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $themeName The ID of this theme.
+     * @since 0.1.0
+     * @var string The ID of this theme.
      */
     private $themeName;
 
     /**
      * The version of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $version The current version of this theme.
+     * @since 0.1.0
+     * @var string $version The current version of this theme.
      */
     private $version;
 
     /**
      * Initialize the class and set its properties.
      *
-     * @since    0.1.0
-     * @param      string $themeName The name of the theme.
-     * @param      string $version The version of this theme.
+     * @since 0.1.0
+     *
+     * @param string $themeName The name of the theme.
+     * @param string $version   The version of this theme.
      */
-    public function __construct( $themeName, $version ) {
+    public function __construct( string $themeName, string $version ) {
 
         $this->themeName = $themeName;
         $this->version = $version;
@@ -71,7 +74,9 @@ class ElebeePublic {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function elementorInit() {
 
@@ -102,6 +107,8 @@ class ElebeePublic {
      * Register Widget
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     public function registerWidgets() {
 
@@ -114,6 +121,13 @@ class ElebeePublic {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Widget_Base $widget
+     *
+     * @return void
+     */
     public function addWidgetPostsSkins( Widget_Base $widget ) {
 
         $widget->add_skin( new SkinArchive( $widget ) );
@@ -123,6 +137,8 @@ class ElebeePublic {
      * Register Widget
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     public function registerExclusiveWidgets() {
 
@@ -139,7 +155,9 @@ class ElebeePublic {
     /**
      * Register the stylesheets for the public-facing side of the site.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function enqueueStyles() {
 
@@ -162,7 +180,9 @@ class ElebeePublic {
     /**
      * Register the stylesheets for the public-facing side of the site.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function enqueueScripts() {
 
@@ -190,7 +210,9 @@ class ElebeePublic {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function loadExtensions() {
 

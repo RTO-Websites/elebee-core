@@ -1,7 +1,12 @@
 <?php
 
 /**
- * MetaBox.php
+ * @since   0.3.0
+ *
+ * @package ElebeeCore\Admin
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaBox.html
  */
 
 namespace ElebeeCore\Lib\MetaBox;
@@ -12,58 +17,65 @@ use ElebeeCore\Lib\Template;
 /**
  * Class MetaBox
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.3.0
+ *
+ * @package ElebeeCore\Admin
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaBox.html
  */
 class MetaBox {
 
     /**
-     * @var
+     * @since 0.2.0
+     * @var string
      */
     private $id;
 
     /**
-     * @var
+     * @since 0.2.0
+     * @var string
      */
     private $title;
 
     /**
+     * @since 0.2.0
      * @var string
-     *
-     * @ignore
      */
     private $context;
 
     /**
+     * @since 0.2.0
      * @var int
      */
     private $priority;
 
     /**
+     * @since 0.2.0
      * @var Template
-     *
-     * @ignore
      */
     private $template;
 
     /**
+     * @since 0.2.0
      * @var array
      */
     private $metaKeyList;
 
     /**
+     * @since 0.2.0
      * @var array
      */
     private $postTypeList;
 
     /**
+     * @since 0.2.0
      * @var string
      */
     private $nonceName;
 
     /**
+     * @since 0.2.0
      * @var string
      */
     private $nonceAction;
@@ -71,13 +83,15 @@ class MetaBox {
     /**
      * MetaBox constructor.
      *
-     * @param $id
-     * @param $title
-     * @param $context
-     * @param int $priority (optional)
+     * @since 0.2.0
+     *
+     * @param string   $id
+     * @param string   $title
+     * @param string   $context
+     * @param int      $priority (optional)
      * @param Template $template (optional)
      */
-    public function __construct( $id, $title, $context = 'advanced', $priority = 10, Template $template = null ) {
+    public function __construct( string $id, string $title, string $context = 'advanced', int $priority = 10, Template $template = null ) {
 
         $this->id = $id;
         $this->title = $title;
@@ -102,9 +116,11 @@ class MetaBox {
     /**
      * Get the meta key list.
      *
+     * @since 0.2.0
+     *
      * @return array
      */
-    public function getMetaKeyList() {
+    public function getMetaKeyList(): array {
 
         return $this->metaKeyList;
 
@@ -113,8 +129,9 @@ class MetaBox {
     /**
      * Add a meta key
      *
-     * @param MetaKey $metaKey
+     * @since 0.2.0
      *
+     * @param MetaKey $metaKey
      * @return void
      */
     public function addMetaKey( MetaKey $metaKey ) {
@@ -130,12 +147,13 @@ class MetaBox {
      * Note: By default the meta box will be added to every post type.
      * If you add supported post types, the meta box will only appear on these post types.
      *
-     * @param $postType
-     * @param int $priority (optional)
+     * @since 0.2.0
      *
+     * @param string $postType
+     * @param int    $priority (optional)
      * @return void
      */
-    public function addPostTypeSupport( $postType, $priority = 10 ) {
+    public function addPostTypeSupport( string $postType, int $priority = 10 ) {
 
         $this->postTypeList[] = $postType;
 
@@ -147,8 +165,9 @@ class MetaBox {
     /**
      * 'add_meta_boxes' action hook callback.
      *
-     * @param $post
+     * @since 0.2.0
      *
+     * @param \WP_Post|string $post
      * @return void
      */
     public function actionAddMetaBox( $post ) {
@@ -161,8 +180,9 @@ class MetaBox {
     /**
      * Renders the meta box.
      *
-     * @param $post
+     * @since 0.2.0
      *
+     * @param $post
      * @return void
      */
     public function renderMetaBox( $post ) {
@@ -176,13 +196,13 @@ class MetaBox {
     /**
      * 'save_post' action hook callback.
      *
-     * @param $postId
-     * @param $post
-     * @param $update
+     * @param int      $postId
+     * @param \WP_Post $post
+     * @param          $update
      *
      * @return void
      */
-    public function actionSavePost( $postId, $post, $update ) {
+    public function actionSavePost( int $postId, \WP_Post $post, $update ) {
 
         $postType = get_post_type_object( $post->post_type );
         $currentUserCanEditPostType = current_user_can( $postType->cap->edit_post, $postId );
@@ -209,12 +229,13 @@ class MetaBox {
     /**
      * Get the post meta.
      *
-     * @param $metaKey
-     * @param mixed|null $postId (optional)
+     * @since 0.2.0
      *
+     * @param string   $metaKey
+     * @param int|null $postId (optional)
      * @return mixed
      */
-    public function getPostMeta( $metaKey, $postId = null ) {
+    public function getPostMeta( string $metaKey, int $postId = null ) {
 
         if ( $postId === null ) {
             $postId = get_the_ID();
@@ -227,8 +248,9 @@ class MetaBox {
     /**
      * Get all post metas.
      *
-     * @param mixed|null $postId (optional)
+     * @since 0.2.0
      *
+     * @param int|null $postId (optional)
      * @return array
      */
     public function getPostMetas( $postId = null ) {
@@ -244,7 +266,9 @@ class MetaBox {
     }
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public function register() {
 

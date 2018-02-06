@@ -1,6 +1,13 @@
 <?php
 /**
  * MetaKeyChoice.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyChoice.html
  */
 
 namespace ElebeeCore\Lib\MetaBox;
@@ -11,28 +18,31 @@ use ElebeeCore\Lib\Template;
 /**
  * Class MetaKeyChoice
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\MetaBox
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyChoice.html
  */
 class MetaKeyChoice extends MetaKey {
 
     /**
+     * @since 0.2.0
      * @var array
-     *
-     * @ignore
      */
     private $choices;
 
     /**
      * MetaKeyTextfield constructor.
      *
-     * @param $key
-     * @param $label
-     * @param int $type
+     * @since   0.2.0
+     *
+     * @param string $key
+     * @param string $label
+     * @param int    $type
      */
-    public function __construct( $key, $label, $type = self::TYPE_DEFAULT ) {
+    public function __construct( string $key, string $label, int $type = self::TYPE_DEFAULT ) {
 
         $this->choices = [];
 
@@ -46,9 +56,11 @@ class MetaKeyChoice extends MetaKey {
     /**
      * Get the choices.
      *
+     * @since   0.2.0
+     *
      * @return array
      */
-    public function getChoices() {
+    public function getChoices(): array {
 
         return $this->choices;
 
@@ -57,12 +69,14 @@ class MetaKeyChoice extends MetaKey {
     /**
      * Add a choice.
      *
-     * @param $value
-     * @param $label
+     * @since   0.2.0
+     *
+     * @param string $value
+     * @param string $label
      *
      * @return void
      */
-    public function addChoice( $value, $label ) {
+    public function addChoice( string $value, string $label ) {
 
         $this->choices[] = [
             'value' => $value,

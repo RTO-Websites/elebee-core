@@ -1,6 +1,13 @@
 <?php
 /**
  * Setting.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Setting.html
  */
 
 namespace ElebeeCore\Lib\ThemeCustomizer;
@@ -9,27 +16,31 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 /**
  * Class Setting
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\ThemeCustomizer
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Setting.html
  */
 class Setting extends ThemeCustommizerElement {
 
     /**
+     * @since 0.2.0
      * @var Control
-     * @ignore
      */
     private $control;
 
     /**
      * Setting constructor.
      *
-     * @param $id
-     * @param array $settingArgs
-     * @param array $controlArgs (optional)
+     * @since 0.2.0
+     *
+     * @param string $id
+     * @param array  $settingArgs
+     * @param array  $controlArgs (optional)
      */
-    public function __construct( $id, array $settingArgs, array $controlArgs = [] ) {
+    public function __construct( string $id, array $settingArgs, array $controlArgs = [] ) {
 
         parent::__construct( $id, $settingArgs );
         $this->control = new Control( $id . '_control', $controlArgs );
@@ -40,16 +51,18 @@ class Setting extends ThemeCustommizerElement {
     /**
      * Get the associated control.
      *
+     * @since 0.2.0
+     *
      * @return Control
      */
-    public function getControl() {
+    public function getControl(): Control {
 
         return $this->control;
 
     }
 
     /**
-     * {@inheritdoc}
+     * @since 0.2.0
      */
     public function register( \WP_Customize_Manager $wpCustomize ) {
 

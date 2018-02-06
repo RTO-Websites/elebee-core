@@ -2,6 +2,13 @@
 
 /**
  * Cookie.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\Util
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Cookie.html
  */
 
 namespace ElebeeCore\Lib\Util;
@@ -10,21 +17,24 @@ namespace ElebeeCore\Lib\Util;
 /**
  * Class Cookie
  *
- * @package ElebeeCore
- * @author RTO GmbH <info@rto.de>
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\Util
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @since 0.2.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Cookie.html
  */
 class Cookie {
 
     /**
      * Read a cookie.
      *
-     * @param string $name
+     * @since   0.2.0
      *
-     * @return mixed
+     * @param string $name
+     * @return string|null
      */
-    public static function read( $name ) {
+    public static function read( $name ) : string {
 
         /*
          * Dont't use filter_input in this place.
@@ -36,6 +46,8 @@ class Cookie {
 
     /**
      * Write a cookie.
+     *
+     * @since   0.2.0
      *
      * @param string $name
      * @param mixed $value

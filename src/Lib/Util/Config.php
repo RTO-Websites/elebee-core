@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.2.0
- * @author RTO GmbH <info@rto.de>
+ * Config.php
+ *
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\Util
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Config.html
  */
 
 namespace ElebeeCore\Lib\Util;
@@ -11,17 +16,22 @@ namespace ElebeeCore\Lib\Util;
 /**
  * Class Config
  *
- * @since 0.2.0
- * @package ElebeeCore\Lib
+ * @since   0.2.0
+ *
+ * @package ElebeeCore\Lib\Util
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Config.html
  */
 class Config {
 
     /**
      * @since 0.2.0
-     * @param $header
-     * @return mixed
+     *
+     * @param string $header
+     * @return string
      */
-    public static function disableRedirectGuess( $header ) {
+    public static function disableRedirectGuess( string $header ): string {
 
         global $wp_query;
 
@@ -33,7 +43,9 @@ class Config {
     }
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public static function disableEmojies() {
 
@@ -48,6 +60,8 @@ class Config {
     }
 
     /**
+     * @since 0.2.0
+     *
      * @param $plugins
      * @return array
      */
@@ -64,7 +78,9 @@ class Config {
     }
 
     /**
+     * @since 0.2.0
      *
+     * @return void
      */
     public static function cleanUpHead() {
 
@@ -83,6 +99,8 @@ class Config {
     }
 
     /**
+     * @since 0.2.0
+     *
      * @param array $settings
      * @return array
      */

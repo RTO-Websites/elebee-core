@@ -1,4 +1,14 @@
 <?php
+/**
+ * AspectRatioImage.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/AspectRatioImage/AspectRatioImage.html
+ */
 
 namespace ElebeeCore\Widgets\General\AspectRatioImage;
 
@@ -10,7 +20,6 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
@@ -20,13 +29,26 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Image Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/AspectRatioImage/AspectRatioImage.html
  */
 class AspectRatioImage extends ElebeeWidget {
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
         // TODO: Implement enqueueStyles() method.
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -34,11 +56,9 @@ class AspectRatioImage extends ElebeeWidget {
     /**
      * Retrieve image widget name.
      *
-     * @access public
-     *
-     * @return string Widget name.
+     * @since 0.1.0
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'aspect_image_image';
 
@@ -47,11 +67,9 @@ class AspectRatioImage extends ElebeeWidget {
     /**
      * Retrieve image widget title.
      *
-     * @access public
-     *
-     * @return string Widget title.
+     * @since 0.1.0
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Aspect Ratio Image', 'elebee' );
 
@@ -60,11 +78,9 @@ class AspectRatioImage extends ElebeeWidget {
     /**
      * Retrieve image widget icon.
      *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @since 0.1.0
      */
-    public function get_icon() {
+    public function get_icon(): string {
 
         return 'eicon-insert-image';
 
@@ -75,7 +91,7 @@ class AspectRatioImage extends ElebeeWidget {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @access protected
+     * @since 0.1.0
      */
     protected function _register_controls() {
 
@@ -282,7 +298,9 @@ class AspectRatioImage extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function render() {
 
@@ -324,8 +342,6 @@ class AspectRatioImage extends ElebeeWidget {
 
     /**
      * Retrieve image widget link URL.
-     *
-     * @access private
      *
      * @param object $instance
      *

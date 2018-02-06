@@ -1,9 +1,18 @@
 <?php
+/**
+ * PostTypeArchive.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ */
 
 namespace ElebeeCore\Widgets\Exclusive\PostTypeArchive;
 
 use Elementor\Group_Control_Typography;
-use Elementor\Plugin;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
@@ -11,15 +20,27 @@ use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 use WP_Query;
 
+/**
+ * Class PostTypeArchive
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ */
 class PostTypeArchive extends ElebeeWidget {
 
     /**
-     * @var
+     * @since 0.1.0
+     * @var array
      */
     protected $postTypes;
 
     /**
-     * @var
+     * @since 0.1.0
+     * @var array
      */
     protected $taxonomies;
 
@@ -29,39 +50,47 @@ class PostTypeArchive extends ElebeeWidget {
     protected $terms;
 
     /**
-     *
+     * @since 0.1.0
+     * @var bool
      */
     protected $isForArchive;
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'post-type-archive';
 
     }
 
     /**
-     * @return string|void
+     * @since 0.1.0
+     * @return string
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Post type archive', 'elebee' );
 
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
-    public function get_categories() {
+    public function get_categories(): array {
 
         return [ 'rto-elements-exclusive' ];
 
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function enqueueStyles() {
 
@@ -70,14 +99,18 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     protected function _register_controls() {
 
@@ -380,7 +413,9 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     private function addTaxonomyControls() {
 
@@ -420,10 +455,13 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
-     * @param $taxonomies
-     * @param $postType
+     * @since 0.1.0
+     *
+     * @param array  $taxonomies
+     * @param string $postType
+     * @return void
      */
-    private function addTermControls( $taxonomies, $postType ) {
+    private function addTermControls( array $taxonomies, string $postType ) {
 
         foreach ( $taxonomies as $taxName => $name ) {
             $terms = $this->getTermsForTaxonomy( $taxName );
@@ -447,6 +485,8 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
     private function getPostTypes(): array {
@@ -462,10 +502,12 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
-     * @param $name
+     * @since 0.1.0
+     *
+     * @param string $name
      * @return array
      */
-    private function getTaxonomiesForPostType( $name ): array {
+    private function getTaxonomiesForPostType( string $name ): array {
 
         $taxonomies = [];
 
@@ -479,10 +521,12 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param $name
      * @return array
      */
-    private function getTermsForTaxonomy( $name ): array {
+    private function getTermsForTaxonomy( string $name ): array {
 
         $terms = [];
 
@@ -496,9 +540,11 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return bool
      */
-    protected function isForArchive() {
+    protected function isForArchive(): bool {
 
         if ( is_archive() ) {
             return true;
@@ -516,9 +562,11 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
-    protected function getArchiveSettings() {
+    protected function getArchiveSettings(): array {
 
         return [
             'posts_per_page' => -1,
@@ -526,7 +574,13 @@ class PostTypeArchive extends ElebeeWidget {
 
     }
 
-    protected function getQuerySettings( $postType ) {
+    /**
+     * @since 0.1.0
+     *
+     * @param $postType
+     * @return array
+     */
+    protected function getQuerySettings( $postType ): array {
 
         $settings = $this->get_settings();
         $args = [
@@ -548,7 +602,9 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     protected function render() {
 
@@ -597,7 +653,10 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Template $renderer
+     * @return void
      */
     protected function setRendererVarsForGrayscale( Template &$renderer ) {
 
@@ -621,7 +680,10 @@ class PostTypeArchive extends ElebeeWidget {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Template $renderer
+     * @return void
      */
     protected function setRendererVarsForExcerpts( Template &$renderer ) {
 

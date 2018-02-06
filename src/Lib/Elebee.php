@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * Elebee.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Elebee.html
  */
 
 namespace ElebeeCore\Lib;
@@ -20,14 +25,23 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
+/**
+ * Class Elebee
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Elebee.html
+ */
 class Elebee {
 
     /**
      * The current version of the theme.
      *
-     * @since    0.1.0
-     * @access   public
-     * @var      const    VERSION    The current version of the theme.
+     * @since 0.1.0
+     * @var string The current version of the theme.
      */
     const VERSION = '0.1.0';
 
@@ -35,18 +49,16 @@ class Elebee {
      * The loader that's responsible for maintaining and registering all hooks that power
      * the theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      ElebeeLoader $loader Maintains and registers all hooks for the theme.
+     * @since 0.1.0
+     * @var ElebeeLoader Maintains and registers all hooks for the theme.
      */
     private $loader;
 
     /**
      * The unique identifier of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $themeName The string used to uniquely identify this theme.
+     * @since 0.1.0
+     * @var string The string used to uniquely identify this theme.
      */
     private $themeName;
 
@@ -87,7 +99,8 @@ class Elebee {
      * with WordPress.
      *
      * @since    0.1.0
-     * @access   private
+     *
+     * @return void
      */
     private function loadDependencies() {
 
@@ -101,8 +114,9 @@ class Elebee {
      * Uses the ElebeeI18n class in order to set the domain and to register the hook
      * with WordPress.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function setLocale() {
 
@@ -114,6 +128,8 @@ class Elebee {
 
     /**
      * @since 0.2.0
+     *
+     * @return void
      */
     private function setupPostTypeSupport() {
 
@@ -124,6 +140,8 @@ class Elebee {
 
     /**
      * @since 0.1.0
+     *
+     * @return void
      */
     private function setupThemeSupport() {
 
@@ -140,6 +158,8 @@ class Elebee {
 
     /**
      * @since 0.2.0
+     *
+     * @return void
      */
     public function setupThemeCustomizer() {
 
@@ -149,8 +169,10 @@ class Elebee {
 
     }
 
-    /*
+    /**
      * @since 0.2.0
+     *
+     * @return void
      */
     public function setupThemeSettingsCoreData() {
 
@@ -211,8 +233,9 @@ class Elebee {
      * Register all of the hooks related to the admin area functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function defineAdminHooks() {
 
@@ -237,15 +260,16 @@ class Elebee {
      * Register all of the hooks related to the public-facing functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function definePublicHooks() {
 
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
-        $this->loader->addAction( 'status_header', Config::class, 'disableRedirectGuess' );
+        $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
 
         $htmlCompression = new HtmlCompression();
         $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
@@ -270,8 +294,9 @@ class Elebee {
      * The name of the theme used to uniquely identify it within the context of
      * WordPress and to define internationalization functionality.
      *
-     * @since     0.1.0
-     * @return    string    The name of the theme.
+     * @since 0.1.0
+     *
+     * @return string The name of the theme.
      */
     public function getThemeName() {
 
@@ -281,8 +306,9 @@ class Elebee {
     /**
      * The reference to the class that orchestrates the hooks with the theme.
      *
-     * @since     0.1.0
-     * @return    ElebeeLoader    Orchestrates the hooks of the theme.
+     * @since 0.1.0
+     *
+     * @return ElebeeLoader Orchestrates the hooks of the theme.
      */
     public function getLoader() {
 
@@ -293,8 +319,9 @@ class Elebee {
     /**
      * Retrieve the version number of the theme.
      *
-     * @since     0.1.0
-     * @return    string    The version number of the theme.
+     * @since 0.1.0
+     *
+     * @return string The version number of the theme.
      */
     public function getVersion() {
 
@@ -303,7 +330,9 @@ class Elebee {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function phpVersionFail() {
 
@@ -320,7 +349,9 @@ class Elebee {
     /**
      * Run the loader to execute all of the hooks with WordPress.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public static function run() {
 

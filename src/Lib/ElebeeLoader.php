@@ -3,11 +3,12 @@
 /**
  * Register all actions and filters for the theme
  *
- * @link       https://www.rto.de/
- * @since      0.1.0
+ * @since   0.1.0
  *
- * @package    ElementorRto
- * @subpackage ElementorRto/includes
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeLoader.html
  */
 
 /**
@@ -17,27 +18,28 @@
  * the theme, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    ElementorRto
- * @subpackage ElementorRto/includes
- * @author     RTO GmbH <info@rto.de>
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeLoader.html
  */
 class ElebeeLoader {
 
     /**
      * The array of actions registered with WordPress.
      *
-     * @since    0.1.0
-     * @access   protected
-     * @var      array $actions The actions registered with WordPress to fire when the theme loads.
+     * @since 0.1.0
+     * @var array The actions registered with WordPress to fire when the theme loads.
      */
     protected $actions;
 
     /**
      * The array of filters registered with WordPress.
      *
-     * @since    0.1.0
-     * @access   protected
-     * @var      array $filters The filters registered with WordPress to fire when the theme loads.
+     * @since 0.1.0
+     * @var array The filters registered with WordPress to fire when the theme loads.
      */
     protected $filters;
 
@@ -56,14 +58,17 @@ class ElebeeLoader {
     /**
      * Add a new action to the collection to be registered with WordPress.
      *
-     * @since    0.1.0
-     * @param      string $hook The name of the WordPress action that is being registered.
-     * @param      object $component A reference to the instance of the object on which the action is defined.
-     * @param      string $callback The name of the function definition on the $component.
-     * @param      int      Optional    $priority         The priority at which the function should be fired.
-     * @param      int      Optional    $acceptedArgs    The number of arguments that should be passed to the $callback.
+     * @since 0.1.0
+     *
+     * @param string        $hook         The name of the WordPress action that is being registered.
+     * @param object|string $component    A reference to the instance of the object on which the action is defined.
+     * @param string        $callback     The name of the function definition on the $component.
+     * @param int           $priority     (optional) The priority at which the function should be fired.
+     * @param int           $acceptedArgs (optional) The number of arguments that should be passed to the $callback.
+     *
+     * @return void
      */
-    public function addAction( $hook, $component, $callback, $priority = 10, $acceptedArgs = 1 ) {
+    public function addAction( string $hook, $component, string $callback, int $priority = 10, int $acceptedArgs = 1 ) {
 
         $this->actions = $this->add( $this->actions, $hook, $component, $callback, $priority, $acceptedArgs );
 
@@ -72,14 +77,17 @@ class ElebeeLoader {
     /**
      * Add a new filter to the collection to be registered with WordPress.
      *
-     * @since    0.1.0
-     * @param      string $hook The name of the WordPress filter that is being registered.
-     * @param      object $component A reference to the instance of the object on which the filter is defined.
-     * @param      string $callback The name of the function definition on the $component.
-     * @param      int      Optional    $priority         The priority at which the function should be fired.
-     * @param      int      Optional    $acceptedArgs    The number of arguments that should be passed to the $callback.
+     * @since 0.1.0
+     *
+     * @param string        $hook         The name of the WordPress filter that is being registered.
+     * @param object|string $component    A reference to the instance of the object on which the filter is defined.
+     * @param string        $callback     The name of the function definition on the $component.
+     * @param int           $priority     (optional) The priority at which the function should be fired.
+     * @param int           $acceptedArgs (optional) The number of arguments that should be passed to the $callback.
+     *
+     * @return void
      */
-    public function addFilter( $hook, $component, $callback, $priority = 10, $acceptedArgs = 1 ) {
+    public function addFilter( string $hook, $component, string $callback, int $priority = 10, int $acceptedArgs = 1 ) {
 
         $this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $acceptedArgs );
 
@@ -89,17 +97,17 @@ class ElebeeLoader {
      * A utility function that is used to register the actions and hooks into a single
      * collection.
      *
-     * @since    0.1.0
-     * @access   private
-     * @param      array $hooks The collection of hooks that is being registered (that is, actions or filters).
-     * @param      string $hook The name of the WordPress filter that is being registered.
-     * @param      object $component A reference to the instance of the object on which the filter is defined.
-     * @param      string $callback The name of the function definition on the $component.
-     * @param      int      Optional    $priority         The priority at which the function should be fired.
-     * @param      int      Optional    $acceptedArgs    The number of arguments that should be passed to the $callback.
-     * @return   type                                   The collection of actions and filters registered with WordPress.
+     * @since 0.1.0
+     *
+     * @param array         $hooks        The collection of hooks that is being registered (that is, actions or filters).
+     * @param string        $hook         The name of the WordPress filter that is being registered.
+     * @param object|string $component    A reference to the instance of the object on which the filter is defined.
+     * @param string        $callback     The name of the function definition on the $component.
+     * @param int           $priority     (optional) The priority at which the function should be fired.
+     * @param int           $acceptedArgs (optional) The number of arguments that should be passed to the $callback.
+     * @return array The collection of actions and filters registered with WordPress.
      */
-    private function add( $hooks, $hook, $component, $callback, $priority, $acceptedArgs ) {
+    private function add( array $hooks, string $hook, $component, string $callback, int $priority, int $acceptedArgs ) {
 
         $hooks[] = [
             'hook' => $hook,
@@ -117,6 +125,8 @@ class ElebeeLoader {
      * Register the filters and actions with WordPress.
      *
      * @since    0.1.0
+     *
+     * @return void
      */
     public function run() {
 

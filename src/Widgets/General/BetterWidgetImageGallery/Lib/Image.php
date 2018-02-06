@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * Image.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Image.html
  */
 
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
@@ -10,19 +15,32 @@ namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 use ElebeeCore\Lib\Visitee;
 
+/**
+ * Class Image
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Image.html
+ */
 class Image extends Visitee {
 
     /**
-     * @var Gallery|null
+     * @since 0.1.0
+     * @var Gallery
      */
     private $gallery;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $src;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $caption;
@@ -34,10 +52,13 @@ class Image extends Visitee {
 
     /**
      * Image constructor.
+     *
+     * @since 0.1.0
+     *
      * @param string $src
      * @param string $caption
      * @param string $link
-     * @param array $meta
+     * @param array  $meta
      */
     public function __construct( string $src, string $caption, string $link ) {
 
@@ -49,6 +70,8 @@ class Image extends Visitee {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return Gallery
      */
     public function getGallery(): Gallery {
@@ -58,6 +81,8 @@ class Image extends Visitee {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      */
     public function setGallery( Gallery $gallery ) {
@@ -67,6 +92,8 @@ class Image extends Visitee {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     public function getSrc(): string {
@@ -76,6 +103,8 @@ class Image extends Visitee {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     public function getCaption(): string {

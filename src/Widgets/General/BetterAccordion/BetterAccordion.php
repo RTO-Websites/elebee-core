@@ -1,4 +1,14 @@
 <?php
+/**
+ * BetterAccordion.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
+ */
 
 namespace ElebeeCore\Widgets\General\BetterAccordion;
 
@@ -7,7 +17,6 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
 
 if ( !defined( 'ABSPATH' ) ) {
@@ -16,13 +25,26 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Accordion Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
  */
 class BetterAccordion extends ElebeeWidget {
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
         // TODO: Implement enqueueStyles() method.
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -31,11 +53,8 @@ class BetterAccordion extends ElebeeWidget {
      * Retrieve accordion widget name.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget name.
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'accordion';
 
@@ -45,11 +64,8 @@ class BetterAccordion extends ElebeeWidget {
      * Retrieve accordion widget title.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget title.
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Better Accordion', 'elementor' );
 
@@ -59,11 +75,8 @@ class BetterAccordion extends ElebeeWidget {
      * Retrieve accordion widget icon.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget icon.
      */
-    public function get_icon() {
+    public function get_icon(): string {
 
         return 'eicon-accordion';
 
@@ -75,7 +88,8 @@ class BetterAccordion extends ElebeeWidget {
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
      * @since 0.1.0
-     * @access protected
+     *
+     * @return void
      */
     protected function _register_controls() {
 
@@ -435,8 +449,7 @@ class BetterAccordion extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @since 0.1.0
-     * @access protected
+     * @since  0.1.0
      */
     protected function render() {
 
@@ -479,7 +492,13 @@ class BetterAccordion extends ElebeeWidget {
 
     }
 
-    function inlineSvg( $url ) {
+    /**
+     * @since 0.1.0
+     *
+     * @param $url
+     * @return bool|string
+     */
+    function inlineSvg( string $url ) {
 
         if ( end( explode( '.', $url ) ) == 'svg' ) {
             return file_get_contents( $url );

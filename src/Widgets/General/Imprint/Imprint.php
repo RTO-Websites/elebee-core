@@ -1,4 +1,14 @@
 <?php
+/**
+ * Imprint.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\Imprint
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
+ */
 
 namespace ElebeeCore\Widgets\General\Imprint;
 
@@ -18,23 +28,42 @@ if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  * Elementor widget for hello world.
  *
- * @since 0.1.0
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\Imprint
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
  */
 class Imprint extends ElebeeWidget {
 
-    public function __construct( $data = [], $args = null ) {
+    /**
+     * Imprint constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param array $data
+     * @param array $args
+     */
+    public function __construct( array $data = [], array $args = null ) {
 
         parent::__construct( $data, $args );
         $this->album = null;
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/General/Imprint/css/imprint.css', [], Elebee::VERSION, 'all' );
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -42,13 +71,9 @@ class Imprint extends ElebeeWidget {
     /**
      * Retrieve the widget name.
      *
-     * @since 0.1.0
-     *
-     * @access public
-     *
-     * @return string Widget name.
+     * @since  0.1.0
      */
-    public function get_name() {
+    public function get_name(): string {
 
         return 'imprint';
 
@@ -57,13 +82,9 @@ class Imprint extends ElebeeWidget {
     /**
      * Retrieve the widget title.
      *
-     * @since 0.1.0
-     *
-     * @access public
-     *
-     * @return string Widget title.
+     * @since  0.1.0
      */
-    public function get_title() {
+    public function get_title(): string {
 
         return __( 'Imprint', 'elebee' );
 
@@ -72,13 +93,9 @@ class Imprint extends ElebeeWidget {
     /**
      * Retrieve the widget icon.
      *
-     * @since 0.1.0
-     *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @since  0.1.0
      */
-    public function get_icon() {
+    public function get_icon(): string {
 
         return 'eicon-posts-ticker';
 
@@ -89,13 +106,9 @@ class Imprint extends ElebeeWidget {
      *
      * Used to set scripts dependencies required to run the widget.
      *
-     * @since 1.3.0
-     *
-     * @access public
-     *
-     * @return array Widget scripts dependencies.
+     * @since 0.1.0
      */
-    public function get_script_depends() {
+    public function get_script_depends(): array {
 
         return [ 'imprint' ];
 
@@ -106,9 +119,9 @@ class Imprint extends ElebeeWidget {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @since 0.1.0
+     * @since  0.1.0
      *
-     * @access protected
+     * @return void
      */
     protected function _register_controls() {
 
@@ -120,9 +133,9 @@ class Imprint extends ElebeeWidget {
     }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionContent() {
 
@@ -233,9 +246,9 @@ class Imprint extends ElebeeWidget {
     }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionTitleStyle() {
 
@@ -287,6 +300,8 @@ class Imprint extends ElebeeWidget {
      *
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionTextStyle() {
 
@@ -354,9 +369,9 @@ class Imprint extends ElebeeWidget {
     }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionLinkStyle() {
 
@@ -461,9 +476,9 @@ class Imprint extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @since 0.1.0
+     * @since  0.1.0
      *
-     * @access protected
+     * @return void
      */
     protected function render() {
 
@@ -490,9 +505,9 @@ class Imprint extends ElebeeWidget {
      *
      * Written as a Backbone JavaScript template and used to generate the live preview.
      *
-     * @since 0.1.0
+     * @since  0.1.0
      *
-     * @access protected
+     * @return void
      */
     protected function _content_template() {
 

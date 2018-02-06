@@ -1,17 +1,35 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
+ * ThemeSupportFeaturedImage.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib\ThemeSupport
+ * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportFeaturedImage.html
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
+/**
+ * Class ThemeSupportFeaturedImage
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib\ThemeSupport
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportFeaturedImage.html
+ */
 class ThemeSupportFeaturedImage extends ThemeSupport {
 
     /**
      * ThemeSupportFeaturedImage constructor.
+     *
+     * @since 0.1.0
+     *
      * @param string $hook
      */
     public function __construct( string $hook = 'after_setup_theme' ) {
@@ -21,9 +39,11 @@ class ThemeSupportFeaturedImage extends ThemeSupport {
     }
 
     /**
-     * @since    0.1.0
+     * @since 0.1.0
      */
     public function defineAdminHooks() {
+
+        parent::defineAdminHooks();
 
         $this->getLoader()->addFilter( 'manage_posts_columns', $this, 'customColumns' );
         $this->getLoader()->addFilter( 'manage_pages_columns', $this, 'customColumns' );
@@ -34,7 +54,7 @@ class ThemeSupportFeaturedImage extends ThemeSupport {
     }
 
     /**
-     * @inheritdoc
+     * @since 0.2.0
      */
     public function hookCallback() {
 
@@ -54,11 +74,12 @@ class ThemeSupportFeaturedImage extends ThemeSupport {
     /**
      * Add the featured image column to the Wordpress tables.
      *
-     * @param $columns
+     * @since 0.1.0
      *
+     * @param array $columns
      * @return array
      */
-    public function customColumns( $columns ) {
+    public function customColumns( array $columns ): array {
 
         $offset = array_search( 'date', array_keys( $columns ) );
 
@@ -73,12 +94,13 @@ class ThemeSupportFeaturedImage extends ThemeSupport {
     /**
      * Prints data in a column.
      *
-     * @param $column
-     * @param $postId
+     * @since 0.1.0
      *
+     * @param string $column
+     * @param int    $postId
      * @return void
      */
-    public function customColumnsData( $column, $postId ) {
+    public function customColumnsData( string $column, int $postId ) {
 
         switch ( $column ) {
             case 'featured_image':

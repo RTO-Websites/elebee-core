@@ -1,4 +1,14 @@
 <?php
+/**
+ * BigAndSmallImageWithDescription.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/BigAndSmallImageWithDescription/BigAndSmallImageWithDescription.html
+ */
 
 namespace ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription;
 
@@ -9,26 +19,56 @@ use Elementor\Utils;
 use Elementor\Widget_Base;
 use ElebeeCore\Lib\Template;
 
+/**
+ * Class BigAndSmallImageWithDescription
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/BigAndSmallImageWithDescription/BigAndSmallImageWithDescription.html
+ */
 class BigAndSmallImageWithDescription extends Widget_Base {
 
-    public function get_name() {
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function get_name(): string {
 
         return 'big-and-small-image-with-description';
 
     }
 
-    public function get_title() {
+    /**
+     * @since 0.1.0
+     *
+     * @return string|void
+     */
+    public function get_title(): string {
 
         return __( 'Big and small image with description', 'elebee' );
 
     }
 
-    public function get_categories() {
+    /**
+     * @since 0.1.0
+     *
+     * @return array
+     */
+    public function get_categories(): array {
 
         return [ 'rto-elements-exclusive' ];
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function _register_controls() {
 
         $this->start_controls_section(
@@ -160,6 +200,11 @@ class BigAndSmallImageWithDescription extends Widget_Base {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render() {
 
         $settings = $this->get_settings();
