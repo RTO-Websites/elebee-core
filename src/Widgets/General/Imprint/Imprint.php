@@ -19,8 +19,8 @@ use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\WidgetBase;
 use ElebeeCore\Lib\Template;
+use ElebeeCore\Widgets\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 

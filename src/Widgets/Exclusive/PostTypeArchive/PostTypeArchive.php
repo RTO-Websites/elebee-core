@@ -17,8 +17,8 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
-use ElebeeCore\Lib\WidgetBase;
 use ElebeeCore\Lib\Template;
+use ElebeeCore\Widgets\WidgetBase;
 use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
