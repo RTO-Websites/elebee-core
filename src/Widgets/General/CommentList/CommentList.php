@@ -147,7 +147,7 @@ class CommentList extends Widget_Base {
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
                 'default' => get_the_ID(),
-                'options' => $this->getAllCommentPages(),
+                'options' => $this->getCommentPages(),
             ]
         );
 
@@ -758,25 +758,29 @@ class CommentList extends Widget_Base {
      *
      * @return array
      */
-    protected function getAllCommentPages(): array {
+    protected function getCommentPages(): array {
 
         global $wpdb;
 
         $options = [];
-        $curID = get_the_ID();
+
         $commentPosts = $wpdb->get_results( "
           SELECT ID, post_title 
           FROM $wpdb->posts 
           WHERE comment_status = 'open' 
           AND post_status = 'publish'
           ", ARRAY_A );
+
         foreach ( $commentPosts as $commentPost ) {
-            $name = apply_filters( 'the_title', $commentPost['post_title'] );
-            if ( (int)$commentPost['ID'] === $curID ) {
-                $name = __( 'Aktuelle Seite', 'elebee' );
+
+            $options[$commentPost['ID']] = apply_filters( 'the_title', $commentPost['post_title'] );
+
+            if ( (int)$commentPost['ID'] === get_the_ID() ) {
+                $options[$commentPost['ID']] .= __( ' (Current page)', 'elebee' );
             }
-            $options[$commentPost['ID']] = $name;
+
         }
+
         return $options;
 
     }
@@ -785,8 +789,14 @@ class CommentList extends Widget_Base {
      * @since 0.1.0
      *
      * @param array $comments
+     *
+     * @return void
      */
     protected function setPaginationSettings( array $comments ) {
+
+        if ( !get_option( 'page_comments' ) ) {
+            return;
+        }
 
         $settings = $this->get_settings();
         $this->paginationSettings['totalPages'] = get_comment_pages_count( $comments, $settings['comment_list_per_page'] );
