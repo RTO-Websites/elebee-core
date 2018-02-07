@@ -7,7 +7,7 @@
  * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupport.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportBase.html
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
@@ -25,9 +25,9 @@ defined( 'ABSPATH' ) || exit;
  * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupport.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportBase.html
  */
-abstract class ThemeSupport extends Hooking {
+abstract class ThemeSupportBase extends Hooking {
 
     /**
      * @since 0.2.0
