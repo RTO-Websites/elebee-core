@@ -110,10 +110,11 @@ class CommentForm extends ElebeeWidget {
             'page',
             [
                 'label' => __( 'Page', 'elementor-pro' ),
+                'description' => __( 'Comments get posted to the selected page.', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
-                'default' => [ get_the_ID() => __( 'Aktuelle Seite', 'elebee' ) ],
-                'options' => $this->get_comment_all_pages(),
+                'default' => get_the_ID(),
+                'options' => $this->getCommentPages(),
             ]
         );
 
@@ -770,18 +771,27 @@ class CommentForm extends ElebeeWidget {
      *
      * @return array
      */
-    protected function get_comment_all_pages(): array {
+    private function getCommentPages(): array {
 
-        $pages = get_pages();
+        global $wpdb;
 
-        $options = [ '' => '' ];
+        $options = [];
 
-        foreach ( $pages as $page ) {
-            if ( $page->ID == get_the_ID() && $page->comment_status == 'open' ) {
-                $options = [ get_the_ID() => __( 'Aktuelle Seite', 'elebee' ) ];
-            } else if ( $page->comment_status == 'open' ) {
-                $options[$page->ID] = $page->post_name;
+        $commentPosts = $wpdb->get_results( "
+          SELECT ID, post_title 
+          FROM $wpdb->posts 
+          WHERE comment_status = 'open' 
+          AND post_status = 'publish'
+          ", ARRAY_A );
+
+        foreach ( $commentPosts as $commentPost ) {
+
+            $options[$commentPost['ID']] = apply_filters( 'the_title', $commentPost['post_title'] );
+
+            if ( $commentPost['ID'] == get_the_ID() ) {
+                $options[$commentPost['ID']] .= __( ' (Current page)', 'elebee' );
             }
+
         }
 
         return $options;
