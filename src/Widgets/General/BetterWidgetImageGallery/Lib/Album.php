@@ -1,34 +1,57 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * Album.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Album.html
  */
 
-namespace ElebeeCore\Widgets\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Visitee;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Album
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Album.html
+ */
 class Album extends Visitee implements \Iterator {
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $id;
 
     /**
+     * @since 0.1.0
      * @var array
      */
     private $galleryList;
 
     /**
+     * @since 0.1.0
      * @var int
      */
     private $iteratorPointer;
 
     /**
      * Album constructor.
+     *
+     * @since 0.1.0
+     *
      * @param string $id
      */
     public function __construct( string $id ) {
@@ -40,7 +63,10 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
+     * @return void
      */
     public function addGallery( Gallery $gallery ) {
 
@@ -51,6 +77,10 @@ class Album extends Visitee implements \Iterator {
 
     /**
      * Shuffles the gallery order.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function shuffle() {
 
@@ -59,6 +89,8 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return int
      */
     public function count(): int {
@@ -68,6 +100,8 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return Gallery
      */
     public function current(): Gallery {
@@ -77,7 +111,7 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
-     *
+     * @since 0.1.0
      */
     public function next() {
 
@@ -86,7 +120,7 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
-     * @return int
+     * @since 0.1.0
      */
     public function key(): int {
 
@@ -95,7 +129,7 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
-     * @return bool
+     * @since 0.1.0
      */
     public function valid(): bool {
 
@@ -104,7 +138,7 @@ class Album extends Visitee implements \Iterator {
     }
 
     /**
-     *
+     * @since 0.1.0
      */
     public function rewind() {
 

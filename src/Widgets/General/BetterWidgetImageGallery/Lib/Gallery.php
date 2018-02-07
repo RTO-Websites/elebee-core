@@ -1,51 +1,78 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * Gallery.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Gallery.html
  */
 
-namespace ElebeeCore\Widgets\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Visitee;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Gallery
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Gallery.html
+ */
 class Gallery extends Visitee implements \Iterator {
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $id;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $title;
 
     /**
+     * @since 0.1.0
      * @var Image
      */
     private $thumb;
 
     /**
+     * @since 0.1.0
      * @var array
      */
     private $meta;
 
     /**
+     * @since 0.1.0
      * @var array
      */
     private $imgList;
 
     /**
+     * @since 0.1.0
      * @var int
      */
     private $iteratorPointer;
 
     /**
      * Gallery constructor.
+     *
+     * @since 0.1.0
+     *
      * @param string $title
-     * @param Image|null $thumb
+     * @param Image  $thumb
+     * @param array  $meta
      */
     public function __construct( string $title, Image $thumb = null, array $meta = [] ) {
 
@@ -65,7 +92,11 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Image $img
+     *
+     * @return void
      */
     public function addImage( Image $img ) {
 
@@ -80,6 +111,10 @@ class Gallery extends Visitee implements \Iterator {
 
     /**
      * Shuffles the image order.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function shuffle() {
 
@@ -87,13 +122,20 @@ class Gallery extends Visitee implements \Iterator {
 
     }
 
-    public function getId() {
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function getId(): string {
 
         return $this->id;
 
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param string $id
      */
     public function setId( string $id ) {
@@ -103,6 +145,8 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     public function getTitle(): string {
@@ -116,6 +160,8 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return Image
      */
     public function getThumb(): Image {
@@ -125,6 +171,8 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
     public function getAttributeList(): array {
@@ -134,6 +182,8 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return int
      */
     public function count(): int {
@@ -143,16 +193,18 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return Image
      */
-    public function current() {
+    public function current(): Image {
 
         return $this->imgList[$this->iteratorPointer];
 
     }
 
     /**
-     *
+     * @since 0.1.0
      */
     public function next() {
 
@@ -161,7 +213,7 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
-     * @return int
+     * @since 0.1.0
      */
     public function key(): int {
 
@@ -170,7 +222,7 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
-     * @return bool
+     * @since 0.1.0
      */
     public function valid(): bool {
 
@@ -179,7 +231,7 @@ class Gallery extends Visitee implements \Iterator {
     }
 
     /**
-     *
+     * @since 0.1.0
      */
     public function rewind() {
 

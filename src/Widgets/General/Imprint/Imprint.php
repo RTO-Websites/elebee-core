@@ -1,5 +1,17 @@
 <?php
+/**
+ * Imprint.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\Imprint
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
+ */
+
 namespace ElebeeCore\Widgets\General\Imprint;
+
 
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
@@ -10,117 +22,128 @@ use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Elementor Hello World
  *
  * Elementor widget for hello world.
  *
- * @since 0.1.0
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\Imprint
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
  */
 class Imprint extends ElebeeWidget {
 
-    public function __construct( $data = [], $args = null ) {
+    /**
+     * Imprint constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param array $data
+     * @param array $args
+     */
+    public function __construct( array $data = [], array $args = null ) {
 
         parent::__construct( $data, $args );
         $this->album = null;
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/General/Imprint/css/imprint.css', [], Elebee::VERSION, 'all' );
 
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
 
-	/**
-	 * Retrieve the widget name.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget name.
-	 */
-	public function get_name() {
-		return 'imprint';
-	}
+    /**
+     * Retrieve the widget name.
+     *
+     * @since  0.1.0
+     */
+    public function get_name(): string {
 
-	/**
-	 * Retrieve the widget title.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget title.
-	 */
-	public function get_title() {
-		return __( 'Imprint', TEXTDOMAIN );
-	}
+        return 'imprint';
 
-	/**
-	 * Retrieve the widget icon.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access public
-	 *
-	 * @return string Widget icon.
-	 */
-	public function get_icon() {
-		return 'eicon-posts-ticker';
-	}
+    }
 
-	/**
-	 * Retrieve the list of scripts the widget depended on.
-	 *
-	 * Used to set scripts dependencies required to run the widget.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @access public
-	 *
-	 * @return array Widget scripts dependencies.
-	 */
-	public function get_script_depends() {
-		return [ 'imprint' ];
-	}
+    /**
+     * Retrieve the widget title.
+     *
+     * @since  0.1.0
+     */
+    public function get_title(): string {
 
-	/**
-	 * Register the widget controls.
-	 *
-	 * Adds different input fields to allow the user to change and customize the widget settings.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function _register_controls() {
+        return __( 'Imprint', 'elebee' );
 
-	    $this->registerSectionContent();
-		$this->registerSectionTitleStyle();
+    }
+
+    /**
+     * Retrieve the widget icon.
+     *
+     * @since  0.1.0
+     */
+    public function get_icon(): string {
+
+        return 'eicon-posts-ticker';
+
+    }
+
+    /**
+     * Retrieve the list of scripts the widget depended on.
+     *
+     * Used to set scripts dependencies required to run the widget.
+     *
+     * @since 0.1.0
+     */
+    public function get_script_depends(): array {
+
+        return [ 'imprint' ];
+
+    }
+
+    /**
+     * Register the widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @since  0.1.0
+     *
+     * @return void
+     */
+    protected function _register_controls() {
+
+        $this->registerSectionContent();
+        $this->registerSectionTitleStyle();
         $this->registerSectionTextStyle();
         $this->registerSectionLinkStyle();
 
-	}
+    }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionContent() {
 
         $this->start_controls_section(
             'section_content',
             [
-                'label' => __( 'Imprint', TEXTDOMAIN ),
+                'label' => __( 'Imprint', 'elebee' ),
             ]
         );
 
@@ -136,27 +159,27 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'title',
             [
-                'label' => __( 'Title', TEXTDOMAIN ),
+                'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
-                'default' => __( 'Impressum' , TEXTDOMAIN),
+                'default' => __( 'Impressum', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'header_size',
             [
-                'label' => __( 'HTML Tag', TEXTDOMAIN ),
+                'label' => __( 'HTML Tag', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'h1' => __( 'H1', TEXTDOMAIN ),
-                    'h2' => __( 'H2', TEXTDOMAIN ),
-                    'h3' => __( 'H3', TEXTDOMAIN ),
-                    'h4' => __( 'H4', TEXTDOMAIN ),
-                    'h5' => __( 'H5', TEXTDOMAIN ),
-                    'h6' => __( 'H6', TEXTDOMAIN ),
-                    'div' => __( 'div', TEXTDOMAIN ),
-                    'span' => __( 'span', TEXTDOMAIN ),
-                    'p' => __( 'p', TEXTDOMAIN ),
+                    'h1' => __( 'H1', 'elebee' ),
+                    'h2' => __( 'H2', 'elebee' ),
+                    'h3' => __( 'H3', 'elebee' ),
+                    'h4' => __( 'H4', 'elebee' ),
+                    'h5' => __( 'H5', 'elebee' ),
+                    'h6' => __( 'H6', 'elebee' ),
+                    'div' => __( 'div', 'elebee' ),
+                    'span' => __( 'span', 'elebee' ),
+                    'p' => __( 'p', 'elebee' ),
                 ],
                 'default' => 'h2',
             ]
@@ -165,23 +188,23 @@ class Imprint extends ElebeeWidget {
         $this->add_responsive_control(
             'align',
             [
-                'label' => __( 'Alignment', TEXTDOMAIN ),
+                'label' => __( 'Alignment', 'elebee' ),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
-                        'title' => __( 'Left', TEXTDOMAIN ),
+                        'title' => __( 'Left', 'elebee' ),
                         'icon' => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __( 'Center', TEXTDOMAIN ),
+                        'title' => __( 'Center', 'elebee' ),
                         'icon' => 'fa fa-align-center',
                     ],
                     'right' => [
-                        'title' => __( 'Right', TEXTDOMAIN ),
+                        'title' => __( 'Right', 'elebee' ),
                         'icon' => 'fa fa-align-right',
                     ],
                     'justify' => [
-                        'title' => __( 'Justified', TEXTDOMAIN ),
+                        'title' => __( 'Justified', 'elebee' ),
                         'icon' => 'fa fa-align-justify',
                     ],
                 ],
@@ -204,16 +227,16 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'text',
             [
-                'label' => __( 'Text', TEXTDOMAIN ),
+                'label' => __( 'Text', 'elebee' ),
                 'type' => Controls_Manager::WYSIWYG,
-                'default' => (new Template( __DIR__ . '/partials/text-default.php' ))->getRendered(),
+                'default' => ( new Template( __DIR__ . '/partials/text-default.php' ) )->getRendered(),
             ]
         );
 
         $this->add_control(
             'view',
             [
-                'label' => __( 'View', TEXTDOMAIN ),
+                'label' => __( 'View', 'elebee' ),
                 'type' => Controls_Manager::HIDDEN,
                 'default' => 'traditional',
             ]
@@ -224,16 +247,16 @@ class Imprint extends ElebeeWidget {
     }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionTitleStyle() {
 
         $this->start_controls_section(
             'section_title_style',
             [
-                'label' => __( 'Title', TEXTDOMAIN ),
+                'label' => __( 'Title', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -241,7 +264,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'title_color',
             [
-                'label' => __( 'Title Color', TEXTDOMAIN ),
+                'label' => __( 'Title Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -278,13 +301,15 @@ class Imprint extends ElebeeWidget {
      *
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionTextStyle() {
 
         $this->start_controls_section(
             'section_text_style',
             [
-                'label' => __( 'Text', TEXTDOMAIN ),
+                'label' => __( 'Text', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -292,7 +317,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'h_tag_color',
             [
-                'label' => __( 'H-Tag Color', TEXTDOMAIN ),
+                'label' => __( 'H-Tag Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -311,7 +336,7 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'text_color',
             [
-                'label' => __( 'Text Color', TEXTDOMAIN ),
+                'label' => __( 'Text Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -345,16 +370,16 @@ class Imprint extends ElebeeWidget {
     }
 
     /**
-     *
-     *
      * @since 0.1.0
+     *
+     * @return void
      */
     private function registerSectionLinkStyle() {
 
         $this->start_controls_section(
             'section_link_style',
             [
-                'label' => __( 'Links', TEXTDOMAIN ),
+                'label' => __( 'Links', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -363,13 +388,13 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_tab(
             'tab_link',
             [
-                'label' => __( 'Normal', TEXTDOMAIN ),
+                'label' => __( 'Normal', 'elebee' ),
             ]
         );
         $this->add_control(
             'link_color',
             [
-                'label' => __( 'Link Color', TEXTDOMAIN ),
+                'label' => __( 'Link Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -384,13 +409,13 @@ class Imprint extends ElebeeWidget {
         $this->start_controls_tab(
             'tab_link_hover',
             [
-                'label' => __( 'Hover', TEXTDOMAIN ),
+                'label' => __( 'Hover', 'elebee' ),
             ]
         );
         $this->add_control(
             'link_color_hover',
             [
-                'label' => __( 'Link Color Hover', TEXTDOMAIN ),
+                'label' => __( 'Link Color Hover', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -405,13 +430,13 @@ class Imprint extends ElebeeWidget {
         $this->add_control(
             'link_hover_time',
             [
-                'label' => __( 'Speed (ms)', TEXTDOMAIN ),
+                'label' => __( 'Speed (ms)', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'ms' ],
                 'range' => [
                     'ms' => [
-                        'min'  => 0,
-                        'max'  => 2000,
+                        'min' => 0,
+                        'max' => 2000,
                         'step' => 1,
                     ],
                 ],
@@ -447,26 +472,26 @@ class Imprint extends ElebeeWidget {
 
     }
 
-	/**
-	 * Render the widget output on the frontend.
-	 *
-	 * Written in PHP and used to generate the final HTML.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function render() {
+    /**
+     * Render the widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since  0.1.0
+     *
+     * @return void
+     */
+    protected function render() {
 
-		$settings = $this->get_settings();
+        $settings = $this->get_settings();
 
-		if ( empty( $settings['title'] ) ) {
-			return;
-		}
+        if ( empty( $settings['title'] ) ) {
+            return;
+        }
 
-		$this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
+        $this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
 //		$this->add_inline_editing_attributes( 'title' );
-		
+
         $imprintTemplate = new Template( __DIR__ . '/partials/imprint.php', [
             'title' => $settings['title'],
             'headerSize' => $settings['header_size'],
@@ -474,22 +499,22 @@ class Imprint extends ElebeeWidget {
             'text' => $settings['text'],
         ] );
         $imprintTemplate->render();
-	}
+    }
 
-	/**
-	 * Render the widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 */
-	protected function _content_template() {
+    /**
+     * Render the widget output in the editor.
+     *
+     * Written as a Backbone JavaScript template and used to generate the live preview.
+     *
+     * @since  0.1.0
+     *
+     * @return void
+     */
+    protected function _content_template() {
 
-	    $contentTemplate = new Template( __DIR__ . '/partials/editor-content.php' );
-	    $contentTemplate->render();
+        $contentTemplate = new Template( __DIR__ . '/partials/editor-content.php' );
+        $contentTemplate->render();
 
-	}
+    }
 
 }

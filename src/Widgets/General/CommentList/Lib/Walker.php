@@ -1,33 +1,71 @@
 <?php
-namespace ElebeeCore\Widgets\CommentList\Lib;
+/**
+ * Walker.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ */
+
+namespace ElebeeCore\Widgets\General\CommentList\Lib;
+
 
 use \WP_Comment;
 use \Walker_Comment;
 use \DateTime;
 use \DateTimeZone;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Walker
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ */
 class Walker extends Walker_Comment {
 
+    /**
+     * @since 0.1.0
+     * @var array
+     */
     private $settings;
 
-    public function __construct($args = []) {
+    /**
+     * Walker constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param array $args
+     */
+    public function __construct( $args = [] ) {
+
         $defaults = [];
 
-        $this->settings = wp_parse_args($args, $defaults);
+        $this->settings = wp_parse_args( $args, $defaults );
+
     }
 
     /**
      * Outputs a single comment.
      *
-     * @since 3.6.0
+     * @since 0.1.0
      *
-     * @see wp_list_comments()
+     * @see   wp_list_comments()
      *
      * @param WP_Comment $comment Comment to display.
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
     protected function comment( $comment, $depth, $args ) {
+
         if ( 'div' == $args['style'] ) {
             $tag = 'div';
             $add_below = 'comment';
@@ -36,7 +74,7 @@ class Walker extends Walker_Comment {
             $add_below = 'div-comment';
         }
         ?>
-        <<?php echo $tag; ?> <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
+        <<?php echo $tag; ?><?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
         <?php if ( 'div' != $args['style'] ) : ?>
             <div id="div-comment-<?php comment_ID(); ?>" class="comment-body">
         <?php endif; ?>
@@ -51,27 +89,28 @@ class Walker extends Walker_Comment {
         </div>
         <?php if ( '0' == $comment->comment_approved ) : ?>
             <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
-            <br />
+            <br/>
         <?php endif; ?>
 
-        <div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
+        <div class="comment-meta commentmetadata">
+            <a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
                 <?php
                 /* translators: 1: comment date, 2: comment time */
-                printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
+                printf( __( '%1$s at %2$s', 'elebee' ), get_comment_date( '', $comment ), get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
             ?>
         </div>
 
-        <?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+        <?php comment_text( $comment, array_merge( $args, [ 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ] ) ); ?>
 
         <?php
-        if ('yes' === $this->settings['comment_list_allow_reply']) {
-            comment_reply_link( array_merge( $args, array(
+        if ( 'yes' === $this->settings['comment_list_allow_reply'] ) {
+            comment_reply_link( array_merge( $args, [
                 'add_below' => $add_below,
                 'depth' => $depth,
                 'max_depth' => $args['max_depth'],
                 'before' => '<div class="reply">',
-                'after' => '</div>'
-            ) ) );
+                'after' => '</div>',
+            ] ) );
         }
         ?>
 
@@ -79,20 +118,22 @@ class Walker extends Walker_Comment {
             </div>
         <?php endif; ?>
         <?php
+
     }
 
     /**
      * Outputs a comment in the HTML5 format.
      *
-     * @since 3.6.0
+     * @since 0.1.0
      *
-     * @see wp_list_comments()
+     * @see   wp_list_comments()
      *
      * @param WP_Comment $comment Comment to display.
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
     protected function html5_comment( $comment, $depth, $args ) {
+
         $tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
         ?>
         <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
@@ -108,8 +149,8 @@ class Walker extends Walker_Comment {
                 <div class="comment-metadata">
                     <time datetime="<?php comment_time( 'c' ); ?>">
                         <?php
-                        $date = DateTime::createFromFormat('Y-m-d H:i:s', $comment->comment_date);
-                        echo $date->format($this->settings['comment_list_date_format']);
+                        $date = DateTime::createFromFormat( 'Y-m-d H:i:s', $comment->comment_date );
+                        echo $date->format( $this->settings['comment_list_date_format'] );
                         ?>
                     </time>
                     <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
@@ -125,17 +166,19 @@ class Walker extends Walker_Comment {
             </div><!-- .comment-content -->
 
             <?php
-            if ('yes' === $this->settings['comment_list_allow_reply']) {
-                comment_reply_link( array_merge( $args, array(
+            if ( 'yes' === $this->settings['comment_list_allow_reply'] ) {
+                comment_reply_link( array_merge( $args, [
                     'add_below' => 'div-comment',
-                    'depth'     => $depth,
+                    'depth' => $depth,
                     'max_depth' => $args['max_depth'],
-                    'before'    => '<div class="reply">',
-                    'after'     => '</div>'
-                ) ) );
+                    'before' => '<div class="reply">',
+                    'after' => '</div>',
+                ] ) );
             }
             ?>
         </article><!-- .comment-body -->
         <?php
+
     }
+
 }

@@ -1,27 +1,49 @@
 <?php
+/**
+ * BetterAccordion.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
+ */
+
 namespace ElebeeCore\Widgets\General\BetterAccordion;
+
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Accordion Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
  */
 class BetterAccordion extends ElebeeWidget {
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
         // TODO: Implement enqueueStyles() method.
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
@@ -30,36 +52,33 @@ class BetterAccordion extends ElebeeWidget {
      * Retrieve accordion widget name.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget name.
      */
-    public function get_name() {
+    public function get_name(): string {
+
         return 'accordion';
+
     }
 
     /**
      * Retrieve accordion widget title.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget title.
      */
-    public function get_title() {
+    public function get_title(): string {
+
         return __( 'Better Accordion', 'elementor' );
+
     }
 
     /**
      * Retrieve accordion widget icon.
      *
      * @since 0.1.0
-     * @access public
-     *
-     * @return string Widget icon.
      */
-    public function get_icon() {
+    public function get_icon(): string {
+
         return 'eicon-accordion';
+
     }
 
     /**
@@ -68,9 +87,11 @@ class BetterAccordion extends ElebeeWidget {
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
      * @since 0.1.0
-     * @access protected
+     *
+     * @return void
      */
     protected function _register_controls() {
+
         $this->start_controls_section(
             'section_title',
             [
@@ -98,7 +119,7 @@ class BetterAccordion extends ElebeeWidget {
                         'name' => 'tab_title',
                         'label' => __( 'Title & Content', 'elementor' ),
                         'type' => Controls_Manager::TEXT,
-                        'default' => __( 'Accordion Title' , 'elementor' ),
+                        'default' => __( 'Accordion Title', 'elementor' ),
                         'label_block' => true,
                     ],
                     [
@@ -116,11 +137,11 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'use_custom_icon',
             [
-                'label' => __( 'Custom Icon', TEXTDOMAIN ),
+                'label' => __( 'Custom Icon', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'No',
-                'label_on' => __( 'Yes', TEXTDOMAIN ),
-                'label_off' => __( 'No', TEXTDOMAIN ),
+                'label_on' => __( 'Yes', 'elebee' ),
+                'label_off' => __( 'No', 'elebee' ),
                 'return_value' => 'yes',
             ]
         );
@@ -128,7 +149,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'icon',
             [
-                'label' => __( 'Accordion Icon', TEXTDOMAIN ),
+                'label' => __( 'Accordion Icon', 'elebee' ),
                 'type' => Controls_Manager::ICON,
                 'default' => 'fa fa-plus',
                 'include' => [
@@ -156,7 +177,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'custom_icon',
             [
-                'label' => __( 'Custom Icon', TEXTDOMAIN ),
+                'label' => __( 'Custom Icon', 'elebee' ),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [
                     'url' => Utils::get_placeholder_image_src(),
@@ -170,16 +191,16 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_control(
             'icon_animation',
             [
-                'label'       => __( 'Icon Animation', TEXTDOMAIN ),
+                'label' => __( 'Icon Animation', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => ' ',
                 'options' => [
-                    ' '   => __( 'None', TEXTDOMAIN ),
-                    'left-90'  => __( 'Turn left 90°', TEXTDOMAIN ),
-                    'left-180' => __( 'Turn left 180°', TEXTDOMAIN ),
-                    'right-90' => __( 'Turn right 90°', TEXTDOMAIN ),
-                    'right-180' => __( 'Turn right 180°', TEXTDOMAIN ),
-                    'hide-icon' => __( 'Hide', TEXTDOMAIN ),
+                    ' ' => __( 'None', 'elebee' ),
+                    'left-90' => __( 'Turn left 90°', 'elebee' ),
+                    'left-180' => __( 'Turn left 180°', 'elebee' ),
+                    'right-90' => __( 'Turn right 90°', 'elebee' ),
+                    'right-180' => __( 'Turn right 180°', 'elebee' ),
+                    'hide-icon' => __( 'Hide', 'elebee' ),
                 ],
                 'prefix_class' => '',
             ]
@@ -188,7 +209,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_responsive_control(
             'icon_size',
             [
-                'label' => __( 'Icons size', TEXTDOMAIN ),
+                'label' => __( 'Icons size', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 16,
@@ -215,7 +236,7 @@ class BetterAccordion extends ElebeeWidget {
         $this->add_responsive_control(
             'icon_margin',
             [
-                'label' => __( 'Icon Margin', TEXTDOMAIN ),
+                'label' => __( 'Icon Margin', 'elebee' ),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em' ],
                 'selectors' => [
@@ -419,6 +440,7 @@ class BetterAccordion extends ElebeeWidget {
         );
 
         $this->end_controls_section();
+
     }
 
     /**
@@ -426,10 +448,10 @@ class BetterAccordion extends ElebeeWidget {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @since 0.1.0
-     * @access protected
+     * @since  0.1.0
      */
     protected function render() {
+
         $settings = $this->get_settings();
 
         $id_int = substr( $this->get_id_int(), 0, 3 );
@@ -448,10 +470,13 @@ class BetterAccordion extends ElebeeWidget {
                 $this->add_inline_editing_attributes( $tab_content_setting_key, 'advanced' );
                 ?>
                 <div class="elementor-accordion-item">
-                    <div class="elementor-tab-title" tabindex="<?php echo $id_int . $counter; ?>" data-tab="<?php echo $counter; ?>" role="tab">
+                    <div class="elementor-tab-title"
+                            tabindex="<?php echo $id_int . $counter; ?>"
+                            data-tab="<?php echo $counter; ?>"
+                            role="tab">
 						<span class="elementor-better-accordion-icon elementor-accordion-icon-<?php echo $settings['icon_align']; ?>">
-							<i class="<?php echo($settings['use_custom_icon'] != 'yes' ? esc_attr( $settings['icon']) : ''  ) ?>">
-                                <?php echo($settings['use_custom_icon'] == 'yes' ? $this->inlineSvg($this->get_settings( 'custom_icon' )[url]) : ''  ) ?></i>
+							<i class="<?php echo( $settings['use_custom_icon'] != 'yes' ? esc_attr( $settings['icon'] ) : '' ) ?>">
+                                <?php echo( $settings['use_custom_icon'] == 'yes' ? $this->inlineSvg( $this->get_settings( 'custom_icon' )[url] ) : '' ) ?></i>
 						</span>
                         <?php echo $item['tab_title']; ?>
                     </div>
@@ -463,13 +488,23 @@ class BetterAccordion extends ElebeeWidget {
             ?>
         </div>
         <?php
+
     }
 
-    function inlineSvg($url) {
-        if (end(explode('.', $url)) == 'svg') {
-            return file_get_contents($url);
+    /**
+     * @since 0.1.0
+     *
+     * @param $url
+     * @return bool|string
+     */
+    function inlineSvg( string $url ) {
+
+        if ( end( explode( '.', $url ) ) == 'svg' ) {
+            return file_get_contents( $url );
         } else {
             return '<img class="custom-icon" src="' . $url . '">';
         }
+
     }
+
 }

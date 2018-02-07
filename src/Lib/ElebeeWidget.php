@@ -1,8 +1,13 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * ElebeeWidget.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeWidget.html
  */
 
 namespace ElebeeCore\Lib;
@@ -11,19 +16,36 @@ namespace ElebeeCore\Lib;
 use Elementor\Widget_Base;
 use Elementor\User;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class ElebeeWidget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeWidget.html
+ */
 abstract class ElebeeWidget extends Widget_Base {
 
     /**
+     * @since 0.1.0
      * @var ElebeeLoader
      */
     private $loader;
 
     /**
      * ElebeeWidget constructor.
+     *
+     * @since 0.1.0
+     *
      * @param array $data
-     * @param null $args
+     * @param array $args
+     * @throws \Exception
      */
-    public function __construct( $data = [], $args = null ) {
+    public function __construct( array $data = [], array $args = null ) {
 
         parent::__construct( $data, $args );
 
@@ -35,7 +57,9 @@ abstract class ElebeeWidget extends Widget_Base {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     private function loadDependencies() {
 
@@ -44,53 +68,69 @@ abstract class ElebeeWidget extends Widget_Base {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function defineAdminHooks() {
-
 
 
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function definePublicHooks() {
 
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueStyles' );
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScripts' );
 
-        if ($this->isPreviewMode()) {
-            add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
-            add_action( 'wp_enqueue_scripts', [$this, 'enqueueScripts'] );
+        if ( $this->isPreviewMode() ) {
+            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueStyles' ] );
+            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ] );
             wp_enqueue_scripts();
         }
 
     }
 
-    public function isPreviewMode() {
-        if ( ! User::is_current_user_can_edit() ) {
+    /**
+     * @since 0.1.0
+     *
+     * @return bool
+     */
+    public function isPreviewMode(): bool {
+
+        if ( !User::is_current_user_can_edit() ) {
             return false;
         }
 
-        if ( ! isset( $_GET['elementor-preview'] ) ) {
+        if ( !isset( $_GET['elementor-preview'] ) ) {
             return false;
         }
 
         return true;
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public abstract function enqueueStyles();
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public abstract function enqueueScripts();
 
     /**
+     * @since 0.1.0
+     *
      * @return ElebeeLoader
      */
     public function getLoader(): ElebeeLoader {
@@ -107,9 +147,7 @@ abstract class ElebeeWidget extends Widget_Base {
      * Note that currently Elementor supports only one category.
      * When multiple categories passed, Elementor uses the first one.
      *
-     * @since 0.1.0
-     *
-     * @access public
+     * @since  0.1.0
      *
      * @return array Widget categories.
      */

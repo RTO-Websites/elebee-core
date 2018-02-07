@@ -1,5 +1,19 @@
-<?php namespace ElebeeCore\Pub;
+<?php
+/**
+ * The public-facing functionality of the theme.
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Pub
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
+ */
 
+namespace ElebeeCore\Pub;
+
+
+use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
@@ -15,15 +29,7 @@ use Elementor;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
-/**
- * The public-facing functionality of the theme.
- *
- * @link       https://www.rto.de/
- * @since      0.1.0
- *
- * @package    Elebee
- * @subpackage Elebee/public
- */
+defined( 'ABSPATH' ) || exit;
 
 /**
  * The public-facing functionality of the theme.
@@ -31,38 +37,40 @@ use Elementor\Widget_Base;
  * Defines the theme name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Elebee
- * @subpackage Elebee/public
- * @author     RTO GmbH <info@rto.de>
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Pub
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Pub/ElebeePublic.html
  */
 class ElebeePublic {
 
     /**
      * The ID of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $themeName The ID of this theme.
+     * @since 0.1.0
+     * @var string The ID of this theme.
      */
     private $themeName;
 
     /**
      * The version of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $version The current version of this theme.
+     * @since 0.1.0
+     * @var string $version The current version of this theme.
      */
     private $version;
 
     /**
      * Initialize the class and set its properties.
      *
-     * @since    0.1.0
-     * @param      string $themeName The name of the theme.
-     * @param      string $version The version of this theme.
+     * @since 0.1.0
+     *
+     * @param string $themeName The name of the theme.
+     * @param string $version   The version of this theme.
      */
-    public function __construct( $themeName, $version ) {
+    public function __construct( string $themeName, string $version ) {
 
         $this->themeName = $themeName;
         $this->version = $version;
@@ -70,7 +78,9 @@ class ElebeePublic {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function elementorInit() {
 
@@ -80,7 +90,7 @@ class ElebeePublic {
         $elementor->elements_manager->add_category(
             'rto-elements',
             [
-                'title' => __( 'RTO Elements', TEXTDOMAIN ),
+                'title' => __( 'RTO Elements', 'elebee' ),
                 'icon' => 'font',
             ],
             1
@@ -89,7 +99,7 @@ class ElebeePublic {
         $elementor->elements_manager->add_category(
             'rto-elements-exclusive',
             [
-                'title' => __( 'RTO Elements - Exclusive', TEXTDOMAIN ),
+                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
                 'icon' => 'font',
             ],
             2
@@ -101,6 +111,8 @@ class ElebeePublic {
      * Register Widget
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     public function registerWidgets() {
 
@@ -113,6 +125,13 @@ class ElebeePublic {
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Widget_Base $widget
+     *
+     * @return void
+     */
     public function addWidgetPostsSkins( Widget_Base $widget ) {
 
         $widget->add_skin( new SkinArchive( $widget ) );
@@ -122,6 +141,8 @@ class ElebeePublic {
      * Register Widget
      *
      * @since 0.1.0
+     *
+     * @return void
      */
     public function registerExclusiveWidgets() {
 
@@ -132,12 +153,15 @@ class ElebeePublic {
         Plugin::instance()->widgets_manager->register_widget_type( new BigAndSmallImageWithDescription() );
         Plugin::instance()->widgets_manager->register_widget_type( new Placeholder() );
         Plugin::instance()->widgets_manager->register_widget_type( new PostTypeArchive() );
+
     }
 
     /**
      * Register the stylesheets for the public-facing side of the site.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function enqueueStyles() {
 
@@ -160,7 +184,9 @@ class ElebeePublic {
     /**
      * Register the stylesheets for the public-facing side of the site.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public function enqueueScripts() {
 
@@ -180,10 +206,17 @@ class ElebeePublic {
         wp_enqueue_script( 'main-min', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery' ], $this->version, true );
         wp_enqueue_script( 'main', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Public/js/main.js', [ 'jquery' ], $this->version, true );
 //        wp_localize_script( $this->themeName, 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
+        if ( WP_DEBUG ) {
+            wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
+        }
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function loadExtensions() {
 
@@ -195,10 +228,14 @@ class ElebeePublic {
             if ( isset( $elementor->widgets_manager ) && method_exists( $elementor->widgets_manager, 'register_widget_type' ) ) {
                 require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
                 require_once dirname( __DIR__ ) . '/overrides/Elementor/Core/Settings/General/Model.php';
-                // only works with pro:
+
+                // only with elementor pro:
                 if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
                     require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-                    require_once dirname( __DIR__ ) . '/Extensions/Slides/Slides.php';
+
+                    $slides = new Slides();
+                    $slides->getLoader()->run();
+
                 }
 
                 do_action( 'rto_init_extensions' );
@@ -207,7 +244,8 @@ class ElebeePublic {
         }
 
         $sticky = new Sticky();
-        $sticky->load();
+        $sticky->getLoader()->run();
 
     }
+
 }

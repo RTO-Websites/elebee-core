@@ -15,7 +15,7 @@
 
     <?php echo $headerTitle; ?>
 
-    <?php if( $renderer->inModal() ) : ?>
+    <?php if ( $renderer->inModal() ) : ?>
 
         <?php echo $backLink; ?>
 

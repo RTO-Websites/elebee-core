@@ -1,28 +1,45 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * Hooking.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Hooking.html
  */
 
 namespace ElebeeCore\Lib;
 
 
-trait Hooking {
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class HookingHooking.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Hooking.html
+ */
+abstract class Hooking {
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
      * the theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      ElebeeLoader $loader Maintains and registers all hooks for the theme.
+     * @since 0.1.0
+     * @var ElebeeLoader Maintains and registers all hooks for the theme.
      */
     private $loader;
 
     /**
      * ThemeSupportFeaturedImage constructor.
-     * @param $loader
+     *
+     * @since 0.1.0
      */
     public function __construct() {
 
@@ -45,8 +62,9 @@ trait Hooking {
      * Create an instance of the loader which will be used to register the hooks
      * with WordPress.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function loadDependencies() {
 
@@ -57,9 +75,9 @@ trait Hooking {
     /**
      * The reference to the class that orchestrates the hooks with the theme.
      *
-     * @since     0.1.0
-     * @access    public
-     * @return    ElebeeLoader    Orchestrates the hooks of the theme.
+     * @since 0.1.0
+     *
+     * @return ElebeeLoader Orchestrates the hooks of the theme.
      */
     public function getLoader() {
 
@@ -71,8 +89,9 @@ trait Hooking {
      * Register all of the hooks related to the admin area functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   public
+     * @since 0.1.0
+     *
+     * @return void
      */
     public abstract function defineAdminHooks();
 
@@ -80,8 +99,9 @@ trait Hooking {
      * Register all of the hooks related to the public-facing functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   public
+     * @since 0.1.0
+     *
+     * @return void
      */
     public abstract function definePublicHooks();
 

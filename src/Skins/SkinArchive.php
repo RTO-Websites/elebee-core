@@ -1,4 +1,14 @@
 <?php
+/**
+ * SkinArchive.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Skins
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ */
 
 namespace ElebeeCore\Skins;
 
@@ -8,27 +18,68 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class SkinArchive
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Skins
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ */
 class SkinArchive extends Skin_Base {
-    public function get_id() {
+
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function get_id(): string {
+
         return 'rto';
+
     }
 
-    public function get_title() {
-        return __( 'RTO', TEXTDOMAIN );
+    /**
+     * @since 0.1.0
+     *
+     * @return string
+     */
+    public function get_title(): string {
+
+        return __( 'RTO', 'elebee' );
+
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function _register_controls_actions() {
+
         add_action( 'elementor/element/posts/section_layout/before_section_end', [ $this, 'register_controls' ] );
         add_action( 'elementor/element/posts/section_query/after_section_end', [ $this, 'register_style_sections' ] );
         add_action( 'elementor/element/posts/section_pagination/after_section_end', [ $this, 'registerArchiveSection' ] );
 //        add_action( 'elementor/element/posts/section_design_content/after_section_end', [ $this, 'registerArchiveStyleSection' ] );
+
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @param Widget_Base $widget
+     * @return void
+     */
     public function registerArchiveSection( Widget_Base $widget ) {
+
         $this->start_controls_section(
             'section_archive',
             [
-                'label' => __( 'Archive', TEXTDOMAIN ),
+                'label' => __( 'Archive', 'elebee' ),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -36,14 +87,14 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'add_archive_link',
             [
-                'label' => __( 'Add archive link', TEXTDOMAIN ),
+                'label' => __( 'Add archive link', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => '',
                 'options' => [
-                    '' => __( 'No', TEXTDOMAIN ),
-                    'below' => __( 'Below', TEXTDOMAIN ),
-                    'above' => __( 'Above', TEXTDOMAIN ),
-                    'both' => __( 'Both', TEXTDOMAIN ),
+                    '' => __( 'No', 'elebee' ),
+                    'below' => __( 'Below', 'elebee' ),
+                    'above' => __( 'Above', 'elebee' ),
+                    'both' => __( 'Both', 'elebee' ),
                 ],
             ]
         );
@@ -51,7 +102,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'single_text',
             [
-                'label' => __( 'Single category text', TEXTDOMAIN ),
+                'label' => __( 'Single category text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => 'Show all posts in the category %1$s.',
             ]
@@ -60,7 +111,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'multi_text',
             [
-                'label' => __( 'Multiple category text', TEXTDOMAIN ),
+                'label' => __( 'Multiple category text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => 'Show all posts in the category:',
             ]
@@ -69,13 +120,20 @@ class SkinArchive extends Skin_Base {
         $this->end_controls_section();
 
         $this->registerArchiveStyleSection(); // TODO: try doing this per hook like in the commented line above.
+
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     public function registerArchiveStyleSection() {
+
         $this->start_controls_section(
             'section_archive_design',
             [
-                'label' => __( 'Archive', TEXTDOMAIN ),
+                'label' => __( 'Archive', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -83,7 +141,7 @@ class SkinArchive extends Skin_Base {
         $this->add_control(
             'archive_color',
             [
-                'label' => __( 'Color', TEXTDOMAIN ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .link-to-archive' => 'color: {{VALUE}};',
@@ -101,9 +159,16 @@ class SkinArchive extends Skin_Base {
         );
 
         $this->end_controls_section();
+
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_post() {
+
         $this->render_post_header();
         $this->render_thumbnail();
         $this->render_text_header();
@@ -113,20 +178,41 @@ class SkinArchive extends Skin_Base {
         $this->render_read_more();
         $this->render_text_footer();
         $this->render_post_footer();
+
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_loop_header() {
+
         $this->render_archive_link( 'above' );
         parent::render_loop_header();
 
     }
 
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render_loop_footer() {
+
         parent::render_loop_footer();
         $this->render_archive_link( 'below' );
+
     }
 
-    private function render_archive_link( $where ) {
+    /**
+     * @since 0.1.0
+     *
+     * @param string $where
+     * @return void
+     */
+    private function render_archive_link( string $where ) {
+
         $parentSettings = $this->parent->get_settings();
         $showArchiveLink = in_array( $parentSettings[$this->get_id() . '_add_archive_link'], [ $where, 'both' ] );
         if ( $showArchiveLink && is_array( $parentSettings['posts_category_ids'] ) ) {
@@ -153,5 +239,7 @@ class SkinArchive extends Skin_Base {
                 echo '</ul>';
             }
         }
+
     }
+
 }

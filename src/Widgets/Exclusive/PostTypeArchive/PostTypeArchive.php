@@ -1,9 +1,19 @@
 <?php
+/**
+ * PostTypeArchive.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ */
 
 namespace ElebeeCore\Widgets\Exclusive\PostTypeArchive;
 
+
 use Elementor\Group_Control_Typography;
-use Elementor\Plugin;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
@@ -11,14 +21,29 @@ use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 use WP_Query;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class PostTypeArchive
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ */
 class PostTypeArchive extends ElebeeWidget {
+
     /**
-     * @var
+     * @since 0.1.0
+     * @var array
      */
     protected $postTypes;
 
     /**
-     * @var
+     * @since 0.1.0
+     * @var array
      */
     protected $taxonomies;
 
@@ -28,49 +53,70 @@ class PostTypeArchive extends ElebeeWidget {
     protected $terms;
 
     /**
-     *
+     * @since 0.1.0
+     * @var bool
      */
     protected $isForArchive;
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
-    public function get_name() {
+    public function get_name(): string {
+
         return 'post-type-archive';
+
     }
 
     /**
-     * @return string|void
+     * @since 0.1.0
+     * @return string
      */
-    public function get_title() {
-        return __( 'Post type archive', TEXTDOMAIN );
+    public function get_title(): string {
+
+        return __( 'Post type archive', 'elebee' );
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
-    public function get_categories() {
+    public function get_categories(): array {
+
         return [ 'rto-elements-exclusive' ];
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function enqueueStyles() {
+
         wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/Exclusive/PostTypeArchive/css/' . $this->get_name() . '.css' );
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     protected function _register_controls() {
+
         $this->postTypes = $this->getPostTypes();
         $this->taxonomies = get_taxonomies( null, 'objects' );
         $this->terms = get_terms( [ 'hide_empty' => false ] );
@@ -79,14 +125,14 @@ class PostTypeArchive extends ElebeeWidget {
         $this->start_controls_section(
             'archive_section',
             [
-                'label' => __( 'Archive settings', TEXTDOMAIN ),
+                'label' => __( 'Archive settings', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'type',
             [
-                'label' => __( 'Post type', TEXTDOMAIN ),
+                'label' => __( 'Post type', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'post',
                 'options' => $this->postTypes,
@@ -107,7 +153,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'count',
             [
-                'label' => __( 'Number of results', TEXTDOMAIN ),
+                'label' => __( 'Number of results', 'elebee' ),
                 'type' => Controls_Manager::NUMBER,
                 'default' => -1,
             ]
@@ -116,7 +162,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'per_row',
             [
-                'label' => __( 'Per row', TEXTDOMAIN ),
+                'label' => __( 'Per row', 'elebee' ),
                 'type' => Controls_Manager::NUMBER,
                 'min' => 1,
                 'default' => 4,
@@ -129,7 +175,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'horizontal_spacing',
             [
-                'label' => __( 'Horizontal spacing', TEXTDOMAIN ),
+                'label' => __( 'Horizontal spacing', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
                 'range' => [
@@ -152,7 +198,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_responsive_control(
             'vertical_spacing',
             [
-                'label' => __( 'Vertical spacing', TEXTDOMAIN ),
+                'label' => __( 'Vertical spacing', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
                 'range' => [
@@ -175,11 +221,11 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'effect',
             [
-                'label' => __( 'Effect', TEXTDOMAIN ),
+                'label' => __( 'Effect', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'effect-grayscale',
                 'options' => [
-                    'effect-grayscale' => __( 'Grayscale', TEXTDOMAIN ),
+                    'effect-grayscale' => __( 'Grayscale', 'elebee' ),
                 ],
             ]
         );
@@ -187,7 +233,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'grayscale-slide-color',
             [
-                'label' => __( 'Slide color', TEXTDOMAIN ),
+                'label' => __( 'Slide color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'default' => 'effect-grayscale',
                 'condition' => [
@@ -202,7 +248,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'transition',
             [
-                'label' => __( 'Transition', TEXTDOMAIN ),
+                'label' => __( 'Transition', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 's' ],
                 'range' => [
@@ -229,7 +275,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->start_controls_section(
             'archive_style',
             [
-                'label' => __( 'Post', TEXTDOMAIN ),
+                'label' => __( 'Post', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -237,7 +283,7 @@ class PostTypeArchive extends ElebeeWidget {
         $this->add_control(
             'color',
             [
-                'label' => __( 'Color', TEXTDOMAIN ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}}' => 'color: {{VALUE}};',
@@ -259,7 +305,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->start_controls_section(
                 'archive_divider',
                 [
-                    'label' => __( 'Divider', TEXTDOMAIN ),
+                    'label' => __( 'Divider', 'elebee' ),
                     'tab' => Controls_Manager::TAB_STYLE,
                 ]
             );
@@ -267,13 +313,13 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_style',
                 [
-                    'label' => __( 'Style', TEXTDOMAIN ),
+                    'label' => __( 'Style', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'solid',
                     'options' => [
-                        'solid' => __( 'Solid', TEXTDOMAIN ),
-                        'dashed' => __( 'Dashed', TEXTDOMAIN ),
-                        'dotted' => __( 'Dotted', TEXTDOMAIN ),
+                        'solid' => __( 'Solid', 'elebee' ),
+                        'dashed' => __( 'Dashed', 'elebee' ),
+                        'dotted' => __( 'Dotted', 'elebee' ),
                     ],
                     'selectors' => [
                         '{{WRAPPER}} .post-type-archive-divider' => 'border-top-style: {{VALUE}}',
@@ -284,7 +330,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_width',
                 [
-                    'label' => __( 'Width', TEXTDOMAIN ),
+                    'label' => __( 'Width', 'elebee' ),
                     'type' => Controls_Manager::SLIDER,
                     'range' => [
                         'px' => [
@@ -305,7 +351,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_color',
                 [
-                    'label' => __( 'Color', TEXTDOMAIN ),
+                    'label' => __( 'Color', 'elebee' ),
                     'type' => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPER}} .post-type-archive-divider' => 'border-top-color: {{VALUE}};',
@@ -316,7 +362,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'divider_spacing',
                 [
-                    'label' => __( 'Spacing', TEXTDOMAIN ),
+                    'label' => __( 'Spacing', 'elebee' ),
                     'type' => Controls_Manager::SLIDER,
                     'range' => [
                         'px' => [
@@ -339,7 +385,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->start_controls_section(
                 'more_link',
                 [
-                    'label' => __( 'More link', TEXTDOMAIN ),
+                    'label' => __( 'More link', 'elebee' ),
                     'tab' => Controls_Manager::TAB_STYLE,
                 ]
             );
@@ -347,7 +393,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'more_color',
                 [
-                    'label' => __( 'Color', TEXTDOMAIN ),
+                    'label' => __( 'Color', 'elebee' ),
                     'type' => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPPER}} .link a' => 'color: {{VALUE}};',
@@ -366,12 +412,16 @@ class PostTypeArchive extends ElebeeWidget {
 
             $this->end_controls_section();
         }
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     private function addTaxonomyControls() {
+
         foreach ( $this->postTypes as $typeName => $postType ) {
             $taxonomies = $this->getTaxonomiesForPostType( $typeName );
             if ( empty( $taxonomies ) ) {
@@ -381,7 +431,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'filter_' . $typeName,
                 [
-                    'label' => __( 'Filter', TEXTDOMAIN ),
+                    'label' => __( 'Filter', 'elebee' ),
                     'type' => Controls_Manager::SWITCHER,
                     'condition' => [
                         'type' => $typeName,
@@ -392,7 +442,7 @@ class PostTypeArchive extends ElebeeWidget {
             $this->add_control(
                 'type_' . $typeName . '_taxonomy',
                 [
-                    'label' => __( 'Taxonomy', TEXTDOMAIN ),
+                    'label' => __( 'Taxonomy', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => array_keys( array_slice( $taxonomies, 0, 1 ) )[0],
                     'options' => $taxonomies,
@@ -404,20 +454,25 @@ class PostTypeArchive extends ElebeeWidget {
             );
             $this->addTermControls( $taxonomies, $typeName );
         }
+
     }
 
     /**
-     * @param $taxonomies
-     * @param $postType
+     * @since 0.1.0
+     *
+     * @param array  $taxonomies
+     * @param string $postType
+     * @return void
      */
-    private function addTermControls( $taxonomies, $postType ) {
+    private function addTermControls( array $taxonomies, string $postType ) {
+
         foreach ( $taxonomies as $taxName => $name ) {
             $terms = $this->getTermsForTaxonomy( $taxName );
 
             $this->add_control(
                 'type_' . $postType . '_taxonomy_' . $taxName . '_term',
                 [
-                    'label' => __( 'Term', TEXTDOMAIN ),
+                    'label' => __( 'Term', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => array_keys( array_slice( $terms, 0, 1 ) )[0],
                     'options' => $terms,
@@ -429,12 +484,16 @@ class PostTypeArchive extends ElebeeWidget {
                 ]
             );
         }
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
     private function getPostTypes(): array {
+
         $tmp = get_post_types( null, 'objects' );
         $types = [];
 
@@ -442,13 +501,17 @@ class PostTypeArchive extends ElebeeWidget {
             $types[$name] = $type->labels->name;
         }
         return $types;
+
     }
 
     /**
-     * @param $name
+     * @since 0.1.0
+     *
+     * @param string $name
      * @return array
      */
-    private function getTaxonomiesForPostType( $name ): array {
+    private function getTaxonomiesForPostType( string $name ): array {
+
         $taxonomies = [];
 
         foreach ( $this->taxonomies as $taxName => $taxonomy ) {
@@ -457,13 +520,17 @@ class PostTypeArchive extends ElebeeWidget {
             }
         }
         return $taxonomies;
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param $name
      * @return array
      */
-    private function getTermsForTaxonomy( $name ): array {
+    private function getTermsForTaxonomy( string $name ): array {
+
         $terms = [];
 
         foreach ( $this->terms as $term ) {
@@ -472,12 +539,16 @@ class PostTypeArchive extends ElebeeWidget {
             }
         }
         return $terms;
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return bool
      */
-    protected function isForArchive() {
+    protected function isForArchive(): bool {
+
         if ( is_archive() ) {
             return true;
         }
@@ -490,18 +561,30 @@ class PostTypeArchive extends ElebeeWidget {
         }
 
         return false;
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return array
      */
-    protected function getArchiveSettings() {
+    protected function getArchiveSettings(): array {
+
         return [
             'posts_per_page' => -1,
         ];
+
     }
 
-    protected function getQuerySettings( $postType ) {
+    /**
+     * @since 0.1.0
+     *
+     * @param $postType
+     * @return array
+     */
+    protected function getQuerySettings( $postType ): array {
+
         $settings = $this->get_settings();
         $args = [
             'post_type' => $postType,
@@ -518,12 +601,16 @@ class PostTypeArchive extends ElebeeWidget {
             ];
         }
         return $args;
+
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     protected function render() {
+
         $settings = $this->get_settings();
         $postType = $settings['type'];
         $this->isForArchive = $this->isForArchive();
@@ -565,12 +652,17 @@ class PostTypeArchive extends ElebeeWidget {
             }
             $wrapper->render();
         }
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Template $renderer
+     * @return void
      */
     protected function setRendererVarsForGrayscale( Template &$renderer ) {
+
         $imageID = get_post_meta( get_the_ID(), 'additional-image', true );
         $imagePath = get_attached_file( $imageID );
         if ( 'svg' === substr( $imagePath, -3 ) ) {
@@ -587,14 +679,20 @@ class PostTypeArchive extends ElebeeWidget {
         }
 
         $renderer->setVar( 'figureContent', $image );
+
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Template $renderer
+     * @return void
      */
     protected function setRendererVarsForExcerpts( Template &$renderer ) {
+
         $renderer->setVar( 'title', get_the_title() );
         $renderer->setVar( 'excerpt', get_the_excerpt() );
         $renderer->setVar( 'link', get_the_permalink() );
+
     }
 }

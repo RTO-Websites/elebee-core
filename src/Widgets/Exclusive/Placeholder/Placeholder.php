@@ -1,41 +1,72 @@
 <?php
+/**
+ * Placeholder.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\Placeholder
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/Placeholder/Placeholder.html
+ */
+
 namespace ElebeeCore\Widgets\Exclusive\Placeholder;
+
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Placeholder
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\Exclusive\Placeholder
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/Placeholder/Placeholder.html
+ */
 class Placeholder extends Widget_Base {
+
     /**
      * Retrieve image widget name.
      *
-     * @access public
+     * @since 0.1.0
      *
      * @return string Widget name.
      */
-    public function get_name() {
+    public function get_name(): string {
+
         return 'placeholder';
+
     }
 
     /**
      * Retrieve image widget title.
      *
-     * @access public
+     * @since 0.1.0
      *
      * @return string Widget title.
      */
-    public function get_title() {
-        return __( 'Placeholder', TEXTDOMAIN );
+    public function get_title(): string {
+
+        return __( 'Placeholder', 'elebee' );
+
     }
 
     /**
      * Retrieve image widget icon.
      *
-     * @access public
+     * @since 0.1.0
      *
      * @return string Widget icon.
      */
-    public function get_icon() {
+    public function get_icon(): string {
+
         return 'fa fa-star-o';
+
     }
 
     /**
@@ -43,12 +74,14 @@ class Placeholder extends Widget_Base {
      *
      * Used to determine where to display the widget in the editor.
      *
-     * @access public
+     * @since 0.1.0
      *
      * @return array Widget categories.
      */
-    public function get_categories() {
+    public function get_categories(): array {
+
         return [ 'rto-elements-exclusive' ];
+
     }
 
     /**
@@ -56,25 +89,29 @@ class Placeholder extends Widget_Base {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function _register_controls() {
+
         $this->start_controls_section(
             'section_placeholder',
             [
-                'label' => __( 'Placeholder', TEXTDOMAIN ),
+                'label' => __( 'Placeholder', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'placeholder',
             [
-                'label'       => __( 'Placeholder', TEXTDOMAIN ),
-                'type'        => Controls_Manager::TEXT,
+                'label' => __( 'Placeholder', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
             ]
         );
 
         $this->end_controls_section();
+
     }
 
     /**
@@ -82,10 +119,14 @@ class Placeholder extends Widget_Base {
      *
      * Written in PHP and used to generate the final HTML.
      *
-     * @access protected
+     * @since 0.1.0
+     *
+     * @return void
      */
     protected function render() {
+
         $settings = $this->get_settings();
         echo $settings['placeholder'];
+
     }
 }

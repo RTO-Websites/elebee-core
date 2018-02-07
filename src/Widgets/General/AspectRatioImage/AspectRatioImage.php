@@ -1,5 +1,17 @@
 <?php
+/**
+ * AspectRatioImage.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/AspectRatioImage/AspectRatioImage.html
+ */
+
 namespace ElebeeCore\Widgets\General\AspectRatioImage;
+
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
@@ -9,272 +21,286 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use Elementor\Widget_Base;
 use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Image Widget
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/AspectRatioImage/AspectRatioImage.html
  */
 class AspectRatioImage extends ElebeeWidget {
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueStyles() {
         // TODO: Implement enqueueStyles() method.
     }
 
+    /**
+     * @since 0.1.0
+     */
     public function enqueueScripts() {
         // TODO: Implement enqueueScripts() method.
     }
 
-	/**
-	 * Retrieve image widget name.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget name.
-	 */
-	public function get_name() {
-		return 'aspect_image_image';
-	}
+    /**
+     * Retrieve image widget name.
+     *
+     * @since 0.1.0
+     */
+    public function get_name(): string {
 
-	/**
-	 * Retrieve image widget title.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget title.
-	 */
-	public function get_title() {
-		return __( 'Aspect Ratio Image', TEXTDOMAIN );
-	}
+        return 'aspect_image_image';
 
-	/**
-	 * Retrieve image widget icon.
-	 *
-	 * @access public
-	 *
-	 * @return string Widget icon.
-	 */
-	public function get_icon() {
-		return 'eicon-insert-image';
-	}
+    }
 
-	/**
-	 * Register image widget controls.
-	 *
-	 * Adds different input fields to allow the user to change and customize the widget settings.
-	 *
-	 * @access protected
-	 */
-	protected function _register_controls() {
-		$this->start_controls_section(
-			'section_image',
-			[
-				'label' => __( 'Image', TEXTDOMAIN ),
-			]
-		);
+    /**
+     * Retrieve image widget title.
+     *
+     * @since 0.1.0
+     */
+    public function get_title(): string {
 
-		$this->add_control(
-			'image',
-			[
-				'label' => __( 'Choose Image', TEXTDOMAIN ),
-				'type' => Controls_Manager::MEDIA,
-				'default' => [
-					'url' => Utils::get_placeholder_image_src(),
-				],
-			]
-		);
+        return __( 'Aspect Ratio Image', 'elebee' );
 
-		$this->add_group_control(
-			Group_Control_Image_Size::get_type(),
-			[
-				'name' => 'image', // Actually its `image_size`.
-				'label' => __( 'Image Size', TEXTDOMAIN ),
-				'default' => 'large',
-			]
-		);
+    }
 
-		$this->add_responsive_control(
-			'aspect-ratio',
-			[
-				'label' => __( 'Image Aspect Ratio', TEXTDOMAIN ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ '%' ],
-				'range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'tablet_range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'mobile_range' => [
-					'%' => [
-						'min' => 25.00,
-						'max' => 400.00,
-					],
-				],
-				'default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'tablet_default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'mobile_default' => [
-					'size' => 56.25,
-					'unit' => '%',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rto-image-ratio-container' => 'padding-top: {{SIZE}}%;',
-				],
-			]
-		);
+    /**
+     * Retrieve image widget icon.
+     *
+     * @since 0.1.0
+     */
+    public function get_icon(): string {
 
-		$this->add_control(
-			'link_to',
-			[
-				'label' => __( 'Link to', TEXTDOMAIN ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'none',
-				'options' => [
-					'none' => __( 'None', TEXTDOMAIN ),
-					'file' => __( 'Media File', TEXTDOMAIN ),
-					'custom' => __( 'Custom URL', TEXTDOMAIN ),
-				],
-			]
-		);
+        return 'eicon-insert-image';
 
-		$this->add_control(
-			'link',
-			[
-				'label' => __( 'Link to', TEXTDOMAIN ),
-				'type' => Controls_Manager::URL,
-				'placeholder' => __( 'http://your-link.com', TEXTDOMAIN ),
-				'condition' => [
-					'link_to' => 'custom',
-				],
-				'show_label' => false,
-			]
-		);
+    }
 
-		$this->add_control(
-			'open_lightbox',
-			[
-				'label' => __( 'Lightbox', TEXTDOMAIN ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'default',
-				'options' => [
-					'default' => __( 'Default', TEXTDOMAIN ),
-					'yes' => __( 'Yes', 'elementor' ),
-					'no' => __( 'No', 'elementor' ),
-				],
-				'condition' => [
-					'link_to' => 'file',
-				],
-			]
-		);
+    /**
+     * Register image widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @since 0.1.0
+     */
+    protected function _register_controls() {
 
-		$this->add_control(
-			'view',
-			[
-				'label' => __( 'View', TEXTDOMAIN ),
-				'type' => Controls_Manager::HIDDEN,
-				'default' => 'traditional',
-			]
-		);
+        $this->start_controls_section(
+            'section_image',
+            [
+                'label' => __( 'Image', 'elebee' ),
+            ]
+        );
 
-		$this->end_controls_section();
+        $this->add_control(
+            'image',
+            [
+                'label' => __( 'Choose Image', 'elebee' ),
+                'type' => Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => Utils::get_placeholder_image_src(),
+                ],
+            ]
+        );
 
-		$this->start_controls_section(
-			'section_style_image',
-			[
-				'label' => __( 'Image', TEXTDOMAIN ),
-				'tab'   => Controls_Manager::TAB_STYLE,
-			]
-		);
+        $this->add_group_control(
+            Group_Control_Image_Size::get_type(),
+            [
+                'name' => 'image', // Actually its `image_size`.
+                'label' => __( 'Image Size', 'elebee' ),
+                'default' => 'large',
+            ]
+        );
 
-		$this->add_control(
-			'opacity',
-			[
-				'label' => __( 'Opacity (%)', TEXTDOMAIN ),
-				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => 1,
-				],
-				'range' => [
-					'px' => [
-						'max' => 1,
-						'min' => 0.10,
-						'step' => 0.01,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rto-image-ratio-container .image' => 'opacity: {{SIZE}};',
-				],
-			]
-		);
+        $this->add_responsive_control(
+            'aspect-ratio',
+            [
+                'label' => __( 'Image Aspect Ratio', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ '%' ],
+                'range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'tablet_range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'mobile_range' => [
+                    '%' => [
+                        'min' => 25.00,
+                        'max' => 400.00,
+                    ],
+                ],
+                'default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'tablet_default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'mobile_default' => [
+                    'size' => 56.25,
+                    'unit' => '%',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rto-image-ratio-container' => 'padding-top: {{SIZE}}%;',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'hover_animation',
-			[
-				'label' => __( 'Hover Animation', TEXTDOMAIN ),
-				'type' => Controls_Manager::HOVER_ANIMATION,
-			]
-		);
+        $this->add_control(
+            'link_to',
+            [
+                'label' => __( 'Link to', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'none',
+                'options' => [
+                    'none' => __( 'None', 'elebee' ),
+                    'file' => __( 'Media File', 'elebee' ),
+                    'custom' => __( 'Custom URL', 'elebee' ),
+                ],
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Border::get_type(),
-			[
-				'name' => 'image_border',
-				'label' => __( 'Image Border', TEXTDOMAIN ),
-				'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
-				'separator' => 'before',
-			]
-		);
+        $this->add_control(
+            'link',
+            [
+                'label' => __( 'Link to', 'elebee' ),
+                'type' => Controls_Manager::URL,
+                'placeholder' => __( 'http://your-link.com', 'elebee' ),
+                'condition' => [
+                    'link_to' => 'custom',
+                ],
+                'show_label' => false,
+            ]
+        );
 
-		$this->add_responsive_control(
-			'image_border_radius',
-			[
-				'label' => __( 'Border Radius', TEXTDOMAIN ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'selectors' => [
-					'{{WRAPPER}} .rto-image-ratio-container .image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+        $this->add_control(
+            'open_lightbox',
+            [
+                'label' => __( 'Lightbox', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => __( 'Default', 'elebee' ),
+                    'yes' => __( 'Yes', 'elementor' ),
+                    'no' => __( 'No', 'elementor' ),
+                ],
+                'condition' => [
+                    'link_to' => 'file',
+                ],
+            ]
+        );
 
-		$this->add_group_control(
-			Group_Control_Box_Shadow::get_type(),
-			[
-				'name' => 'image_box_shadow',
-				'exclude' => [
-					'box_shadow_position',
-				],
-				'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
-			]
-		);
+        $this->add_control(
+            'view',
+            [
+                'label' => __( 'View', 'elebee' ),
+                'type' => Controls_Manager::HIDDEN,
+                'default' => 'traditional',
+            ]
+        );
 
-		$this->end_controls_section();
-	}
+        $this->end_controls_section();
 
-	/**
-	 * Render image widget output on the frontend.
-	 *
-	 * Written in PHP and used to generate the final HTML.
-	 *
-	 * @access protected
-	 */
+        $this->start_controls_section(
+            'section_style_image',
+            [
+                'label' => __( 'Image', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'opacity',
+            [
+                'label' => __( 'Opacity (%)', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 1,
+                ],
+                'range' => [
+                    'px' => [
+                        'max' => 1,
+                        'min' => 0.10,
+                        'step' => 0.01,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rto-image-ratio-container .image' => 'opacity: {{SIZE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hover_animation',
+            [
+                'label' => __( 'Hover Animation', 'elebee' ),
+                'type' => Controls_Manager::HOVER_ANIMATION,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'image_border',
+                'label' => __( 'Image Border', 'elebee' ),
+                'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'image_border_radius',
+            [
+                'label' => __( 'Border Radius', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .rto-image-ratio-container .image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'image_box_shadow',
+                'exclude' => [
+                    'box_shadow_position',
+                ],
+                'selector' => '{{WRAPPER}} .rto-image-ratio-container .image',
+            ]
+        );
+
+        $this->end_controls_section();
+
+    }
+
+    /**
+     * Render image widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 0.1.0
+     *
+     * @return void
+     */
     protected function render() {
 
         $settings = $this->get_settings();
@@ -310,32 +336,33 @@ class AspectRatioImage extends ElebeeWidget {
             'backgroundImage' => $settings['image']['url'],
         ] );
         $aspectRatioImageTemplate->render();
+
     }
 
-	/**
-	 * Retrieve image widget link URL.
-	 *
-	 * @access private
-	 *
-	 * @param object $instance
-	 *
-	 * @return array|string|false An array/string containing the link URL, or false if no link.
-	 */
-	private function get_link_url( $instance ) {
-		if ( 'none' === $instance['link_to'] ) {
-			return false;
-		}
+    /**
+     * Retrieve image widget link URL.
+     *
+     * @param object $instance
+     *
+     * @return array|string|false An array/string containing the link URL, or false if no link.
+     */
+    private function get_link_url( $instance ) {
 
-		if ( 'custom' === $instance['link_to'] ) {
-			if ( empty( $instance['link']['url'] ) ) {
-				return false;
-			}
-			return $instance['link'];
-		}
+        if ( 'none' === $instance['link_to'] ) {
+            return false;
+        }
 
-		return [
-			'url' => $instance['image']['url'],
-		];
-	}
+        if ( 'custom' === $instance['link_to'] ) {
+            if ( empty( $instance['link']['url'] ) ) {
+                return false;
+            }
+            return $instance['link'];
+        }
+
+        return [
+            'url' => $instance['image']['url'],
+        ];
+
+    }
 
 }

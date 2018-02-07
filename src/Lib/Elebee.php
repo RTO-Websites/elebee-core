@@ -1,28 +1,49 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * Elebee.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Elebee.html
  */
 
 namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportExcerpt;
+use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeCustomizer\Section;
+use ElebeeCore\Lib\ThemeCustomizer\Setting;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Elebee
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Elebee.html
+ */
 class Elebee {
 
     /**
      * The current version of the theme.
      *
-     * @since    0.1.0
-     * @access   public
-     * @var      const    VERSION    The current version of the theme.
+     * @since 0.1.0
+     * @var string The current version of the theme.
      */
     const VERSION = '0.1.0';
 
@@ -30,18 +51,16 @@ class Elebee {
      * The loader that's responsible for maintaining and registering all hooks that power
      * the theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      ElebeeLoader $loader Maintains and registers all hooks for the theme.
+     * @since 0.1.0
+     * @var ElebeeLoader Maintains and registers all hooks for the theme.
      */
     private $loader;
 
     /**
      * The unique identifier of this theme.
      *
-     * @since    0.1.0
-     * @access   private
-     * @var      string $themeName The string used to uniquely identify this theme.
+     * @since 0.1.0
+     * @var string The string used to uniquely identify this theme.
      */
     private $themeName;
 
@@ -60,7 +79,9 @@ class Elebee {
 
         $this->loadDependencies();
         $this->setLocale();
+        $this->setupPostTypeSupport();
         $this->setupThemeSupport();
+        $this->setupThemeCustomizer();
         $this->defineAdminHooks();
         $this->definePublicHooks();
 
@@ -80,7 +101,8 @@ class Elebee {
      * with WordPress.
      *
      * @since    0.1.0
-     * @access   private
+     *
+     * @return void
      */
     private function loadDependencies() {
 
@@ -94,8 +116,9 @@ class Elebee {
      * Uses the ElebeeI18n class in order to set the domain and to register the hook
      * with WordPress.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function setLocale() {
 
@@ -106,18 +129,105 @@ class Elebee {
     }
 
     /**
+     * @since 0.2.0
+     *
+     * @return void
+     */
+    private function setupPostTypeSupport() {
+
+        $themeSupportExcerpt = new PostTypeSupportExcerpt();
+        $themeSupportExcerpt->addPostTypeSupport();
+
+    }
+
+    /**
      * @since 0.1.0
+     *
+     * @return void
      */
     private function setupThemeSupport() {
 
-        $themeSupportHTML5 = new ThemeSupportHTML5();
-        $themeSupportHTML5->getLoader()->run();
+        $themeSupportTitleTag = new ThemeSupportTitleTag();
+        $themeSupportTitleTag->addThemeSupport();
 
-        $themeSupportExcerpt = new ThemeSupportExcerpt();
-        $themeSupportExcerpt->getLoader()->run();
+        $themeSupportHTML5 = new ThemeSupportHTML5();
+        $themeSupportHTML5->addThemeSupport();
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
-        $themeSupportFeaturedImage->getLoader()->run();
+        $themeSupportFeaturedImage->addThemeSupport();
+
+    }
+
+    /**
+     * @since 0.2.0
+     *
+     * @return void
+     */
+    public function setupThemeCustomizer() {
+
+        $this->themeCustomizer = new ThemeCustommizer();
+        $this->setupThemeSettingsCoreData();
+        $this->themeCustomizer->register();
+
+    }
+
+    /**
+     * @since 0.2.0
+     *
+     * @return void
+     */
+    public function setupThemeSettingsCoreData() {
+
+        $settingCoreDataAddress = new Setting(
+            'elebee_core_data_address',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'Address', 'elebee' ),
+                'description' => __( '[coredata]address[/coredata]', 'elebee' ),
+                'type' => 'textarea',
+            ]
+        );
+
+        $settingCoreDataEmail = new Setting(
+            'elebee_core_data_email',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'E-Mail address', 'elebee' ),
+                'description' => __( '[coredata]email[/coredata]', 'elebee' ),
+                'type' => 'text',
+            ]
+        );
+
+        $settingCoreDataPhone = new Setting(
+            'elebee_core_data_phone',
+            [
+                'type' => 'option',
+                'default' => '',
+            ],
+            [
+                'label' => __( 'Phone', 'elebee' ),
+                'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
+                'type' => 'text',
+            ]
+        );
+
+        $description = __( 'You can use the [coredata]key[/coredata] shortcode to display the core data field inside a post.', 'elebee' );
+        $sectionCoreData = new Section( 'elebee_core_data_section', [
+            'title' => __( 'Core data', 'elebee' ),
+            'priority' => 700,
+            'description' => $description,
+        ] );
+        $sectionCoreData->addSetting( $settingCoreDataAddress );
+        $sectionCoreData->addSetting( $settingCoreDataEmail );
+        $sectionCoreData->addSetting( $settingCoreDataPhone );
+
+        $this->themeCustomizer->addSection( $sectionCoreData );
 
     }
 
@@ -125,10 +235,13 @@ class Elebee {
      * Register all of the hooks related to the admin area functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function defineAdminHooks() {
+
+        $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
@@ -149,10 +262,19 @@ class Elebee {
      * Register all of the hooks related to the public-facing functionality
      * of the theme.
      *
-     * @since    0.1.0
-     * @access   private
+     * @since 0.1.0
+     *
+     * @return void
      */
     private function definePublicHooks() {
+
+        $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
+        $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
+        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
+
+        $htmlCompression = new HtmlCompression();
+        $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
@@ -174,18 +296,21 @@ class Elebee {
      * The name of the theme used to uniquely identify it within the context of
      * WordPress and to define internationalization functionality.
      *
-     * @since     0.1.0
-     * @return    string    The name of the theme.
+     * @since 0.1.0
+     *
+     * @return string The name of the theme.
      */
     public function getThemeName() {
+
         return $this->themeName;
     }
 
     /**
      * The reference to the class that orchestrates the hooks with the theme.
      *
-     * @since     0.1.0
-     * @return    ElebeeLoader    Orchestrates the hooks of the theme.
+     * @since 0.1.0
+     *
+     * @return ElebeeLoader Orchestrates the hooks of the theme.
      */
     public function getLoader() {
 
@@ -196,8 +321,9 @@ class Elebee {
     /**
      * Retrieve the version number of the theme.
      *
-     * @since     0.1.0
-     * @return    string    The version number of the theme.
+     * @since 0.1.0
+     *
+     * @return string The version number of the theme.
      */
     public function getVersion() {
 
@@ -206,11 +332,13 @@ class Elebee {
     }
 
     /**
+     * @since 0.1.0
      *
+     * @return void
      */
     public function phpVersionFail() {
 
-        $message = esc_html__( 'The Elementor RTO plugin requires PHP version 7.0+, plugin is currently NOT ACTIVE.', TEXTDOMAIN );
+        $message = esc_html__( 'The Elementor RTO plugin requires PHP version 7.0+, plugin is currently NOT ACTIVE.', 'elebee' );
         $errorTemplate = new Template( dirname( __DIR__ ) . '/public/partials/general/element-default.php', [
             'tag' => 'div',
             'attributes' => 'class="error"',
@@ -223,13 +351,15 @@ class Elebee {
     /**
      * Run the loader to execute all of the hooks with WordPress.
      *
-     * @since    0.1.0
+     * @since 0.1.0
+     *
+     * @return void
      */
     public static function run() {
 
         $elebee = new self();
 
-        if ( ! version_compare( PHP_VERSION, '7.0', '>=' ) ) {
+        if ( !version_compare( PHP_VERSION, '7.0', '>=' ) ) {
 
             $elebee->getLoader()->addAction( 'admin_notices', $elebee, 'phpVersionFail' );
 

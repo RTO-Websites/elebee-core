@@ -1,38 +1,51 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * ThemeSupportFeaturedImage.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib\ThemeSupport
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportFeaturedImage.html
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
+defined( 'ABSPATH' ) || exit;
 
-class ThemeSupportFeaturedImage {
-
-    use Hooking;
+/**
+ * Class ThemeSupportFeaturedImage
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Lib\ThemeSupport
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportFeaturedImage.html
+ */
+class ThemeSupportFeaturedImage extends ThemeSupport {
 
     /**
-     * @since    0.1.0
+     * ThemeSupportFeaturedImage constructor.
+     *
+     * @since 0.1.0
+     *
+     * @param string $hook
+     */
+    public function __construct( string $hook = 'after_setup_theme' ) {
+
+        parent::__construct( $hook );
+
+    }
+
+    /**
+     * @since 0.1.0
      */
     public function defineAdminHooks() {
 
-        $this->getLoader()->addFilter( 'manage_posts_columns', $this, 'customColumns' );
-        $this->getLoader()->addFilter( 'manage_pages_columns', $this, 'customColumns' );
-
-        $this->getLoader()->addAction( 'manage_posts_custom_column', $this, 'customColumnsData', 10, 2 );
-        $this->getLoader()->addAction( 'manage_pages_custom_column', $this, 'customColumnsData', 10, 2 );
-
-    }
-
-    /**
-     * @since    0.1.0
-     */
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( 'after_setup_theme', $this, 'addThemeSupportFeaturedImages' );
+        parent::defineAdminHooks();
 
         $this->getLoader()->addFilter( 'manage_posts_columns', $this, 'customColumns' );
         $this->getLoader()->addFilter( 'manage_pages_columns', $this, 'customColumns' );
@@ -43,9 +56,9 @@ class ThemeSupportFeaturedImage {
     }
 
     /**
-     *
+     * @since 0.2.0
      */
-    public function addThemeSupportFeaturedImages() {
+    public function hookCallback() {
 
         add_theme_support( 'post-thumbnails' );
 
@@ -63,11 +76,12 @@ class ThemeSupportFeaturedImage {
     /**
      * Add the featured image column to the Wordpress tables.
      *
-     * @param $columns
+     * @since 0.1.0
      *
+     * @param array $columns
      * @return array
      */
-    public function customColumns( $columns ) {
+    public function customColumns( array $columns ): array {
 
         $offset = array_search( 'date', array_keys( $columns ) );
 
@@ -82,12 +96,13 @@ class ThemeSupportFeaturedImage {
     /**
      * Prints data in a column.
      *
-     * @param $column
-     * @param $postId
+     * @since 0.1.0
      *
+     * @param string $column
+     * @param int    $postId
      * @return void
      */
-    public function customColumnsData( $column, $postId ) {
+    public function customColumnsData( string $column, int $postId ) {
 
         switch ( $column ) {
             case 'featured_image':

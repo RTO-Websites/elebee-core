@@ -1,31 +1,53 @@
 <?php
 /**
- * @since 0.1.0
- * @author RTO GmbH <info@rto.de>
- * @licence MIT
+ * Renderer.php
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Renderer.html
  */
 
-namespace ElebeeCore\Widgets\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Template;
 use ElebeeCore\Lib\Visitee;
 use ElebeeCore\Lib\Visitor;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Renderer
+ *
+ * @since   0.1.0
+ *
+ * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Renderer.html
+ */
 class Renderer implements Visitor {
 
     /**
+     * @since 0.1.0
      * @var array
      */
     private $widgetSettings;
 
     /**
+     * @since 0.1.0
      * @var string
      */
     private $modalId;
 
     /**
      * Renderer constructor.
+     *
+     * @since 0.1.0
+     *
      * @param array $widgetSettings
      */
     public function __construct( array $widgetSettings ) {
@@ -36,6 +58,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return bool
      */
     public function inModal(): bool {
@@ -45,6 +69,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     public function getModalId(): string {
@@ -54,6 +80,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Visitee $visitee
      */
     public function visit( Visitee $visitee ) {
@@ -80,6 +108,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Album $album
      */
     private function renderAlbum( Album $album ) {
@@ -98,6 +128,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      */
     private function renderGallery( Gallery $gallery ) {
@@ -125,6 +157,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @return string
      */
     private function getRenderedBackLink(): string {
@@ -149,6 +183,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      * @return string
      */
@@ -163,6 +199,8 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Gallery $gallery
      * @return string
      */
@@ -174,7 +212,7 @@ class Renderer implements Visitor {
         $showSedcard = $showSedcard && !empty( $attributeList );
         $showSedcard = $showSedcard && ( $this->inModal() || $this->widgetSettings['gallery_style'] != 'modal' );
 
-        if( !$showSedcard ) {
+        if ( !$showSedcard ) {
 
             return '';
 
@@ -188,15 +226,17 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param string $content
      * @return string
      */
-    private function getRenderedTitle( string $content ): string  {
+    private function getRenderedTitle( string $content ): string {
 
-        $galleryTitleTemplate = new Template( ELEMENTOR_RTO__DIR__ . '/public/partials/general/element-default.php', [
+        $galleryTitleTemplate = new Template( get_stylesheet_directory() . '/vendor//public/partials/general/element-default.php', [
             'tag' => $this->widgetSettings['header_size'],
             'attributes' => Template::toHtmlAttributes( [
-                'class' => 'gallery-title'
+                'class' => 'gallery-title',
             ] ),
             'content' => $content,
         ] );
@@ -205,14 +245,16 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Image $image
+     * @return void
      */
     private function renderImage( Image $image ) {
 
-        if( $this->inModal() || $this->widgetSettings['first_image'] ) {
+        if ( $this->inModal() || $this->widgetSettings['first_image'] ) {
             $title = $image->getCaption();
-        }
-        else {
+        } else {
             $title = $image->getGallery()->getTitle();
         }
 
@@ -230,10 +272,12 @@ class Renderer implements Visitor {
     }
 
     /**
+     * @since 0.1.0
+     *
      * @param Image $image
      * @return string
      */
-    private function getRenderedThumbnail( Image $image ): string  {
+    private function getRenderedThumbnail( Image $image ): string {
 
         $galleryImageTemplate = new Template( dirname( __DIR__ ) . '/partials/gallery-image.php', [
             'src' => $image->getSrc(),
