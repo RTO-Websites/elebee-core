@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupportExcerpt.html
  */
-class PostTypeSupportExcerpt extends PostTypeSupport {
+class PostTypeSupportExcerpt extends PostTypeSupportBase {
 
     /**
      * PostTypeSupportExcerpt constructor.

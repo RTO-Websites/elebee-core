@@ -7,7 +7,7 @@
  * @package ElebeeCore\Lib\PostTypeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupport.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupportBase.html
  */
 
 namespace ElebeeCore\Lib\PostTypeSupport;
@@ -25,9 +25,9 @@ defined( 'ABSPATH' ) || exit;
  * @package ElebeeCore\Lib\PostTypeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupport.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/PostTypeSupport/PostTypeSupportBase.html
  */
-abstract class PostTypeSupport extends Hooking {
+abstract class PostTypeSupportBase extends Hooking {
 
     /**
      * @since 0.2.0
