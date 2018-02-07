@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyColorPicker.html
  */
-class MetaKeyColorPicker extends MetaKey {
+class MetaKeyColorPicker extends MetaKeyBase {
 
     /**
      * MetaKeyTextfield constructor.

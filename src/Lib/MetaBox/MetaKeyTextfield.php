@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTextfield.html
  */
-class MetaKeyTextfield extends MetaKey {
+class MetaKeyTextfield extends MetaKeyBase {
 
     /**
      * MetaKeyTextfield constructor.

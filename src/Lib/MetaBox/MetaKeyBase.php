@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKey.html
  */
-abstract class MetaKey {
+abstract class MetaKeyBase {
 
     /**
      * Equal to the FILTER_DEFAULT constant.
