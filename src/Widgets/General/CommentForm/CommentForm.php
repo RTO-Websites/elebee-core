@@ -21,7 +21,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use ElebeeCore\Lib\ElebeeWidget;
+use ElebeeCore\Lib\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,7 +39,7 @@ if ( !defined( '__COMMENTFORM__' ) ) {
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentForm/CommentForm.html
  */
-class CommentForm extends ElebeeWidget {
+class CommentForm extends WidgetBase {
 
     /**
      * @since 0.1.0

@@ -18,7 +18,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use ElebeeCore\Lib\ElebeeWidget;
+use ElebeeCore\Lib\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
  */
-class BetterAccordion extends ElebeeWidget {
+class BetterAccordion extends WidgetBase {
 
     /**
      * @since 0.1.0

@@ -1,13 +1,13 @@
 <?php
 /**
- * ElebeeWidget.php
+ * WidgetBase.php
  *
  * @since   0.1.0
  *
  * @package ElebeeCore\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeWidget.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/WidgetBase.html
  */
 
 namespace ElebeeCore\Lib;
@@ -19,16 +19,16 @@ use Elementor\User;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class ElebeeWidget
+ * Class WidgetBase
  *
  * @since   0.1.0
  *
  * @package ElebeeCore\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ElebeeWidget.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/WidgetBase.html
  */
-abstract class ElebeeWidget extends Widget_Base {
+abstract class WidgetBase extends Widget_Base {
 
     /**
      * @since 0.1.0
@@ -37,7 +37,7 @@ abstract class ElebeeWidget extends Widget_Base {
     private $loader;
 
     /**
-     * ElebeeWidget constructor.
+     * WidgetBase constructor.
      *
      * @since 0.1.0
      *
