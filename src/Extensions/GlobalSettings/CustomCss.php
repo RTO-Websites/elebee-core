@@ -25,6 +25,16 @@ class CustomCss extends Hooking {
     private $settingName;
 
     /**
+     * @var string
+     */
+    private $customGlobalCssFile;
+
+    /**
+     * @var string
+     */
+    private $customGlobalCssFileUrl;
+
+    /**
      * CustomCss constructor.
      */
     public function __construct() {
@@ -32,6 +42,11 @@ class CustomCss extends Hooking {
         parent::__construct();
 
         $this->settingName = 'elebee_custom_global_css';
+
+        $file = 'css/custom-global.css';
+
+        $this->customGlobalCssFile = trailingslashit( get_stylesheet_directory() ) . $file;
+        $this->customGlobalCssFileUrl = trailingslashit( get_stylesheet_directory_uri() ) . $file;
 
     }
 
@@ -41,12 +56,15 @@ class CustomCss extends Hooking {
     public function defineAdminHooks() {
 
         $this->getLoader()->addAction( 'elementor/editor/global-settings', $this, 'extend' );
+        $this->getLoader()->addAction( 'elementor/editor/after_save', $this, 'buildCSSFile' );
     }
 
     /**
      *
      */
     public function definePublicHooks() {
+
+        $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueueStyles' );
 
     }
 
@@ -63,6 +81,26 @@ class CustomCss extends Hooking {
         ];
 
         return $controls;
+
+    }
+
+    /**
+     *
+     */
+    public function enqueueStyles() {
+
+        wp_enqueue_style( 'custom-global', $this->customGlobalCssFileUrl, [ 'main', 'elementor-global', 'elementor-frontend' ] );
+
+    }
+
+    /**
+     *
+     */
+    public function buildCSSFile() {
+
+        $scss = get_option( $this->settingName, '' );
+
+        file_put_contents( $this->customGlobalCssFile, $scss );
 
     }
 
