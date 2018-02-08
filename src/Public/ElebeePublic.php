@@ -13,6 +13,7 @@
 namespace ElebeeCore\Pub;
 
 
+use ElebeeCore\Extensions\GlobalSettings\CustomCss;
 use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
@@ -245,6 +246,9 @@ class ElebeePublic {
 
         $sticky = new Sticky();
         $sticky->getLoader()->run();
+
+        $globalCustomCss = new CustomCss();
+        $globalCustomCss->getLoader()->run();
 
     }
 
