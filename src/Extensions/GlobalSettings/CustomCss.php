@@ -94,7 +94,7 @@ class CustomCss extends Hooking {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( 'custom-global', $this->customGlobalCssFileUrl, [ 'main', 'elementor-global', 'elementor-frontend' ] );
+        wp_enqueue_style( 'custom-global', $this->customGlobalCssFileUrl, [ 'main', 'elementor-frontend' ] );
 
     }
 
