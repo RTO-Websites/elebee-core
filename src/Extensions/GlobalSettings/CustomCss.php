@@ -10,6 +10,8 @@ namespace ElebeeCore\Extensions\GlobalSettings;
 
 use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Manager;
+use Leafo\ScssPhp\Compiler;
+use Leafo\ScssPhp\Formatter\Crunched;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -77,6 +79,8 @@ class CustomCss extends Hooking {
         $controls['style']['style']['controls'][$this->settingName] = [
             'label' => __( 'Global CSS', 'elebee' ),
             'type' => Controls_Manager::CODE,
+            'language' => 'scss',
+            'render_type' => 'ui',
             'description' => sprintf( __( 'Use SCSS syntax (%ssee%s)', 'elementor' ), '<a href="https://sass-lang.com/guide" target="_blank">', '</a>' ),
         ];
 
@@ -99,8 +103,14 @@ class CustomCss extends Hooking {
     public function buildCSSFile() {
 
         $scss = get_option( $this->settingName, '' );
+        $scssCompiler = new Compiler();
+        $scssCompiler->setFormatter( Crunched::class );
+        if ( WP_DEBUG ) {
+            $scssCompiler->setLineNumberStyle( Compiler::LINE_COMMENTS );
+        }
+        $css = $scssCompiler->compile( $scss );
 
-        file_put_contents( $this->customGlobalCssFile, $scss );
+        file_put_contents( $this->customGlobalCssFile, $css );
 
     }
 
