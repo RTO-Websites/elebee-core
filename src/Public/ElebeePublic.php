@@ -223,6 +223,9 @@ class ElebeePublic {
         $sticky = new Sticky();
         $sticky->getLoader()->run();
 
+        $globalWidgetPadding = new WidgetPadding();
+        $globalWidgetPadding->getLoader()->run();
+
 
         do_action( 'rto_init_extensions' );
 
