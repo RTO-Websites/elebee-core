@@ -41,14 +41,14 @@ class CustomCss extends Hooking {
      */
     public function __construct() {
 
-        parent::__construct();
-
         $this->settingName = 'elebee_custom_global_css';
 
         $file = 'css/custom-global.css';
 
         $this->customGlobalCssFile = trailingslashit( get_stylesheet_directory() ) . $file;
         $this->customGlobalCssFileUrl = trailingslashit( get_stylesheet_directory_uri() ) . $file;
+
+        parent::__construct();
 
     }
 
@@ -58,7 +58,8 @@ class CustomCss extends Hooking {
     public function defineAdminHooks() {
 
         $this->getLoader()->addAction( 'elementor/editor/global-settings', $this, 'extend' );
-        $this->getLoader()->addAction( 'elementor/editor/after_save', $this, 'buildCSSFile' );
+        $this->getLoader()->addAction( 'update_option_' . $this->settingName, $this, 'buildCssFile', 10, 2 );
+
     }
 
     /**
@@ -100,9 +101,10 @@ class CustomCss extends Hooking {
     /**
      *
      */
-    public function buildCSSFile() {
+    public function buildCssFile( $oldValue, $value ) {
 
-        $scss = get_option( $this->settingName, '' );
+        $scss = $value;
+
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
         if ( WP_DEBUG ) {

@@ -15,6 +15,7 @@ namespace ElebeeCore\Pub;
 
 use ElebeeCore\Extensions\GlobalSettings\CustomCss;
 use ElebeeCore\Extensions\Slides\Slides;
+use ElebeeCore\Extensions\Sticky\Sticky;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
@@ -25,8 +26,6 @@ use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery
 use ElebeeCore\Widgets\General\CommentForm\CommentForm;
 use ElebeeCore\Widgets\General\CommentList\CommentList;
 use ElebeeCore\Widgets\General\Imprint\Imprint;
-use ElebeeCore\Extensions\Sticky\Sticky;
-use Elementor;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
@@ -83,7 +82,7 @@ class ElebeePublic {
      *
      * @return void
      */
-    public function elementorInit() {
+    public function setupElementorCategories() {
 
         $elementor = Plugin::$instance;
 
@@ -214,33 +213,25 @@ class ElebeePublic {
 
     }
 
+    public function setupElementorOverrides() {
+
+        require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
+        require_once dirname( __DIR__ ) . '/overrides/Elementor/Core/Settings/General/Model.php';
+
+    }
+
     /**
      * @since 0.1.0
      *
      * @return void
      */
-    public function loadExtensions() {
+    public function setupElementorExtensions() {
 
-        if ( defined( 'ELEMENTOR_PATH' ) &&
-            class_exists( 'Elementor\Plugin' ) &&
-            is_callable( 'Elementor\Plugin', 'instance' ) ) {
+        if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
+            require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
 
-            $elementor = Elementor\Plugin::instance();
-            if ( isset( $elementor->widgets_manager ) && method_exists( $elementor->widgets_manager, 'register_widget_type' ) ) {
-                require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
-                require_once dirname( __DIR__ ) . '/overrides/Elementor/Core/Settings/General/Model.php';
-
-                // only with elementor pro:
-                if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-                    require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-
-                    $slides = new Slides();
-                    $slides->getLoader()->run();
-
-                }
-
-                do_action( 'rto_init_extensions' );
-            }
+            $slides = new Slides();
+            $slides->getLoader()->run();
 
         }
 
@@ -249,6 +240,8 @@ class ElebeePublic {
 
         $globalCustomCss = new CustomCss();
         $globalCustomCss->getLoader()->run();
+
+        do_action( 'rto_init_extensions' );
 
     }
 

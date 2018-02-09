@@ -278,9 +278,9 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'init', $elebeePublic, 'loadExtensions' );
-
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'elementorInit' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorOverrides' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
 
         $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerWidgets' );
         $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerExclusiveWidgets' );
