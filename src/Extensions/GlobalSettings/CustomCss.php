@@ -86,7 +86,7 @@ class CustomCss extends GlobalSettingBase {
 
     public function save( $successResponseData, $id, $data ) {
 
-        $this->buildCssFile( $data[$this->getSettingName()] );
+        $successResponseData = array_merge( $successResponseData, $this->buildCssFile( $data[$this->getSettingName()] ) );
         return parent::save( $successResponseData, $id, $data );
 
     }
@@ -104,16 +104,33 @@ class CustomCss extends GlobalSettingBase {
     /**
      *
      */
-    public function buildCssFile( $scss ) {
+    public function buildCssFile( $scss ): array {
 
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
+
         if ( WP_DEBUG ) {
             $scssCompiler->setLineNumberStyle( Compiler::LINE_COMMENTS );
         }
-        $css = $scssCompiler->compile( $scss );
 
-        file_put_contents( $this->customGlobalCssFile, $css );
+        try {
+
+            $output = $scssCompiler->compile( $scss );
+            $success = true;
+
+            file_put_contents( $this->customGlobalCssFile, $output );
+
+        } catch ( \Exception $e ) {
+
+            $output = $e->getMessage();
+            $success = false;
+
+        }
+
+        return [ 'css' => [
+            'output' => $output,
+            'success' => $success,
+        ] ];
 
     }
 
