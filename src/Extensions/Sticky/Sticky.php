@@ -16,6 +16,7 @@ namespace ElebeeCore\Extensions\Sticky;
 use ElebeeCore\Extensions\ExtensionBase;
 use ElebeeCore\Lib\Elebee;
 use Elementor\Controls_Manager;
+use Elementor\Controls_Stack;
 use Elementor\Element_Base;
 
 defined( 'ABSPATH' ) || exit;
@@ -69,7 +70,7 @@ class Sticky extends ExtensionBase {
      */
     public function __construct() {
 
-        parent::__construct();
+        parent::__construct( 'elementor/element/section/section_custom_css/after_section_end', 50 );
         $this->controlStickyId = 'sticky';
         $this->controlStickyPlaceholderId = 'sticky-placeholder';
         $this->controlStickyPositionId = 'sticky-position';
@@ -80,15 +81,9 @@ class Sticky extends ExtensionBase {
     /**
      * @since 0.2.0
      */
-    public function defineAdminHooks() {
-    }
-
-    /**
-     * @since 0.2.0
-     */
     public function definePublicHooks() {
 
-        $this->getLoader()->addAction( 'elementor/element/section/section_custom_css/after_section_end', $this, 'extend', 50 );
+        parent::definePublicHooks();
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScrips' );
         $this->getLoader()->addAction( 'elementor/frontend/element/before_render', $this, 'setRenderAttributes' );
 
@@ -97,7 +92,7 @@ class Sticky extends ExtensionBase {
     /**
      * @since 0.1.0
      */
-    public function extend( Element_Base $element ) {
+    public function extend( Controls_Stack $element ) {
 
         // TODO: implement usage of responsive controls.
 

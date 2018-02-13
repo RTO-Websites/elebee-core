@@ -13,7 +13,7 @@ namespace ElebeeCore\Extensions\Slides;
 
 use ElebeeCore\Extensions\ExtensionBase;
 use Elementor\Controls_Manager;
-use Elementor\Element_Base;
+use Elementor\Controls_Stack;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,26 +29,16 @@ defined( 'ABSPATH' ) || exit;
  */
 class Slides extends ExtensionBase {
 
-    /**
-     * @since 0.2.0
-     */
-    public function defineAdminHooks() {
-        // TODO: Implement defineAdminHooks() method.
-    }
+    public function __construct() {
 
-    /**
-     * @since 0.2.0
-     */
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( 'elementor/element/slides/section_slides/before_section_end', $this, 'extend' );
+        parent::__construct( 'elementor/element/slides/section_slides/before_section_end' );
 
     }
 
     /**
      * @since 0.2.0
      */
-    public function extend( Element_Base $element ) {
+    public function extend( Controls_Stack $element ) {
 
         $element->add_control(
             'use_ratio_hight',

@@ -8,8 +8,8 @@
 namespace ElebeeCore\Extensions\GlobalSettings;
 
 
-use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Manager;
+use Elementor\Controls_Stack;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
@@ -19,12 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * Class CustomCss
  * @package ElebeeCore\Extensions\GlobalSettings
  */
-class CustomCss extends Hooking {
-
-    /**
-     * @var string
-     */
-    private $settingName;
+class CustomCss extends GlobalSettingBase {
 
     /**
      * @var string
@@ -41,14 +36,13 @@ class CustomCss extends Hooking {
      */
     public function __construct() {
 
-        $this->settingName = 'elebee_custom_global_css';
-
         $file = 'css/custom-global.css';
 
         $this->customGlobalCssFile = trailingslashit( get_stylesheet_directory() ) . $file;
         $this->customGlobalCssFileUrl = trailingslashit( get_stylesheet_directory_uri() ) . $file;
 
-        parent::__construct();
+//        parent::__construct( 'elementor/editor/global-settings' );
+        parent::__construct( 'elebee_custom_global_css', 'elementor/element/global-settings/style/before_section_end', 10, 2 );
 
     }
 
@@ -57,8 +51,8 @@ class CustomCss extends Hooking {
      */
     public function defineAdminHooks() {
 
-        $this->getLoader()->addAction( 'elementor/editor/global-settings', $this, 'extend' );
-        $this->getLoader()->addAction( 'update_option_' . $this->settingName, $this, 'buildCssFile', 10, 2 );
+        parent::defineAdminHooks();
+        $this->getLoader()->addAction( 'update_option_' . $this->getSettingName(), $this, 'buildCssFile', 10, 2 );
 
     }
 
@@ -67,6 +61,7 @@ class CustomCss extends Hooking {
      */
     public function definePublicHooks() {
 
+        parent::definePublicHooks();
         $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueueStyles' );
 
     }
@@ -75,19 +70,27 @@ class CustomCss extends Hooking {
      * @param array $controls
      * @return array
      */
-    public function extend( array $controls ) {
+    public function extend( Controls_Stack $controls ) {
 
-        $controls['style']['style']['controls'][$this->settingName] = [
+        $controls->add_control( $this->getSettingName(), [
             'label' => __( 'Global CSS', 'elebee' ),
             'type' => Controls_Manager::CODE,
             'language' => 'scss',
             'render_type' => 'ui',
             'description' => sprintf( __( 'Use SCSS syntax (%ssee%s)', 'elementor' ), '<a href="https://sass-lang.com/guide" target="_blank">', '</a>' ),
-        ];
+        ] );
 
         return $controls;
 
     }
+
+    public function save( $successResponseData, $id, $data ) {
+
+        $this->buildCssFile( $data[$this->getSettingName()] );
+        return parent::save( $successResponseData, $id, $data );
+
+    }
+
 
     /**
      *
@@ -101,9 +104,7 @@ class CustomCss extends Hooking {
     /**
      *
      */
-    public function buildCssFile( $oldValue, $value ) {
-
-        $scss = $value;
+    public function buildCssFile( $scss ) {
 
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );

@@ -216,7 +216,6 @@ class ElebeePublic {
     public function setupElementorOverrides() {
 
         require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
-        require_once dirname( __DIR__ ) . '/overrides/Elementor/Core/Settings/General/Model.php';
 
     }
 
