@@ -10,23 +10,43 @@ namespace ElebeeCore\Extensions\GlobalSettings;
 
 use ElebeeCore\Extensions\ExtensionBase;
 
+/**
+ * Class GlobalSettingBase
+ * @package ElebeeCore\Extensions\GlobalSettings
+ */
 abstract class GlobalSettingBase extends ExtensionBase {
 
+    /**
+     * @var string
+     */
     private $settingName;
 
+    /**
+     * GlobalSettingBase constructor.
+     * @param string $settingName
+     * @param string $hook
+     * @param int    $priority  (optional) (default: 10)
+     * @param int    $argsCount (optional) (default: 1)
+     */
     public function __construct( string $settingName, string $hook, int $priority = 10, int $argsCount = 1 ) {
 
-        parent::__construct( $hook, $priority, $argsCount );
         $this->settingName = $settingName;
+        parent::__construct( $hook, $priority, $argsCount );
 
     }
 
-    public function getSettingName() {
+    /**
+     * @return string
+     */
+    public function getSettingName(): string {
 
         return $this->settingName;
 
     }
 
+    /**
+     *
+     */
     public function defineAdminHooks() {
 
         parent::defineAdminHooks();
@@ -35,6 +55,12 @@ abstract class GlobalSettingBase extends ExtensionBase {
 
     }
 
+    /**
+     * @param $successResponseData
+     * @param $id
+     * @param $data
+     * @return mixed
+     */
     public function save( $successResponseData, $id, $data ) {
 
         $value = $data[$this->settingName] ?? null;
@@ -44,6 +70,11 @@ abstract class GlobalSettingBase extends ExtensionBase {
 
     }
 
+    /**
+     * @param $settings
+     * @param $postId
+     * @return mixed
+     */
     public function setValue( $settings, $postId ) {
 
         $settings['settings']['general']['settings'][$this->getSettingName()] = get_option( $this->getSettingName() );

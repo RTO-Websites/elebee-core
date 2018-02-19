@@ -245,7 +245,7 @@ class Elebee {
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles' );
+        $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeAdmin, 'enqueueEditorStyles' );
