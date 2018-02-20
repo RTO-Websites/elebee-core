@@ -8,7 +8,7 @@
 namespace ElebeeCore\Extensions\GlobalSettings;
 
 
-use Elementor\Controls_Manager;
+use ElebeeCore\Admin\Editor\CodeMirror;
 use Elementor\Controls_Stack;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
@@ -57,9 +57,9 @@ class CustomCss extends GlobalSettingBase {
     public function defineAdminHooks() {
 
         parent::defineAdminHooks();
-        $this->getLoader()->addAction( 'update_option_' . $this->getSettingName(), $this, 'buildCssFile', 10, 2 );
-        $this->getLoader()->addAction( 'save_post_' . $this->postTypeName, $this, 'buildCssFileFromPost', 10, 3 );
-        $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'adminEnqueueScripts' );
+        $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
+        $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
+        $this->getLoader()->addAction( 'transition_post_status', $this, 'buildCssFile', 10, 2 );
 
     }
 
@@ -70,7 +70,7 @@ class CustomCss extends GlobalSettingBase {
 
         parent::definePublicHooks();
         $this->getLoader()->addAction( 'init', $this, 'registerPostType' );
-        $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueueStyles' );
+        $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueuePublicStyles' );
 
     }
 
@@ -80,84 +80,36 @@ class CustomCss extends GlobalSettingBase {
      */
     public function extend( Controls_Stack $controls ) {
 
-        $controls->add_control( $this->getSettingName(), [
-            'label' => __( 'Global CSS', 'elebee' ),
-            'type' => Controls_Manager::CODE,
-            'language' => 'scss',
-            'render_type' => 'ui',
-            'description' => sprintf( __( 'Use SCSS syntax (%ssee%s)', 'elementor' ), '<a href="https://sass-lang.com/guide" target="_blank">', '</a>' ),
-        ] );
-
         return $controls;
 
     }
 
+    /**
+     * @param $successResponseData
+     * @param $id
+     * @param $data
+     * @return mixed
+     */
     public function save( $successResponseData, $id, $data ) {
 
-        $successResponseData = array_merge( $successResponseData, $this->buildCssFile( $data[$this->getSettingName()] ) );
-        return parent::save( $successResponseData, $id, $data );
+        return $successResponseData;
 
     }
-
-    public function adminEnqueueScripts( $hook ) {
-
-        if ( !in_array( $hook, [ 'post.php', 'post-new.php' ] ) ) {
-            return;
-        }
-
-        $screen = get_current_screen();
-
-        if ( !is_object( $screen ) || $this->postTypeName != $screen->post_type ) {
-            return;
-        }
-
-        $adminJSUri = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/js/';
-        $codemirrorUri = $adminJSUri . 'codemirror/';
-
-        wp_enqueue_style( 'codemirror', $codemirrorUri . 'codemirror.css' );
-        wp_enqueue_style( 'codemirror-mdn-liket', $codemirrorUri . 'theme/mdn-like.css' );
-
-
-        wp_enqueue_script( 'codemirror', $codemirrorUri . 'codemirror.js', [], '1.0.0', true );
-
-        wp_enqueue_script( 'codemirror-css', $codemirrorUri . 'mode/css/css.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-sass', $codemirrorUri . 'mode/sass/sass.js', [ 'codemirror-css' ], '1.0.0', true );
-
-        wp_enqueue_script( 'codemirror-closebrackets', $codemirrorUri . 'addon/edit/closebrackets.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-matchBrackets', $codemirrorUri . 'addon/edit/matchBrackets.js', [ 'codemirror' ], '1.0.0', true );
-
-        wp_enqueue_script( 'codemirror-active-line', $codemirrorUri . 'addon/selection/active-line.js', [ 'codemirror' ], '1.0.0', true );
-//        wp_enqueue_script( 'codemirror-mark-selection', $codemirrorUri . 'addon/selection/mark-selection.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-selection-pointer', $codemirrorUri . 'addon/selection/selection-pointer.js', [ 'codemirror' ], '1.0.0', true );
-
-        wp_enqueue_script( 'codemirror-comment', $codemirrorUri . 'addon/comment/comment.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-continuecomment', $codemirrorUri . 'addon/comment/continuecomment.js', [ 'codemirror' ], '1.0.0', true );
-
-        wp_enqueue_style( 'codemirror-show-hint', $codemirrorUri . 'addon/hint/show-hint.css' );
-        wp_enqueue_script( 'codemirror-show-hint', $codemirrorUri . 'addon/hint/show-hint.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-css-hint', $codemirrorUri . 'addon/hint/css-hint.js', [ 'codemirror-show-hint' ], '1.0.0', true );
-
-        wp_enqueue_style( 'codemirror-lint', $codemirrorUri . 'addon/lint/lint.css' );
-        wp_enqueue_script( 'codemirror-lint', $codemirrorUri . 'addon/lint/lint.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-css-lint', $codemirrorUri . 'addon/lint/css-lint.js', [ 'codemirror-lint' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-scsslint', $codemirrorUri . 'scsslint.js', [ 'codemirror-css-lint' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-scss-lint', $codemirrorUri . 'addon/lint/scss-lint.js', [ 'codemirror-scsslint' ], '1.0.0', true );
-
-        wp_enqueue_style( 'codemirror-foldgutter', $codemirrorUri . 'addon/fold/foldgutter.css' );
-        wp_enqueue_script( 'codemirror-foldcode', $codemirrorUri . 'addon/fold/foldcode.js', [ 'codemirror' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-foldgutter', $codemirrorUri . 'addon/fold/foldgutter.js', [ 'codemirror-foldcode' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-brace-fold', $codemirrorUri . 'addon/fold/brace-fold.js', [ 'codemirror-foldcode' ], '1.0.0', true );
-        wp_enqueue_script( 'codemirror-comment-fold', $codemirrorUri . 'addon/fold/comment-fold.js', [ 'codemirror-foldcode' ], '1.0.0', true );
-
-        wp_enqueue_script( 'config-codemirror', $adminJSUri . 'main.js', [ 'codemirror-sass' ], '1.0.0', true );
-
-    }
-
 
     /**
      *
      */
-    public function enqueueStyles() {
+    public function enqueueAdminStyles() {
+
+        $stylesUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/css/';
+        wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ] );
+
+    }
+
+    /**
+     *
+     */
+    public function enqueuePublicStyles() {
 
         wp_enqueue_style( 'custom-global', $this->customGlobalCssFileUrl, [ 'main', 'elementor-frontend' ] );
 
@@ -166,21 +118,62 @@ class CustomCss extends GlobalSettingBase {
     /**
      *
      */
-    public function buildCssFile( $scss ): array {
+    public function initCodeMirror() {
 
-        $scssCompiler = new Compiler();
-        $scssCompiler->setFormatter( Crunched::class );
+        $screen = get_current_screen();
 
-        if ( WP_DEBUG ) {
-            $scssCompiler->setLineNumberStyle( Compiler::LINE_COMMENTS );
+        if ( is_object( $screen ) && $this->postTypeName == $screen->post_type ) {
+
+            $codeMirror = new CodeMirror( CodeMirror::WYSIWYG_DISABLE );
+            $codeMirror->getLoader()->run();
+
         }
+
+    }
+
+    /**
+     * @param $newStatus
+     * @param $oldStatus
+     * @param $post
+     */
+    public function applyChanges( $newStatus, $oldStatus, $post ) {
+
+        if ( $post->post_type != $this->postTypeName ) {
+            return;
+        }
+
+        if ( $newStatus == 'publish' || $oldStatus == 'publish' && $newStatus != $oldStatus ) {
+
+            $result = $this->buildCssFile();
+
+        }
+
+    }
+
+    /**
+     * @return array
+     */
+    public function buildCssFile(): array {
 
         try {
 
-            $output = $scssCompiler->compile( $scss );
-            $success = true;
+            $scss = '';
+            $query = new \WP_Query( [
+                'post_type' => $this->postTypeName,
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+            ] );
 
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                $scss .= get_the_content();
+            }
+
+            wp_reset_query();
+
+            $output = $this->compileScss( $scss );
             file_put_contents( $this->customGlobalCssFile, $output );
+            $success = true;
 
         } catch ( \Exception $e ) {
 
@@ -196,11 +189,21 @@ class CustomCss extends GlobalSettingBase {
 
     }
 
-    public function buildCssFileFromPost( $postId, $post, $update ) {
+    /**
+     * @param $scss
+     * @return string
+     * @throws \Exception
+     */
+    public function compileScss( $scss ) {
 
-        var_dump( $update );
-        var_dump( $this->buildCssFile( $post->post_content ) );
-//        die();
+        $scssCompiler = new Compiler();
+        $scssCompiler->setFormatter( Crunched::class );
+
+        if ( WP_DEBUG ) {
+            $scssCompiler->setLineNumberStyle( Compiler::LINE_COMMENTS );
+        }
+
+        return $scssCompiler->compile( $scss );
 
     }
 
@@ -209,14 +212,16 @@ class CustomCss extends GlobalSettingBase {
      */
     public function registerPostType() {
 
+        $editable = current_user_can( 'publish_pages' );
+
         register_post_type( $this->postTypeName, [
             'labels' => [
                 'name' => __( 'Global CSS', 'elebee' ),
                 'singular_name' => __( 'Global CSS', 'elebee' ),
             ],
             'public' => false,
-            'show_in_menu' => false,
-            'show_ui' => true,
+            'show_in_menu' => $editable,
+            'show_ui' => $editable,
             'supports' => [
                 'title',
                 'editor',

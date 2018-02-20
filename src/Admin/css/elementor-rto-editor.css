@@ -7,8 +7,3 @@
 #elementor-panel-footer-responsive-toggle.responsive-toggle {
   color: #33cc33;
 }
-
-/* stylelint-disable-next-line selector-class-pattern */
-.CodeMirror {
-  height: 90vh;
-}

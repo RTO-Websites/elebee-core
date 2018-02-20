@@ -1,0 +1,4 @@
+/* stylelint-disable-next-line selector-class-pattern */
+.CodeMirror {
+  height: 80vh;
+}
