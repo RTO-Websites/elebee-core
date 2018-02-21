@@ -59,6 +59,7 @@ class CustomCss extends GlobalSettingBase {
         parent::defineAdminHooks();
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
+        $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
         $this->getLoader()->addAction( 'transition_post_status', $this, 'buildCssFile', 10, 2 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
 
@@ -106,6 +107,19 @@ class CustomCss extends GlobalSettingBase {
 
         $stylesUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/css/';
         wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ] );
+
+    }
+
+    public function enqueueAdminScripts() {
+
+        global $post;
+
+        if ( !$post || $post->post_type != $this->postTypeName ) {
+            return;
+        }
+
+        $scriptsUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Extensions/GlobalSettings/CustomCss/';
+        wp_enqueue_script( 'elebee-capture-editor-input', $scriptsUrl . 'capture-editor-input.js', [ 'config-codemirror' ], '1.0.0', true );
 
     }
 
@@ -245,7 +259,7 @@ class CustomCss extends GlobalSettingBase {
 
         global $post;
 
-        if( !$post || $post->post_type != $this->postTypeName ) {
+        if ( !$post || $post->post_type != $this->postTypeName ) {
             return $classes;
         }
 
