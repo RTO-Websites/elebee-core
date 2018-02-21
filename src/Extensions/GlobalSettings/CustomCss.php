@@ -60,6 +60,9 @@ class CustomCss extends GlobalSettingBase {
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
         $this->getLoader()->addAction( 'transition_post_status', $this, 'buildCssFile', 10, 2 );
+        $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
+
+        $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
 
     }
 
@@ -103,6 +106,13 @@ class CustomCss extends GlobalSettingBase {
 
         $stylesUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/css/';
         wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ] );
+
+    }
+
+    public function enqueueEditorScripts() {
+
+        $scriptsUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Extensions/GlobalSettings/CustomCss/';
+        wp_enqueue_script( 'custom-css', $scriptsUrl . 'main.js', [ 'jquery' ] );
 
     }
 
@@ -228,6 +238,18 @@ class CustomCss extends GlobalSettingBase {
                 'revisions',
             ],
         ] );
+
+    }
+
+    public function collapseAdminMenu( $classes ) {
+
+        global $post;
+
+        if( !$post || $post->post_type != $this->postTypeName ) {
+            return $classes;
+        }
+
+        return $classes . ' folded';
 
     }
 
