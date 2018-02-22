@@ -58,9 +58,10 @@ class CustomCss extends GlobalSettingBase {
 
         parent::defineAdminHooks();
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
+        $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
-        $this->getLoader()->addAction( 'transition_post_status', $this, 'buildCssFile', 10, 2 );
+        $this->getLoader()->addAction( 'transition_post_status', $this, 'saveChanges', 10, 3 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
 
         $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
@@ -120,6 +121,7 @@ class CustomCss extends GlobalSettingBase {
 
         $scriptsUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Extensions/GlobalSettings/CustomCss/';
         wp_enqueue_script( 'elebee-capture-editor-input', $scriptsUrl . 'capture-editor-input.js', [ 'config-codemirror' ], '1.0.0', true );
+        wp_localize_script( 'elebee-capture-editor-input', 'postData', [ 'id' => get_the_ID() ] );
 
     }
 
@@ -155,12 +157,31 @@ class CustomCss extends GlobalSettingBase {
 
     }
 
+    public function autoUpdate() {
+
+        $postId = filter_input( INPUT_POST, 'postId' );
+        $scss = filter_input( INPUT_POST, 'scss' );
+
+        try {
+
+            wp_send_json_success( $this->buildCss( $postId, $scss ) );
+
+        } catch ( \Exception $e ) {
+
+            wp_send_json_error( $e->getMessage() );
+
+        }
+
+        die();
+
+    }
+
     /**
      * @param $newStatus
      * @param $oldStatus
      * @param $post
      */
-    public function applyChanges( $newStatus, $oldStatus, $post ) {
+    public function saveChanges( $newStatus, $oldStatus, $post ) {
 
         if ( $post->post_type != $this->postTypeName ) {
             return;
@@ -168,7 +189,15 @@ class CustomCss extends GlobalSettingBase {
 
         if ( $newStatus == 'publish' || $oldStatus == 'publish' && $newStatus != $oldStatus ) {
 
-            $result = $this->buildCssFile();
+            try {
+
+                file_put_contents( $this->customGlobalCssFile, $this->buildCss() );
+
+            } catch ( \Exception $e ) {
+
+                // TODO: echo error notification
+
+            }
 
         }
 
@@ -177,39 +206,40 @@ class CustomCss extends GlobalSettingBase {
     /**
      * @return array
      */
-    public function buildCssFile(): array {
+    public function buildCss( $postId = null, $postScss = '' ): string {
 
-        try {
+        $scss = '';
 
-            $scss = '';
-            $query = new \WP_Query( [
-                'post_type' => $this->postTypeName,
-                'post_status' => 'publish',
-                'posts_per_page' => -1,
-            ] );
+        // this is needed to give the user correct line numbers on error when autoupdating.
+        if ( $postId !== null ) {
+            $this->compile( $postScss );
+        }
 
-            while ( $query->have_posts() ) {
-                $query->the_post();
+        $query = new \WP_Query( [
+            'post_type' => $this->postTypeName,
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+        ] );
+
+        while ( $query->have_posts() ) {
+            $query->the_post();
+
+            if ( get_the_ID() != $postId ) {
                 $scss .= get_the_content();
+                $postId = null;
+            } else {
+                $scss .= $postScss;
             }
-
-            wp_reset_query();
-
-            $output = $this->compileScss( $scss );
-            file_put_contents( $this->customGlobalCssFile, $output );
-            $success = true;
-
-        } catch ( \Exception $e ) {
-
-            $output = $e->getMessage();
-            $success = false;
 
         }
 
-        return [ 'css' => [
-            'output' => $output,
-            'success' => $success,
-        ] ];
+        wp_reset_query();
+
+        if ( $postId !== null ) {
+            $scss .= $postScss;
+        }
+
+        return $this->compile( $scss );
 
     }
 
@@ -218,7 +248,7 @@ class CustomCss extends GlobalSettingBase {
      * @return string
      * @throws \Exception
      */
-    public function compileScss( $scss ) {
+    public function compile( $scss ) {
 
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
