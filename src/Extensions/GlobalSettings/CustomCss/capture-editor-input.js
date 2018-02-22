@@ -2,7 +2,9 @@
 
   let timer = null;
 
-  window.editor.on('keyup', captureEditorInput);
+  if(window.opener) {
+    window.editor.on('keyup', captureEditorInput);
+  }
 
   function captureEditorInput(em, e) {
     clearTimeout(timer);
@@ -22,14 +24,30 @@
         postId: postData.id,
         scss: window.editor.getValue()
       },
-      success: injectCss
+      success: injectCss,
+      error: error
     });
 
   }
 
   function injectCss(response, textStaus, jqXHR) {
 
-    window.opener.CustomCss.inject(response.data);
+    if(response.success) {
+      window.opener.CustomCss.inject(response.data);
+    }
+    else {
+      console.log(response.data);
+    }
+
+  }
+
+  function error(jqXHR, textStatus, errorThrown) {
+
+    // TODO: Implement better error handling
+
+    console.log(jqXHR);
+    console.log(textStatus);
+    console.log(errorThrown);
 
   }
 
