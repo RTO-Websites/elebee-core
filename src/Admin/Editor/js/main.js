@@ -2,7 +2,6 @@
 
   window.editor = CodeMirror.fromTextArea(document.getElementById('content'), {
     mode: 'text/x-scss',
-    // mode: 'text/css',
     theme: 'mdn-like',
     lineNumbers: true,
     styleActiveLine: true,
@@ -14,7 +13,6 @@
       'Cmd-Alt-L': autoIndent,
       'Ctrl-/': 'toggleComment',
       'Cmd-/': 'toggleComment',
-      // 'Ctrl-Space': 'autocomplete',
     },
     autoCloseBrackets: true,
     continueComments: true,
@@ -149,7 +147,7 @@
   }
 
   function autoComplete(cm, e) {
-    if (e.keyCode < 65 || e.keyCode > 90) {
+    if (e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey) {
       return;
     }
     editor.execCommand('autocomplete');
