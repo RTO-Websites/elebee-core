@@ -106,7 +106,21 @@ class CodeMirror extends Hooking {
         wp_enqueue_script( 'codemirror-brace-fold', $codemirrorVendorUri . 'addon/fold/brace-fold.js', [ 'codemirror-foldcode' ], '1.0.0', true );
         wp_enqueue_script( 'codemirror-comment-fold', $codemirrorVendorUri . 'addon/fold/comment-fold.js', [ 'codemirror-foldcode' ], '1.0.0', true );
 
-        wp_enqueue_script( 'config-codemirror', $codemirrorUri . 'main.js', [ 'codemirror-sass' ], '1.0.0', true );
+        $deps = [
+            'codemirror-sass',
+            'codemirror-closebrackets',
+            'codemirror-matchBrackets',
+            'codemirror-active-line',
+            'codemirror-selection-pointer',
+            'codemirror-comment',
+            'codemirror-continuecomment',
+            'codemirror-css-hint',
+            'codemirror-scss-lint',
+            'codemirror-foldgutter',
+            'codemirror-brace-fold',
+            'codemirror-comment-fold',
+        ];
+        wp_enqueue_script( 'config-codemirror', $codemirrorUri . 'main.js', $deps, '1.0.0', true );
 
     }
 

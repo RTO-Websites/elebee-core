@@ -226,9 +226,9 @@ class CustomCss extends GlobalSettingBase {
 
             if ( get_the_ID() != $postId ) {
                 $scss .= get_the_content();
-                $postId = null;
             } else {
                 $scss .= $postScss;
+                $postId = null;
             }
 
         }
