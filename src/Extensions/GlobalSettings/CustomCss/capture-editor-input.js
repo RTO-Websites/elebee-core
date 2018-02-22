@@ -7,6 +7,12 @@
   }
 
   function captureEditorInput(em, e) {
+
+    // Don't capture the arrow keys
+    if( e.keyCode >= 37 && e.keyCode <= 40 ) {
+      return;
+    }
+
     clearTimeout(timer);
     timer = setTimeout(buildCss, 500);
   }
