@@ -1,15 +1,18 @@
 <?php
 /**
  * @since   0.3.0
+ *
+ * @package ElebeeCore\Lib\CustomCss
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/CustomCss/CustomCss.html
  */
 
-namespace ElebeeCore\Extensions\GlobalSettings;
+namespace ElebeeCore\Lib\CustomCss;
 
 
 use ElebeeCore\Admin\Editor\CodeMirror;
-use Elementor\Controls_Stack;
+use ElebeeCore\Lib\Hooking;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
@@ -17,51 +20,76 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class CustomCss
- * @package ElebeeCore\Extensions\GlobalSettings
+ *
+ * @since   0.3.0
+ *
+ * @package ElebeeCore\Lib\CustomCss
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/CustomCss/CustomCss.html
  */
-class CustomCss extends GlobalSettingBase {
+class CustomCss extends Hooking {
 
     /**
+     * The absolute physical path to the compiled CSS file.
+     *
+     * @since 0.3.0
      * @var string
      */
-    private $customGlobalCssFile;
+    private $compiledFilePath;
 
     /**
+     * The absolute Url to the compiled CSS file.
+     *
+     * @since 0.3.0
      * @var string
      */
-    private $customGlobalCssFileUrl;
+    private $compiledFileUrl;
 
     /**
+     * The absolute Url to the JS library directory.
+     * @since 0.3.0
+     * @var string
+     */
+    private $jsLibUrl;
+
+    /**
+     * The name of the created post type.
+     *
+     * @since 0.3.0
      * @var string
      */
     private $postTypeName;
 
     /**
      * CustomCss constructor.
+     *
+     * @since 0.3.0
      */
     public function __construct() {
 
         $file = 'css/custom-global.css';
 
-        $this->customGlobalCssFile = trailingslashit( get_stylesheet_directory() ) . $file;
-        $this->customGlobalCssFileUrl = trailingslashit( get_stylesheet_directory_uri() ) . $file;
+        $stylesheetDirectoryUri = trailingslashit( get_stylesheet_directory_uri() );
+        $this->compiledFilePath = trailingslashit( get_stylesheet_directory() ) . $file;
+        $this->compiledFileUrl = $stylesheetDirectoryUri . $file;
+        $this->jsLibUrl = $stylesheetDirectoryUri . 'vendor/rto-websites/elebee-core/src/Lib/CustomCss/js/';
         $this->postTypeName = 'elebee-global-css';
 
-        parent::__construct( 'elebee_custom_global_css', 'elementor/element/global-settings/style/before_section_end', 10, 2 );
+        parent::__construct();
 
     }
 
     /**
-     *
+     * @since 0.3.0
      */
     public function defineAdminHooks() {
 
-        parent::defineAdminHooks();
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
-        $this->getLoader()->addAction( 'transition_post_status', $this, 'saveChanges', 10, 3 );
+        $this->getLoader()->addAction( 'transition_post_status', $this, 'save', 10, 3 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
 
         $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
@@ -69,40 +97,19 @@ class CustomCss extends GlobalSettingBase {
     }
 
     /**
-     *
+     * @since 0.3.0
      */
     public function definePublicHooks() {
 
-        parent::definePublicHooks();
         $this->getLoader()->addAction( 'init', $this, 'registerPostType' );
         $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueuePublicStyles' );
 
     }
 
     /**
-     * @param Controls_Stack $controls
-     * @return Controls_Stack
-     */
-    public function extend( Controls_Stack $controls ) {
-
-        return $controls;
-
-    }
-
-    /**
-     * @param $successResponseData
-     * @param $id
-     * @param $data
-     * @return mixed
-     */
-    public function save( $successResponseData, $id, $data ) {
-
-        return $successResponseData;
-
-    }
-
-    /**
+     * @since 0.3.0
      *
+     * @return void
      */
     public function enqueueAdminStyles() {
 
@@ -111,6 +118,11 @@ class CustomCss extends GlobalSettingBase {
 
     }
 
+    /**
+     * @since 0.3.0
+     *
+     * @return void
+     */
     public function enqueueAdminScripts() {
 
         global $post;
@@ -119,44 +131,60 @@ class CustomCss extends GlobalSettingBase {
             return;
         }
 
-        $scriptsUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Extensions/GlobalSettings/CustomCss/';
-        wp_enqueue_script( 'elebee-capture-editor-input', $scriptsUrl . 'capture-editor-input.js', [ 'config-codemirror' ], '1.0.0', true );
-        wp_localize_script( 'elebee-capture-editor-input', 'postData', [ 'id' => get_the_ID() ] );
-
-    }
-
-    public function enqueueEditorScripts() {
-
-        $scriptsUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Extensions/GlobalSettings/CustomCss/';
-        wp_enqueue_script( 'custom-css', $scriptsUrl . 'main.js', [ 'jquery' ] );
+        $src = $this->jsLibUrl . 'capture-input.js';
+        wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], '1.0.0', true );
+        wp_localize_script( 'elebee-capture-input', 'postData', [ 'id' => get_the_ID() ] );
 
     }
 
     /**
+     * @since 0.3.0
      *
+     * @return void
+     */
+    public function enqueueEditorScripts() {
+
+        $src = $this->jsLibUrl . 'inject-css.js';
+        wp_enqueue_script( 'elebee-inject-css', $src, [ 'jquery' ] );
+
+    }
+
+    /**
+     * @since 0.3.0
+     *
+     * @return void
      */
     public function enqueuePublicStyles() {
 
-        wp_enqueue_style( 'custom-global', $this->customGlobalCssFileUrl, [ 'main', 'elementor-frontend' ] );
+        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ] );
 
     }
 
     /**
+     * @since 0.3.0
      *
+     * @return void
      */
     public function initCodeMirror() {
 
         $screen = get_current_screen();
 
-        if ( is_object( $screen ) && $this->postTypeName == $screen->post_type ) {
+        if ( !is_object( $screen ) || $this->postTypeName != $screen->post_type ) {
 
-            $codeMirror = new CodeMirror( CodeMirror::WYSIWYG_DISABLE );
-            $codeMirror->getLoader()->run();
+            return;
 
         }
 
+        $codeMirror = new CodeMirror( CodeMirror::WYSIWYG_DISABLE );
+        $codeMirror->getLoader()->run();
+
     }
 
+    /**
+     * @since 0.3.0
+     *
+     * @return void
+     */
     public function autoUpdate() {
 
         $postId = filter_input( INPUT_POST, 'postId' );
@@ -177,11 +205,14 @@ class CustomCss extends GlobalSettingBase {
     }
 
     /**
-     * @param $newStatus
-     * @param $oldStatus
-     * @param $post
+     * @since 0.3.0
+     *
+     * @param string   $newStatus
+     * @param string   $oldStatus
+     * @param \WP_Post $post
+     * @return void
      */
-    public function saveChanges( $newStatus, $oldStatus, $post ) {
+    public function save( string $newStatus, string $oldStatus, \WP_Post $post ) {
 
         if ( $post->post_type != $this->postTypeName ) {
             return;
@@ -191,7 +222,7 @@ class CustomCss extends GlobalSettingBase {
 
             try {
 
-                file_put_contents( $this->customGlobalCssFile, $this->buildCss() );
+                file_put_contents( $this->compiledFilePath, $this->buildCss() );
 
             } catch ( \Exception $e ) {
 
@@ -204,7 +235,12 @@ class CustomCss extends GlobalSettingBase {
     }
 
     /**
-     * @return array
+     * @since 0.3.0
+     *
+     * @param null   $postId
+     * @param string $postScss
+     * @return string
+     * @throws \Exception
      */
     public function buildCss( $postId = null, $postScss = '' ): string {
 
@@ -244,11 +280,13 @@ class CustomCss extends GlobalSettingBase {
     }
 
     /**
-     * @param $scss
+     * @since 0.3.0
+     *
+     * @param string $scss
      * @return string
      * @throws \Exception
      */
-    public function compile( $scss ) {
+    public function compile( string $scss ): string {
 
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
@@ -262,7 +300,9 @@ class CustomCss extends GlobalSettingBase {
     }
 
     /**
+     * @since 0.3.0
      *
+     * @return void
      */
     public function registerPostType() {
 
@@ -285,7 +325,13 @@ class CustomCss extends GlobalSettingBase {
 
     }
 
-    public function collapseAdminMenu( $classes ) {
+    /**
+     * @since 0.3.0
+     *
+     * @param string $classes
+     * @return string
+     */
+    public function collapseAdminMenu( string $classes ) {
 
         global $post;
 

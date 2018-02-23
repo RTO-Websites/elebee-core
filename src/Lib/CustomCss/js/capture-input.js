@@ -8,13 +8,13 @@
 
   function captureEditorInput(em, e) {
 
-    // Don't capture the arrow keys
-    if( e.keyCode >= 37 && e.keyCode <= 40 ) {
+    // Don't capture the arrow and esc keys
+    if( e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 27 ) {
       return;
     }
 
     clearTimeout(timer);
-    timer = setTimeout(buildCss, 500);
+    timer = setTimeout(buildCss, 200);
   }
 
   function buildCss() {

@@ -15,10 +15,11 @@
 
   function injectCss(css) {
 
-    let $elementorPreview = $('#elementor-preview-iframe').contents(),
-      $customGlobalCss = $elementorPreview.find('#custom-global-css');
+    let elementId = 'elebee-global-css',
+      $elementorPreview = $('#elementor-preview-iframe').contents(),
+      $customGlobalCss = $elementorPreview.find('#' + elementId);
 
-    $injection = $('<style id="#elebee-global-css">' + css + '</style>');
+    $injection = $('<style id="' + elementId + '">' + css + '</style>');
 
     if($customGlobalCss.length) {
       $customGlobalCss.replaceWith($injection);

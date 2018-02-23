@@ -13,9 +13,10 @@
 namespace ElebeeCore\Pub;
 
 
-use ElebeeCore\Extensions\GlobalSettings\CustomCss;
+use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
 use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Extensions\Sticky\Sticky;
+use ElebeeCore\Lib\CustomCss\CustomCss;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
