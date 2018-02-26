@@ -199,6 +199,9 @@ class ElebeePublic {
 
     }
 
+    /**
+     * @since 0.3.0
+     */
     public function setupElementorOverrides() {
 
         require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
@@ -212,14 +215,6 @@ class ElebeePublic {
      */
     public function setupElementorExtensions() {
 
-        if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-            require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-
-            $slides = new Slides();
-            $slides->getLoader()->run();
-
-        }
-
         $sticky = new Sticky();
         $sticky->getLoader()->run();
 
@@ -228,6 +223,24 @@ class ElebeePublic {
 
 
         do_action( 'rto_init_extensions' );
+
+    }
+
+    /**
+     * @since 0.3.0
+     *
+     * @return void
+     */
+    public function setupElementorProExtensions() {
+
+        if ( !defined( 'ELEMENTOR_PRO_VERSION' ) ) {
+            return;
+        }
+
+        require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
+
+        $slides = new Slides();
+        $slides->getLoader()->run();
 
     }
 

@@ -305,6 +305,7 @@ class Elebee {
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorOverrides' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorProExtensions' );
 
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerWidgets' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerExclusiveWidgets' );
