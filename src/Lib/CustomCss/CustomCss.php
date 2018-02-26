@@ -93,6 +93,8 @@ class CustomCss extends Hooking {
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
 
         $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
+        $this->getLoader()->addFilter( 'post_updated_messages', $this, 'addPostUpdatedMessages' );
+        $this->getLoader()->addFilter( 'bulk_post_updated_messages', $this, 'addBulkPostUpdatedMessages', 10, 2 );
 
     }
 
@@ -340,6 +342,48 @@ class CustomCss extends Hooking {
         }
 
         return $classes . ' folded';
+
+    }
+
+    /**
+     * @param array $messages
+     * @return array
+     */
+    public function addPostUpdatedMessages( array $messages ): array {
+
+        $messages[$this->postTypeName] = [
+            0  => '', // Unused. Messages start at index 1.
+            1  => __( 'Partial updated.', 'elebee' ),
+            2  => __( 'Custom field updated.', 'elebee' ),
+            3  => __( 'Custom field deleted.', 'elebee' ),
+            4  => __( 'Partial updated.', 'elebee' ),
+            /* translators: %s: date and time of the revision */
+            5  => isset( $_GET['revision'] ) ? sprintf( __( 'Partial restored to revision from %s', 'elebee' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            6  => __( 'Partial published.', 'elebee' ),
+            7  => __( 'Partial saved.', 'elebee' ),
+            8  => __( 'Partial submitted.', 'elebee' ),
+            9  => sprintf(
+                __( 'Partial scheduled for: <strong>%1$s</strong>.', 'elebee' ),
+                // translators: Publish box date format, see http://php.net/date
+                date_i18n( __( 'M j, Y @ G:i', 'elebee' ), strtotime( get_post()->post_date ) )
+            ),
+            10 => __( 'Partial draft updated.', 'elebee' )
+        ];
+        return$messages;
+
+    }
+
+    public function addBulkPostUpdatedMessages( array $bulkMessages, array $bulkCounts ): array {
+
+        $bulkMessages[$this->postTypeName] = [
+            'updated' => _n( '%s partial updated.', '%s partials updated.', $bulkCounts['updated'], 'elebee' ),
+            'locked' => _n( '%s partial not updated, somebody is editing it.', '%s partials not updated, somebody is editing them.', $bulkCounts['locked'], 'elebee' ),
+            'deleted' => _n( '%s partial permanently deleted.', '%s partials permanently deleted.', $bulkCounts['deleted'], 'elebee' ),
+            'trashed' => _n( '%s partial moved to the Trash.', '%s partials moved to the Trash.', $bulkCounts['trashed'], 'elebee' ),
+            'untrashed' => _n( '%s partial restored from the Trash.', '%s partials restored from the Trash.', $bulkCounts['untrashed'], 'elebee' ),
+        ];
+
+        return $bulkMessages;
 
     }
 
