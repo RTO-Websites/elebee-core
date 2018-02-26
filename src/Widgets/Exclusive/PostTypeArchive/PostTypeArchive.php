@@ -17,8 +17,8 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
-use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
+use ElebeeCore\Widgets\WidgetBase;
 use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
  */
-class PostTypeArchive extends ElebeeWidget {
+class PostTypeArchive extends WidgetBase {
 
     /**
      * @since 0.1.0

@@ -14,6 +14,7 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
@@ -45,7 +46,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.1.0';
+    const VERSION = '0.3.0';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -82,6 +83,7 @@ class Elebee {
         $this->setupPostTypeSupport();
         $this->setupThemeSupport();
         $this->setupThemeCustomizer();
+        $this->setupCustomPostTypes();
         $this->defineAdminHooks();
         $this->definePublicHooks();
 
@@ -155,6 +157,18 @@ class Elebee {
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
         $themeSupportFeaturedImage->addThemeSupport();
+
+    }
+
+    /**
+     * @since 0.3.0
+     *
+     * @return void
+     */
+    private function setUpCustomPostTypes() {
+
+        $globalCustomCss = new CustomCss();
+        $globalCustomCss->getLoader()->run();
 
     }
 
@@ -245,7 +259,7 @@ class Elebee {
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles' );
+        $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeAdmin, 'enqueueEditorStyles' );
@@ -278,9 +292,9 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'init', $elebeePublic, 'loadExtensions' );
-
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'elementorInit' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorOverrides' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
 
         $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerWidgets' );
         $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerExclusiveWidgets' );

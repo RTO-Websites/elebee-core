@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ControlledTemplate/ThemeSupportTitleTag.html
  */
-class ThemeSupportTitleTag extends ThemeSupport {
+class ThemeSupportTitleTag extends ThemeSupportBase {
 
     /**
      * ThemeSupportTitleTag constructor.

@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyCheckbox.html
  */
-class MetaKeyCheckbox extends MetaKey {
+class MetaKeyCheckbox extends MetaKeyBase {
 
     /**
      * MetaKeyCheckbox constructor.

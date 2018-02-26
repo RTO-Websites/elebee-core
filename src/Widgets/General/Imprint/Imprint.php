@@ -19,8 +19,8 @@ use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Lib\Template;
+use ElebeeCore\Widgets\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
  */
-class Imprint extends ElebeeWidget {
+class Imprint extends WidgetBase {
 
     /**
      * Imprint constructor.

@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/MetaBox/MetaKeyTaxonomy.html
  */
-class MetaKeyTaxonomy extends MetaKey {
+class MetaKeyTaxonomy extends MetaKeyBase {
 
     /**
      * @since 0.2.0

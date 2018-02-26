@@ -14,11 +14,11 @@ namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
 
 
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\ElebeeWidget;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Album;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Gallery;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Image;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Renderer;
+use ElebeeCore\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
@@ -46,7 +46,7 @@ if ( !defined( '__GESAMT__' ) ) {
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/BetterWidgetImageGallery.html
  */
-class BetterWidgetImageGallery extends ElebeeWidget {
+class BetterWidgetImageGallery extends WidgetBase {
 
     /**
      * @since 0.1.0

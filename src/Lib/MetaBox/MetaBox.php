@@ -133,10 +133,10 @@ class MetaBox {
      *
      * @since 0.2.0
      *
-     * @param MetaKey $metaKey
+     * @param MetaKeyBase $metaKey
      * @return void
      */
-    public function addMetaKey( MetaKey $metaKey ) {
+    public function addMetaKey( MetaKeyBase $metaKey ) {
 
         $metaKey->getTemplate()->setVar( 'metaBox', $this );
         $this->metaKeyList[] = $metaKey;

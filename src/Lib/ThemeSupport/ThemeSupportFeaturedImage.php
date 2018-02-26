@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportFeaturedImage.html
  */
-class ThemeSupportFeaturedImage extends ThemeSupport {
+class ThemeSupportFeaturedImage extends ThemeSupportBase {
 
     /**
      * ThemeSupportFeaturedImage constructor.
