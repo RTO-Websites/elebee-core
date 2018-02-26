@@ -194,6 +194,7 @@ class CustomCss extends Hooking {
 
         try {
 
+            $validation = $this->compile( $scss );
             wp_send_json_success( $this->buildCss( $postId, $scss ) );
 
         } catch ( \Exception $e ) {
@@ -224,11 +225,13 @@ class CustomCss extends Hooking {
 
             try {
 
+                $validation = $this->compile( $post->post_content );
+
                 file_put_contents( $this->compiledFilePath, $this->buildCss() );
 
             } catch ( \Exception $e ) {
 
-                // TODO: echo error notification
+                wp_die( $e->getMessage() );
 
             }
 
@@ -247,11 +250,6 @@ class CustomCss extends Hooking {
     public function buildCss( $postId = null, $postScss = '' ): string {
 
         $scss = '';
-
-        // this is needed to give the user correct line numbers on error when autoupdating.
-        if ( $postId !== null ) {
-            $this->compile( $postScss );
-        }
 
         $query = new \WP_Query( [
             'post_type' => $this->postTypeName,
@@ -333,7 +331,7 @@ class CustomCss extends Hooking {
      * @param string $classes
      * @return string
      */
-    public function collapseAdminMenu( string $classes ) {
+    public function collapseAdminMenu( string $classes ): string {
 
         global $post;
 
