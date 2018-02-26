@@ -14,6 +14,7 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
@@ -82,6 +83,7 @@ class Elebee {
         $this->setupPostTypeSupport();
         $this->setupThemeSupport();
         $this->setupThemeCustomizer();
+        $this->setupCustomPostTypes();
         $this->defineAdminHooks();
         $this->definePublicHooks();
 
@@ -155,6 +157,18 @@ class Elebee {
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
         $themeSupportFeaturedImage->addThemeSupport();
+
+    }
+
+    /**
+     * @since 0.3.0
+     *
+     * @return void
+     */
+    private function setUpCustomPostTypes() {
+
+        $globalCustomCss = new CustomCss();
+        $globalCustomCss->getLoader()->run();
 
     }
 

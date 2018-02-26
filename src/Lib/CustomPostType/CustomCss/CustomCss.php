@@ -8,11 +8,11 @@
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/CustomCss/CustomCss.html
  */
 
-namespace ElebeeCore\Lib\CustomCss;
+namespace ElebeeCore\Lib\CustomPostType\CustomCss;
 
 
 use ElebeeCore\Admin\Editor\CodeMirror;
-use ElebeeCore\Lib\Hooking;
+use ElebeeCore\Lib\CustomPostType\CustomPostTypeBase;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/CustomCss/CustomCss.html
  */
-class CustomCss extends Hooking {
+class CustomCss extends CustomPostTypeBase {
 
     /**
      * The absolute physical path to the compiled CSS file.
@@ -54,14 +54,6 @@ class CustomCss extends Hooking {
     private $jsLibUrl;
 
     /**
-     * The name of the created post type.
-     *
-     * @since 0.3.0
-     * @var string
-     */
-    private $postTypeName;
-
-    /**
      * CustomCss constructor.
      *
      * @since 0.3.0
@@ -73,10 +65,26 @@ class CustomCss extends Hooking {
         $stylesheetDirectoryUri = trailingslashit( get_stylesheet_directory_uri() );
         $this->compiledFilePath = trailingslashit( get_stylesheet_directory() ) . $file;
         $this->compiledFileUrl = $stylesheetDirectoryUri . $file;
-        $this->jsLibUrl = $stylesheetDirectoryUri . 'vendor/rto-websites/elebee-core/src/Lib/CustomCss/js/';
-        $this->postTypeName = 'elebee-global-css';
+        $this->jsLibUrl = $stylesheetDirectoryUri . 'vendor/rto-websites/elebee-core/src/Lib/CustomPostType/CustomCss/js/';
 
-        parent::__construct();
+        $editable = current_user_can( 'publish_pages' );
+
+        $args = [
+            'labels' => [
+                'name' => __( 'Global CSS', 'elebee' ),
+                'singular_name' => __( 'Global CSS', 'elebee' ),
+            ],
+            'public' => false,
+            'show_in_menu' => $editable,
+            'show_ui' => $editable,
+            'supports' => [
+                'title',
+                'editor',
+                'revisions',
+            ],
+        ];
+
+        parent::__construct( 'elebee-global-css', $args );
 
     }
 
@@ -84,6 +92,8 @@ class CustomCss extends Hooking {
      * @since 0.3.0
      */
     public function defineAdminHooks() {
+
+        parent::defineAdminHooks();
 
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
@@ -93,8 +103,6 @@ class CustomCss extends Hooking {
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
 
         $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
-        $this->getLoader()->addFilter( 'post_updated_messages', $this, 'addPostUpdatedMessages' );
-        $this->getLoader()->addFilter( 'bulk_post_updated_messages', $this, 'addBulkPostUpdatedMessages', 10, 2 );
 
     }
 
@@ -103,7 +111,8 @@ class CustomCss extends Hooking {
      */
     public function definePublicHooks() {
 
-        $this->getLoader()->addAction( 'init', $this, 'registerPostType' );
+        parent::definePublicHooks();
+
         $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueuePublicStyles' );
 
     }
@@ -129,7 +138,7 @@ class CustomCss extends Hooking {
 
         global $post;
 
-        if ( !$post || $post->post_type != $this->postTypeName ) {
+        if ( !$post || $post->post_type != $this->getName() ) {
             return;
         }
 
@@ -171,7 +180,7 @@ class CustomCss extends Hooking {
 
         $screen = get_current_screen();
 
-        if ( !is_object( $screen ) || $this->postTypeName != $screen->post_type ) {
+        if ( !is_object( $screen ) || $this->getName() != $screen->post_type ) {
 
             return;
 
@@ -217,7 +226,7 @@ class CustomCss extends Hooking {
      */
     public function save( string $newStatus, string $oldStatus, \WP_Post $post ) {
 
-        if ( $post->post_type != $this->postTypeName ) {
+        if ( $post->post_type != $this->getName() ) {
             return;
         }
 
@@ -252,7 +261,7 @@ class CustomCss extends Hooking {
         $scss = '';
 
         $query = new \WP_Query( [
-            'post_type' => $this->postTypeName,
+            'post_type' => $this->getName(),
             'post_status' => 'publish',
             'posts_per_page' => -1,
         ] );
@@ -302,32 +311,6 @@ class CustomCss extends Hooking {
     /**
      * @since 0.3.0
      *
-     * @return void
-     */
-    public function registerPostType() {
-
-        $editable = current_user_can( 'publish_pages' );
-
-        register_post_type( $this->postTypeName, [
-            'labels' => [
-                'name' => __( 'Global CSS', 'elebee' ),
-                'singular_name' => __( 'Global CSS', 'elebee' ),
-            ],
-            'public' => false,
-            'show_in_menu' => $editable,
-            'show_ui' => $editable,
-            'supports' => [
-                'title',
-                'editor',
-                'revisions',
-            ],
-        ] );
-
-    }
-
-    /**
-     * @since 0.3.0
-     *
      * @param string $classes
      * @return string
      */
@@ -335,45 +318,47 @@ class CustomCss extends Hooking {
 
         global $post;
 
-        if ( !$post || $post->post_type != $this->postTypeName ) {
-            return $classes;
+        if ( $post && $post->post_type == $this->getName() ) {
+            $classes .= ' folded';
         }
 
-        return $classes . ' folded';
+        return $classes;
 
     }
 
     /**
-     * @param array $messages
-     * @return array
+     * @since 0.3.0
      */
     public function addPostUpdatedMessages( array $messages ): array {
 
-        $messages[$this->postTypeName] = [
-            0  => '', // Unused. Messages start at index 1.
-            1  => __( 'Partial updated.', 'elebee' ),
-            2  => __( 'Custom field updated.', 'elebee' ),
-            3  => __( 'Custom field deleted.', 'elebee' ),
-            4  => __( 'Partial updated.', 'elebee' ),
+        $messages[$this->getName()] = [
+            0 => '', // Unused. Messages start at index 1.
+            1 => __( 'Partial updated.', 'elebee' ),
+            2 => __( 'Custom field updated.', 'elebee' ),
+            3 => __( 'Custom field deleted.', 'elebee' ),
+            4 => __( 'Partial updated.', 'elebee' ),
             /* translators: %s: date and time of the revision */
-            5  => isset( $_GET['revision'] ) ? sprintf( __( 'Partial restored to revision from %s', 'elebee' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-            6  => __( 'Partial published.', 'elebee' ),
-            7  => __( 'Partial saved.', 'elebee' ),
-            8  => __( 'Partial submitted.', 'elebee' ),
-            9  => sprintf(
+            5 => isset( $_GET['revision'] ) ? sprintf( __( 'Partial restored to revision from %s', 'elebee' ), wp_post_revision_title( (int)$_GET['revision'], false ) ) : false,
+            6 => __( 'Partial published.', 'elebee' ),
+            7 => __( 'Partial saved.', 'elebee' ),
+            8 => __( 'Partial submitted.', 'elebee' ),
+            9 => sprintf(
                 __( 'Partial scheduled for: <strong>%1$s</strong>.', 'elebee' ),
                 // translators: Publish box date format, see http://php.net/date
                 date_i18n( __( 'M j, Y @ G:i', 'elebee' ), strtotime( get_post()->post_date ) )
             ),
-            10 => __( 'Partial draft updated.', 'elebee' )
+            10 => __( 'Partial draft updated.', 'elebee' ),
         ];
-        return$messages;
+        return $messages;
 
     }
 
+    /**
+     * @since 0.3.0
+     */
     public function addBulkPostUpdatedMessages( array $bulkMessages, array $bulkCounts ): array {
 
-        $bulkMessages[$this->postTypeName] = [
+        $bulkMessages[$this->getName()] = [
             'updated' => _n( '%s partial updated.', '%s partials updated.', $bulkCounts['updated'], 'elebee' ),
             'locked' => _n( '%s partial not updated, somebody is editing it.', '%s partials not updated, somebody is editing them.', $bulkCounts['locked'], 'elebee' ),
             'deleted' => _n( '%s partial permanently deleted.', '%s partials permanently deleted.', $bulkCounts['deleted'], 'elebee' ),
