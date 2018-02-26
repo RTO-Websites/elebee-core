@@ -84,38 +84,6 @@ add_filter( 'elementor_pro/forms/field_types', function ( $fields ) {
 
 } );
 
-//add_filter( 'elementor/editor/global-settings', function ( $controls ) {
-//
-//    $controls['style']['style']['controls']['elementor_padding_between_widgets'] = [
-//        'label' => __( 'Widgets Padding', 'elementor' ) . ' (px)',
-//        'type' => Controls_Manager::NUMBER,
-//        'min' => 0,
-//        'placeholder' => '20',
-//        'description' => __( 'Sets the default space between widgets (Default: 20)', 'elementor' ),
-//        'selectors' => [
-//            '.elementor-column-gap-default > .elementor-row > .elementor-column > .elementor-element-populated' => 'padding: {{VALUE}}px',
-//        ],
-//    ];
-//
-//    return $controls;
-//
-//} );
-
-add_action( 'elementor/admin/after_create_settings/' . Settings::PAGE_ID, function ( Settings $settings ) {
-
-    $settings->add_field( \Elementor\Settings::TAB_STYLE, 'style', 'padding_between_widgets', [
-            'label' => __( 'Padding Between Widgets', 'elementor' ),
-            'field_args' => [
-                'type' => 'text',
-                'placeholder' => '20',
-                'sub_desc' => 'px',
-                'class' => 'medium-text',
-                'desc' => __( 'Sets the default space between widgets (Default: 20)', 'elementor' ),
-            ],
-        ]
-    );
-
-}, 50 );
 /**
  * Hook widget section to extend control stack
  */
