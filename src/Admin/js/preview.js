@@ -45,7 +45,7 @@
 
 		$.ajax({
 			type:"POST",
-			url: ajax_object.ajax_url,
+			url: themeVars.ajaxUrl,
 			data: {
 				'action': 'get_post_id_by_url',
 				'url': $(this).attr('href')

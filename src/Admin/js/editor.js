@@ -58,7 +58,7 @@
     else {
 
       text += '%c0000';
-      style = 'line-height: 1.6; font-size: 50px; background-image: url("' + elementor_rto_url + '/vendor/rto-websites/elebee-core/src/Admin/assets/elementor-rto.png"); color: transparent; background-repeat: no-repeat;';
+      style = 'line-height: 1.6; font-size: 50px; background-image: url("' + themeVars.themeUrl + '/vendor/rto-websites/elebee-core/src/Admin/assets/elementor-rto.png"); color: transparent; background-repeat: no-repeat;';
 
     }
 
