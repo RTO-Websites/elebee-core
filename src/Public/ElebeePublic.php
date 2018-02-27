@@ -204,7 +204,6 @@ class ElebeePublic {
 
         wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', [ 'jquery' ], $this->version, true );
         wp_enqueue_script( 'main-min', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery' ], $this->version, true );
-        wp_enqueue_script( 'main', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Public/js/main.js', [ 'jquery' ], $this->version, true );
 //        wp_localize_script( $this->themeName, 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
         if ( WP_DEBUG ) {
