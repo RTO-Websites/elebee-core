@@ -87,7 +87,7 @@ class ElebeeAdmin {
          */
 
         wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/css/admin.min.css', [], $this->version, 'all' );
-        wp_enqueue_style( $this->themeName . '-elementor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/css/elementor-rto-admin.css', [], $this->version, 'all' );
+        wp_enqueue_style( $this->themeName . '-admin', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/css/admin.css', [], $this->version, 'all' );
 
     }
 
@@ -112,7 +112,7 @@ class ElebeeAdmin {
          * class.
          */
 
-        wp_enqueue_script( $this->themeName, get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/elementor-rto-admin.js', [ 'jquery' ], $this->version, false );
+        wp_enqueue_script( $this->themeName . '-admin', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/admin.js', [ 'jquery' ], $this->version, false );
 
     }
 
@@ -123,7 +123,7 @@ class ElebeeAdmin {
      */
     public function enqueueEditorStyles() {
 
-        wp_enqueue_style( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/css/elementor-rto-editor.css', [], $this->version, 'all' );
+        wp_enqueue_style( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/css/editor.css', [], $this->version, 'all' );
 
     }
 
@@ -134,7 +134,7 @@ class ElebeeAdmin {
      */
     public function enqueueEditorScripts() {
 
-        wp_enqueue_script( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/elementor-rto-editor.js', [ 'jquery' ], $this->version, true );
+        wp_enqueue_script( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/editor.js', [ 'jquery' ], $this->version, true );
         wp_localize_script( $this->themeName . '-editor', 'elementor_rto_url', get_stylesheet_directory_uri() );
 
     }
@@ -146,7 +146,7 @@ class ElebeeAdmin {
      */
     public function enqueuePreviewScripts() {
 
-        wp_enqueue_script( 'preview-links', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/preview-links.js', [ 'jquery' ], $this->version, true );
+        wp_enqueue_script( $this->themeName . '-preview', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/preview.js', [ 'jquery' ], $this->version, true );
 
     }
 
