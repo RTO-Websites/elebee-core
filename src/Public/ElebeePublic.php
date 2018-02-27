@@ -201,6 +201,8 @@ class ElebeePublic {
          * between the defined hooks and the functions defined in this
          * class.
          */
+        wp_deregister_script( 'jquery' );
+        wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
 
         wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', [ 'jquery' ], $this->version, true );
         wp_enqueue_script( 'main-min', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery' ], $this->version, true );
