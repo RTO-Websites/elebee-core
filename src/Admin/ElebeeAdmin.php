@@ -224,7 +224,7 @@ class ElebeeAdmin {
      */
     public function renderAdminPage() {
 
-        ( new Template( dirname( __DIR__ ) . '/admin/partials/elementor-rto-admin-display.php' ) )->render();
+        ( new Template( dirname( __DIR__ ) . '/admin/partials/settings.php' ) )->render();
 
     }
 
