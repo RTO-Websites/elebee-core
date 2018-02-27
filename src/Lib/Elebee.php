@@ -266,6 +266,7 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeAdmin, 'enqueueEditorScripts', 99999 );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'get_post_id_by_url' );
+        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeAdmin, 'enqueuePreviewScripts' );
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
         $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );

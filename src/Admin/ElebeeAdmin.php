@@ -140,6 +140,17 @@ class ElebeeAdmin {
     }
 
     /**
+     * @since 0.3.1
+     *
+     * @return void
+     */
+    public function enqueuePreviewScripts() {
+
+        wp_enqueue_script( 'preview-links', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Admin/js/preview-links.js', [ 'jquery' ], $this->version, true );
+
+    }
+
+    /**
      * @since 0.1.0
      *
      * @return void
