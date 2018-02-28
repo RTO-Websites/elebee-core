@@ -13,6 +13,7 @@ namespace ElebeeCore\Lib\CustomPostType\CustomCss;
 
 use ElebeeCore\Admin\Editor\CodeMirror;
 use ElebeeCore\Lib\CustomPostType\CustomPostTypeBase;
+use ElebeeCore\Lib\Elebee;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
@@ -125,7 +126,7 @@ class CustomCss extends CustomPostTypeBase {
     public function enqueueAdminStyles() {
 
         $stylesUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/css/';
-        wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ] );
+        wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ], Elebee::VERSION );
 
     }
 
@@ -143,7 +144,7 @@ class CustomCss extends CustomPostTypeBase {
         }
 
         $src = $this->jsLibUrl . 'capture-input.js';
-        wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], '1.0.0', true );
+        wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], Elebee::VERSION, true );
         wp_localize_script( 'elebee-capture-input', 'postData', [ 'id' => get_the_ID() ] );
 
     }
@@ -156,7 +157,7 @@ class CustomCss extends CustomPostTypeBase {
     public function enqueueEditorScripts() {
 
         $src = $this->jsLibUrl . 'inject-css.js';
-        wp_enqueue_script( 'elebee-inject-css', $src, [ 'jquery' ] );
+        wp_enqueue_script( 'elebee-inject-css', $src, [ 'jquery' ], Elebee::VERSION );
 
     }
 
@@ -167,7 +168,7 @@ class CustomCss extends CustomPostTypeBase {
      */
     public function enqueuePublicStyles() {
 
-        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ] );
+        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ], Elebee::VERSION );
 
     }
 
