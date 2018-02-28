@@ -298,11 +298,11 @@ class Elebee {
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
 
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerWidgets' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerExclusiveWidgets' );
+
         $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueStyles' );
         $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueScripts' );
-
-        $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerWidgets' );
-        $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerExclusiveWidgets' );
 
         $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeePublic, 'addWidgetPostsSkins' );
 
