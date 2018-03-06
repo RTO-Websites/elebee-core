@@ -12,5 +12,8 @@
       "ElebeeCore\\": "src",
       "ElebeeCore\\Pub\\": "src/Public/"
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6"
   }
 }
