@@ -13,7 +13,6 @@ namespace ElebeeCore\Extensions;
 
 use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Stack;
-use Elementor\Element_Base;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -48,7 +47,7 @@ abstract class ExtensionBase extends Hooking {
     /**
      * @since  0.2.0
      *
-     * @param Element_Base $element
+     * @param Controls_Stack $element
      * @return void
      */
     public abstract function extend( Controls_Stack $element );
