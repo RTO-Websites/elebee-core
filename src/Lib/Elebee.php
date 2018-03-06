@@ -66,6 +66,12 @@ class Elebee {
     private $themeName;
 
     /**
+     * @since 0.2.0
+     * @var ThemeCustommizer
+     */
+    private $themeCustomizer;
+
+    /**
      * Define the core functionality of the theme.
      *
      * Set the theme name and the theme version that can be used throughout the theme.
@@ -260,7 +266,9 @@ class Elebee {
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
-        $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
+        if ( class_exists( 'Elementor\Settings' ) ) {
+            $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
+        }
 
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
@@ -301,10 +309,10 @@ class Elebee {
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerWidgets' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerExclusiveWidgets' );
 
+        $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeePublic, 'addWidgetPostsSkins' );
+
         $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueStyles' );
         $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueScripts' );
-
-        $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeePublic, 'addWidgetPostsSkins' );
 
     }
 
