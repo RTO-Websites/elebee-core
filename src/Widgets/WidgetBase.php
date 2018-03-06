@@ -75,6 +75,8 @@ abstract class WidgetBase extends Widget_Base {
      */
     public function defineAdminHooks() {
 
+        $this->getLoader()->addAction( 'elementor/preview/enqueue_styles', $this, 'enqueueStyles' );
+        $this->getLoader()->addAction( 'elementor/preview/enqueue_scripts', $this, 'enqueueScripts' );
 
     }
 
@@ -87,31 +89,6 @@ abstract class WidgetBase extends Widget_Base {
 
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueStyles' );
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScripts' );
-
-        if ( $this->isPreviewMode() ) {
-            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueStyles' ] );
-            add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ] );
-            wp_enqueue_scripts();
-        }
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return bool
-     */
-    public function isPreviewMode(): bool {
-
-        if ( !User::is_current_user_can_edit() ) {
-            return false;
-        }
-
-        if ( !isset( $_GET['elementor-preview'] ) ) {
-            return false;
-        }
-
-        return true;
 
     }
 

@@ -2,7 +2,7 @@
   "name": "rto-websites/elebee-core",
   "description": "The core php library of the WordPress-Theme-Elebee",
   "minimum-stability": "dev",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "require": {
     "php": "^7.0",
     "mobiledetect/mobiledetectlib": "*",

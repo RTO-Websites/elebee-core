@@ -13,6 +13,7 @@
 namespace ElebeeCore\Widgets\Exclusive\PostTypeArchive;
 
 
+use ElebeeCore\Lib\Elebee;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
@@ -97,7 +98,7 @@ class PostTypeArchive extends WidgetBase {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/Exclusive/PostTypeArchive/css/' . $this->get_name() . '.css' );
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/Exclusive/PostTypeArchive/css/' . $this->get_name() . '.css', [], Elebee::VERSION );
 
     }
 

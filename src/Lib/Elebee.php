@@ -46,7 +46,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.3.0';
+    const VERSION = '0.3.1';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -64,6 +64,12 @@ class Elebee {
      * @var string The string used to uniquely identify this theme.
      */
     private $themeName;
+
+    /**
+     * @since 0.2.0
+     * @var ThemeCustommizer
+     */
+    private $themeCustomizer;
 
     /**
      * Define the core functionality of the theme.
@@ -259,16 +265,20 @@ class Elebee {
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
+        $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
+        if ( class_exists( 'Elementor\Settings' ) ) {
+            $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
+        }
+
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeAdmin, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeAdmin, 'enqueueEditorScripts', 99999 );
 
-        $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'get_post_id_by_url' );
+        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeAdmin, 'enqueuePreviewScripts' );
 
-        $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
-        $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
+        $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
 
     }
 
@@ -296,8 +306,8 @@ class Elebee {
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
         $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
 
-        $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerWidgets' );
-        $this->loader->addAction( 'elementor/widgets/widgets_registered', $elebeePublic, 'registerExclusiveWidgets' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerWidgets' );
+        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerExclusiveWidgets' );
 
         $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeePublic, 'addWidgetPostsSkins' );
 

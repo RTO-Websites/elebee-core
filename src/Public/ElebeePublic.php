@@ -165,18 +165,6 @@ class ElebeePublic {
      */
     public function enqueueStyles() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in ElebeeLoader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The ElebeeLoader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-
         wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', [], $this->version, 'all' );
 
     }
@@ -190,22 +178,20 @@ class ElebeePublic {
      */
     public function enqueueScripts() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in ElebeeLoader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The ElebeeLoader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+        wp_deregister_script( 'jquery' );
+        wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
 
-        wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', [ 'jquery' ], $this->version, true );
-        wp_enqueue_script( 'main-min', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery' ], $this->version, true );
-        wp_enqueue_script( 'main', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Public/js/main.js', [ 'jquery' ], $this->version, true );
-//        wp_localize_script( $this->themeName, 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+        wp_enqueue_script( $this->themeName . '-vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', [ 'jquery' ], $this->version, true );
+        wp_enqueue_script( $this->themeName . '-main', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery', $this->themeName . '-vendor' ], $this->version, true );
+        wp_localize_script( $this->themeName . '-main', 'themeVars', [
+            'websiteName' => get_bloginfo( 'name' ),
+            'websiteUrl' => esc_url( get_site_url() ),
+            'themeUrl' => esc_url( get_stylesheet_directory_uri() ),
+            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+            'isSearch' => number_format( is_search() ),
+            'isMobile' => number_format( wp_is_mobile() ),
+            'debug' => number_format( WP_DEBUG ),
+        ] );
 
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
