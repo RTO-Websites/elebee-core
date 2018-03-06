@@ -100,10 +100,13 @@ class CustomCss extends CustomPostTypeBase {
         $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
-        $this->getLoader()->addAction( 'transition_post_status', $this, 'save', 10, 3 );
+        $this->getLoader()->addAction( 'transition_post_status', $this, 'saveToFile', 10, 3 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
+        $this->getLoader()->addAction( 'admin_notices', $this, 'renderError', 9999 );
 
         $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
+        $this->getLoader()->addFilter( 'wp_insert_post_data', $this, 'verifyPostData', 99, 2 );
+        $this->getLoader()->addFilter( 'content_edit_pre', $this, 'restoreEditorContent', 10, 2 );
 
     }
 
@@ -204,7 +207,7 @@ class CustomCss extends CustomPostTypeBase {
 
         try {
 
-            $validation = $this->compile( $scss );
+            $this->compile( $scss );
             wp_send_json_success( $this->buildCss( $postId, $scss ) );
 
         } catch ( \Exception $e ) {
@@ -218,6 +221,61 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @since 0.3.2
+     *
+     * @param $content
+     * @param $post_id
+     * @return string
+     */
+    public function restoreEditorContent( $content, $post_id ) {
+
+        $editorContent = filter_input( INPUT_GET, 'editorContent' );
+
+        if ( get_post_type() != $this->getName() || !$editorContent ) {
+            return $content;
+        }
+
+
+        return $editorContent;
+
+    }
+
+    /**
+     * @since 0.3.2
+     *
+     * @param $data
+     * @param $postArr
+     * @return array
+     */
+    public function verifyPostData( array $data, array $postArr ): array {
+
+        if ( $data['post_type'] != $this->getName() ) {
+            return $data;
+        }
+
+        try {
+
+            $this->compile( $data['post_content'] );
+
+        } catch ( \Exception $e ) {
+
+            $query = [
+                'error' => urlencode( $e->getMessage() ),
+                'editorContent' => urlencode( $data['post_content'] ),
+            ];
+            $postUrl = get_edit_post_link( $postArr['ID'] );
+            $postUrl = add_query_arg( $query, $postUrl );
+            wp_die( $e->getMessage() . '<br><a href="' . $postUrl . '">&laquo; ' . __( 'back', 'elebee' ) . '</a>' );
+
+        }
+
+        var_dump($data);
+
+        return $data;
+
+    }
+
+    /**
      * @since 0.3.0
      *
      * @param string   $newStatus
@@ -225,7 +283,7 @@ class CustomCss extends CustomPostTypeBase {
      * @param \WP_Post $post
      * @return void
      */
-    public function save( string $newStatus, string $oldStatus, \WP_Post $post ) {
+    public function saveToFile( string $newStatus, string $oldStatus, \WP_Post $post ) {
 
         if ( $post->post_type != $this->getName() ) {
             return;
@@ -235,13 +293,11 @@ class CustomCss extends CustomPostTypeBase {
 
             try {
 
-                $validation = $this->compile( $post->post_content );
-
                 file_put_contents( $this->compiledFilePath, $this->buildCss() );
 
             } catch ( \Exception $e ) {
 
-                wp_die( $e->getMessage() );
+                wp_die( sprintf( __( "Couldn't create CSS file:<br>%s", 'elebee' ), $e->getMessage() ) );
 
             }
 
@@ -370,5 +426,28 @@ class CustomCss extends CustomPostTypeBase {
         return $bulkMessages;
 
     }
+
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
+    public function renderError() {
+
+        $error = filter_input( INPUT_GET, 'error' );
+        if ( !$error ) {
+            return;
+        }
+
+        ?>
+
+        <div class="notice notice-error is-dismissible">
+            <p><?php echo $error ?></p>
+        </div>
+
+        <?php
+
+    }
+
 
 }
