@@ -14,6 +14,8 @@ namespace ElebeeCore\Lib\CustomPostType\CustomCss;
 use ElebeeCore\Admin\Editor\CodeMirror;
 use ElebeeCore\Lib\CustomPostType\CustomPostTypeBase;
 use ElebeeCore\Lib\Elebee;
+use Elementor\Plugin;
+use Elementor\Scheme_Color;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
@@ -354,8 +356,20 @@ class CustomCss extends CustomPostTypeBase {
      */
     public function compile( string $scss ): string {
 
+        $schemesManager = Plugin::instance()->schemes_manager;
+        $primary = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_1 );
+        $secondary = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_2 );
+        $text = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_3 );
+        $accent = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_4 );
+
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
+        $scssCompiler->setVariables( [
+            'primary' => $primary,
+            'secondary' => $secondary,
+            'text' => $text,
+            'accent' => $accent,
+        ] );
 
         if ( WP_DEBUG ) {
             $scssCompiler->setLineNumberStyle( Compiler::LINE_COMMENTS );
