@@ -15,14 +15,15 @@ namespace ElebeeCore\Lib;
 
 use ElebeeCore\Admin\ElebeeAdmin;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
-use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
 use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
+use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
@@ -155,6 +156,9 @@ class Elebee {
      */
     private function setupThemeSupport() {
 
+        $themeSupportMenus = new ThemeSupportMenus();
+        $themeSupportMenus->getLoader()->run();
+
         $themeSupportTitleTag = new ThemeSupportTitleTag();
         $themeSupportTitleTag->getLoader()->run();
 
@@ -269,6 +273,7 @@ class Elebee {
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
         }
+
 
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
