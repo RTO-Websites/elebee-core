@@ -84,6 +84,7 @@ class CustomCss extends CustomPostTypeBase {
                 'title',
                 'editor',
                 'revisions',
+                'page-attributes',
             ],
         ];
 
@@ -323,6 +324,7 @@ class CustomCss extends CustomPostTypeBase {
             'post_type' => $this->getName(),
             'post_status' => 'publish',
             'posts_per_page' => -1,
+            'orderby' => 'menu_order',
         ] );
 
         while ( $query->have_posts() ) {
