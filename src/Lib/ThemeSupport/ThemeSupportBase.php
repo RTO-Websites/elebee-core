@@ -42,7 +42,7 @@ abstract class ThemeSupportBase extends Hooking {
      *
      * @param string $hook
      */
-    public function __construct( string $hook ) {
+    public function __construct( string $hook = 'after_setup_theme' ) {
 
         $this->hook = $hook;
 
@@ -75,7 +75,7 @@ abstract class ThemeSupportBase extends Hooking {
      */
     public function definePublicHooks() {
 
-        $this->getLoader()->addAction( $this->getHook(), $this, 'hookCallback' );
+        $this->getLoader()->addAction( $this->getHook(), $this, 'addThemeSupport' );
 
     }
 
@@ -84,17 +84,6 @@ abstract class ThemeSupportBase extends Hooking {
      *
      * @return void
      */
-    public abstract function hookCallback();
-
-    /**
-     * @since 0.2.0
-     *
-     * @return void
-     */
-    public function addThemeSupport() {
-
-        $this->getLoader()->run();
-
-    }
+    public abstract function addThemeSupport();
 
 }

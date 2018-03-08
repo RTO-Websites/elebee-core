@@ -156,13 +156,13 @@ class Elebee {
     private function setupThemeSupport() {
 
         $themeSupportTitleTag = new ThemeSupportTitleTag();
-        $themeSupportTitleTag->addThemeSupport();
+        $themeSupportTitleTag->getLoader()->run();
 
         $themeSupportHTML5 = new ThemeSupportHTML5();
-        $themeSupportHTML5->addThemeSupport();
+        $themeSupportHTML5->getLoader()->run();
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
-        $themeSupportFeaturedImage->addThemeSupport();
+        $themeSupportFeaturedImage->getLoader()->run();
 
     }
 

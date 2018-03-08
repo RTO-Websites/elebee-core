@@ -28,19 +28,6 @@ defined( 'ABSPATH' ) || exit;
 class ThemeSupportFeaturedImage extends ThemeSupportBase {
 
     /**
-     * ThemeSupportFeaturedImage constructor.
-     *
-     * @since 0.1.0
-     *
-     * @param string $hook
-     */
-    public function __construct( string $hook = 'after_setup_theme' ) {
-
-        parent::__construct( $hook );
-
-    }
-
-    /**
      * @since 0.1.0
      */
     public function defineAdminHooks() {
@@ -58,7 +45,7 @@ class ThemeSupportFeaturedImage extends ThemeSupportBase {
     /**
      * @since 0.2.0
      */
-    public function hookCallback() {
+    public function addThemeSupport() {
 
         add_theme_support( 'post-thumbnails' );
 

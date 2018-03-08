@@ -43,7 +43,7 @@ class ThemeSupportTitleTag extends ThemeSupportBase {
     /**
      * @since 0.1.0
      */
-    public function hookCallback() {
+    public function addThemeSupport() {
 
         add_theme_support( 'title-tag' );
 

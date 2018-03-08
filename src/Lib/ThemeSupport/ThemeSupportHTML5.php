@@ -28,22 +28,9 @@ defined( 'ABSPATH' ) || exit;
 class ThemeSupportHTML5 extends ThemeSupportBase {
 
     /**
-     * ThemeSupportHTML5 constructor.
-     *
-     * @since 0.1.0
-     *
-     * @param string $hook
-     */
-    public function __construct( string $hook = 'after_setup_theme' ) {
-
-        parent::__construct( $hook );
-
-    }
-
-    /**
      * @since 0.1.0
      */
-    public function hookCallback() {
+    public function addThemeSupport() {
 
         $args = [
             'search-form',
