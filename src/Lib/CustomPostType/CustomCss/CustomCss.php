@@ -405,6 +405,36 @@ class CustomCss extends CustomPostTypeBase {
 
     }
 
+    public function preview() {
+
+        $previewMode = filter_input( INPUT_GET, 'preview-mode' );
+        if ( $previewMode == 'css' ) {
+            $ids = explode( ',', filter_input( INPUT_GET, 'preview' ) );
+            $css = $this->buildCss();
+
+            $query = new \WP_Query( [
+                'post__in' => $ids,
+                'post_type' => $this->getName(),
+                'post_status' => [
+                    'pending',
+                    'draft',
+                    'future',
+                    'private',
+                ],
+            ] );
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                $css .= $this->compile( get_the_content() );
+            }
+            wp_reset_query();
+
+        }
+
+        return $css;
+
+    }
+
     /**
      * @since 0.3.0
      *
