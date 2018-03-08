@@ -155,9 +155,6 @@
 
     cm.eachLine(function (line) {
       cm.indentLine(line.lineNo());
-      if (/^\s+}$/.test(line.text)) {
-        // TODO: Fix closing brace indentation
-      }
     })
   }
 
