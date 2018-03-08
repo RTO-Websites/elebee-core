@@ -272,8 +272,6 @@ class CustomCss extends CustomPostTypeBase {
 
         }
 
-        var_dump($data);
-
         return $data;
 
     }
