@@ -4,10 +4,10 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib\ControlledTemplate
+ * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ControlledTemplate/ThemeSupportTitleTag.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportTitleTag.html
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
@@ -20,10 +20,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib\ControlledTemplate
+ * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ControlledTemplate/ThemeSupportTitleTag.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportTitleTag.html
  */
 class ThemeSupportTitleTag extends ThemeSupportBase {
 
