@@ -68,13 +68,14 @@ class Sticky extends ExtensionBase {
      *
      * @since 0.1.0
      */
-    public function __construct() {
+    public function __construct( string $tab ) {
 
-        parent::__construct( 'elementor/element/section/section_custom_css/after_section_end', 50 );
+        parent::__construct( $tab );
+        $this->sectionId = 'sectionSticky';
         $this->controlStickyId = 'sticky';
-        $this->controlStickyPlaceholderId = 'sticky-placeholder';
-        $this->controlStickyPositionId = 'sticky-position';
-        $this->controlStickyOffsetId = 'sticky-offset';
+        $this->controlStickyPlaceholderId = 'stickyPlaceholder';
+        $this->controlStickyPositionId = 'stickyPosition';
+        $this->controlStickyOffsetId = 'stickyOffset';
 
     }
 
@@ -92,13 +93,14 @@ class Sticky extends ExtensionBase {
     /**
      * @since 0.1.0
      */
-    public function extend( Controls_Stack $element ) {
+    public function extendControlStack( Controls_Stack $element ) {
 
         // TODO: implement usage of responsive controls.
 
-        $element->start_controls_section( 'section_sticky', [
+        $element->start_controls_section(
+            $this->sectionId, [
                 'label' => __( 'Sticky', 'elebee' ),
-                'tab' => Controls_Manager::TAB_ADVANCED,
+                'tab' => $this->getTab(),
             ]
         );
 

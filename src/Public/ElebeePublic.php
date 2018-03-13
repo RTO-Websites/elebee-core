@@ -26,6 +26,7 @@ use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery
 use ElebeeCore\Widgets\General\CommentForm\CommentForm;
 use ElebeeCore\Widgets\General\CommentList\CommentList;
 use ElebeeCore\Widgets\General\Imprint\Imprint;
+use Elementor\Controls_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
@@ -212,17 +213,18 @@ class ElebeePublic {
      */
     public function setupElementorExtensions() {
 
+        $sticky = new Sticky( Controls_Manager::TAB_ADVANCED );
+        $sticky->addRegistration( 'section', 'section_custom_css', 'after_section_end', 50 );
+        $sticky->register();
+
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
             require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
 
-            $slides = new Slides();
-            $slides->getLoader()->run();
+            $slides = new Slides( Controls_Manager::TAB_CONTENT );
+            $slides->addRegistration( 'slides', 'section_slides', 'before_section_end' );
+            $slides->register();
 
         }
-
-        $sticky = new Sticky();
-        $sticky->getLoader()->run();
-
 
         do_action( 'rto_init_extensions' );
 

@@ -11,9 +11,12 @@
 namespace ElebeeCore\Extensions;
 
 
+use ElebeeCore\Lib\ElebeeLoader;
+use ElebeeCore\Lib\Hook\ActionHook;
 use ElebeeCore\Lib\Hooking;
 use Elementor\Controls_Stack;
 use Elementor\Element_Base;
+use Elementor\Widget_Base;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,21 +30,67 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/ExtensionBase.html
  */
-abstract class ExtensionBase extends Hooking {
+abstract class ExtensionBase {
 
-    private $hook;
+    private $hookList;
 
-    private $priority;
+    private $loader;
 
-    private $argsCount;
+    private $registerdTo;
 
-    public function __construct( string $hook, int $priority  = 10, int $argsCount = 1 ) {
+    private $tab;
 
-        $this->hook = $hook;
-        $this->priority = $priority;
-        $this->argsCount = $argsCount;
+    public function __construct( string $tab ) {
 
-        parent::__construct();
+        $this->hookList = [];
+        $this->loader = new ElebeeLoader();
+        $this->registerdTo = [];
+        $this->tab = $tab;
+
+    }
+
+    /**
+     * @return ElebeeLoader
+     */
+    public function getLoader(): ElebeeLoader {
+
+        return $this->loader;
+
+    }
+
+    public function getTab(): string {
+
+        return $this->tab;
+
+    }
+
+    public function isRegisteredTo( $widgetId ) {
+
+        return in_array( $widgetId, $this->registerdTo );
+
+    }
+
+    public function addRegistration( string $widgetId = '', string $sectionId = '', string $position = '', int $priority = 10 ) {
+
+        if ( $this->isRegisteredTo( $widgetId ) ) {
+            return;
+        }
+
+        $this->registerdTo[] = $widgetId;
+
+        if ( $widgetId === '' || $sectionId === '' || $position === '' ) {
+            $hookName = 'elementor/element/after_section_end';
+        } else {
+            $hookName = 'elementor/element/' . $widgetId . '/' . $sectionId . '/' . $position;
+        }
+
+        $this->loader->addAction( $hookName, $this, 'extendControlStack', $priority, 1 );
+
+    }
+
+    public function register() {
+
+        $this->loader->run();
 
     }
 
@@ -51,18 +100,6 @@ abstract class ExtensionBase extends Hooking {
      * @param Element_Base $element
      * @return void
      */
-    public abstract function extend( Controls_Stack $element );
-
-    public function defineAdminHooks() {
-        // TODO: Implement defineAdminHooks() method.
-    }
-
-
-    public function definePublicHooks() {
-
-        $this->getLoader()->addAction( $this->hook, $this, 'extend', $this->priority, $this->argsCount );
-
-    }
-
+    public abstract function extendControlStack( Controls_Stack $element );
 
 }

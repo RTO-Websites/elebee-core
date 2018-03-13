@@ -29,19 +29,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class Slides extends ExtensionBase {
 
-    public function __construct() {
-
-        parent::__construct( 'elementor/element/slides/section_slides/before_section_end' );
-
-    }
-
     /**
      * @since 0.2.0
      */
-    public function extend( Controls_Stack $element ) {
+    public function extendControlStack( Controls_Stack $element ) {
 
         $element->add_control(
-            'use_ratio_hight',
+            'useRatioHeight',
             [
                 'label' => __( 'Use Ratio Height', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
@@ -53,7 +47,7 @@ class Slides extends ExtensionBase {
             ] );
 
         $element->add_responsive_control(
-            'aspect-ratio',
+            'aspectRatio',
             [
                 'label' => __( 'Slider Ratio', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
