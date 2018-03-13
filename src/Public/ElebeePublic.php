@@ -14,6 +14,7 @@ namespace ElebeeCore\Pub;
 
 
 use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
+use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
 use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Extensions\Sticky\Sticky;
 use ElebeeCore\Skins\SkinArchive;
@@ -216,6 +217,10 @@ class ElebeePublic {
         $sticky = new Sticky( Controls_Manager::TAB_ADVANCED );
         $sticky->addRegistration( 'section', 'section_custom_css', 'after_section_end', 50 );
         $sticky->register();
+
+        $responsiveAspectRatio = new ResponsiveAspectRatio( Controls_Manager::TAB_STYLE );
+        $responsiveAspectRatio->addRegistration( 'image', 'section_style_image', 'after_section_end' );
+        $responsiveAspectRatio->register();
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
             require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
