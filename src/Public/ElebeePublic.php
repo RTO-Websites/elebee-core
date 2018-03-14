@@ -15,14 +15,12 @@ namespace ElebeeCore\Pub;
 
 use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
 use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
-use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Extensions\Sticky\Sticky;
 use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
 use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
-use ElebeeCore\Widgets\General\AspectRatioImage\AspectRatioImage;
 use ElebeeCore\Widgets\General\BetterAccordion\BetterAccordion;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery;
 use ElebeeCore\Widgets\General\CommentForm\CommentForm;
@@ -121,7 +119,6 @@ class ElebeePublic {
 
         Plugin::instance()->widgets_manager->register_widget_type( new Imprint() );
         Plugin::instance()->widgets_manager->register_widget_type( new BetterWidgetImageGallery() );
-        Plugin::instance()->widgets_manager->register_widget_type( new AspectRatioImage() );
         Plugin::instance()->widgets_manager->register_widget_type( new CommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new CommentList() );
         Plugin::instance()->widgets_manager->register_widget_type( new BetterAccordion() );
