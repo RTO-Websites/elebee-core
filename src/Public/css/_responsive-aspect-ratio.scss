@@ -35,6 +35,11 @@
       height: 100%;
     }
 
+    .elementor-image,
+    .elementor-image img {
+      width: 100%;
+    }
+
   }
 
   &::after {
