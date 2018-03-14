@@ -44,7 +44,7 @@ class ResponsiveAspectRatio extends ExtensionBase {
     private function definePublicHooks() {
 
         $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRendering', 10, 2 );
-        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendRendering', 10, 2 );
+        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendContentTemplate', 10, 2 );
 
     }
 
@@ -133,6 +133,12 @@ class ResponsiveAspectRatio extends ExtensionBase {
 //        die();
 
         return $template->getRendered();
+
+    }
+
+    public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ) {
+
+        return '';
 
     }
 
