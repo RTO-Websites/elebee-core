@@ -218,18 +218,17 @@ class ElebeePublic {
         $sticky = new Sticky();
         $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
-        $responsiveAspectRatioStyle = new ResponsiveAspectRatio();
-        $responsiveAspectRatioStyle->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+        $imageExtension = new ResponsiveAspectRatio();
+        $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
-        $responsiveAspectRatioContent = new ResponsiveAspectRatio();
-        $responsiveAspectRatioContent->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+        $googleMapsExtension = new ResponsiveAspectRatio();
+        $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
             require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
 
-//            $slides = new Slides( Controls_Manager::TAB_CONTENT );
-//            $slides->addRegistration( 'slides', 'section_slides', 'before_section_end' );
-//            $slides->register();
+            $slidesExtension = new ResponsiveAspectRatio();
+            $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         }
 

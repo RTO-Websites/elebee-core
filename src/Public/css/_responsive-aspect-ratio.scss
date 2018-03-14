@@ -23,15 +23,18 @@
     left: 0;
     right: 0;
 
-    .elementor-image {
-      width: 100%;
+    .elementor-image,
+    .elementor-image img,
+    .elementor-custom-embed,
+    .elementor-custom-embed iframe,
+    .elementor-slides-wrapper,
+    .elementor-slides-wrapper .elementor-slides,
+    .elementor-slides-wrapper .elementor-slides .slick-list,
+    .elementor-slides-wrapper .elementor-slides .slick-list .slick-track,
+    .elementor-slides-wrapper .elementor-slides .slick-list .slick-track .slick-slide {
       height: 100%;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
     }
+
   }
 
   &::after {
