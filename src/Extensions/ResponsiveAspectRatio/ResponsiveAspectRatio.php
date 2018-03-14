@@ -8,19 +8,17 @@
 namespace ElebeeCore\Extensions\ResponsiveAspectRatio;
 
 
-use ElebeeCore\Extensions\ExtensionBase;
+use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Lib\Template;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
-use Elementor\Settings;
-use Elementor\Settings_Controls;
 use Elementor\Widget_Base;
 
 /**
  * Class ResponsiveAspectRatio
  * @package ElebeeCore\Extensions
  */
-class ResponsiveAspectRatio extends ExtensionBase {
+class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     private $sectionId;
 
@@ -43,7 +41,7 @@ class ResponsiveAspectRatio extends ExtensionBase {
 
     private function definePublicHooks() {
 
-        $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRendering', 10, 2 );
+        $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRender', 10, 2 );
         $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendContentTemplate', 10, 2 );
 
     }
@@ -116,7 +114,7 @@ class ResponsiveAspectRatio extends ExtensionBase {
 
     }
 
-    public function extendRendering( string $widgetContent, Widget_Base $widget = null ): string {
+    public function extendRender( string $widgetContent, Widget_Base $widget = null ): string {
 
         if ( $widget === null || !$this->isRegisteredTo( $widget->get_name() ) ) {
             return $widgetContent;
@@ -130,13 +128,12 @@ class ResponsiveAspectRatio extends ExtensionBase {
             'content' => $widgetContent,
             'ratio' => $widget->get_settings($this->controlAspectRatioId),
         ]);
-//        die();
 
         return $template->getRendered();
 
     }
 
-    public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ) {
+    public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string {
 
         return '';
 
