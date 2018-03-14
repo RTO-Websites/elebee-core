@@ -29,28 +29,73 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class WidgetExtensionBase {
 
+    /**
+     * @since 0.3.2
+     */
     const NEW_SECTION_BEFORE = 'before_section_start';
 
+    /**
+     * @since 0.3.2
+     */
     const NEW_SECTION_AFTER = 'after_section_end';
 
+    /**
+     * @since 0.3.2
+     */
     const EXTEND_SECTION_BEFORE = 'after_section_start';
 
+    /**
+     * @since 0.3.2
+     */
     const EXTEND_SECTION_AFTER = 'before_section_end';
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $tab;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $widgetId;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $sectionId;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $position;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $priority;
 
+    /**
+     * @since 0.3.2
+     * @var bool
+     */
     private $separatorBefore;
 
+    /**
+     * @since 0.3.2
+     * @var ElebeeLoader
+     */
     private $loader;
 
+    /**
+     * WidgetExtensionBase constructor.
+     *
+     * @since 0.3.2
+     */
     public function __construct() {
 
         $this->tab = '';
@@ -64,6 +109,11 @@ abstract class WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
     public function definePublicHooks() {
 
         $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRender', 10, 2 );
@@ -72,6 +122,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return string
      */
     public function getTab(): string {
@@ -81,6 +133,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return string
      */
     public function getWidgetId(): string {
@@ -90,6 +144,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return string
      */
     public function getSectionId(): string {
@@ -99,6 +155,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return string
      */
     public function getPosition(): string {
@@ -108,6 +166,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return string
      */
     public function getPriority(): string {
@@ -117,6 +177,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return bool
      */
     public function isSeparatorBefore(): bool {
@@ -126,6 +188,8 @@ abstract class WidgetExtensionBase {
     }
 
     /**
+     * @since 0.3.2
+     *
      * @return ElebeeLoader
      */
     public function getLoader(): ElebeeLoader {
@@ -134,12 +198,29 @@ abstract class WidgetExtensionBase {
 
     }
 
-    public function isRegisteredTo( $widgetId ): bool {
+    /**
+     * @since 0.3.2
+     *
+     * @param string $widgetId
+     * @return bool
+     */
+    public function isRegisteredTo( string $widgetId ): bool {
 
         return $widgetId === $this->widgetId;
 
     }
 
+    /**
+     * @since 0.3.2
+     *
+     * @param string $tab
+     * @param string $widgetId
+     * @param string $sectionId
+     * @param string $position
+     * @param bool   $separatorBefore
+     * @param int    $priority
+     * @return void
+     */
     public function register( string $tab, string $widgetId = '', string $sectionId = '', string $position = '', bool $separatorBefore = false, int $priority = 10 ) {
 
         $this->tab = $tab;
@@ -161,6 +242,12 @@ abstract class WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     *
+     * @param Controls_Stack $element
+     * @return void
+     */
     public function extendControlStack( Controls_Stack $element ) {
 
         $newSection = ( $this->getPosition() == self::NEW_SECTION_BEFORE || $this->getPosition() == self::NEW_SECTION_AFTER );
@@ -177,12 +264,38 @@ abstract class WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     *
+     * @param Controls_Stack $element
+     * @return void
+     */
     public abstract function startControlsSection( Controls_Stack $element );
 
+    /**
+     * @since 0.3.2
+     *
+     * @param Controls_Stack $element
+     * @return void
+     */
     public abstract function addControls( Controls_Stack $element );
 
+    /**
+     * @since 0.3.2
+     *
+     * @param string      $widgetContent
+     * @param Widget_Base $widget
+     * @return string
+     */
     public abstract function extendRender( string $widgetContent, Widget_Base $widget = null ): string;
 
+    /**
+     * @since 0.3.2
+     *
+     * @param string      $widgetContent
+     * @param Widget_Base $widget
+     * @return string
+     */
     public abstract function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string;
 
 }

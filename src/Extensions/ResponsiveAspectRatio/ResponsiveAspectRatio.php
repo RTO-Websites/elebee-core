@@ -1,8 +1,13 @@
 <?php
 /**
- * @since   1.0.0
- * @author  hterhoeven
- * @licence MIT
+ * ResponsiveAspectRatio.php
+ *
+ * @since   0.3.2
+ *
+ * @package ElebeeCore\Extensions\ResponsiveAspectRatio
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
  */
 
 namespace ElebeeCore\Extensions\ResponsiveAspectRatio;
@@ -16,18 +21,45 @@ use Elementor\Widget_Base;
 
 /**
  * Class ResponsiveAspectRatio
- * @package ElebeeCore\Extensions
+ *
+ * @since   0.3.2
+ *
+ * @package ElebeeCore\Extensions\ResponsiveAspectRatio
+ * @author  RTO GmbH <info@rto.de>
+ * @licence GPL-3.0
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
  */
 class ResponsiveAspectRatio extends WidgetExtensionBase {
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $sectionId;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $controlToggleId;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $controlAspectRatioId;
 
+    /**
+     * @since 0.3.2
+     * @var string
+     */
     private $controlCustomAspectRatioId;
 
+    /**
+     * ResponsiveAspectRatio constructor.
+     *
+     * @since 0.3.2
+     */
     public function __construct() {
 
         parent::__construct();
@@ -38,6 +70,9 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     */
     public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
@@ -49,6 +84,9 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     */
     public function addControls( Controls_Stack $element ) {
 
         $firstControlArgs = [
@@ -112,6 +150,9 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     */
     public function extendRender( string $widgetContent, Widget_Base $widget = null ): string {
 
         if ( $widget === null || !$this->isRegisteredTo( $widget->get_name() ) ) {
@@ -131,6 +172,9 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     }
 
+    /**
+     * @since 0.3.2
+     */
     public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string {
 
         return '';
