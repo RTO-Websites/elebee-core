@@ -13,11 +13,12 @@
 namespace ElebeeCore\Extensions\Sticky;
 
 
-use ElebeeCore\Extensions\ExtensionBase;
+use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Lib\Elebee;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Element_Base;
+use Elementor\Widget_Base;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,7 +32,9 @@ defined( 'ABSPATH' ) || exit;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Sticky.html
  */
-class Sticky extends ExtensionBase {
+class Sticky extends WidgetExtensionBase {
+
+    private $sectionId;
 
     /**
      * @since 0.1.0
@@ -68,9 +71,9 @@ class Sticky extends ExtensionBase {
      *
      * @since 0.1.0
      */
-    public function __construct( string $tab ) {
+    public function __construct() {
 
-        parent::__construct( $tab );
+        parent::__construct();
         $this->sectionId = 'sectionSticky';
         $this->controlStickyId = 'sticky';
         $this->controlStickyPlaceholderId = 'stickyPlaceholder';
@@ -90,12 +93,7 @@ class Sticky extends ExtensionBase {
 
     }
 
-    /**
-     * @since 0.1.0
-     */
-    public function extendControlStack( Controls_Stack $element ) {
-
-        // TODO: implement usage of responsive controls.
+    public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
             $this->sectionId, [
@@ -103,6 +101,12 @@ class Sticky extends ExtensionBase {
                 'tab' => $this->getTab(),
             ]
         );
+
+    }
+
+    public function addControls( Controls_Stack $element ) {
+
+        // TODO: implement usage of responsive controls.
 
         $element->add_responsive_control(
             $this->controlStickyId, [
@@ -158,9 +162,20 @@ class Sticky extends ExtensionBase {
             ]
         );
 
-        $element->end_controls_section();
+    }
+
+    public function extendRender( string $widgetContent, Widget_Base $widget = null ): string {
+
+        return $widgetContent;
 
     }
+
+    public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string {
+
+        return $widgetContent;
+
+    }
+
 
     /**
      * @since 0.1.0

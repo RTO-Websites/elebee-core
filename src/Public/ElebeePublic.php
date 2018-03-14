@@ -17,6 +17,7 @@ use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
 use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
 use ElebeeCore\Extensions\Slides\Slides;
 use ElebeeCore\Extensions\Sticky\Sticky;
+use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
@@ -214,20 +215,21 @@ class ElebeePublic {
      */
     public function setupElementorExtensions() {
 
-        $sticky = new Sticky( Controls_Manager::TAB_ADVANCED );
-        $sticky->addRegistration( 'section', 'section_custom_css', 'after_section_end', 50 );
-        $sticky->register();
+        $sticky = new Sticky();
+        $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
-        $responsiveAspectRatio = new ResponsiveAspectRatio( Controls_Manager::TAB_STYLE );
-        $responsiveAspectRatio->addRegistration( 'image', 'section_style_image', 'after_section_end' );
-        $responsiveAspectRatio->register();
+        $responsiveAspectRatioStyle = new ResponsiveAspectRatio();
+        $responsiveAspectRatioStyle->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+
+        $responsiveAspectRatioContent = new ResponsiveAspectRatio();
+        $responsiveAspectRatioContent->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
             require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
 
-            $slides = new Slides( Controls_Manager::TAB_CONTENT );
-            $slides->addRegistration( 'slides', 'section_slides', 'before_section_end' );
-            $slides->register();
+//            $slides = new Slides( Controls_Manager::TAB_CONTENT );
+//            $slides->addRegistration( 'slides', 'section_slides', 'before_section_end' );
+//            $slides->register();
 
         }
 

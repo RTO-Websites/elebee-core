@@ -32,20 +32,26 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class ExtensionBase {
 
-    private $hookList;
-
     private $loader;
-
-    private $registerdTo;
 
     private $tab;
 
+    private $widgetId;
+
+    private $sectionId;
+
+    private $position;
+
+    private $priority;
+
     public function __construct( string $tab ) {
 
-        $this->hookList = [];
         $this->loader = new ElebeeLoader();
-        $this->registerdTo = [];
         $this->tab = $tab;
+        $this->widgetId = '';
+        $this->sectionId = '';
+        $this->position = '';
+        $this->priority = '';
 
     }
 
@@ -64,19 +70,54 @@ abstract class ExtensionBase {
 
     }
 
+    /**
+     * @return string
+     */
+    public function getWidgetId(): string {
+
+        return $this->widgetId;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getSectionId(): string {
+
+        return $this->sectionId;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getPosition(): string {
+
+        return $this->position;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriority(): string {
+
+        return $this->priority;
+
+    }
+
     public function isRegisteredTo( $widgetId ) {
 
-        return in_array( $widgetId, $this->registerdTo );
+        return $widgetId === $this->widgetId;
 
     }
 
     public function addRegistration( string $widgetId = '', string $sectionId = '', string $position = '', int $priority = 10 ) {
 
-        if ( $this->isRegisteredTo( $widgetId ) ) {
-            return;
-        }
-
-        $this->registerdTo[] = $widgetId;
+        $this->widgetId = $widgetId;
+        $this->sectionId = $sectionId;
+        $this->position = $position;
+        $this->priority = $priority;
 
         if ( $widgetId === '' || $sectionId === '' || $position === '' ) {
             $hookName = 'elementor/element/after_section_end';

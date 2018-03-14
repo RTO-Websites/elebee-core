@@ -28,25 +28,17 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
 
     private $controlCustomAspectRatioId;
 
-    public function __construct( string $tab ) {
+    public function __construct() {
 
-        parent::__construct( $tab );
+        parent::__construct();
         $this->sectionId = 'sectionResponsiveAspectRatio';
         $this->controlToggleId = 'aspectRatioToggle';
         $this->controlAspectRatioId = 'aspectRatio';
         $this->controlCustomAspectRatioId = 'customAspectRatio';
-        $this->definePublicHooks();
 
     }
 
-    private function definePublicHooks() {
-
-        $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRender', 10, 2 );
-        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendContentTemplate', 10, 2 );
-
-    }
-
-    public function extendControlStack( Controls_Stack $element ) {
+    public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
             $this->sectionId, [
@@ -55,16 +47,24 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
             ]
         );
 
-        $element->add_control(
-            $this->controlToggleId, [
-                'label' => __( 'Toggle Responsive Aspect Ratio', 'elebee' ),
-                'type' => Controls_Manager::SWITCHER,
-                'default' => '',
-                'label_on' => __( 'Fix', 'elementor' ),
-                'label_off' => __( 'Default', 'elementor' ),
-                'return_value' => 'true',
-            ]
-        );
+    }
+
+    public function addControls( Controls_Stack $element ) {
+
+        $firstControlArgs = [
+            'label' => __( 'Aspect Ratio', 'elebee' ),
+            'type' => Controls_Manager::SWITCHER,
+            'default' => '',
+            'label_on' => __( 'Fix', 'elementor' ),
+            'label_off' => __( 'Default', 'elementor' ),
+            'return_value' => 'true',
+        ];
+        if ( $this->isSeparatorBefore() ) {
+            $firstControlArgs['separator'] = 'before';
+        }
+
+
+        $element->add_control( $this->controlToggleId, $firstControlArgs );
 
         $element->add_control(
             $this->controlAspectRatioId,
@@ -92,8 +92,8 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
                 'size_units' => [ '%' ],
                 'range' => [
                     '%' => [
-                        'min' => 25.00,
-                        'max' => 400.00,
+                        'min' => 1.00,
+                        'max' => 200.00,
                     ],
                 ],
                 'default' => [
@@ -110,8 +110,6 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
             ]
         );
 
-        $element->end_controls_section();
-
     }
 
     public function extendRender( string $widgetContent, Widget_Base $widget = null ): string {
@@ -120,14 +118,14 @@ class ResponsiveAspectRatio extends WidgetExtensionBase {
             return $widgetContent;
         }
 
-        if($widget->get_settings($this->controlToggleId) != true) {
+        if ( $widget->get_settings( $this->controlToggleId ) != true ) {
             return $widgetContent;
         }
 
         $template = new Template( __DIR__ . '/partials/responsive-aspect-ratio.php', [
             'content' => $widgetContent,
-            'ratio' => $widget->get_settings($this->controlAspectRatioId),
-        ]);
+            'ratio' => $widget->get_settings( $this->controlAspectRatioId ),
+        ] );
 
         return $template->getRendered();
 
