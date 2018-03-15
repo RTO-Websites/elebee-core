@@ -14,20 +14,7 @@ namespace ElebeeCore\Pub;
 
 
 use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
-use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
-use ElebeeCore\Extensions\Sticky\Sticky;
-use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Skins\SkinArchive;
-use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
-use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
-use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
-use ElebeeCore\Widgets\General\BetterAccordion\BetterAccordion;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery;
-use ElebeeCore\Widgets\General\CommentForm\CommentForm;
-use ElebeeCore\Widgets\General\CommentList\CommentList;
-use ElebeeCore\Widgets\General\Imprint\Imprint;
-use Elementor\Controls_Manager;
-use Elementor\Plugin;
 use Elementor\Widget_Base;
 
 defined( 'ABSPATH' ) || exit;
@@ -79,84 +66,6 @@ class ElebeePublic {
     }
 
     /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function setupElementorCategories() {
-
-        $elementor = Plugin::$instance;
-
-        // Add element category in panel
-        $elementor->elements_manager->add_category(
-            'rto-elements',
-            [
-                'title' => __( 'RTO Elements', 'elebee' ),
-                'icon' => 'font',
-            ],
-            1
-        );
-
-        $elementor->elements_manager->add_category(
-            'rto-elements-exclusive',
-            [
-                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
-                'icon' => 'font',
-            ],
-            2
-        );
-
-    }
-
-    /**
-     * Register Widget
-     *
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function registerWidgets() {
-
-        Plugin::instance()->widgets_manager->register_widget_type( new Imprint() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterWidgetImageGallery() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentForm() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentList() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterAccordion() );
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @param Widget_Base $widget
-     *
-     * @return void
-     */
-    public function addWidgetPostsSkins( Widget_Base $widget ) {
-
-        $widget->add_skin( new SkinArchive( $widget ) );
-    }
-
-    /**
-     * Register Widget
-     *
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function registerExclusiveWidgets() {
-
-        if ( !get_option( 'is_exclusive' ) ) {
-            return;
-        }
-
-        Plugin::instance()->widgets_manager->register_widget_type( new BigAndSmallImageWithDescription() );
-        Plugin::instance()->widgets_manager->register_widget_type( new Placeholder() );
-        Plugin::instance()->widgets_manager->register_widget_type( new PostTypeArchive() );
-
-    }
-
-    /**
      * Register the stylesheets for the public-facing side of the site.
      *
      * @since 0.1.0
@@ -196,40 +105,6 @@ class ElebeePublic {
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
-
-    }
-
-    public function setupElementorOverrides() {
-
-        require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function setupElementorExtensions() {
-
-        $sticky = new Sticky();
-        $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
-
-        $imageExtension = new ResponsiveAspectRatio();
-        $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        $googleMapsExtension = new ResponsiveAspectRatio();
-        $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-            require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-
-            $slidesExtension = new ResponsiveAspectRatio();
-            $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        }
-
-        do_action( 'rto_init_extensions' );
 
     }
 
