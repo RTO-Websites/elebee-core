@@ -14,18 +14,19 @@ namespace ElebeeCore\Pub;
 
 
 use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
-use ElebeeCore\Extensions\Slides\Slides;
+use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
 use ElebeeCore\Extensions\Sticky\Sticky;
+use ElebeeCore\Extensions\WidgetExtensionBase;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
 use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
-use ElebeeCore\Widgets\General\AspectRatioImage\AspectRatioImage;
 use ElebeeCore\Widgets\General\BetterAccordion\BetterAccordion;
 use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery;
 use ElebeeCore\Widgets\General\CommentForm\CommentForm;
 use ElebeeCore\Widgets\General\CommentList\CommentList;
 use ElebeeCore\Widgets\General\Imprint\Imprint;
+use Elementor\Controls_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
@@ -118,7 +119,6 @@ class ElebeePublic {
 
         Plugin::instance()->widgets_manager->register_widget_type( new Imprint() );
         Plugin::instance()->widgets_manager->register_widget_type( new BetterWidgetImageGallery() );
-        Plugin::instance()->widgets_manager->register_widget_type( new AspectRatioImage() );
         Plugin::instance()->widgets_manager->register_widget_type( new CommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new CommentList() );
         Plugin::instance()->widgets_manager->register_widget_type( new BetterAccordion() );
@@ -212,17 +212,22 @@ class ElebeePublic {
      */
     public function setupElementorExtensions() {
 
+        $sticky = new Sticky();
+        $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
+
+        $imageExtension = new ResponsiveAspectRatio();
+        $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+
+        $googleMapsExtension = new ResponsiveAspectRatio();
+        $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
             require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
 
-            $slides = new Slides();
-            $slides->getLoader()->run();
+            $slidesExtension = new ResponsiveAspectRatio();
+            $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         }
-
-        $sticky = new Sticky();
-        $sticky->getLoader()->run();
-
 
         do_action( 'rto_init_extensions' );
 
