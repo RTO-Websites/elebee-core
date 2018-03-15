@@ -104,7 +104,9 @@ abstract class WidgetExtensionBase {
         $this->position = '';
         $this->priority = '';
         $this->separatorBefore = false;
-        $this->loader = new ElebeeLoader();
+
+        $this->loadDependencies();
+        $this->defineEditorHooks();
         $this->definePublicHooks();
 
     }
@@ -114,10 +116,31 @@ abstract class WidgetExtensionBase {
      *
      * @return void
      */
-    public function definePublicHooks() {
+    private function loadDependencies() {
+
+        $this->loader = new ElebeeLoader();
+
+    }
+
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
+    private function defineEditorHooks() {
+
+        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendContentTemplate', 10, 2 );
+
+    }
+
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
+    private function definePublicHooks() {
 
         $this->getLoader()->addFilter( 'elementor/widget/render_content', $this, 'extendRender', 10, 2 );
-        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'extendContentTemplate', 10, 2 );
 
     }
 
