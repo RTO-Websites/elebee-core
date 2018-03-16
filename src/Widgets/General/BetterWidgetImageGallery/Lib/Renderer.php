@@ -13,9 +13,9 @@
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
-use ElebeeCore\Lib\Template;
-use ElebeeCore\Lib\Visitee;
-use ElebeeCore\Lib\Visitor;
+use ElebeeCore\Lib\Util\Template;
+use ElebeeCore\Lib\Util\Visitee;
+use ElebeeCore\Lib\Util\Visitor;
 
 defined( 'ABSPATH' ) || exit;
 

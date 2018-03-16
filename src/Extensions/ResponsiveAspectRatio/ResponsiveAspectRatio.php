@@ -14,7 +14,7 @@ namespace ElebeeCore\Extensions\ResponsiveAspectRatio;
 
 
 use ElebeeCore\Extensions\WidgetExtensionBase;
-use ElebeeCore\Lib\Template;
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;

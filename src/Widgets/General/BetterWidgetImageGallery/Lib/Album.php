@@ -13,7 +13,7 @@
 namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
 
 
-use ElebeeCore\Lib\Visitee;
+use ElebeeCore\Lib\Util\Visitee;
 
 defined( 'ABSPATH' ) || exit;
 

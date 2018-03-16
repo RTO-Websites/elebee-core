@@ -7,10 +7,10 @@
  * @package ElebeeCore\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Visitor.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Visitor.html
  */
 
-namespace ElebeeCore\Lib;
+namespace ElebeeCore\Lib\Util;
 
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @package ElebeeCore\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Visitor.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Visitor.html
  */
 interface Visitor {
 

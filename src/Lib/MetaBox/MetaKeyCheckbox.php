@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\MetaBox;
 
 
-use ElebeeCore\Lib\Template;
+use ElebeeCore\Lib\Util\Template;
 
 defined( 'ABSPATH' ) || exit;
 

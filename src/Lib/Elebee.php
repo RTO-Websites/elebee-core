@@ -27,6 +27,8 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Lib\Util\HtmlCompression;
+use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
 use ElebeeCore\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
@@ -383,9 +385,10 @@ class Elebee {
      *
      * @return void
      */
-    public function addWidgetPostsSkins( Widget_Base $widget ) {
+    public function registerSkinArchive( Widget_Base $widget ) {
 
         $widget->add_skin( new SkinArchive( $widget ) );
+
     }
 
     /**
@@ -456,7 +459,7 @@ class Elebee {
         $this->loader->addAction( 'elementor/init', $this, 'setupElementorExtensions' );
         $this->loader->addAction( 'elementor/init', $this, 'registerWidgets' );
         $this->loader->addAction( 'elementor/init', $this, 'registerExclusiveWidgets' );
-        $this->loader->addAction( 'elementor/widget/posts/skins_init', $this, 'addWidgetPostsSkins' );
+        $this->loader->addAction( 'elementor/widget/posts/skins_init', $this, 'registerSkinArchive' );
 
     }
 

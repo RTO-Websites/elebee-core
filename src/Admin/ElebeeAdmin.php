@@ -14,8 +14,7 @@
 namespace ElebeeCore\Admin;
 
 
-use ElebeeCore\Lib\Template;
-use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Settings;
 
 defined( 'ABSPATH' ) || exit;

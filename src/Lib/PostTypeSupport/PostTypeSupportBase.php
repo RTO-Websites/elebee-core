@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\PostTypeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
+use ElebeeCore\Lib\Util\Hooking;
 
 defined( 'ABSPATH' ) || exit;
 

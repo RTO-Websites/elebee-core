@@ -13,7 +13,7 @@
 namespace ElebeeCore\Widgets\General\CommentList;
 
 
-use ElebeeCore\Lib\Template;
+use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Widgets\General\CommentList\Lib\Walker;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;

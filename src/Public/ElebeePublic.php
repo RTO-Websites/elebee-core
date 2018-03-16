@@ -13,10 +13,6 @@
 namespace ElebeeCore\Pub;
 
 
-use ElebeeCore\Extensions\GlobalSettings\WidgetPadding;
-use ElebeeCore\Skins\SkinArchive;
-use Elementor\Widget_Base;
-
 defined( 'ABSPATH' ) || exit;
 
 /**

@@ -18,7 +18,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use Elementor\Widget_Base;
-use ElebeeCore\Lib\Template;
+use ElebeeCore\Lib\Util\Template;
 
 defined( 'ABSPATH' ) || exit;
 

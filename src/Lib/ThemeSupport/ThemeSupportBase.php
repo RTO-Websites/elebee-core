@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
-use ElebeeCore\Lib\Hooking;
+use ElebeeCore\Lib\Util\Hooking;
 
 defined( 'ABSPATH' ) || exit;
 

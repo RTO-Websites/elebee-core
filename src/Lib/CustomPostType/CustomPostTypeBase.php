@@ -11,7 +11,7 @@
 namespace ElebeeCore\Lib\CustomPostType;
 
 
-use ElebeeCore\Lib\Hooking;
+use ElebeeCore\Lib\Util\Hooking;
 
 
 /**

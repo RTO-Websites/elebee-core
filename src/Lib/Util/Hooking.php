@@ -4,14 +4,16 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib
+ * @package ElebeeCore\Lib\Util
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Hooking.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Hooking.html
  */
 
-namespace ElebeeCore\Lib;
+namespace ElebeeCore\Lib\Util;
 
+
+use ElebeeCore\Lib\ElebeeLoader;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib
+ * @package ElebeeCore\Lib\Util
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Hooking.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/Util/Hooking.html
  */
 abstract class Hooking {
 
