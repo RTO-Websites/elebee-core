@@ -102,7 +102,7 @@ class ElebeeElementor {
      */
     public function enqueueEditorStyles() {
 
-        wp_enqueue_style( $this->themeName . '-editor', $this->cssDirUrl . '/editor.css', [], $this->version, 'all' );
+        wp_enqueue_style( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/css/editor.min.css', [], $this->version, 'all' );
 
     }
 
