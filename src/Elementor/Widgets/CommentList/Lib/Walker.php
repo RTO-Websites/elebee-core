@@ -4,13 +4,13 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @package ElebeeCore\Elementor\Widgets\CommentList/Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/General/CommentList/Lib/Walker.html
  */
 
-namespace ElebeeCore\Widgets\General\CommentList\Lib;
+namespace ElebeeCore\Elementor\Widgets\CommentList\Lib;
 
 
 use \WP_Comment;
@@ -25,10 +25,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentList/Lib
+ * @package ElebeeCore\Elementor\Widgets\CommentList\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/Lib/Walker.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentList/Lib/Walker.html
  */
 class Walker extends Walker_Comment {
 

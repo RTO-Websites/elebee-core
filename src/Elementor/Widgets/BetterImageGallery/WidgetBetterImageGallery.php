@@ -1,24 +1,24 @@
 <?php
 /**
- * BetterWidgetImageGallery.php
+ * WidgetBetterImageGallery.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @package ElebeeCore\Widgets\BetterImageGallery
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/BetterWidgetImageGallery.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterImageGallery/BetterWidgetImageGallery.html
  */
 
-namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery;
+namespace ElebeeCore\Elementor\Widgets\BetterImageGallery;
 
 
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib\Album;
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib\Gallery;
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib\Image;
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib\Renderer;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Album;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Gallery;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Image;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib\Renderer;
-use ElebeeCore\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
@@ -33,7 +33,8 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 if ( !defined( '__GESAMT__' ) ) {
-    define( '__GESAMT__', '/var/www/html/global' );
+//    define( '__GESAMT__', '/var/www/html/global' );
+    define( '__GESAMT__', 'D:\htdocs\common\global' );
 }
 
 /**
@@ -41,12 +42,12 @@ if ( !defined( '__GESAMT__' ) ) {
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage
+ * @package ElebeeCore\Elementor\Widgets\BetterImageGallery
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/BetterWidgetImageGallery.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterImageGallery/BetterWidgetImageGallery.html
  */
-class BetterWidgetImageGallery extends WidgetBase {
+class WidgetBetterImageGallery extends WidgetBase {
 
     /**
      * @since 0.1.0
@@ -1404,6 +1405,10 @@ class BetterWidgetImageGallery extends WidgetBase {
 
         $settings = $this->get_settings();
 
+        if ( !is_array( $settings['gallery_list'] ) ) {
+            return;
+        }
+
         // TODO: implement 'thumbnail_size' setting usage
 
         foreach ( $settings['gallery_list'] as $galleryItem ) {
@@ -1449,6 +1454,10 @@ class BetterWidgetImageGallery extends WidgetBase {
             'kid' => $settings['gesamt_kid'],
             'pid' => $settings['gesamt_pid'],
         ] );
+
+        if ( !is_array( $gesGalleries ) ) {
+            return;
+        }
 
         foreach ( $gesGalleries as $item ) {
 

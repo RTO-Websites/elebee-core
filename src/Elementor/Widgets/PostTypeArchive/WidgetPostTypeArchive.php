@@ -1,40 +1,40 @@
 <?php
 /**
- * PostTypeArchive.php
+ * WidgetPostTypeArchive.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @package ElebeeCore\Elementor\Widgets\PostTypeArchive
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/PostTypeArchive/WidgetPostTypeArchive.html
  */
 
-namespace ElebeeCore\Widgets\Exclusive\PostTypeArchive;
+namespace ElebeeCore\Elementor\Widgets\PostTypeArchive;
 
 
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Lib\Elebee;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
 use ElebeeCore\Lib\Util\Template;
-use ElebeeCore\Widgets\WidgetBase;
 use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class PostTypeArchive
+ * Class WidgetPostTypeArchive
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\PostTypeArchive
+ * @package ElebeeCore\Elementor\Widgets\PostTypeArchive
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/PostTypeArchive/PostTypeArchive.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/PostTypeArchive/WidgetPostTypeArchive.html
  */
-class PostTypeArchive extends WidgetBase {
+class WidgetPostTypeArchive extends WidgetBase {
 
     /**
      * @since 0.1.0

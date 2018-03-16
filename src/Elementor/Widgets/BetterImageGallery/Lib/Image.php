@@ -4,13 +4,13 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @package ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Image.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterImageGallery/Lib/Image.html
  */
 
-namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Util\Visitee;
@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @package ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Image.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterImageGallery/Lib/Image.html
  */
 class Image extends Visitee {
 

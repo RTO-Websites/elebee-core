@@ -4,13 +4,13 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @package ElebeeCore\Elementor\Widgets\General\BetterImageGallery\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Gallery.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/General/BetterImageGallery/Lib/Gallery.html
  */
 
-namespace ElebeeCore\Widgets\General\BetterWidgetImageGallery\Lib;
+namespace ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib;
 
 
 use ElebeeCore\Lib\Util\Visitee;
@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\AspectRatioImage\Lib
+ * @package ElebeeCore\Elementor\Widgets\BetterImageGallery\Lib
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterWidgetImageGallery/Lib/Gallery.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterImageGallery/Lib/Gallery.html
  */
 class Gallery extends Visitee implements \Iterator {
 

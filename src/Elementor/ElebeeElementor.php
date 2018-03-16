@@ -18,14 +18,14 @@ use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionRespons
 use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
 use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Elementor\Skins\SkinArchive;
-use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
-use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
-use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
-use ElebeeCore\Widgets\General\BetterAccordion\BetterAccordion;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery;
-use ElebeeCore\Widgets\General\CommentForm\CommentForm;
-use ElebeeCore\Widgets\General\CommentList\CommentList;
-use ElebeeCore\Widgets\General\Imprint\Imprint;
+use ElebeeCore\Elementor\Widgets\BetterAccordion\WidgetBetterAccordion;
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
+use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
+use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
+use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
+use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
+use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
+use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
 use Elementor\Controls_Manager;
 use Elementor\Elements_Manager;
 use Elementor\Plugin;
@@ -177,11 +177,11 @@ class ElebeeElementor {
      */
     public function registerWidgets() {
 
-        Plugin::instance()->widgets_manager->register_widget_type( new Imprint() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterWidgetImageGallery() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentForm() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentList() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterAccordion() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetImprint() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterImageGallery() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterAccordion() );
 
     }
 
@@ -198,9 +198,9 @@ class ElebeeElementor {
             return;
         }
 
-        Plugin::instance()->widgets_manager->register_widget_type( new BigAndSmallImageWithDescription() );
-        Plugin::instance()->widgets_manager->register_widget_type( new Placeholder() );
-        Plugin::instance()->widgets_manager->register_widget_type( new PostTypeArchive() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetBigAndSmallImageWithDescription() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetPlaceholder() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetPostTypeArchive() );
 
     }
 

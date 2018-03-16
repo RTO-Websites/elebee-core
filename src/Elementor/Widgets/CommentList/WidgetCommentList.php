@@ -1,20 +1,20 @@
 <?php
 /**
- * CommentList.php
+ * WidgetCommentList.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentList
+ * @package ElebeeCore\Elementor\Widgets\CommentList
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/CommentList.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentList/WidgetCommentList.html
  */
 
-namespace ElebeeCore\Widgets\General\CommentList;
+namespace ElebeeCore\Elementor\Widgets\CommentList;
 
 
+use ElebeeCore\Elementor\Widgets\CommentList\Lib\Walker;
 use ElebeeCore\Lib\Util\Template;
-use ElebeeCore\Widgets\General\CommentList\Lib\Walker;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
@@ -24,16 +24,16 @@ use Elementor\Widget_Base;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Image Widget
+ * Class WidgetCommentList
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentList
+ * @package ElebeeCore\Elementor\Widgets\CommentList
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentList/CommentList.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentList/WidgetCommentList.html
  */
-class CommentList extends Widget_Base {
+class WidgetCommentList extends Widget_Base {
 
     /**
      * @since 0.1.0

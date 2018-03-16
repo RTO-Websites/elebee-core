@@ -1,18 +1,19 @@
 <?php
 /**
- * Imprint.php
+ * WidgetImprint.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\Imprint
+ * @package ElebeeCore\Elementor\Widgets\Imprint
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Imprint/WidgetImprint.html
  */
 
-namespace ElebeeCore\Widgets\General\Imprint;
+namespace ElebeeCore\Elementor\Widgets\Imprint;
 
 
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
@@ -20,7 +21,6 @@ use Elementor\Scheme_Typography;
 use Elementor\Controls_Manager;
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Template;
-use ElebeeCore\Widgets\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,12 +31,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\Imprint
+ * @package ElebeeCore\Elementor\Widgets\Imprint
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/Imprint/Imprint.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Imprint/WidgetImprint.html
  */
-class Imprint extends WidgetBase {
+class WidgetImprint extends WidgetBase {
 
     /**
      * Imprint constructor.

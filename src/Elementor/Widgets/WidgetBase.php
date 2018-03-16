@@ -4,13 +4,13 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets
+ * @package ElebeeCore\Elementor\Widgets
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/WidgetBase.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/WidgetBase.html
  */
 
-namespace ElebeeCore\Widgets;
+namespace ElebeeCore\Elementor\Widgets;
 
 
 use Elementor\Widget_Base;
@@ -24,10 +24,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets
+ * @package ElebeeCore\Elementor\Widgets
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/WidgetBase.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/WidgetBase.html
  */
 abstract class WidgetBase extends Widget_Base {
 

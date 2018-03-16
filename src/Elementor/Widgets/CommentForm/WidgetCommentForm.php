@@ -1,18 +1,19 @@
 <?php
 /**
- * CommentForm.php
+ * WidgetCommentForm.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentForm
+ * @package ElebeeCore\Elementor\Widgets\CommentForm
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentForm/CommentForm.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
  */
 
-namespace ElebeeCore\Widgets\General\CommentForm;
+namespace ElebeeCore\Elementor\Widgets\CommentForm;
 
 
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
@@ -21,7 +22,6 @@ use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use ElebeeCore\Widgets\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -30,16 +30,16 @@ if ( !defined( '__COMMENTFORM__' ) ) {
 }
 
 /**
- * Image Widget
+ * Class WidgetCommentForm
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\CommentForm
+ * @package ElebeeCore\Elementor\Widgets\CommentForm
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/CommentForm/CommentForm.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
  */
-class CommentForm extends WidgetBase {
+class WidgetCommentForm extends WidgetBase {
 
     /**
      * @since 0.1.0

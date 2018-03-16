@@ -1,38 +1,38 @@
 <?php
 /**
- * BigAndSmallImageWithDescription.php
+ * WidgetBigAndSmallImageWithDescription.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription
+ * @package ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/BigAndSmallImageWithDescription/BigAndSmallImageWithDescription.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BigAndSmallImageWithDescription/WidgetBigAndSmallImageWithDescription.html
  */
 
-namespace ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription;
+namespace ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription;
 
 
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use Elementor\Widget_Base;
-use ElebeeCore\Lib\Util\Template;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class BigAndSmallImageWithDescription
+ * Class WidgetBigAndSmallImageWithDescription
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription
+ * @package ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/BigAndSmallImageWithDescription/BigAndSmallImageWithDescription.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BigAndSmallImageWithDescription/WidgetBigAndSmallImageWithDescription.html
  */
-class BigAndSmallImageWithDescription extends Widget_Base {
+class WidgetBigAndSmallImageWithDescription extends Widget_Base {
 
     /**
      * @since 0.1.0

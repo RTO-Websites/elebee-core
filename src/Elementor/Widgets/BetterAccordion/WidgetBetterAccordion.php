@@ -1,24 +1,24 @@
 <?php
 /**
- * BetterAccordion.php
+ * WidgetBetterAccordion.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @package ElebeeCore\Elementor\Widgets\BetterAccordion
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterAccordion/WidgetBetterAccordion.html
  */
 
-namespace ElebeeCore\Widgets\General\BetterAccordion;
+namespace ElebeeCore\Elementor\Widgets\BetterAccordion;
 
 
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
-use ElebeeCore\Widgets\WidgetBase;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,12 +27,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\General\BetterAccordion
+ * @package ElebeeCore\Elementor\Widgets\BetterAccordion
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/General/BetterAccordion/BetterAccordion.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/BetterAccordion/WidgetBetterAccordion.html
  */
-class BetterAccordion extends WidgetBase {
+class WidgetBetterAccordion extends WidgetBase {
 
     /**
      * @since 0.1.0

@@ -1,16 +1,16 @@
 <?php
 /**
- * Placeholder.php
+ * WidgetPlaceholder.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\Placeholder
+ * @package ElebeeCore\Elementor\Widgets\Placeholder
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/Placeholder/Placeholder.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Placeholder/WidgetPlaceholder.html
  */
 
-namespace ElebeeCore\Widgets\Exclusive\Placeholder;
+namespace ElebeeCore\Elementor\Widgets\Placeholder;
 
 
 use Elementor\Widget_Base;
@@ -19,16 +19,16 @@ use Elementor\Controls_Manager;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Placeholder
+ * Class WidgetPlaceholder
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Widgets\Exclusive\Placeholder
+ * @package ElebeeCoreElementor\Elementor\Widgets\Placeholder
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Widgets/Exclusive/Placeholder/Placeholder.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Placeholder/WidgetPlaceholder.html
  */
-class Placeholder extends Widget_Base {
+class WidgetPlaceholder extends Widget_Base {
 
     /**
      * Retrieve image widget name.
