@@ -113,42 +113,6 @@ class ElebeeAdmin {
      *
      * @return void
      */
-    public function enqueueEditorStyles() {
-
-        wp_enqueue_style( $this->themeName . '-editor', $this->cssDirUrl . '/editor.css', [], $this->version, 'all' );
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function enqueueEditorScripts() {
-
-        wp_enqueue_script( $this->themeName . '-editor', $this->jsDirUrl . '/editor.js', [ 'jquery' ], $this->version, true );
-        wp_localize_script( $this->themeName . '-editor', 'themeVars', [
-            'themeUrl' => get_stylesheet_directory_uri(),
-        ] );
-
-    }
-
-    /**
-     * @since 0.3.1
-     *
-     * @return void
-     */
-    public function enqueuePreviewScripts() {
-
-        wp_enqueue_script( $this->themeName . '-preview', $this->jsDirUrl . '/preview.js', [ 'jquery' ], $this->version, true );
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
     public function getPostIdByUrl() {
 
         $url = filter_input( INPUT_POST, 'url' );

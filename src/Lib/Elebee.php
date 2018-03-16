@@ -14,9 +14,7 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
-use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
-use ElebeeCore\Extensions\Sticky\Sticky;
-use ElebeeCore\Extensions\WidgetExtensionBase;
+use ElebeeCore\Elementor\ElebeeElementor;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
@@ -30,19 +28,7 @@ use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\Util\HtmlCompression;
 use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
-use ElebeeCore\Skins\SkinArchive;
-use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
-use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
-use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
-use ElebeeCore\Widgets\General\BetterAccordion\BetterAccordion;
-use ElebeeCore\Widgets\General\BetterWidgetImageGallery\BetterWidgetImageGallery;
-use ElebeeCore\Widgets\General\CommentForm\CommentForm;
-use ElebeeCore\Widgets\General\CommentList\CommentList;
-use ElebeeCore\Widgets\General\Imprint\Imprint;
-use Elementor\Controls_Manager;
-use Elementor\Plugin;
 use Elementor\Settings;
-use Elementor\Widget_Base;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -110,7 +96,7 @@ class Elebee {
         $this->setupCustomPostTypes();
         $this->defineAdminHooks();
         $this->definePublicHooks();
-        $this->defineGeneralHooks();
+        $this->defineElementorHooks();
 
     }
 
@@ -274,124 +260,6 @@ class Elebee {
     }
 
     /**
-     * @since 0.3.2
-     *
-     * @return void
-     */
-    public function setupElementorOverrides() {
-
-        require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function setupElementorCategories() {
-
-        $elementor = Plugin::$instance;
-
-        // Add element category in panel
-        $elementor->elements_manager->add_category(
-            'rto-elements',
-            [
-                'title' => __( 'RTO Elements', 'elebee' ),
-                'icon' => 'font',
-            ],
-            1
-        );
-
-        $elementor->elements_manager->add_category(
-            'rto-elements-exclusive',
-            [
-                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
-                'icon' => 'font',
-            ],
-            2
-        );
-
-    }
-
-    /**
-     * @since 0.3.2
-     *
-     * @return void
-     */
-    public function setupElementorExtensions() {
-
-        $sticky = new Sticky();
-        $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
-
-        $imageExtension = new ResponsiveAspectRatio();
-        $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        $googleMapsExtension = new ResponsiveAspectRatio();
-        $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-            require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
-
-            $slidesExtension = new ResponsiveAspectRatio();
-            $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
-
-        }
-
-        do_action( 'rto_init_extensions' );
-
-    }
-
-    /**
-     * Register Widget
-     *
-     * @since 0.3.2
-     *
-     * @return void
-     */
-    public function registerWidgets() {
-
-        Plugin::instance()->widgets_manager->register_widget_type( new Imprint() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterWidgetImageGallery() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentForm() );
-        Plugin::instance()->widgets_manager->register_widget_type( new CommentList() );
-        Plugin::instance()->widgets_manager->register_widget_type( new BetterAccordion() );
-
-    }
-
-    /**
-     * Register Widget
-     *
-     * @since 0.3.2
-     *
-     * @return void
-     */
-    public function registerExclusiveWidgets() {
-
-        if ( !get_option( 'is_exclusive' ) ) {
-            return;
-        }
-
-        Plugin::instance()->widgets_manager->register_widget_type( new BigAndSmallImageWithDescription() );
-        Plugin::instance()->widgets_manager->register_widget_type( new Placeholder() );
-        Plugin::instance()->widgets_manager->register_widget_type( new PostTypeArchive() );
-
-    }
-
-    /**
-     * @since 0.3.2
-     *
-     * @param Widget_Base $widget
-     *
-     * @return void
-     */
-    public function registerSkinArchive( Widget_Base $widget ) {
-
-        $widget->add_skin( new SkinArchive( $widget ) );
-
-    }
-
-    /**
      * Register all of the hooks related to the admin area functionality
      * of the theme.
      *
@@ -413,11 +281,6 @@ class Elebee {
 
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
-
-        $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeAdmin, 'enqueueEditorStyles' );
-        $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeAdmin, 'enqueueEditorScripts', 99999 );
-
-        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeAdmin, 'enqueuePreviewScripts' );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
 
@@ -442,24 +305,29 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueStyles' );
-        $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueScripts' );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles' );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
 
     }
 
     /**
-     * @since 0.3.2
      *
-     * @return void
      */
-    private function defineGeneralHooks() {
+    private function defineElementorHooks() {
 
-        $this->loader->addAction( 'elementor/init', $this, 'setupElementorOverrides' );
-        $this->loader->addAction( 'elementor/init', $this, 'setupElementorCategories' );
-        $this->loader->addAction( 'elementor/init', $this, 'setupElementorExtensions' );
-        $this->loader->addAction( 'elementor/init', $this, 'registerWidgets' );
-        $this->loader->addAction( 'elementor/init', $this, 'registerExclusiveWidgets' );
-        $this->loader->addAction( 'elementor/widget/posts/skins_init', $this, 'registerSkinArchive' );
+        $elebeeElementor = new ElebeeElementor( $this->getThemeName(), $this->getVersion() );
+
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'setupOverrides' );
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'setupExtensions' );
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerWidgets' );
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerExclusiveWidgets' );
+        $this->loader->addAction( 'elementor/elements/categories_registered', $elebeeElementor, 'setupCategories' );
+        $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeeElementor, 'registerSkinArchive' );
+
+        $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
+        $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
+
+        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }
 
