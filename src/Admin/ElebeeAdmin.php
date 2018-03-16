@@ -91,7 +91,6 @@ class ElebeeAdmin {
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/css/admin.min.css', [], $this->version, 'all' );
-        wp_enqueue_style( $this->themeName . '-admin', $this->cssDirUrl . '/admin.css', [], $this->version, 'all' );
 
     }
 
