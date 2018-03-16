@@ -136,17 +136,6 @@ class ElebeeElementor {
      *
      * @return void
      */
-    public function setupOverrides() {
-
-        require_once __DIR__ . '/overrides/Elementor/Shapes.php';
-
-    }
-
-    /**
-     * @since 0.3.2
-     *
-     * @return void
-     */
     public function setupExtensions() {
 
         $sticky = new WidgetExtensionSticky();

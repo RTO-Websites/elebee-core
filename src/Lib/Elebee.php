@@ -311,13 +311,14 @@ class Elebee {
     }
 
     /**
+     * @since 0.3.2
      *
+     * @return void
      */
     private function defineElementorHooks() {
 
         $elebeeElementor = new ElebeeElementor( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'setupOverrides' );
         $this->loader->addAction( 'elementor/init', $elebeeElementor, 'setupExtensions' );
         $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerWidgets' );
         $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerExclusiveWidgets' );
