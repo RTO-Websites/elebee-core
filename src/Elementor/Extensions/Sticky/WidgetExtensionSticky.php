@@ -1,19 +1,19 @@
 <?php
 /**
- * Sticky.php
+ * WidgetExtensionSticky.php
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Extensions\Sticky
+ * @package ElebeeCore\Elementor\Extensions\Sticky
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Sticky.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/Sticky/WidgetExtensionSticky.html
  */
 
-namespace ElebeeCore\Extensions\Sticky;
+namespace ElebeeCore\Elementor\Extensions\Sticky;
 
 
-use ElebeeCore\Extensions\WidgetExtensionBase;
+use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Lib\Elebee;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
@@ -23,16 +23,16 @@ use Elementor\Widget_Base;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Sticky
+ * Class WidgetExtensionSticky
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Extensions\Sticky
+ * @package ElebeeCore\Elementor\Extensions\Sticky
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/Sticky.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/Sticky/WidgetExtensionSticky.html
  */
-class Sticky extends WidgetExtensionBase {
+class WidgetExtensionSticky extends WidgetExtensionBase {
 
     private $sectionId;
 

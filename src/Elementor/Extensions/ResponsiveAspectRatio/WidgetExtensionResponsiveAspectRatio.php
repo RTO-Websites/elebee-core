@@ -1,35 +1,35 @@
 <?php
 /**
- * ResponsiveAspectRatio.php
+ * WidgetExtensionResponsiveAspectRatio.php
  *
  * @since   0.3.2
  *
- * @package ElebeeCore\Extensions\ResponsiveAspectRatio
+ * @package ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
  */
 
-namespace ElebeeCore\Extensions\ResponsiveAspectRatio;
+namespace ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio;
 
 
-use ElebeeCore\Extensions\WidgetExtensionBase;
+use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
 /**
- * Class ResponsiveAspectRatio
+ * Class WidgetExtensionResponsiveAspectRatio
  *
  * @since   0.3.2
  *
- * @package ElebeeCore\Extensions\ResponsiveAspectRatio
+ * @package ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/ResponsiveAspectRatio/ResponsiveAspectRatio.html
  */
-class ResponsiveAspectRatio extends WidgetExtensionBase {
+class WidgetExtensionResponsiveAspectRatio extends WidgetExtensionBase {
 
     /**
      * @since 0.3.2

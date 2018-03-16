@@ -2,13 +2,13 @@
 /**
  * @since   0.3.2
  *
- * @package ElebeeCore\Extensions
+ * @package ElebeeCore\Elementor\Extensions
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/WidgetExtensionBase.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/WidgetExtensionBase.html
  */
 
-namespace ElebeeCore\Extensions;
+namespace ElebeeCore\Elementor\Extensions;
 
 
 use ElebeeCore\Lib\ElebeeLoader;
@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.3.2
  *
- * @package ElebeeCore\Extensions
+ * @package ElebeeCore\Elementor\Extensions
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Extensions/WidgetExtensionBase.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Extensions/WidgetExtensionBase.html
  */
 abstract class WidgetExtensionBase {
 

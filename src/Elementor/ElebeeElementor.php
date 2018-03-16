@@ -14,10 +14,10 @@
 namespace ElebeeCore\Elementor;
 
 
-use ElebeeCore\Extensions\ResponsiveAspectRatio\ResponsiveAspectRatio;
-use ElebeeCore\Extensions\Sticky\Sticky;
-use ElebeeCore\Extensions\WidgetExtensionBase;
-use ElebeeCore\Skins\SkinArchive;
+use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
+use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
+use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
+use ElebeeCore\Elementor\Skins\SkinArchive;
 use ElebeeCore\Widgets\Exclusive\BigAndSmallImageWithDescription\BigAndSmallImageWithDescription;
 use ElebeeCore\Widgets\Exclusive\Placeholder\Placeholder;
 use ElebeeCore\Widgets\Exclusive\PostTypeArchive\PostTypeArchive;
@@ -138,7 +138,7 @@ class ElebeeElementor {
      */
     public function setupOverrides() {
 
-        require_once dirname( __DIR__ ) . '/overrides/Elementor/Shapes.php';
+        require_once __DIR__ . '/overrides/Elementor/Shapes.php';
 
     }
 
@@ -149,19 +149,19 @@ class ElebeeElementor {
      */
     public function setupExtensions() {
 
-        $sticky = new Sticky();
+        $sticky = new WidgetExtensionSticky();
         $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
-        $imageExtension = new ResponsiveAspectRatio();
+        $imageExtension = new WidgetExtensionResponsiveAspectRatio();
         $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
-        $googleMapsExtension = new ResponsiveAspectRatio();
+        $googleMapsExtension = new WidgetExtensionResponsiveAspectRatio();
         $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-            require_once dirname( __DIR__ ) . '/Extensions/FormFields/FormFields.php';
+            require_once dirname( __DIR__ ) . '/Elementor/Extensions/FormFields/FormFields.php';
 
-            $slidesExtension = new ResponsiveAspectRatio();
+            $slidesExtension = new WidgetExtensionResponsiveAspectRatio();
             $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         }

@@ -4,13 +4,13 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Skins
+ * @package ElebeeCore\Elementor\Skins
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Skins/SkinArchive.html
  */
 
-namespace ElebeeCore\Skins;
+namespace ElebeeCore\Elementor\Skins;
 
 use Elementor\Group_Control_Typography;
 use ElementorPro\Modules\Posts\Skins\Skin_Base;
@@ -25,10 +25,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Skins
+ * @package ElebeeCore\Elementor\Skins
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Skins/SkinArchive.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Skins/SkinArchive.html
  */
 class SkinArchive extends Skin_Base {
 
