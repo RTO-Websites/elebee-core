@@ -75,9 +75,9 @@ class ElebeeAdmin {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $dirUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin';
-        $this->cssDirUrl = $dirUrl . '/css';
-        $this->jsDirUrl = $dirUrl . '/js';
+        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin/assets';
+        $this->cssDirUrl = $assetsUrl . '/css';
+        $this->jsDirUrl = $assetsUrl . '/js';
 
     }
 

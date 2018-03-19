@@ -58,7 +58,7 @@ class WidgetImprint extends WidgetBase {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/General/Imprint/css/imprint.css', [], Elebee::VERSION, 'all' );
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/Imprint/assets/css/imprint.css', [], Elebee::VERSION, 'all' );
 
     }
 

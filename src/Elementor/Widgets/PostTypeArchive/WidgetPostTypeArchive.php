@@ -98,7 +98,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/Exclusive/PostTypeArchive/css/' . $this->get_name() . '.css', [], Elebee::VERSION );
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/PostTypeArchive/assets/css/' . $this->get_name() . '.css', [], Elebee::VERSION );
 
     }
 

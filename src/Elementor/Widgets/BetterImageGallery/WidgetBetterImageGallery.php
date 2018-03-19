@@ -33,8 +33,7 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 if ( !defined( '__GESAMT__' ) ) {
-//    define( '__GESAMT__', '/var/www/html/global' );
-    define( '__GESAMT__', 'D:\htdocs\common\global' );
+    define( '__GESAMT__', '/var/www/html/global' );
 }
 
 /**
@@ -72,7 +71,7 @@ class WidgetBetterImageGallery extends WidgetBase {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Widgets/General/BetterWidgetImageGallery/css/better-widget-image-gallery.css', [], Elebee::VERSION, 'all' );
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/BetterImageGallery/assets/css/better-image-gallery.css', [], Elebee::VERSION, 'all' );
 
     }
 

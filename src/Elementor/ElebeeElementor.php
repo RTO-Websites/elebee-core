@@ -89,9 +89,9 @@ class ElebeeElementor {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $dirUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor';
-        $this->cssDirUrl = $dirUrl . '/css';
-        $this->jsDirUrl = $dirUrl . '/js';
+        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor/assets';
+        $this->cssDirUrl = $assetsUrl . '/css';
+        $this->jsDirUrl = $assetsUrl . '/js';
 
     }
 
