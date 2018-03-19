@@ -9,7 +9,7 @@ use ElementorRto\Pub\ElebeePublic;
 defined( 'ABSPATH' ) || exit;
 
 if ( !defined( '__FORMFIELDS__' ) ) {
-    define( '__FORMFIELDS__', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Extensions/FormFields' );
+    define( '__FORMFIELDS__', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/FormFields' );
 }
 
 /**

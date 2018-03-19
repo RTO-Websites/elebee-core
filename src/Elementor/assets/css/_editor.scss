@@ -2,8 +2,8 @@
 
 #elementor-panel-footer-responsive-toggle {
   color: #cc3333;
-}
 
-#elementor-panel-footer-responsive-toggle.responsive-toggle {
-  color: #33cc33;
+  &.responsive-toggle {
+    color: #33cc33;
+  }
 }

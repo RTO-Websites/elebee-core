@@ -89,9 +89,9 @@ class ElebeeElementor {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $dirUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor';
-        $this->cssDirUrl = $dirUrl . '/css';
-        $this->jsDirUrl = $dirUrl . '/js';
+        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor/assets';
+        $this->cssDirUrl = $assetsUrl . '/css';
+        $this->jsDirUrl = $assetsUrl . '/js';
 
     }
 
@@ -102,7 +102,7 @@ class ElebeeElementor {
      */
     public function enqueueEditorStyles() {
 
-        wp_enqueue_style( $this->themeName . '-editor', $this->cssDirUrl . '/editor.css', [], $this->version, 'all' );
+        wp_enqueue_style( $this->themeName . '-editor', get_stylesheet_directory_uri() . '/css/editor.min.css', [], $this->version, 'all' );
 
     }
 

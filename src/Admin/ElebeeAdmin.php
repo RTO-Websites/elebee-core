@@ -75,9 +75,9 @@ class ElebeeAdmin {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $dirUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin';
-        $this->cssDirUrl = $dirUrl . '/css';
-        $this->jsDirUrl = $dirUrl . '/js';
+        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin/assets';
+        $this->cssDirUrl = $assetsUrl . '/css';
+        $this->jsDirUrl = $assetsUrl . '/js';
 
     }
 
@@ -91,7 +91,6 @@ class ElebeeAdmin {
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/css/admin.min.css', [], $this->version, 'all' );
-        wp_enqueue_style( $this->themeName . '-admin', $this->cssDirUrl . '/admin.css', [], $this->version, 'all' );
 
     }
 
