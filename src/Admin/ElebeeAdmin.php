@@ -75,9 +75,9 @@ class ElebeeAdmin {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $dirUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin';
-        $this->cssDirUrl = $dirUrl . '/css';
-        $this->jsDirUrl = $dirUrl . '/js';
+        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Admin/assets';
+        $this->cssDirUrl = $assetsUrl . '/css';
+        $this->jsDirUrl = $assetsUrl . '/js';
 
     }
 
@@ -91,7 +91,6 @@ class ElebeeAdmin {
     public function enqueueStyles() {
 
         wp_enqueue_style( $this->themeName, get_stylesheet_directory_uri() . '/css/admin.min.css', [], $this->version, 'all' );
-        wp_enqueue_style( $this->themeName . '-admin', $this->cssDirUrl . '/admin.css', [], $this->version, 'all' );
 
     }
 
@@ -105,42 +104,6 @@ class ElebeeAdmin {
     public function enqueueScripts() {
 
         wp_enqueue_script( $this->themeName . '-admin', $this->jsDirUrl . '/admin.js', [ 'jquery' ], $this->version, false );
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function enqueueEditorStyles() {
-
-        wp_enqueue_style( $this->themeName . '-editor', $this->cssDirUrl . '/editor.css', [], $this->version, 'all' );
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    public function enqueueEditorScripts() {
-
-        wp_enqueue_script( $this->themeName . '-editor', $this->jsDirUrl . '/editor.js', [ 'jquery' ], $this->version, true );
-        wp_localize_script( $this->themeName . '-editor', 'themeVars', [
-            'themeUrl' => get_stylesheet_directory_uri(),
-        ] );
-
-    }
-
-    /**
-     * @since 0.3.1
-     *
-     * @return void
-     */
-    public function enqueuePreviewScripts() {
-
-        wp_enqueue_script( $this->themeName . '-preview', $this->jsDirUrl . '/preview.js', [ 'jquery' ], $this->version, true );
 
     }
 
