@@ -117,10 +117,14 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @return void
      */
     protected function _register_controls() {
+        global $sitepress;
+        if ( !empty( $sitepress ) ) {
+            $currentLang = $sitepress->get_current_language();
+            $sitepress->switch_lang( $sitepress->get_default_language() );
+        }
 
         $this->postTypes = $this->getPostTypes();
         $this->taxonomies = get_taxonomies( null, 'objects' );
-        $this->terms = get_terms( [ 'hide_empty' => false ] );
         $this->isForArchive = $this->isForArchive();
 
         $this->start_controls_section(
@@ -414,6 +418,9 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->end_controls_section();
         }
 
+        if ( !empty( $sitepress ) ) {
+            $sitepress->switch_lang( $currentLang );
+        }
     }
 
     /**
@@ -461,7 +468,7 @@ class WidgetPostTypeArchive extends WidgetBase {
     /**
      * @since 0.1.0
      *
-     * @param array  $taxonomies
+     * @param array $taxonomies
      * @param string $postType
      * @return void
      */
@@ -533,10 +540,10 @@ class WidgetPostTypeArchive extends WidgetBase {
     private function getTermsForTaxonomy( string $name ): array {
 
         $terms = [];
-
-        foreach ( $this->terms as $term ) {
+        $tmpTerms = get_terms( [ 'taxonomy' => $name, 'hide_empty' => false ] );
+        foreach ( $tmpTerms as $term ) {
             if ( $term->taxonomy === $name ) {
-                $terms[$term->slug] = $term->name;
+                $terms[$term->term_id] = $term->name;
             }
         }
         return $terms;
@@ -593,11 +600,12 @@ class WidgetPostTypeArchive extends WidgetBase {
         ];
         if ( isset( $settings['filter_' . $postType] ) && 'yes' === $settings['filter_' . $postType] ) {
             $taxonomy = $settings['type_' . $postType . '_taxonomy'];
+            $terms = apply_filters( 'wpml_object_id', $settings['type_' . $postType . '_taxonomy_' . $taxonomy . '_term'], $taxonomy );
             $args['tax_query'] = [
                 [
                     'taxonomy' => $taxonomy,
-                    'field' => 'slug',
-                    'terms' => $settings['type_' . $postType . '_taxonomy_' . $taxonomy . '_term'],
+                    'field' => 'id',
+                    'terms' => $terms,
                 ],
             ];
         }
@@ -611,6 +619,11 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @return void
      */
     protected function render() {
+        global $sitepress;
+        if ( !empty( $sitepress ) ) { // temporarily change the current language to the current post language
+            $currentLang = $sitepress->get_current_language();
+            $sitepress->switch_lang( apply_filters( 'wpml_post_language_details', null, get_the_ID() )['language_code'] );
+        }
 
         $settings = $this->get_settings();
         $postType = $settings['type'];
@@ -652,6 +665,10 @@ class WidgetPostTypeArchive extends WidgetBase {
                 $wrapper->setVar( 'effectClass', 'in-archive' );
             }
             $wrapper->render();
+        }
+
+        if ( !empty( $sitepress ) ) {
+            $sitepress->switch_lang( $currentLang );
         }
 
     }
