@@ -74,11 +74,11 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     public function __construct() {
 
         parent::__construct();
-        $this->sectionId = 'sectionSticky';
-        $this->controlStickyId = 'sticky';
-        $this->controlStickyPlaceholderId = 'stickyPlaceholder';
-        $this->controlStickyPositionId = 'stickyPosition';
-        $this->controlStickyOffsetId = 'stickyOffset';
+        $this->sectionId = 'sectionElebeeSticky';
+        $this->controlStickyId = 'elebeeSticky';
+        $this->controlStickyPlaceholderId = 'elebeeStickyPlaceholder';
+        $this->controlStickyPositionId = 'elebeeStickyPosition';
+        $this->controlStickyOffsetId = 'elebeeStickyOffset';
 
     }
 
