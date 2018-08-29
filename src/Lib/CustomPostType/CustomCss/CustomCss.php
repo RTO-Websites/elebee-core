@@ -174,7 +174,33 @@ class CustomCss extends CustomPostTypeBase {
      */
     public function enqueuePublicStyles() {
 
-        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ], Elebee::VERSION );
+        $recentRelease = new \WP_Query( [
+            'post_type' => $this->getName(),
+            'posts_per_page' => 1,
+            'orderby' => 'modified',
+            'no_found_rows' => true,
+        ] );
+
+        if ( !$recentRelease->have_posts() ) {
+            return;
+        }
+
+        $recentRelease->the_post();
+
+        $dateFormat = get_option( 'date_format' );
+        $timeFormat = get_option( 'time_format' );
+
+        $modifiedDate = get_the_modified_date();
+        $modifiedTime = get_the_modified_time();
+
+        $format = $dateFormat . ' ' . $timeFormat;
+        $time = $modifiedDate . ' ' . $modifiedTime;
+
+        $version = \DateTime::createFromFormat( $format, $time )->getTimestamp();
+
+        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ], $version );
+
+        wp_reset_postdata();
 
     }
 
