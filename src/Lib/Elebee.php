@@ -20,6 +20,7 @@ use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
 use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
@@ -171,6 +172,9 @@ class Elebee {
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
         $themeSupportFeaturedImage->getLoader()->run();
+
+        $themeSupportCustomLogo = new ThemeSupportCustomLogo();
+        $themeSupportCustomLogo->getLoader()->run();
 
     }
 
