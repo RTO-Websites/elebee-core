@@ -9,7 +9,7 @@ namespace ElebeeCore\Admin\Editor;
 
 
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Hooking;
+use ElebeeCore\Lib\Util\Hooking;
 
 defined( 'ABSPATH' ) || exit;
 

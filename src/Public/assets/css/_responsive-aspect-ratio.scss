@@ -1,0 +1,66 @@
+/**
+ * Responsive aspect ratio
+ *
+ * @since 0.3.2
+ * @author RTO GmbH <info@rto.de>
+ * @license GPL-3.0
+ * @example  <div class="responsive-aspect-ratio ratio-square">
+ *            <div class="aspect-ratio-content">
+ *              Content
+ *            </div>
+ *          </div>
+ */
+
+.responsive-aspect-ratio {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  .aspect-ratio-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .elementor-image,
+    .elementor-image img,
+    .elementor-custom-embed,
+    .elementor-custom-embed iframe,
+    .elementor-slides-wrapper,
+    .elementor-slides-wrapper .elementor-slides,
+    .elementor-slides-wrapper .elementor-slides .slick-list,
+    .elementor-slides-wrapper .elementor-slides .slick-list .slick-track,
+    .elementor-slides-wrapper .elementor-slides .slick-list .slick-track .slick-slide {
+      height: 100%;
+    }
+
+    .elementor-image,
+    .elementor-image img {
+      width: 100%;
+    }
+
+  }
+
+  &::after {
+    content: '';
+    display: block;
+
+    &.ratio-square {
+      content: 'test';
+    }
+  }
+
+  &.ratio-square::after,
+  &.ratio1by1::after {
+    padding-top: 100%;
+  }
+
+  &.ratio-16by9::after {
+    padding-top: 56.25%;
+  }
+
+  &.ratio-4by3::after {
+    padding-top: 75%;
+  }
+}

@@ -14,15 +14,20 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Elementor\ElebeeElementor;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
-use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
 use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
+use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Lib\Util\HtmlCompression;
+use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
@@ -46,7 +51,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.3.1';
+    const VERSION = '0.4.0';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -92,6 +97,7 @@ class Elebee {
         $this->setupCustomPostTypes();
         $this->defineAdminHooks();
         $this->definePublicHooks();
+        $this->defineElementorHooks();
 
     }
 
@@ -155,14 +161,20 @@ class Elebee {
      */
     private function setupThemeSupport() {
 
+        $themeSupportMenus = new ThemeSupportMenus();
+        $themeSupportMenus->getLoader()->run();
+
         $themeSupportTitleTag = new ThemeSupportTitleTag();
-        $themeSupportTitleTag->addThemeSupport();
+        $themeSupportTitleTag->getLoader()->run();
 
         $themeSupportHTML5 = new ThemeSupportHTML5();
-        $themeSupportHTML5->addThemeSupport();
+        $themeSupportHTML5->getLoader()->run();
 
         $themeSupportFeaturedImage = new ThemeSupportFeaturedImage();
-        $themeSupportFeaturedImage->addThemeSupport();
+        $themeSupportFeaturedImage->getLoader()->run();
+
+        $themeSupportCustomLogo = new ThemeSupportCustomLogo();
+        $themeSupportCustomLogo->getLoader()->run();
 
     }
 
@@ -262,6 +274,7 @@ class Elebee {
     private function defineAdminHooks() {
 
         $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
+        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
@@ -272,11 +285,6 @@ class Elebee {
 
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
-
-        $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeAdmin, 'enqueueEditorStyles' );
-        $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeAdmin, 'enqueueEditorScripts', 99999 );
-
-        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeAdmin, 'enqueuePreviewScripts' );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
 
@@ -294,7 +302,6 @@ class Elebee {
 
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
-        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
 
         $htmlCompression = new HtmlCompression();
@@ -302,17 +309,30 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorOverrides' );
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorCategories' );
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'setupElementorExtensions' );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles' );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
 
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerWidgets' );
-        $this->loader->addAction( 'elementor/init', $elebeePublic, 'registerExclusiveWidgets' );
+    }
 
-        $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeePublic, 'addWidgetPostsSkins' );
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
+    private function defineElementorHooks() {
 
-        $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueStyles' );
-        $this->loader->addAction( 'elementor/frontend/after_register_scripts', $elebeePublic, 'enqueueScripts' );
+        $elebeeElementor = new ElebeeElementor( $this->getThemeName(), $this->getVersion() );
+
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'setupExtensions' );
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerWidgets' );
+        $this->loader->addAction( 'elementor/init', $elebeeElementor, 'registerExclusiveWidgets' );
+        $this->loader->addAction( 'elementor/elements/categories_registered', $elebeeElementor, 'setupCategories' );
+        $this->loader->addAction( 'elementor/widget/posts/skins_init', $elebeeElementor, 'registerSkinArchive' );
+
+        $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
+        $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
+
+        $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }
 

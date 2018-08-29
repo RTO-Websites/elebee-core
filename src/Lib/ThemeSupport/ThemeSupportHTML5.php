@@ -4,10 +4,10 @@
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib\ControlledTemplate
+ * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ControlledTemplate/ThemeSupportHTML5.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportHTML5.html
  */
 
 namespace ElebeeCore\Lib\ThemeSupport;
@@ -20,30 +20,17 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   0.1.0
  *
- * @package ElebeeCore\Lib\ControlledTemplate
+ * @package ElebeeCore\Lib\ThemeSupport
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ControlledTemplate/ThemeSupportHTML5.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeSupport/ThemeSupportHTML5.html
  */
 class ThemeSupportHTML5 extends ThemeSupportBase {
 
     /**
-     * ThemeSupportHTML5 constructor.
-     *
-     * @since 0.1.0
-     *
-     * @param string $hook
-     */
-    public function __construct( string $hook = 'after_setup_theme' ) {
-
-        parent::__construct( $hook );
-
-    }
-
-    /**
      * @since 0.1.0
      */
-    public function hookCallback() {
+    public function addThemeSupport() {
 
         $args = [
             'search-form',

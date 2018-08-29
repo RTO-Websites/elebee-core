@@ -25,7 +25,7 @@
 
             <?php foreach ( $subterms as $subterm ) : ?>
 
-                <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', [
+                <?php $listItem = new \ElebeeCore\Lib\Util\Template( __DIR__ . '/meta-key-term-default.php', [
                     'term' => $subterm,
                     'metaKey' => $metaKey,
                 ] ); ?>

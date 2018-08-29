@@ -32,7 +32,7 @@
 
         <?php foreach ( $termList as $term ) : ?>
 
-            <?php $listItem = new \ElebeeCore\Lib\Template( __DIR__ . '/meta-key-term-default.php', [
+            <?php $listItem = new \ElebeeCore\Lib\Util\Template( __DIR__ . '/meta-key-term-default.php', [
                 'term' => $term,
                 'metaKey' => $metaKey,
             ] ); ?>
