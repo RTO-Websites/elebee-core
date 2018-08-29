@@ -14,6 +14,7 @@
 namespace ElebeeCore\Elementor;
 
 
+use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
 use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
 use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
 use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
@@ -143,6 +144,9 @@ class ElebeeElementor {
 
         $imageExtension = new WidgetExtensionResponsiveAspectRatio();
         $imageExtension->register( Controls_Manager::TAB_STYLE, 'image', 'section_style_image', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
+
+        $titleExtension = new WidgetExtensionFitty();
+        $titleExtension->register( Controls_Manager::TAB_CONTENT, 'heading', 'section_title', WidgetExtensionBase::EXTEND_SECTION_AFTER );
 
         $googleMapsExtension = new WidgetExtensionResponsiveAspectRatio();
         $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
