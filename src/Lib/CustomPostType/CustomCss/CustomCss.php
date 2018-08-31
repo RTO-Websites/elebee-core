@@ -151,7 +151,10 @@ class CustomCss extends CustomPostTypeBase {
 
         $src = $this->jsLibUrl . 'capture-input.js';
         wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], Elebee::VERSION, true );
-        wp_localize_script( 'elebee-capture-input', 'postData', [ 'id' => get_the_ID() ] );
+        wp_localize_script( 'elebee-capture-input', 'customGlobalCss', [
+            'postId' => get_the_ID(),
+            'url' => get_template_directory_uri() . '/css/custom-global.css'
+        ] );
 
     }
 

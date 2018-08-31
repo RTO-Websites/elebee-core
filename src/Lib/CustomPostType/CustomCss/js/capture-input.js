@@ -1,9 +1,34 @@
 (function ($) {
 
-  let timer = null;
+  let timer = null,
+    originalCss = null;
 
-  if(window.opener) {
-    window.editor.on('keyup', captureEditorInput);
+  function init() {
+
+    if(window.opener) {
+
+      window.editor.on('keyup', captureEditorInput);
+
+      $(window).on('unload', function (e) {
+        injectCss(originalCss);
+      });
+
+      buildCss();
+
+      $.ajax({
+        url: customGlobalCss.url,
+        cache: false,
+        method: 'get',
+        success: function (response, textStaus, jqXHR) {
+          originalCss = response;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          originalCss = '';
+        }
+      });
+
+    }
+
   }
 
   function captureEditorInput(em, e) {
@@ -27,19 +52,19 @@
       method: 'post',
       data: {
         action: 'autoUpdate',
-        postId: postData.id,
+        postId: customGlobalCss.postId,
         scss: window.editor.getValue()
       },
-      success: injectCss,
-      error: error
+      success: buildCssSuccess,
+      error: buildCssError
     });
 
   }
 
-  function injectCss(response, textStaus, jqXHR) {
+  function buildCssSuccess(response, textStaus, jqXHR) {
 
     if(response.success) {
-      window.opener.CustomCss.inject(response.data);
+      injectCss(response.data);
     }
     else {
       console.log(response.data);
@@ -47,7 +72,7 @@
 
   }
 
-  function error(jqXHR, textStatus, errorThrown) {
+  function buildCssError(jqXHR, textStatus, errorThrown) {
 
     // TODO: Implement better error handling
 
@@ -56,5 +81,13 @@
     console.log(errorThrown);
 
   }
+
+  function injectCss(css) {
+
+    window.opener.CustomCss.inject(css);
+
+  }
+
+  init();
 
 })(jQuery);
