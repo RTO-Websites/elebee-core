@@ -151,7 +151,10 @@ class CustomCss extends CustomPostTypeBase {
 
         $src = $this->jsLibUrl . 'capture-input.js';
         wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], Elebee::VERSION, true );
-        wp_localize_script( 'elebee-capture-input', 'postData', [ 'id' => get_the_ID() ] );
+        wp_localize_script( 'elebee-capture-input', 'customGlobalCss', [
+            'postId' => get_the_ID(),
+            'url' => get_template_directory_uri() . '/css/custom-global.css'
+        ] );
 
     }
 
@@ -402,6 +405,36 @@ class CustomCss extends CustomPostTypeBase {
         }
 
         return $scssCompiler->compile( $scss );
+
+    }
+
+    public function preview() {
+
+        $previewMode = filter_input( INPUT_GET, 'preview-mode' );
+        if ( $previewMode == 'css' ) {
+            $ids = explode( ',', filter_input( INPUT_GET, 'preview' ) );
+            $css = $this->buildCss();
+
+            $query = new \WP_Query( [
+                'post__in' => $ids,
+                'post_type' => $this->getName(),
+                'post_status' => [
+                    'pending',
+                    'draft',
+                    'future',
+                    'private',
+                ],
+            ] );
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                $css .= $this->compile( get_the_content() );
+            }
+            wp_reset_query();
+
+        }
+
+        return $css;
 
     }
 
