@@ -14,6 +14,8 @@
 namespace ElebeeCore\Admin;
 
 
+use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
+use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Settings;
 
@@ -133,7 +135,11 @@ class ElebeeAdmin {
      */
     public function settingsApiInit() {
 
+        $settingIsExclusive = new SettingIsExclusiv();
+        $settingIsExclusive->register( 'elebee_settings' );
 
+        $settingJQuery = new SettingJQuery();
+        $settingJQuery->register( 'elebee_settings' );
 
     }
 
