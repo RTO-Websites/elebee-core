@@ -101,7 +101,6 @@ class CustomCss extends CustomPostTypeBase {
 
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
-        $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminStyles' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
         $this->getLoader()->addAction( 'transition_post_status', $this, 'saveToFile', 10, 3 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
@@ -121,18 +120,6 @@ class CustomCss extends CustomPostTypeBase {
         parent::definePublicHooks();
 
         $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueuePublicStyles' );
-
-    }
-
-    /**
-     * @since 0.3.0
-     *
-     * @return void
-     */
-    public function enqueueAdminStyles() {
-
-        $stylesUrl = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/css/';
-        wp_enqueue_style( 'elebee-editor', $stylesUrl . 'editor.css', [ 'codemirror' ], Elebee::VERSION );
 
     }
 
