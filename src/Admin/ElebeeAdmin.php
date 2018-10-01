@@ -143,7 +143,7 @@ class ElebeeAdmin {
         add_settings_field(
             'is_exclusive',
             __( 'Is Exclusive', 'elebee' ),
-            [ $this, 'settingCallback' ],
+            [ $this, 'renderSettingIsExclusive' ],
             'elebee_settings'
         );
 
@@ -151,7 +151,7 @@ class ElebeeAdmin {
 
     }
 
-    public function settingCallback() {
+    public function renderSettingIsExclusive() {
 
         echo '<input name="is_exclusive" id="is_exclusive" type="checkbox" value="1" ' . checked( 1, get_option( 'is_exclusive' ), false ) . '>';
 
