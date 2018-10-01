@@ -18,9 +18,9 @@
 <div class="wrap">
     <h1><?php echo get_admin_page_title(); ?></h1>
     <form method="POST" action="options.php">
-        <?php settings_fields( 'elementor_rto_settings' ); ?>
+        <?php settings_fields( 'elebee_settings' ); ?>
         <table class="form-table">
-            <?php do_settings_fields( 'elementor_rto_settings', 'default' ); ?>
+            <?php do_settings_fields( 'elebee_settings', 'default' ); ?>
         </table>
         <?php submit_button(); ?>
     </form>

@@ -144,10 +144,10 @@ class ElebeeAdmin {
             'is_exclusive',
             __( 'Is Exclusive', 'elebee' ),
             [ $this, 'settingCallback' ],
-            'elementor_rto_settings'
+            'elebee_settings'
         );
 
-        register_setting( 'elementor_rto_settings', 'is_exclusive' );
+        register_setting( 'elebee_settings', 'is_exclusive' );
 
     }
 
@@ -166,10 +166,10 @@ class ElebeeAdmin {
 
         add_submenu_page(
             Settings::PAGE_ID,
-            __( 'RTO Settings', 'elebee' ),
-            __( 'RTO Settings', 'elebee' ),
+            __( 'Elebee Settings', 'elebee' ),
+            __( 'Elebee Settings', 'elebee' ),
             'manage_options',
-            'elementor_rto_settings',
+            'elebee_settings',
             [ $this, 'renderAdminPage' ]
         );
 
