@@ -13,6 +13,8 @@
 namespace ElebeeCore\Pub;
 
 
+use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -83,7 +85,7 @@ class ElebeePublic {
      */
     public function enqueueScripts() {
 
-        $settingJQuery = get_option( 'jquery', 'default' );
+        $settingJQuery = ( new SettingJQuery() )->getOption();
         switch ( $settingJQuery ) {
             case 'latest-cdn':
                 wp_deregister_script( 'jquery' );
