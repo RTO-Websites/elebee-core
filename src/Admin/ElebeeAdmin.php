@@ -143,17 +143,46 @@ class ElebeeAdmin {
         add_settings_field(
             'is_exclusive',
             __( 'Is Exclusive', 'elebee' ),
-            [ $this, 'settingCallback' ],
-            'elementor_rto_settings'
+            [ $this, 'renderSettingIsExclusive' ],
+            'elebee_settings'
         );
 
-        register_setting( 'elementor_rto_settings', 'is_exclusive' );
+        register_setting( 'elebee_settings', 'is_exclusive' );
+
+        add_settings_field(
+            'jquery',
+            __( 'jQuery', 'elebee' ),
+            [ $this, 'renderSettingJQuery' ],
+            'elebee_settings'
+        );
+
+        register_setting( 'elebee_settings', 'jquery' );
 
     }
 
-    public function settingCallback() {
+    public function renderSettingIsExclusive() {
 
         echo '<input name="is_exclusive" id="is_exclusive" type="checkbox" value="1" ' . checked( 1, get_option( 'is_exclusive' ), false ) . '>';
+
+    }
+
+    public function renderSettingJQuery() {
+
+        $option = get_option( 'jquery', 'default' );
+
+        $choices = [
+            'default' => __( 'Default', 'elebee'),
+            'latest-cdn' => __( '3.3.1 (CDN)', 'elebee'),
+            'latest-local' => __( '3.3.1 (local)', 'elebee'),
+        ];
+
+        echo '<select name="jquery" id="jquery">';
+
+        foreach ( $choices as $value => $label ) {
+            echo '<option value="' . $value . '" ' . selected( $value, $option, false ) . '>' . $label . '</option>';
+        }
+
+        echo '</select>';
 
     }
 
@@ -166,10 +195,10 @@ class ElebeeAdmin {
 
         add_submenu_page(
             Settings::PAGE_ID,
-            __( 'RTO Settings', 'elebee' ),
-            __( 'RTO Settings', 'elebee' ),
+            __( 'Elebee Settings', 'elebee' ),
+            __( 'Elebee Settings', 'elebee' ),
             'manage_options',
-            'elementor_rto_settings',
+            'elebee_settings',
             [ $this, 'renderAdminPage' ]
         );
 

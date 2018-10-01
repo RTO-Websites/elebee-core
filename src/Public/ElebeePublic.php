@@ -83,8 +83,17 @@ class ElebeePublic {
      */
     public function enqueueScripts() {
 
-        wp_deregister_script( 'jquery' );
-        wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
+        $settingJQuery = get_option( 'jquery', 'default' );
+        switch ( $settingJQuery ) {
+            case 'latest-cdn':
+                wp_deregister_script( 'jquery' );
+                wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
+                break;
+            case 'latest-local':
+                wp_deregister_script( 'jquery' );
+                wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/public/assets/js/jquery.min.js', [], '3.3.1' );
+                break;
+        }
 
         wp_enqueue_script( $this->themeName . '-vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', [ 'jquery' ], $this->version, true );
         wp_enqueue_script( $this->themeName . '-main', get_stylesheet_directory_uri() . '/js/main.min.js', [ 'jquery', $this->themeName . '-vendor' ], $this->version, true );
