@@ -26,7 +26,7 @@ use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSma
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
 use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
 use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
-use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
+use ElebeeCore\Elementor\Widgets\CustomFieldSuite\WidgetCustomFieldSuite;
 use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
 use Elementor\Controls_Manager;
 use Elementor\Elements_Manager;
@@ -94,6 +94,10 @@ class ElebeeElementor {
         $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor/assets';
         $this->cssDirUrl = $assetsUrl . '/css';
         $this->jsDirUrl = $assetsUrl . '/js';
+
+	    if ( ! function_exists( 'is_plugin_active' ) ) {
+		    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	    }
 
     }
 
@@ -179,6 +183,10 @@ class ElebeeElementor {
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
 
+	    if ( is_plugin_active('custom-field-suite/cfs.php') ) {
+		    Plugin::instance()->widgets_manager->register_widget_type( new WidgetCustomFieldSuite() );
+	    }
+
     }
 
     /**
@@ -195,7 +203,6 @@ class ElebeeElementor {
         }
 
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetBigAndSmallImageWithDescription() );
-        Plugin::instance()->widgets_manager->register_widget_type( new WidgetPlaceholder() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetPostTypeArchive() );
 
     }
