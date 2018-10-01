@@ -70,9 +70,13 @@ class CodeMirror extends Hooking {
      */
     public function enqueueAdminStyles() {
 
-        $codemirrorUri = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/js/';
-        $codemirrorVendorUri = $codemirrorUri . 'vendor/';
+        $codemirrorUri = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/';
+        $codemirrorJsUri = $codemirrorUri . 'js/';
+        $codemirrorVendorUri = $codemirrorJsUri . 'vendor/';
         $codemirrorVersion = '3.34.0';
+
+        $codemirrorStylesUri = $codemirrorUri . 'css/';
+        wp_enqueue_style( 'elebee-editor', $codemirrorStylesUri . 'editor.css', [ 'codemirror' ], Elebee::VERSION );
 
         wp_enqueue_style( 'codemirror', $codemirrorVendorUri . 'codemirror.css', $codemirrorVersion );
         wp_enqueue_style( 'codemirror-mdn-liket', $codemirrorVendorUri . 'theme/mdn-like.css', $codemirrorVersion );
@@ -122,7 +126,7 @@ class CodeMirror extends Hooking {
             'codemirror-brace-fold',
             'codemirror-comment-fold',
         ];
-        wp_enqueue_script( 'config-codemirror', $codemirrorUri . 'main.js', $deps, Elebee::VERSION, true );
+        wp_enqueue_script( 'config-codemirror', $codemirrorJsUri . 'main.js', $deps, Elebee::VERSION, true );
 
     }
 
