@@ -16,14 +16,14 @@
 */
 namespace ElebeeCore\Elementor\Widgets\CustomFieldSuite;
 
-use ElebeeCore\Elementor\Widgets\WidgetBase;
-use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
-use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
+use Elementor\Group_Control_Typography;
 use Elementor\Widget_Button;
 use Elementor\Scheme_Color;
+use Elementor\Controls_Manager;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Lib\Elebee;
 
@@ -772,14 +772,18 @@ class WidgetCustomFieldSuite extends WidgetBase {
 			echo $template->getRendered();
 		}
 
-		echo '<' . $tags[ 'table' ] . ' class="cfs-table table-' . $tableClass .'">';
+		if ( $cfsName !== 'showreel' ) {
+			echo '<' . $tags['table'] . ' class="cfs-table table-' . $tableClass . '">';
+		}
 		if ( isset( $tab[ 0 ][ 'type' ] ) && 'loop' === $tab[ 0 ][ 'type' ] ) {
 			$this->renderLoop( $tab, $tags, $headingAlign, $settings );
 		}
 		else {
 			$this->renderTab( $tab, $tags, $headingAlign, $settings );
 		}
-		echo '</' . $tags[ 'table' ] . '>';
+		if ( $cfsName !== 'showreel' ) {
+			echo '</' . $tags['table'] . '>';
+		}
 		
 		$this->renderButton( $settings, $countValues );
 	}
@@ -906,9 +910,19 @@ class WidgetCustomFieldSuite extends WidgetBase {
 			if ( stripos( $field[ 'name' ], 'video' ) !== false ) {
 				$templateName = 'video';
 			}
-			
 			else if ( stripos( $field[ 'name' ], 'youtube' ) !== false ) {
+				$args[ 'videoUrl' ] = CFS()->get( $field['name'] );
+				if ( empty( $args[ 'videoUrl' ] ) ) {
+					continue;
+				}
 				$templateName = 'youtube';
+			}
+			else if ( stripos( $field[ 'name' ], 'vimeo' ) !== false ) {
+				$args[ 'videoUrl' ] = CFS()->get( $field['name'] );
+				if ( empty( $args[ 'videoUrl' ] ) ) {
+				    continue;
+                }
+				$templateName = 'vimeo';
 			}
 			else {
 				$templateName = 'tab';

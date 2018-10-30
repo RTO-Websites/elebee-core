@@ -160,9 +160,19 @@ class ElebeeElementor {
         $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-            require_once dirname( __DIR__ ) . '/Elementor/Extensions/FormFields/FormFields.php';
+	        $formFields = new FormFields();
+	        $formFields->registerFields();
 
-            $slidesExtension = new WidgetExtensionResponsiveAspectRatio();
+	        $formStyles = new StylesTitle();
+	        $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
+
+	        $formStyles = new StylesNotice();
+	        $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 150 );
+
+	        $formStyles = new ArchivePosts();
+	        $formStyles->register( Controls_Manager::TAB_STYLE, 'archive-posts', 'archive_classic_section_design_layout', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
+
+	        $slidesExtension = new WidgetExtensionResponsiveAspectRatio();
             $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         }
