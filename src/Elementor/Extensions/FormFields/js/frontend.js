@@ -1,54 +1,39 @@
+jQuery(document).ready(function ($) {
 
-jQuery(document).ready(function($) {
+  /**
+   * set datetimepicker logic
+   */
+  function rto_datepicker() {
+    if ($.fn.datepicker) {
 
-    /**
-     * add datetimepicker and set logic
-     */
-    function rto_datepicker(){
-        if($.fn.datepicker) {
-
-            $('.from-till-wrapper').each(function(){
-                var wrapper = $(this);
-                var from = wrapper.find(".rto-datepicker-from-wrapper input");
-                var till = wrapper.find(".rto-datepicker-till-wrapper input");
-                from.prop("readonly", true);
-                till.prop("readonly", true);
-                from.datetimepicker({
-                    minDate: (from.attr("data-time") == 'future') ? '+0d' : null,
-                    maxDate: (from.attr("data-time") == 'past') ? '+0d' : null,
-                    onSelect: function(dateStr)
-                    {
-                        till.datepicker("option",{ minDate: new Date(dateStr)});
-                        from.data('originalValue',$(this).val());
-                    }
-                });
-                till.datetimepicker({
-                    minDate: (till.attr("data-time") == 'future') ? '+0d' : null,
-                    maxDate: (till.attr("data-time") == 'past') ? '+0d' : null,
-                    onSelect: function(dateStr)
-                    {
-                        from.datepicker("option",{ maxDate: new Date(dateStr)});
-                        till.data('originalValue',$(this).val());
-                    }
-                });
-            })
-        }
+      $('.elebee-datepicker-wrapper').each(function () {
+        var wrapper = $(this);
+        var from = wrapper.find(".elebee-datepicker-past");
+        var till = wrapper.find(".elebee-datepicker-future");
+        from.prop("readonly", true);
+        till.prop("readonly", true);
+        from.datetimepicker({
+          minDate: (from.attr("data-time") == 'future') ? '+0d' : null,
+          maxDate: (from.attr("data-time") == 'past') ? '+0d' : null,
+          onSelect: function (dateStr) {
+            till.datepicker("option", {minDate: new Date(dateStr)});
+            from.data('originalValue', $(this).val());
+            wrapper.find('.elebee-datepicker-value').val($(this).val() + ' - ' + till.val());
+          }
+        });
+        till.datetimepicker({
+          minDate: (till.attr("data-time") == 'future') ? '+0d' : null,
+          maxDate: (till.attr("data-time") == 'past') ? '+0d' : null,
+          onSelect: function (dateStr) {
+            from.datepicker("option", {maxDate: new Date(dateStr)});
+            till.data('originalValue', $(this).val());
+            wrapper.find('.elebee-datepicker-value').val( from.val() + ' - ' + $(this).val());
+          }
+        });
+      })
     }
-    rto_datepicker();
+  }
 
-    /**
-     * Submit workaround till we able to add fields programmatically
-     */
-    $('.elementor-form').submit( function(){
-        $(this).find('.from-till-wrapper').each(function() {
-            var from = $(this).find('.rto-datepicker-from').data('originalValue');
-            var till = $(this).find('.rto-datepicker-till').data('originalValue');
+  rto_datepicker();
 
-            oldFromValue = from;
-
-            $(this).find('.rto-datepicker-from-wrapper .rto-datepicker-from').val(from + ' - ' + till);
-        })
-    });
-
-    $('.elementor-field-type-rto-datepicker').show();
 });
