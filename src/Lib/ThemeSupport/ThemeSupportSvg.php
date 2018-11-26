@@ -32,7 +32,6 @@ class ThemeSupportSvg extends ThemeSupportBase {
 
     }
 
-
     /**
      * Add SVG support to mimes.
      *
@@ -57,7 +56,8 @@ class ThemeSupportSvg extends ThemeSupportBase {
 
         ob_start();
 
-        $this->getLoader()->addAction( 'shutdown', $this, 'svgThumbsFilter', 0 );
+        add_action( 'shutdown', [ $this, 'svgThumbsFilter' ], 0 );
+        add_filter( 'final_output', [ $this, 'svgFinalOutput' ] );
 
     }
 
