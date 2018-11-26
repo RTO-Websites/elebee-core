@@ -14,6 +14,7 @@
 namespace ElebeeCore\Elementor;
 
 
+use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
 use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
 use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
 use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
@@ -187,7 +188,7 @@ class ElebeeElementor {
      */
     public function registerExclusiveWidgets() {
 
-        if ( !get_option( 'is_exclusive' ) ) {
+        if ( !(new SettingIsExclusiv())->getOption() ) {
             return;
         }
 

@@ -24,6 +24,7 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\Util\HtmlCompression;
@@ -51,7 +52,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.4.0';
+    const VERSION = '0.5.0';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -175,6 +176,9 @@ class Elebee {
 
         $themeSupportCustomLogo = new ThemeSupportCustomLogo();
         $themeSupportCustomLogo->getLoader()->run();
+
+        $themeSupportSvg = new ThemeSupportSvg();
+        $themeSupportSvg->getLoader()->run();
 
     }
 
