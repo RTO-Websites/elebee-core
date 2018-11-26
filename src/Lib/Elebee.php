@@ -24,6 +24,7 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\Util\HtmlCompression;
@@ -175,6 +176,9 @@ class Elebee {
 
         $themeSupportCustomLogo = new ThemeSupportCustomLogo();
         $themeSupportCustomLogo->getLoader()->run();
+
+        $themeSupportSvg = new ThemeSupportSvg();
+        $themeSupportSvg->getLoader()->run();
 
     }
 
