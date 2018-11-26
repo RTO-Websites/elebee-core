@@ -52,7 +52,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.4.0';
+    const VERSION = '0.5.0';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
