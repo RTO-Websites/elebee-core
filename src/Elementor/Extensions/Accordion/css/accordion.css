@@ -1,0 +1,24 @@
+.accordion-icon-animation-anti-90 .elementor-accordion-icon > i::before,
+.accordion-icon-animation-anti-180 .elementor-accordion-icon > i::before,
+.accordion-icon-animation-clockwise-90 .elementor-accordion-icon > i::before,
+.accordion-icon-animation-clockwise-180 .elementor-accordion-icon > i::before {
+	display: inline-block;
+	transform: rotate(0deg);
+}
+
+
+.accordion-icon-animation-anti-90 .elementor-active .elementor-accordion-icon > i::before {
+	transform: rotate(-90deg);
+}
+
+.accordion-icon-animation-anti-180 .elementor-active .elementor-accordion-icon > i::before {
+	transform: rotate(-180deg);
+}
+
+.accordion-icon-animation-clockwise-90 .elementor-active .elementor-accordion-icon > i::before {
+	transform: rotate(90deg);
+}
+
+.accordion-icon-animation-clockwise-180 .elementor-active .elementor-accordion-icon > i::before {
+	transform: rotate(180deg);
+}

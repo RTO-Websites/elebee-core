@@ -18,9 +18,9 @@ use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
 use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
 use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
 use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
+use ElebeeCore\Elementor\Extensions\Accordion\WidgetExtensionAccordion;
 use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Elementor\Skins\SkinArchive;
-use ElebeeCore\Elementor\Widgets\BetterAccordion\WidgetBetterAccordion;
 use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
 use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
@@ -140,7 +140,10 @@ class ElebeeElementor {
      */
     public function setupExtensions() {
 
-        $sticky = new WidgetExtensionSticky();
+	    $accordion = new WidgetExtensionAccordion();
+	    $accordion->register( Controls_Manager::TAB_STYLE, 'accordion', 'section_toggle_style_icon', WidgetExtensionBase::EXTEND_SECTION_AFTER );
+
+	    $sticky = new WidgetExtensionSticky();
         $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
         $imageExtension = new WidgetExtensionResponsiveAspectRatio();
@@ -175,7 +178,6 @@ class ElebeeElementor {
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterImageGallery() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
-        Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterAccordion() );
 
     }
 
