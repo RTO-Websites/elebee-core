@@ -191,6 +191,9 @@ class WidgetExtensionAccordion extends WidgetExtensionBase {
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion-icon > i::before' => 'transition-duration: {{SIZE}}ms;',
                 ],
+				'condition' => [
+					'elebeeAccordionIconSwitch' => 'yes',
+				],
             ]
 		);
 		
@@ -218,9 +221,8 @@ class WidgetExtensionAccordion extends WidgetExtensionBase {
         if ( self::$enqueueStyles ) {
             return;
         }
-		$realpath    = str_replace('\\', '/', dirname(__FILE__));
-		$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $realpath);
-        wp_enqueue_style( 'elebee-accordion', 'http://netclient385'. $path . '/css/accordion.css', [], Elebee::VERSION );
+
+        wp_enqueue_style( 'elebee-accordion', get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Accordion/css/accordion.css', [], Elebee::VERSION );
         self::$enqueueStyles = true;
 
     }
