@@ -14,6 +14,7 @@ namespace ElebeeCore\Pub;
 
 
 use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -117,6 +118,15 @@ class ElebeePublic {
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
+
+    }
+
+    public function embedGoogleAnalytics() {
+
+        $googleAnalyticsTemplate = new Template( __DIR__ . '/partials/google-analytics.php', [
+            'gaTrackingId' => 'GA_TRACKING_ID'
+        ]);
+        $googleAnalyticsTemplate->render();
 
     }
 
