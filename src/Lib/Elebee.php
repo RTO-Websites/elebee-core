@@ -27,7 +27,6 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Lib\Util\Config;
-use ElebeeCore\Lib\Util\HtmlCompression;
 use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
@@ -307,9 +306,6 @@ class Elebee {
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
-
-        $htmlCompression = new HtmlCompression();
-        $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
