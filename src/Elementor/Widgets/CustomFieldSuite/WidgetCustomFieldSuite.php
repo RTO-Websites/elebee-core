@@ -905,6 +905,7 @@ class WidgetCustomFieldSuite extends WidgetBase {
 				'heading'      => $heading,
 				'showHeading'  => $showHeading,
 				'headingAlign' => $headingAlign,
+				'cfsName'      => $cfsName
 			];
 			
 			if ( stripos( $field[ 'name' ], 'video' ) !== false ) {

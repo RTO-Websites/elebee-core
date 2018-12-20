@@ -108,40 +108,41 @@ class Config {
      * @return array
      */
     public static function switchTinymceEnterMode( array $settings ) {
+        # TinyMCE is from WP-Version 5 not necessary
+        if ( isset( $settings['formats'] ) ) {
+            $formats                 = preg_replace( '/([{,])\s*(\w+)\s*:/i', '$1"$2":', $settings['formats'] );
+            $formats                 = json_decode( $formats, true );
+            $formats['removeformat'] = [
+                [
+                    'selector'     => 'b,strong,em,i,font,u,strike',
+                    'remove'       => 'all',
+                    'split'        => true,
+                    'expand'       => false,
+                    'block_expand' => true,
+                    'deep'         => true,
+                ],
+                [
+                    'selector'   => 'span',
+                    'attributes' => [ 'style', 'class' ],
+                    'remove'     => 'empty',
+                    'split'      => true,
+                    'expand'     => false,
+                    'deep'       => true,
+                ],
+                [
+                    'selector'   => '*',
+                    'attributes' => [ 'style', 'class' ],
+                    'split'      => false,
+                    'expand'     => false,
+                    'deep'       => true,
+                ],
+            ];
+            $settings['formats']     = json_encode( $formats );
 
-        $formats = preg_replace( '/([{,])\s*(\w+)\s*:/i', '$1"$2":', $settings['formats'] );
-        $formats = json_decode( $formats, true );
-        $formats['removeformat'] = [
-            [
-                'selector' => 'b,strong,em,i,font,u,strike',
-                'remove' => 'all',
-                'split' => true,
-                'expand' => false,
-                'block_expand' => true,
-                'deep' => true,
-            ],
-            [
-                'selector' => 'span',
-                'attributes' => [ 'style', 'class' ],
-                'remove' => 'empty',
-                'split' => true,
-                'expand' => false,
-                'deep' => true,
-            ],
-            [
-                'selector' => '*',
-                'attributes' => [ 'style', 'class' ],
-                'split' => false,
-                'expand' => false,
-                'deep' => true,
-            ],
-        ];
-        $settings['formats'] = json_encode( $formats );
-
-        $settings['forced_root_block'] = false;
-        $settings["force_p_newlines"] = true;
-        $settings["elementpath"] = true;
-
+            $settings['forced_root_block'] = false;
+            $settings["force_p_newlines"]  = true;
+            $settings["elementpath"]       = true;
+        }
         return $settings;
 
     }

@@ -16,11 +16,15 @@ namespace ElebeeCore\Elementor;
 
 use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
 use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
+use ElebeeCore\Elementor\Extensions\FormFields\FormFields;
+use ElebeeCore\Elementor\Extensions\FormFields\Styles\Title as StylesTitle;
+use ElebeeCore\Elementor\Extensions\FormFields\Styles\Notice as StylesNotice;
 use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
 use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
 use ElebeeCore\Elementor\Extensions\Accordion\WidgetExtensionAccordion;
 use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Elementor\Skins\SkinArchive;
+use ElebeeCore\Elementor\Widgets\ArchivePosts\ArchivePosts;
 use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
 use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
@@ -91,13 +95,13 @@ class ElebeeElementor {
         $this->themeName = $themeName;
         $this->version = $version;
 
-        $assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor/assets';
+        $assetsUrl       = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Elementor/assets';
         $this->cssDirUrl = $assetsUrl . '/css';
-        $this->jsDirUrl = $assetsUrl . '/js';
+        $this->jsDirUrl  = $assetsUrl . '/js';
 
-	    if ( ! function_exists( 'is_plugin_active' ) ) {
-		    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-	    }
+        if ( ! function_exists( 'is_plugin_active' ) ) {
+            require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+        }
 
     }
 
@@ -144,10 +148,10 @@ class ElebeeElementor {
      */
     public function setupExtensions() {
 
-	    $accordion = new WidgetExtensionAccordion();
-	    $accordion->register( Controls_Manager::TAB_STYLE, 'accordion', 'section_toggle_style_icon', WidgetExtensionBase::EXTEND_SECTION_AFTER );
+        $accordion = new WidgetExtensionAccordion();
+        $accordion->register( Controls_Manager::TAB_STYLE, 'accordion', 'section_toggle_style_icon', WidgetExtensionBase::EXTEND_SECTION_AFTER );
 
-	    $sticky = new WidgetExtensionSticky();
+        $sticky = new WidgetExtensionSticky();
         $sticky->register( Controls_Manager::TAB_ADVANCED, 'section', 'section_custom_css', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
         $imageExtension = new WidgetExtensionResponsiveAspectRatio();
@@ -160,19 +164,19 @@ class ElebeeElementor {
         $googleMapsExtension->register( Controls_Manager::TAB_CONTENT, 'google_maps', 'section_map', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-	        $formFields = new FormFields();
-	        $formFields->registerFields();
+            $formFields = new FormFields();
+            $formFields->registerFields();
 
-	        $formStyles = new StylesTitle();
-	        $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
+            $formStyles = new StylesTitle();
+            $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
-	        $formStyles = new StylesNotice();
-	        $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 150 );
+            $formStyles = new StylesNotice();
+            $formStyles->register( Controls_Manager::TAB_STYLE, 'form', 'section_form_style', WidgetExtensionBase::NEW_SECTION_AFTER, false, 150 );
 
-	        $formStyles = new ArchivePosts();
-	        $formStyles->register( Controls_Manager::TAB_STYLE, 'archive-posts', 'archive_classic_section_design_layout', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
+            $formStyles = new ArchivePosts();
+            $formStyles->register( Controls_Manager::TAB_STYLE, 'archive-posts', 'archive_classic_section_design_layout', WidgetExtensionBase::NEW_SECTION_AFTER, false, 50 );
 
-	        $slidesExtension = new WidgetExtensionResponsiveAspectRatio();
+            $slidesExtension = new WidgetExtensionResponsiveAspectRatio();
             $slidesExtension->register( Controls_Manager::TAB_CONTENT, 'slides', 'section_slides', WidgetExtensionBase::EXTEND_SECTION_AFTER, true );
 
         }
@@ -193,9 +197,9 @@ class ElebeeElementor {
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
 
-	    if ( is_plugin_active('custom-field-suite/cfs.php') ) {
-		    Plugin::instance()->widgets_manager->register_widget_type( new WidgetCustomFieldSuite() );
-	    }
+        if ( is_plugin_active( 'custom-field-suite/cfs.php' ) ) {
+            Plugin::instance()->widgets_manager->register_widget_type( new WidgetCustomFieldSuite() );
+        }
 
     }
 
@@ -208,7 +212,7 @@ class ElebeeElementor {
      */
     public function registerExclusiveWidgets() {
 
-        if ( !(new SettingIsExclusiv())->getOption() ) {
+        if ( ! ( new SettingIsExclusiv() )->getOption() ) {
             return;
         }
 
@@ -228,7 +232,7 @@ class ElebeeElementor {
             'rto-elements',
             [
                 'title' => __( 'RTO Elements', 'elebee' ),
-                'icon' => 'font',
+                'icon'  => 'font',
             ]
         );
 
@@ -236,7 +240,7 @@ class ElebeeElementor {
             'rto-elements-exclusive',
             [
                 'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
-                'icon' => 'font',
+                'icon'  => 'font',
             ]
         );
 

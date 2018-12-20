@@ -119,13 +119,13 @@ class WidgetPostTypeArchive extends WidgetBase {
     protected function _register_controls() {
 
         global $sitepress;
-        if ( !empty( $sitepress ) ) {
+        if ( ! empty( $sitepress ) ) {
             $currentLang = $sitepress->get_current_language();
             $sitepress->switch_lang( $sitepress->get_default_language() );
         }
 
-        $this->postTypes = $this->getPostTypes();
-        $this->taxonomies = get_taxonomies( null, 'objects' );
+        $this->postTypes    = $this->getPostTypes();
+        $this->taxonomies   = get_taxonomies( null, 'objects' );
         $this->isForArchive = $this->isForArchive();
 
         $this->start_controls_section(
@@ -138,8 +138,8 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_control(
             'type',
             [
-                'label' => __( 'Post type', 'elebee' ),
-                'type' => Controls_Manager::SELECT,
+                'label'   => __( 'Post type', 'elebee' ),
+                'type'    => Controls_Manager::SELECT,
                 'default' => 'post',
                 'options' => $this->postTypes,
             ]
@@ -150,8 +150,8 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_group_control(
             Group_Control_Image_Size::get_type(),
             [
-                'name' => 'image', // Actually its `image_size`.
-                'label' => __( 'Image Size', 'elementor' ),
+                'name'    => 'image', // Actually its `image_size`.
+                'label'   => __( 'Image Size', 'elementor' ),
                 'default' => 'large',
             ]
         );
@@ -159,19 +159,19 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_control(
             'count',
             [
-                'label' => __( 'Number of results', 'elebee' ),
-                'type' => Controls_Manager::NUMBER,
-                'default' => -1,
+                'label'   => __( 'Number of results', 'elebee' ),
+                'type'    => Controls_Manager::NUMBER,
+                'default' => - 1,
             ]
         );
 
         $this->add_responsive_control(
             'per_row',
             [
-                'label' => __( 'Per row', 'elebee' ),
-                'type' => Controls_Manager::NUMBER,
-                'min' => 1,
-                'default' => 4,
+                'label'     => __( 'Per row', 'elebee' ),
+                'type'      => Controls_Manager::NUMBER,
+                'min'       => 1,
+                'default'   => 4,
                 'selectors' => [
                     '{{WRAPPER}} .post-type-archive-figure' => 'width: calc(100% / {{VALUE}});',
                 ],
@@ -181,22 +181,22 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_responsive_control(
             'horizontal_spacing',
             [
-                'label' => __( 'Horizontal spacing', 'elebee' ),
-                'type' => Controls_Manager::SLIDER,
+                'label'      => __( 'Horizontal spacing', 'elebee' ),
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
-                'range' => [
+                'range'      => [
                     'px' => [
                         'min' => 0,
                         'max' => 50,
                     ],
                 ],
-                'default' => [
+                'default'    => [
                     'size' => 15,
                     'unit' => 'px',
                 ],
-                'selectors' => [
+                'selectors'  => [
                     '{{WRAPPER}} .post-type-archive-figure' => 'padding: 0 {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .post-type-archive-wrap' => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .post-type-archive-wrap'   => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -204,22 +204,22 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_responsive_control(
             'vertical_spacing',
             [
-                'label' => __( 'Vertical spacing', 'elebee' ),
-                'type' => Controls_Manager::SLIDER,
+                'label'      => __( 'Vertical spacing', 'elebee' ),
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
-                'range' => [
+                'range'      => [
                     'px' => [
                         'min' => 0,
                         'max' => 100,
                     ],
                 ],
-                'default' => [
+                'default'    => [
                     'size' => 30,
                     'unit' => 'px',
                 ],
-                'selectors' => [
+                'selectors'  => [
                     '{{WRAPPER}} .post-type-archive-figure' => 'margin: 0 0 {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .post-type-archive-wrap' => 'margin-bottom: -{{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .post-type-archive-wrap'   => 'margin-bottom: -{{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -227,8 +227,8 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_control(
             'effect',
             [
-                'label' => __( 'Effect', 'elebee' ),
-                'type' => Controls_Manager::SELECT,
+                'label'   => __( 'Effect', 'elebee' ),
+                'type'    => Controls_Manager::SELECT,
                 'default' => 'effect-grayscale',
                 'options' => [
                     'effect-grayscale' => __( 'Grayscale', 'elebee' ),
@@ -239,9 +239,9 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_control(
             'grayscale-slide-color',
             [
-                'label' => __( 'Slide color', 'elebee' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => 'effect-grayscale',
+                'label'     => __( 'Slide color', 'elebee' ),
+                'type'      => Controls_Manager::COLOR,
+                'default'   => 'effect-grayscale',
                 'condition' => [
                     'effect' => 'effect-grayscale',
                 ],
@@ -254,24 +254,24 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_control(
             'transition',
             [
-                'label' => __( 'Transition', 'elebee' ),
-                'type' => Controls_Manager::SLIDER,
+                'label'      => __( 'Transition', 'elebee' ),
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => [ 's' ],
-                'range' => [
+                'range'      => [
                     's' => [
-                        'min' => 0,
-                        'max' => 1,
+                        'min'  => 0,
+                        'max'  => 1,
                         'step' => 0.01,
                     ],
                 ],
-                'default' => [
+                'default'    => [
                     'size' => 0.6,
                     'unit' => 's',
                 ],
-                'selectors' => [
+                'selectors'  => [
                     '{{WRAPPER}} .effect-grayscale a::after' => 'transition: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .effect-grayscale figure' => 'transition: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .effect-grayscale svg *' => 'transition: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .effect-grayscale figure'   => 'transition: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .effect-grayscale svg *'    => 'transition: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -282,15 +282,15 @@ class WidgetPostTypeArchive extends WidgetBase {
             'archive_style',
             [
                 'label' => __( 'Post', 'elebee' ),
-                'tab' => Controls_Manager::TAB_STYLE,
+                'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
             'color',
             [
-                'label' => __( 'Color', 'elebee' ),
-                'type' => Controls_Manager::COLOR,
+                'label'     => __( 'Color', 'elebee' ),
+                'type'      => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}}' => 'color: {{VALUE}};',
                 ],
@@ -300,7 +300,7 @@ class WidgetPostTypeArchive extends WidgetBase {
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
-                'name' => 'comment_typography',
+                'name'   => 'comment_typography',
                 'scheme' => Scheme_Typography::TYPOGRAPHY_3,
             ]
         );
@@ -312,18 +312,18 @@ class WidgetPostTypeArchive extends WidgetBase {
                 'archive_divider',
                 [
                     'label' => __( 'Divider', 'elebee' ),
-                    'tab' => Controls_Manager::TAB_STYLE,
+                    'tab'   => Controls_Manager::TAB_STYLE,
                 ]
             );
 
             $this->add_control(
                 'divider_style',
                 [
-                    'label' => __( 'Style', 'elebee' ),
-                    'type' => Controls_Manager::SELECT,
-                    'default' => 'solid',
-                    'options' => [
-                        'solid' => __( 'Solid', 'elebee' ),
+                    'label'     => __( 'Style', 'elebee' ),
+                    'type'      => Controls_Manager::SELECT,
+                    'default'   => 'solid',
+                    'options'   => [
+                        'solid'  => __( 'Solid', 'elebee' ),
                         'dashed' => __( 'Dashed', 'elebee' ),
                         'dotted' => __( 'Dotted', 'elebee' ),
                     ],
@@ -336,15 +336,15 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'divider_width',
                 [
-                    'label' => __( 'Width', 'elebee' ),
-                    'type' => Controls_Manager::SLIDER,
-                    'range' => [
+                    'label'     => __( 'Width', 'elebee' ),
+                    'type'      => Controls_Manager::SLIDER,
+                    'range'     => [
                         'px' => [
                             'min' => 0,
                             'max' => 10,
                         ],
                     ],
-                    'default' => [
+                    'default'   => [
                         'size' => 4,
                         'unit' => 'px',
                     ],
@@ -357,8 +357,8 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'divider_color',
                 [
-                    'label' => __( 'Color', 'elebee' ),
-                    'type' => Controls_Manager::COLOR,
+                    'label'     => __( 'Color', 'elebee' ),
+                    'type'      => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPER}} .post-type-archive-divider' => 'border-top-color: {{VALUE}};',
                     ],
@@ -368,15 +368,15 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'divider_spacing',
                 [
-                    'label' => __( 'Spacing', 'elebee' ),
-                    'type' => Controls_Manager::SLIDER,
-                    'range' => [
+                    'label'     => __( 'Spacing', 'elebee' ),
+                    'type'      => Controls_Manager::SLIDER,
+                    'range'     => [
                         'px' => [
                             'min' => 2,
                             'max' => 50,
                         ],
                     ],
-                    'default' => [
+                    'default'   => [
                         'size' => 4,
                         'unit' => 'px',
                     ],
@@ -392,15 +392,15 @@ class WidgetPostTypeArchive extends WidgetBase {
                 'more_link',
                 [
                     'label' => __( 'More link', 'elebee' ),
-                    'tab' => Controls_Manager::TAB_STYLE,
+                    'tab'   => Controls_Manager::TAB_STYLE,
                 ]
             );
 
             $this->add_control(
                 'more_color',
                 [
-                    'label' => __( 'Color', 'elebee' ),
-                    'type' => Controls_Manager::COLOR,
+                    'label'     => __( 'Color', 'elebee' ),
+                    'type'      => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPPER}} .link a' => 'color: {{VALUE}};',
                     ],
@@ -410,8 +410,8 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_group_control(
                 Group_Control_Typography::get_type(),
                 [
-                    'name' => 'more_link',
-                    'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                    'name'     => 'more_link',
+                    'scheme'   => Scheme_Typography::TYPOGRAPHY_3,
                     'selector' => '{{WRAPPER}} .link a',
                 ]
             );
@@ -419,7 +419,7 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->end_controls_section();
         }
 
-        if ( !empty( $sitepress ) ) {
+        if ( ! empty( $sitepress ) ) {
             $sitepress->switch_lang( $currentLang );
         }
     }
@@ -440,8 +440,8 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'filter_' . $typeName,
                 [
-                    'label' => __( 'Filter', 'elebee' ),
-                    'type' => Controls_Manager::SWITCHER,
+                    'label'     => __( 'Filter', 'elebee' ),
+                    'type'      => Controls_Manager::SWITCHER,
                     'condition' => [
                         'type' => $typeName,
                     ],
@@ -451,12 +451,12 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'type_' . $typeName . '_taxonomy',
                 [
-                    'label' => __( 'Taxonomy', 'elebee' ),
-                    'type' => Controls_Manager::SELECT,
-                    'default' => array_keys( array_slice( $taxonomies, 0, 1 ) )[0],
-                    'options' => $taxonomies,
+                    'label'     => __( 'Taxonomy', 'elebee' ),
+                    'type'      => Controls_Manager::SELECT,
+                    'default'   => array_keys( array_slice( $taxonomies, 0, 1 ) )[0],
+                    'options'   => $taxonomies,
                     'condition' => [
-                        'type' => $typeName,
+                        'type'                => $typeName,
                         'filter_' . $typeName => 'yes',
                     ],
                 ]
@@ -471,6 +471,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      *
      * @param array $taxonomies
      * @param string $postType
+     *
      * @return void
      */
     private function addTermControls( array $taxonomies, string $postType ) {
@@ -481,14 +482,14 @@ class WidgetPostTypeArchive extends WidgetBase {
             $this->add_control(
                 'type_' . $postType . '_taxonomy_' . $taxName . '_term',
                 [
-                    'label' => __( 'Term', 'elebee' ),
-                    'type' => Controls_Manager::SELECT,
-                    'default' => array_keys( array_slice( $terms, 0, 1 ) )[0],
-                    'options' => $terms,
+                    'label'     => __( 'Term', 'elebee' ),
+                    'type'      => Controls_Manager::SELECT,
+                    'default'   => array_keys( array_slice( $terms, 0, 1 ) )[0],
+                    'options'   => $terms,
                     'condition' => [
-                        'type' => $postType,
+                        'type'                            => $postType,
                         'type_' . $postType . '_taxonomy' => $taxName,
-                        'filter_' . $postType => 'yes',
+                        'filter_' . $postType             => 'yes',
                     ],
                 ]
             );
@@ -503,12 +504,13 @@ class WidgetPostTypeArchive extends WidgetBase {
      */
     private function getPostTypes(): array {
 
-        $tmp = get_post_types( null, 'objects' );
+        $tmp   = get_post_types( null, 'objects' );
         $types = [];
 
         foreach ( $tmp as $name => $type ) {
-            $types[$name] = $type->labels->name;
+            $types[ $name ] = $type->labels->name;
         }
+
         return $types;
 
     }
@@ -517,6 +519,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @since 0.1.0
      *
      * @param string $name
+     *
      * @return array
      */
     private function getTaxonomiesForPostType( string $name ): array {
@@ -524,10 +527,11 @@ class WidgetPostTypeArchive extends WidgetBase {
         $taxonomies = [];
 
         foreach ( $this->taxonomies as $taxName => $taxonomy ) {
-            if ( in_array( $name, $taxonomy->object_type ) && !empty( $this->getTermsForTaxonomy( $taxName ) ) ) {
-                $taxonomies[$taxName] = $taxonomy->labels->singular_name;
+            if ( in_array( $name, $taxonomy->object_type ) && ! empty( $this->getTermsForTaxonomy( $taxName ) ) ) {
+                $taxonomies[ $taxName ] = $taxonomy->labels->singular_name;
             }
         }
+
         return $taxonomies;
 
     }
@@ -536,17 +540,19 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @since 0.1.0
      *
      * @param $name
+     *
      * @return array
      */
     private function getTermsForTaxonomy( string $name ): array {
 
-        $terms = [];
+        $terms    = [];
         $tmpTerms = get_terms( [ 'taxonomy' => $name, 'hide_empty' => false ] );
         foreach ( $tmpTerms as $term ) {
             if ( $term->taxonomy === $name ) {
-                $terms[$term->term_id] = $term->name;
+                $terms[ $term->term_id ] = $term->name;
             }
         }
+
         return $terms;
 
     }
@@ -564,7 +570,10 @@ class WidgetPostTypeArchive extends WidgetBase {
 
         if ( is_admin() ) { // will be true (in this method) for preview mode
             $stylePressStyle = get_option( 'dtbaker-elementor' );
-            if ( !empty( $stylePressStyle ) && in_array( get_the_ID(), [ $stylePressStyle['defaults']['category'], $stylePressStyle['defaults']['archive'] ] ) ) {
+            if ( ! empty( $stylePressStyle ) && in_array( get_the_ID(), [
+                    $stylePressStyle['defaults']['category'],
+                    $stylePressStyle['defaults']['archive'],
+                ] ) ) {
                 return true;
             }
         }
@@ -581,7 +590,7 @@ class WidgetPostTypeArchive extends WidgetBase {
     protected function getArchiveSettings(): array {
 
         return [
-            'posts_per_page' => -1,
+            'posts_per_page' => - 1,
         ];
 
     }
@@ -590,26 +599,28 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @since 0.1.0
      *
      * @param $postType
+     *
      * @return array
      */
     protected function getQuerySettings( $postType ): array {
 
         $settings = $this->get_settings();
-        $args = [
-            'post_type' => $postType,
+        $args     = [
+            'post_type'      => $postType,
             'posts_per_page' => $settings['count'],
         ];
-        if ( isset( $settings['filter_' . $postType] ) && 'yes' === $settings['filter_' . $postType] ) {
-            $taxonomy = $settings['type_' . $postType . '_taxonomy'];
-            $terms = apply_filters( 'wpml_object_id', $settings['type_' . $postType . '_taxonomy_' . $taxonomy . '_term'], $taxonomy );
+        if ( isset( $settings[ 'filter_' . $postType ] ) && 'yes' === $settings[ 'filter_' . $postType ] ) {
+            $taxonomy          = $settings[ 'type_' . $postType . '_taxonomy' ];
+            $terms             = apply_filters( 'wpml_object_id', $settings[ 'type_' . $postType . '_taxonomy_' . $taxonomy . '_term' ], $taxonomy );
             $args['tax_query'] = [
                 [
                     'taxonomy' => $taxonomy,
-                    'field' => 'id',
-                    'terms' => $terms,
+                    'field'    => 'id',
+                    'terms'    => $terms,
                 ],
             ];
         }
+
         return $args;
 
     }
@@ -622,13 +633,13 @@ class WidgetPostTypeArchive extends WidgetBase {
     protected function render() {
 
         global $sitepress;
-        if ( !empty( $sitepress ) ) { // temporarily change the current language to the current post language
+        if ( ! empty( $sitepress ) ) { // temporarily change the current language to the current post language
             $currentLang = $sitepress->get_current_language();
             $sitepress->switch_lang( apply_filters( 'wpml_post_language_details', null, get_the_ID() )['language_code'] );
         }
 
-        $settings = $this->get_settings();
-        $postType = $settings['type'];
+        $settings           = $this->get_settings();
+        $postType           = $settings['type'];
         $this->isForArchive = $this->isForArchive();
 
         $args = $this->getQuerySettings( $postType );
@@ -641,14 +652,14 @@ class WidgetPostTypeArchive extends WidgetBase {
         if ( $q->have_posts() ) {
             $content = '';
             // TODO: make this less ugly. Use Skins
-            if ( !$this->isForArchive ) {
+            if ( ! $this->isForArchive ) {
                 $contentRenderer = new Template( __DIR__ . '/partials/figure.php', [ 'size' => $settings['image_size'] ] );
             } else {
                 $contentRenderer = new Template( __DIR__ . '/partials/excerpt.php' );
             }
             while ( $q->have_posts() ) {
                 $q->the_post();
-                if ( !$this->isForArchive ) {
+                if ( ! $this->isForArchive ) {
                     switch ( $settings['effect'] ) {
                         default:
                             $this->setRendererVarsForGrayscale( $contentRenderer );
@@ -661,7 +672,7 @@ class WidgetPostTypeArchive extends WidgetBase {
             }
             wp_reset_postdata();
             $wrapper = new Template( __DIR__ . '/partials/wrap.php', [ 'content' => $content ] );
-            if ( !$this->isForArchive ) {
+            if ( ! $this->isForArchive ) {
                 $wrapper->setVar( 'effectClass', $settings['effect'] );
             } else {
                 $wrapper->setVar( 'effectClass', 'in-archive' );
@@ -669,7 +680,7 @@ class WidgetPostTypeArchive extends WidgetBase {
             $wrapper->render();
         }
 
-        if ( !empty( $sitepress ) ) {
+        if ( ! empty( $sitepress ) ) {
             $sitepress->switch_lang( $currentLang );
         }
 
@@ -679,13 +690,14 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @since 0.1.0
      *
      * @param Template $renderer
+     *
      * @return void
      */
     protected function setRendererVarsForGrayscale( Template &$renderer ) {
 
-        $imageID = get_post_meta( get_the_ID(), 'additional-image', true );
+        $imageID   = get_post_meta( get_the_ID(), 'additional-image', true );
         $imagePath = get_attached_file( $imageID );
-        if ( 'svg' === substr( $imagePath, -3 ) ) {
+        if ( 'svg' === substr( $imagePath, - 3 ) ) {
             $image = file_get_contents( $imagePath );
         } else {
             $image = wp_get_attachment_image(
@@ -706,6 +718,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @since 0.1.0
      *
      * @param Template $renderer
+     *
      * @return void
      */
     protected function setRendererVarsForExcerpts( Template &$renderer ) {

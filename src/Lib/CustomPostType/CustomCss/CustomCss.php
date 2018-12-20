@@ -67,20 +67,20 @@ class CustomCss extends CustomPostTypeBase {
 
         $stylesheetDirectoryUri = trailingslashit( get_stylesheet_directory_uri() );
         $this->compiledFilePath = trailingslashit( get_stylesheet_directory() ) . $file;
-        $this->compiledFileUrl = $stylesheetDirectoryUri . $file;
-        $this->jsLibUrl = $stylesheetDirectoryUri . 'vendor/rto-websites/elebee-core/src/Lib/CustomPostType/CustomCss/js/';
+        $this->compiledFileUrl  = $stylesheetDirectoryUri . $file;
+        $this->jsLibUrl         = $stylesheetDirectoryUri . 'vendor/rto-websites/elebee-core/src/Lib/CustomPostType/CustomCss/js/';
 
         $editable = current_user_can( 'publish_pages' );
 
         $args = [
-            'labels' => [
-                'name' => __( 'Global CSS', 'elebee' ),
+            'labels'       => [
+                'name'          => __( 'Global CSS', 'elebee' ),
                 'singular_name' => __( 'Global CSS', 'elebee' ),
             ],
-            'public' => false,
+            'public'       => false,
             'show_in_menu' => $editable,
-            'show_ui' => $editable,
-            'supports' => [
+            'show_ui'      => $editable,
+            'supports'     => [
                 'title',
                 'editor',
                 'revisions',
@@ -132,7 +132,7 @@ class CustomCss extends CustomPostTypeBase {
 
         global $post;
 
-        if ( !$post || $post->post_type != $this->getName() ) {
+        if ( ! $post || $post->post_type != $this->getName() ) {
             return;
         }
 
@@ -140,7 +140,7 @@ class CustomCss extends CustomPostTypeBase {
         wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], Elebee::VERSION, true );
         wp_localize_script( 'elebee-capture-input', 'customGlobalCss', [
             'postId' => get_the_ID(),
-            'url' => get_template_directory_uri() . '/css/custom-global.css'
+            'url'    => get_template_directory_uri() . '/css/custom-global.css',
         ] );
 
     }
@@ -165,13 +165,13 @@ class CustomCss extends CustomPostTypeBase {
     public function enqueuePublicStyles() {
 
         $recentRelease = new \WP_Query( [
-            'post_type' => $this->getName(),
+            'post_type'      => $this->getName(),
             'posts_per_page' => 1,
-            'orderby' => 'modified',
-            'no_found_rows' => true,
+            'orderby'        => 'modified',
+            'no_found_rows'  => true,
         ] );
 
-        if ( !$recentRelease->have_posts() ) {
+        if ( ! $recentRelease->have_posts() ) {
             return;
         }
 
@@ -184,7 +184,7 @@ class CustomCss extends CustomPostTypeBase {
         $modifiedTime = get_the_modified_time();
 
         $format = $dateFormat . ' ' . $timeFormat;
-        $time = $modifiedDate . ' ' . $modifiedTime;
+        $time   = $modifiedDate . ' ' . $modifiedTime;
 
         $version = \DateTime::createFromFormat( $format, $time )->getTimestamp();
 
@@ -203,7 +203,7 @@ class CustomCss extends CustomPostTypeBase {
 
         $screen = get_current_screen();
 
-        if ( !is_object( $screen ) || $this->getName() != $screen->post_type ) {
+        if ( ! is_object( $screen ) || $this->getName() != $screen->post_type ) {
 
             return;
 
@@ -222,7 +222,7 @@ class CustomCss extends CustomPostTypeBase {
     public function autoUpdate() {
 
         $postId = filter_input( INPUT_POST, 'postId' );
-        $scss = filter_input( INPUT_POST, 'scss' );
+        $scss   = filter_input( INPUT_POST, 'scss' );
 
         try {
 
@@ -244,13 +244,14 @@ class CustomCss extends CustomPostTypeBase {
      *
      * @param $content
      * @param $post_id
+     *
      * @return string
      */
     public function restoreEditorContent( $content, $post_id ) {
 
         $editorContent = filter_input( INPUT_GET, 'editorContent' );
 
-        if ( get_post_type() != $this->getName() || !$editorContent ) {
+        if ( get_post_type() != $this->getName() || ! $editorContent ) {
             return $content;
         }
 
@@ -264,6 +265,7 @@ class CustomCss extends CustomPostTypeBase {
      *
      * @param $data
      * @param $postArr
+     *
      * @return array
      */
     public function verifyPostData( array $data, array $postArr ): array {
@@ -278,8 +280,8 @@ class CustomCss extends CustomPostTypeBase {
 
         } catch ( \Exception $e ) {
 
-            $query = [
-                'error' => urlencode( $e->getMessage() ),
+            $query   = [
+                'error'         => urlencode( $e->getMessage() ),
                 'editorContent' => urlencode( $data['post_content'] ),
             ];
             $postUrl = get_edit_post_link( $postArr['ID'] );
@@ -295,9 +297,10 @@ class CustomCss extends CustomPostTypeBase {
     /**
      * @since 0.3.0
      *
-     * @param string   $newStatus
-     * @param string   $oldStatus
+     * @param string $newStatus
+     * @param string $oldStatus
      * @param \WP_Post $post
+     *
      * @return void
      */
     public function saveToFile( string $newStatus, string $oldStatus, \WP_Post $post ) {
@@ -325,8 +328,9 @@ class CustomCss extends CustomPostTypeBase {
     /**
      * @since 0.3.0
      *
-     * @param null   $postId
+     * @param null $postId
      * @param string $postScss
+     *
      * @return string
      * @throws \Exception
      */
@@ -335,10 +339,10 @@ class CustomCss extends CustomPostTypeBase {
         $scss = '';
 
         $query = new \WP_Query( [
-            'post_type' => $this->getName(),
-            'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'orderby' => 'menu_order',
+            'post_type'      => $this->getName(),
+            'post_status'    => 'publish',
+            'posts_per_page' => - 1,
+            'orderby'        => 'menu_order',
         ] );
 
         while ( $query->have_posts() ) {
@@ -347,7 +351,7 @@ class CustomCss extends CustomPostTypeBase {
             if ( get_the_ID() != $postId ) {
                 $scss .= get_the_content();
             } else {
-                $scss .= $postScss;
+                $scss   .= $postScss;
                 $postId = null;
             }
 
@@ -367,24 +371,25 @@ class CustomCss extends CustomPostTypeBase {
      * @since 0.3.0
      *
      * @param string $scss
+     *
      * @return string
      * @throws \Exception
      */
     public function compile( string $scss ): string {
 
         $schemesManager = Plugin::instance()->schemes_manager;
-        $primary = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_1 );
-        $secondary = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_2 );
-        $text = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_3 );
-        $accent = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_4 );
+        $primary        = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_1 );
+        $secondary      = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_2 );
+        $text           = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_3 );
+        $accent         = $schemesManager->get_scheme_value( Scheme_Color::get_type(), Scheme_Color::COLOR_4 );
 
         $scssCompiler = new Compiler();
         $scssCompiler->setFormatter( Crunched::class );
         $scssCompiler->setVariables( [
-            'primary' => $primary,
+            'primary'   => $primary,
             'secondary' => $secondary,
-            'text' => $text,
-            'accent' => $accent,
+            'text'      => $text,
+            'accent'    => $accent,
         ] );
 
         if ( WP_DEBUG ) {
@@ -403,8 +408,8 @@ class CustomCss extends CustomPostTypeBase {
             $css = $this->buildCss();
 
             $query = new \WP_Query( [
-                'post__in' => $ids,
-                'post_type' => $this->getName(),
+                'post__in'    => $ids,
+                'post_type'   => $this->getName(),
                 'post_status' => [
                     'pending',
                     'draft',
@@ -429,6 +434,7 @@ class CustomCss extends CustomPostTypeBase {
      * @since 0.3.0
      *
      * @param string $classes
+     *
      * @return string
      */
     public function collapseAdminMenu( string $classes ): string {
@@ -448,24 +454,25 @@ class CustomCss extends CustomPostTypeBase {
      */
     public function addPostUpdatedMessages( array $messages ): array {
 
-        $messages[$this->getName()] = [
-            0 => '', // Unused. Messages start at index 1.
-            1 => __( 'Partial updated.', 'elebee' ),
-            2 => __( 'Custom field updated.', 'elebee' ),
-            3 => __( 'Custom field deleted.', 'elebee' ),
-            4 => __( 'Partial updated.', 'elebee' ),
+        $messages[ $this->getName() ] = [
+            0  => '', // Unused. Messages start at index 1.
+            1  => __( 'Partial updated.', 'elebee' ),
+            2  => __( 'Custom field updated.', 'elebee' ),
+            3  => __( 'Custom field deleted.', 'elebee' ),
+            4  => __( 'Partial updated.', 'elebee' ),
             /* translators: %s: date and time of the revision */
-            5 => isset( $_GET['revision'] ) ? sprintf( __( 'Partial restored to revision from %s', 'elebee' ), wp_post_revision_title( (int)$_GET['revision'], false ) ) : false,
-            6 => __( 'Partial published.', 'elebee' ),
-            7 => __( 'Partial saved.', 'elebee' ),
-            8 => __( 'Partial submitted.', 'elebee' ),
-            9 => sprintf(
+            5  => isset( $_GET['revision'] ) ? sprintf( __( 'Partial restored to revision from %s', 'elebee' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            6  => __( 'Partial published.', 'elebee' ),
+            7  => __( 'Partial saved.', 'elebee' ),
+            8  => __( 'Partial submitted.', 'elebee' ),
+            9  => sprintf(
                 __( 'Partial scheduled for: <strong>%1$s</strong>.', 'elebee' ),
                 // translators: Publish box date format, see http://php.net/date
                 date_i18n( __( 'M j, Y @ G:i', 'elebee' ), strtotime( get_post()->post_date ) )
             ),
             10 => __( 'Partial draft updated.', 'elebee' ),
         ];
+
         return $messages;
 
     }
@@ -475,11 +482,11 @@ class CustomCss extends CustomPostTypeBase {
      */
     public function addBulkPostUpdatedMessages( array $bulkMessages, array $bulkCounts ): array {
 
-        $bulkMessages[$this->getName()] = [
-            'updated' => _n( '%s partial updated.', '%s partials updated.', $bulkCounts['updated'], 'elebee' ),
-            'locked' => _n( '%s partial not updated, somebody is editing it.', '%s partials not updated, somebody is editing them.', $bulkCounts['locked'], 'elebee' ),
-            'deleted' => _n( '%s partial permanently deleted.', '%s partials permanently deleted.', $bulkCounts['deleted'], 'elebee' ),
-            'trashed' => _n( '%s partial moved to the Trash.', '%s partials moved to the Trash.', $bulkCounts['trashed'], 'elebee' ),
+        $bulkMessages[ $this->getName() ] = [
+            'updated'   => _n( '%s partial updated.', '%s partials updated.', $bulkCounts['updated'], 'elebee' ),
+            'locked'    => _n( '%s partial not updated, somebody is editing it.', '%s partials not updated, somebody is editing them.', $bulkCounts['locked'], 'elebee' ),
+            'deleted'   => _n( '%s partial permanently deleted.', '%s partials permanently deleted.', $bulkCounts['deleted'], 'elebee' ),
+            'trashed'   => _n( '%s partial moved to the Trash.', '%s partials moved to the Trash.', $bulkCounts['trashed'], 'elebee' ),
             'untrashed' => _n( '%s partial restored from the Trash.', '%s partials restored from the Trash.', $bulkCounts['untrashed'], 'elebee' ),
         ];
 
@@ -495,7 +502,7 @@ class CustomCss extends CustomPostTypeBase {
     public function renderError() {
 
         $error = filter_input( INPUT_GET, 'error' );
-        if ( !$error ) {
+        if ( ! $error ) {
             return;
         }
 
