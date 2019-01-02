@@ -276,8 +276,11 @@ class Elebee {
      */
     private function defineAdminHooks() {
 
-        $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
-        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        global $wp_version;
+        if ( version_compare( $wp_version, '5.0', '<' ) ) {
+            $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
+            $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        }
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 

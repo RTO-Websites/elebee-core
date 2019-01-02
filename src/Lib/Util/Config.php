@@ -102,6 +102,7 @@ class Config {
 
     /**
      * @since 0.2.0
+     * @deprecated Obsolete since Wordpress 5.0
      *
      * @param array $settings
      * @return array
