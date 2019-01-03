@@ -133,13 +133,12 @@ class Template {
  */
 function getContents( string $file, array $vars ): string {
 
-    extract( $vars );
+    extract( $vars, EXTR_OVERWRITE );
     ob_start();
     if ( file_exists( $file ) ) {
         include $file;
     }
-    $templatePart = ob_get_clean();
 
-    return $templatePart;
+    return ob_get_clean();
 
 }
