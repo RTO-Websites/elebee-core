@@ -206,6 +206,7 @@ class Elebee {
 
         $this->themeCustomizer = new ThemeCustomizer();
         $this->setupThemeSettingsCoreData();
+        $this->setupThemeSettingsGoogle();
         $this->themeCustomizer->register();
 
     }
@@ -267,6 +268,58 @@ class Elebee {
         $sectionCoreData->addSetting( $settingCoreDataPhone );
 
         $this->themeCustomizer->addElement( $sectionCoreData );
+
+    }
+
+    /**
+     *
+     */
+    function setupThemeSettingsGoogle() {
+
+        $settingGoogleAnalyticsTrackingId = new Setting(
+            'elebee_google_analytics_tracking_id',
+            [
+                'type' => 'option',
+            ],
+            [
+                'label' => __( 'Trackting-ID', 'elebee' ),
+                'type' => 'text',
+                'input_attrs' => [
+                    'placeholder' => 'UA-XXXXX-X',
+                ],
+            ]
+        );
+
+        $settingGoogleAnalyticsAnonymizeIp = new Setting(
+            'elebee_google_analytics_anonymize_ip',
+            [
+                'type' => 'option',
+                'default' => true,
+            ],
+            [
+                'label' => __( 'Anonymize IP', 'elebee' ),
+                'type' => 'checkbox',
+                'input_attrs' => [
+                    'checked' => true,
+                ],
+            ]
+        );
+
+        $sectionGoogleAnalytics = new Section( 'elebee_google_analytics_section', [
+            'title' => __( 'Analytics', 'elebee' ),
+            'description' => __( 'After entering the tracking ID, the Google Analytics Script is automatically included.', 'elebee' ),
+        ] );
+        $sectionGoogleAnalytics->addSetting( $settingGoogleAnalyticsTrackingId );
+        $sectionGoogleAnalytics->addSetting( $settingGoogleAnalyticsAnonymizeIp );
+
+        $panelGoogle = new Panel( 'elebee_google_panel', [
+            'priority' => 800,
+            'title' => __( 'Google', 'elebee' ),
+            'description' => '',
+        ] );
+        $panelGoogle->addSection( $sectionGoogleAnalytics );
+
+        $this->themeCustomizer->addElement( $panelGoogle );
 
     }
 
