@@ -14,6 +14,11 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Admin\Setting\CoreData\SettingAddress;
+use ElebeeCore\Admin\Setting\CoreData\SettingEmail;
+use ElebeeCore\Admin\Setting\CoreData\SettingPhone;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
 use ElebeeCore\Elementor\ElebeeElementor;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
@@ -218,41 +223,44 @@ class Elebee {
      */
     public function setupThemeSettingsCoreData() {
 
-        $settingCoreDataAddress = new Setting(
-            'elebee_core_data_address',
+        $settingCoreDataAddress = new SettingAddress();
+        $themeCustomizerSettingCoreDataAddress = new Setting(
+            $settingCoreDataAddress->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Address', 'elebee' ),
-                'description' => '[coredata]address[/coredata]',
+                'label' => $settingCoreDataAddress->getTitle(),
+                'description' => __( '[coredata]address[/coredata]', 'elebee' ),
                 'type' => 'textarea',
             ]
         );
 
-        $settingCoreDataEmail = new Setting(
-            'elebee_core_data_email',
+        $settingCoreDataEmail = new SettingEmail();
+        $themeCustomizerSettingCoreDataEmail = new Setting(
+            $settingCoreDataEmail->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'E-Mail address', 'elebee' ),
-                'description' => '[coredata]email[/coredata]',
+                'label' => $settingCoreDataEmail->getTitle(),
+                'description' => __( '[coredata]email[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
 
-        $settingCoreDataPhone = new Setting(
-            'elebee_core_data_phone',
+        $settingCoreDataDataPhone = new SettingPhone();
+        $themeCustomizerSettingCoreDataPhone = new Setting(
+            $settingCoreDataDataPhone->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Phone', 'elebee' ),
-                'description' => '[coredata]phone[/coredata]',
+                'label' => $settingCoreDataDataPhone->getTitle(),
+                'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
@@ -263,9 +271,9 @@ class Elebee {
             'priority' => 700,
             'description' => $description,
         ] );
-        $sectionCoreData->addSetting( $settingCoreDataAddress );
-        $sectionCoreData->addSetting( $settingCoreDataEmail );
-        $sectionCoreData->addSetting( $settingCoreDataPhone );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataAddress );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataEmail );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataPhone );
 
         $this->themeCustomizer->addElement( $sectionCoreData );
 
@@ -276,13 +284,14 @@ class Elebee {
      */
     function setupThemeSettingsGoogle() {
 
-        $settingGoogleAnalyticsTrackingId = new Setting(
-            'elebee_google_analytics_tracking_id',
+        $settingGoogleAnalyticsTrackingId = new SettingTrackingId();
+        $themeCustomizerSettingGoogleAnalyticsTrackingId = new Setting(
+            $settingGoogleAnalyticsTrackingId->getName(),
             [
                 'type' => 'option',
             ],
             [
-                'label' => __( 'Trackting-ID', 'elebee' ),
+                'label' => $settingGoogleAnalyticsTrackingId->getTitle(),
                 'type' => 'text',
                 'input_attrs' => [
                     'placeholder' => 'UA-XXXXX-X',
@@ -290,14 +299,15 @@ class Elebee {
             ]
         );
 
-        $settingGoogleAnalyticsAnonymizeIp = new Setting(
-            'elebee_google_analytics_anonymize_ip',
+        $settingGoogleAnalyticsAnonymizeIp = new SettingAnonymizeIp();
+        $themeCustomizerSettingGoogleAnalyticsAnonymizeIp = new Setting(
+            $settingGoogleAnalyticsAnonymizeIp->getName(),
             [
                 'type' => 'option',
-                'default' => true,
+                'default' => $settingGoogleAnalyticsAnonymizeIp->getDefault(),
             ],
             [
-                'label' => __( 'Anonymize IP', 'elebee' ),
+                'label' => $settingGoogleAnalyticsAnonymizeIp->getTitle(),
                 'type' => 'checkbox',
                 'input_attrs' => [
                     'checked' => true,
@@ -309,8 +319,8 @@ class Elebee {
             'title' => __( 'Analytics', 'elebee' ),
             'description' => __( 'After entering the tracking ID, the Google Analytics Script is automatically included.', 'elebee' ),
         ] );
-        $sectionGoogleAnalytics->addSetting( $settingGoogleAnalyticsTrackingId );
-        $sectionGoogleAnalytics->addSetting( $settingGoogleAnalyticsAnonymizeIp );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsTrackingId );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsAnonymizeIp );
 
         $panelGoogle = new Panel( 'elebee_google_panel', [
             'priority' => 800,
@@ -399,7 +409,6 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
 
-        $this->loader->addAction( 'elementor/preview/enqueue_styles', $elebeeElementor, 'enqueuePreviewStyles' );
         $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }

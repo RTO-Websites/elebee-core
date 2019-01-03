@@ -13,7 +13,9 @@
 namespace ElebeeCore\Pub;
 
 
-use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\SettingJQuery;
 use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
@@ -124,9 +126,9 @@ class ElebeePublic {
     public function embedGoogleAnalytics() {
 
         $googleAnalyticsTemplate = new Template( __DIR__ . '/partials/google-analytics.php', [
-            'gaTrackingId' => get_option( 'elebee_google_analytics_tracking_id', 'GA_TRACKING_ID' ),
-            'anonymizeIp' => get_option( 'elebee_google_analytics_anonymize_ip', true ) ? 'true' : 'false',
-        ]);
+            'gaTrackingId' => ( new SettingTrackingId() )->getOption(),
+            'anonymizeIp' => ( new SettingAnonymizeIp() )->getOption() ? 'true' : 'false',
+        ] );
         $googleAnalyticsTemplate->render();
 
     }
