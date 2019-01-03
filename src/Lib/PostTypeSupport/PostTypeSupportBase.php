@@ -15,7 +15,7 @@ namespace ElebeeCore\Lib\PostTypeSupport;
 
 use ElebeeCore\Lib\Util\Hooking;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class PostTypeSupport

@@ -11,7 +11,7 @@ namespace ElebeeCore\Admin\Editor;
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Hooking;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class CodeMirror

@@ -9,6 +9,8 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
+\defined( 'ABSPATH' ) || exit;
+
 class ThemeSupportSvg extends ThemeSupportBase {
 
     /**

@@ -33,7 +33,7 @@ use Elementor\Elements_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * The elementor-specific functionality of the theme.

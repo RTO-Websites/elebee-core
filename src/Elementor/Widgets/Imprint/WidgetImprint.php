@@ -22,7 +22,7 @@ use Elementor\Controls_Manager;
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Template;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Elementor Hello World

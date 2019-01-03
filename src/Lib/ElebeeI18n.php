@@ -16,7 +16,7 @@
 namespace ElebeeCore\Lib;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Define the internationalization functionality.

@@ -16,6 +16,8 @@ use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
+\defined( 'ABSPATH' ) || exit;
+
 class WidgetExtensionFitty extends WidgetExtensionBase {
 
     private static $scriptEnqueued = false;

@@ -20,7 +20,7 @@ use Elementor\Controls_Stack;
 use Elementor\Element_Base;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetExtensionSticky

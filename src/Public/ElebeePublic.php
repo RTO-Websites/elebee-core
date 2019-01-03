@@ -15,7 +15,7 @@ namespace ElebeeCore\Pub;
 
 use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * The public-facing functionality of the theme.

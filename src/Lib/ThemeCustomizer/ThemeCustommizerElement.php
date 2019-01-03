@@ -14,7 +14,7 @@
 namespace ElebeeCore\Lib\ThemeCustomizer;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ThemeCustommizerElement

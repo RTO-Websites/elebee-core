@@ -14,7 +14,7 @@ namespace ElebeeCore\Lib\MetaBox;
 
 use ElebeeCore\Lib\Util\Template;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class MetaBox

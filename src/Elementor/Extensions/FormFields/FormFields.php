@@ -6,7 +6,7 @@ use ElementorPro\Plugin;
 use Elementor\Widget_Base;
 use ElementorRto\Pub\ElebeePublic;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 if ( !defined( '__FORMFIELDS__' ) ) {
     define( '__FORMFIELDS__', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/FormFields' );

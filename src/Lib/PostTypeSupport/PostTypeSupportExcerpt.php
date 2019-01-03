@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\PostTypeSupport;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 
 /**

@@ -23,7 +23,7 @@ use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Utils;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 if ( !defined( '__COMMENTFORM__' ) ) {
     define( '__COMMENTFORM__', plugins_url() . '/elementor-rto/extensions/CommentForm' );

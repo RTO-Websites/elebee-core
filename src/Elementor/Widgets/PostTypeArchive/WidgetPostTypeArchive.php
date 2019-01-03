@@ -22,7 +22,7 @@ use Elementor\Group_Control_Image_Size;
 use ElebeeCore\Lib\Util\Template;
 use WP_Query;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetPostTypeArchive

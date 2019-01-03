@@ -20,7 +20,7 @@ use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetBigAndSmallImageWithDescription

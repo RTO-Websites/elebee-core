@@ -18,7 +18,7 @@ use \Walker_Comment;
 use \DateTime;
 use \DateTimeZone;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Walker

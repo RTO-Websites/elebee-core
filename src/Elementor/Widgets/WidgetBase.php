@@ -17,7 +17,7 @@ use Elementor\Widget_Base;
 use Elementor\User;
 use ElebeeCore\Lib\ElebeeLoader;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetBase

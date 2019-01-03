@@ -15,7 +15,7 @@ namespace ElebeeCore\Lib\Util;
 
 use ElebeeCore\Lib\ElebeeLoader;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class HookingHooking.php

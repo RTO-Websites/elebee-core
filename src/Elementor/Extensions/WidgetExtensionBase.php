@@ -15,7 +15,7 @@ use ElebeeCore\Lib\ElebeeLoader;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ExtensionBase

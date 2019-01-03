@@ -31,7 +31,7 @@ use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Elebee

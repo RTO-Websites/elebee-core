@@ -9,6 +9,8 @@
 namespace ElebeeCore\Admin\Setting;
 
 
+\defined( 'ABSPATH' ) || exit;
+
 abstract class SettingBase {
 
     private $name;
