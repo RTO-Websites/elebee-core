@@ -26,7 +26,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Panel.html
  */
-class Panel extends ThemeCustommizerElement {
+class Panel extends Root {
 
     /**
      * @since 0.2.0

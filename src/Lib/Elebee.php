@@ -17,9 +17,10 @@ use ElebeeCore\Admin\ElebeeAdmin;
 use ElebeeCore\Elementor\ElebeeElementor;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeCustomizer\Panel;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
-use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustomizer;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
@@ -73,7 +74,7 @@ class Elebee {
 
     /**
      * @since 0.2.0
-     * @var ThemeCustommizer
+     * @var ThemeCustomizer
      */
     private $themeCustomizer;
 
@@ -203,7 +204,7 @@ class Elebee {
      */
     public function setupThemeCustomizer() {
 
-        $this->themeCustomizer = new ThemeCustommizer();
+        $this->themeCustomizer = new ThemeCustomizer();
         $this->setupThemeSettingsCoreData();
         $this->themeCustomizer->register();
 
@@ -265,7 +266,7 @@ class Elebee {
         $sectionCoreData->addSetting( $settingCoreDataEmail );
         $sectionCoreData->addSetting( $settingCoreDataPhone );
 
-        $this->themeCustomizer->addSection( $sectionCoreData );
+        $this->themeCustomizer->addElement( $sectionCoreData );
 
     }
 
