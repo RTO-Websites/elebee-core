@@ -15,11 +15,11 @@ namespace ElebeeCore\Elementor\Widgets\PostTypeArchive;
 
 use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Lib\Elebee;
-use Elementor\Group_Control_Typography;
-use Elementor\Scheme_Typography;
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Image_Size;
-use ElebeeCore\Lib\Util\Template;
+use Elementor\Group_Control_Typography;
+use Elementor\Scheme_Typography;
 use WP_Query;
 
 \defined( 'ABSPATH' ) || exit;
@@ -117,6 +117,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @return void
      */
     protected function _register_controls() {
+
         global $sitepress;
         if ( !empty( $sitepress ) ) {
             $currentLang = $sitepress->get_current_language();
@@ -619,6 +620,7 @@ class WidgetPostTypeArchive extends WidgetBase {
      * @return void
      */
     protected function render() {
+
         global $sitepress;
         if ( !empty( $sitepress ) ) { // temporarily change the current language to the current post language
             $currentLang = $sitepress->get_current_language();

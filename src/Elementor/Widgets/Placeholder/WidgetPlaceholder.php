@@ -13,8 +13,8 @@
 namespace ElebeeCore\Elementor\Widgets\Placeholder;
 
 
-use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Widget_Base;
 
 \defined( 'ABSPATH' ) || exit;
 

@@ -12,11 +12,11 @@
 
 namespace ElebeeCore\Elementor\Skins;
 
-use Elementor\Group_Control_Typography;
-use ElementorPro\Modules\Posts\Skins\Skin_Base;
-use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
+use Elementor\Widget_Base;
+use ElementorPro\Modules\Posts\Skins\Skin_Base;
 
 \defined( 'ABSPATH' ) || exit;
 

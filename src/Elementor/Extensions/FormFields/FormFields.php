@@ -2,8 +2,8 @@
 
 use Elementor\Controls_Manager;
 use Elementor\Settings;
-use ElementorPro\Plugin;
 use Elementor\Widget_Base;
+use ElementorPro\Plugin;
 use ElementorRto\Pub\ElebeePublic;
 
 \defined( 'ABSPATH' ) || exit;

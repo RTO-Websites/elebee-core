@@ -13,9 +13,8 @@
 namespace ElebeeCore\Elementor\Widgets;
 
 
-use Elementor\Widget_Base;
-use Elementor\User;
 use ElebeeCore\Lib\ElebeeLoader;
+use Elementor\Widget_Base;
 
 \defined( 'ABSPATH' ) || exit;
 
