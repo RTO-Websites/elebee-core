@@ -176,17 +176,7 @@ class CustomCss extends CustomPostTypeBase {
         }
 
         $recentRelease->the_post();
-
-        $dateFormat = get_option( 'date_format' );
-        $timeFormat = get_option( 'time_format' );
-
-        $modifiedDate = get_the_modified_date();
-        $modifiedTime = get_the_modified_time();
-
-        $format = $dateFormat . ' ' . $timeFormat;
-        $time = $modifiedDate . ' ' . $modifiedTime;
-
-        $version = \DateTime::createFromFormat( $format, $time )->getTimestamp();
+        $version = get_post_modified_time();
 
         wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ], $version );
 
