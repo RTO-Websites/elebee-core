@@ -335,6 +335,7 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
 
+        $this->loader->addAction( 'elementor/preview/enqueue_styles', $elebeeElementor, 'enqueuePreviewStyles' );
         $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }

@@ -1,0 +1,13 @@
+body.elementor-editor-active.responsive-toggle {
+  &[data-elementor-device-mode='mobile'] .elementor-hidden-phone {
+    display: none;
+  }
+
+  &[data-elementor-device-mode='tablet'] .elementor-hidden-tablet {
+    display: none;
+  }
+
+  &[data-elementor-device-mode='desktop'] .elementor-hidden-desktop {
+    display: none;
+  }
+}

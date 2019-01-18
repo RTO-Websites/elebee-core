@@ -127,6 +127,17 @@ class ElebeeElementor {
      *
      * @return void
      */
+    public function enqueuePreviewStyles() {
+
+        wp_enqueue_style( $this->themeName . '-preview', get_stylesheet_directory_uri() . '/css/preview.min.css', [], $this->version, 'all' );
+
+    }
+
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
     public function enqueuePreviewScripts() {
 
         wp_enqueue_script( $this->themeName . '-preview', $this->jsDirUrl . '/preview.js', [ 'jquery' ], $this->version, true );

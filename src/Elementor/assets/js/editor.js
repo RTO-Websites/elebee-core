@@ -16,16 +16,40 @@
 
   }
 
+  function append_responsive_toggle_button() {
+
+    if (!$('#tmpl-elementor-panel-footer-content').length)
+      return;
+
+    let $tmp_template = $('<div hidden></div>'),
+      responsive_button = '<div id="elementor-panel-footer-responsive-toggle" class="elementor-panel-footer-tool tooltip-target" data-tooltip="Responsive Hide/Show">' +
+        '<i class="eicon-device-mobile" aria-hidden="true" data-tooltip="Responsive Hide/Show"/>' +
+        '<span class="elementor-screen-only">Responsive Hide/Show</span>' +
+        '</div>';
+
+    $tmp_template.html($('#tmpl-elementor-panel-footer-content').html());
+    $('body').append($tmp_template);
+    $(responsive_button).insertAfter(document.getElementById('elementor-panel-footer-responsive'));
+    $('#tmpl-elementor-panel-footer-content').html($tmp_template.html());
+    $tmp_template.remove();
+
+    $document.on('click', '#elementor-panel-footer-responsive-toggle', function () {
+
+      let toggleClass = 'responsive-toggle';
+      $(this).toggleClass(toggleClass);
+      $('#elementor-preview-iframe').contents().find('body').toggleClass(toggleClass);
+
+    });
+
+  }
+
   /**
    *
    */
   function elementorInit() {
 
     printBrand();
-
-    elementor.hooks.addAction('panel/open_editor/widget', function (panel, model, view) {
-      $('#elementor-panel-footer-responsive').ready(initResponsiveToggle);
-    });
+    append_responsive_toggle_button();
 
   }
 
@@ -65,35 +89,6 @@
     text += '%c\nElementor RTO! Powered by: %chttps://www.rto.de';
 
     setTimeout(console.log.bind(console, text, style, 'color: #9B0A46', ''));
-
-  }
-
-  /**
-   *
-   */
-  function initResponsiveToggle() {
-
-    let $responsiveToggle = $('#elementor-panel-footer-responsive-toggle');
-
-    if (!$responsiveToggle.length) {
-
-      $('<div id="elementor-panel-footer-responsive-toggle" class="elementor-panel-footer-tool" title="Responsive Hide/Show">' +
-        '<i class="eicon-device-mobile"></i>' +
-        '</div>')
-        .insertAfter('#elementor-panel-footer-responsive')
-        .on('click', toggleResponsive);
-    }
-
-  }
-
-  /**
-   *
-   */
-  function toggleResponsive() {
-
-    let toggleClass = 'responsive-toggle';
-    $(this).toggleClass(toggleClass);
-    $('#elementor-preview-iframe').contents().find('body').toggleClass(toggleClass);
 
   }
 
