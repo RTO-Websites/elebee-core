@@ -1,13 +1,13 @@
-body.elementor-editor-active.responsive-toggle {
-  &[data-elementor-device-mode='mobile'] .elementor-hidden-phone {
-    display: none;
-  }
+$responsive-map: (
+  mobile: phone,
+  tablet: tablet,
+  desktop: desktop
+);
 
-  &[data-elementor-device-mode='tablet'] .elementor-hidden-tablet {
-    display: none;
-  }
-
-  &[data-elementor-device-mode='desktop'] .elementor-hidden-desktop {
-    display: none;
+.elementor-editor-active.responsive-toggle {
+  @each $mode, $class in $responsive-map {
+    &[data-elementor-device-mode='#{$mode}'] .elementor-hidden-#{$class} {
+      display: none;
+    }
   }
 }
