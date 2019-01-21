@@ -1,0 +1,25 @@
+.rto-newsticker-wrapper {
+  overflow: hidden;
+  box-sizing: content-box;
+}
+
+.rto-newsticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  box-sizing: content-box;
+  animation: newsticker linear 30s infinite normal none running;
+}
+
+.rto-newsticker-content.start-right {
+  padding-left: 100%;
+}
+
+.hide .rto-newsticker-content {
+  display: none;
+}
+
+@keyframes newsticker {
+  100% {
+    transform: translateX(-100%);
+  }
+}

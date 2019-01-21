@@ -26,6 +26,7 @@ use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSma
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
 use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
 use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
+use ElebeeCore\Elementor\Widgets\Newsticker\WidgetNewsticker;
 use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
 use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
 use Elementor\Controls_Manager;
@@ -172,6 +173,7 @@ class ElebeeElementor {
     public function registerWidgets() {
 
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetImprint() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetNewsticker() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterImageGallery() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
