@@ -208,7 +208,7 @@ class ElebeeElementor {
         $elementsManager->add_category(
             'rto-elements',
             [
-                'title' => __( 'RTO Elements', 'elebee' ),
+                'title' => __( 'Elebee Elements', 'elebee' ),
                 'icon' => 'font',
             ]
         );
@@ -216,7 +216,7 @@ class ElebeeElementor {
         $elementsManager->add_category(
             'rto-elements-exclusive',
             [
-                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
+                'title' => __( 'Elebee Elements - Exclusive', 'elebee' ),
                 'icon' => 'font',
             ]
         );
