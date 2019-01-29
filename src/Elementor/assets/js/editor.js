@@ -16,16 +16,58 @@
 
   }
 
+  function initResponsiveToggle() {
+
+    let toggleID = 'elementor-panel-footer-responsive-toggle',
+      $panel = $('#tmpl-elementor-panel-footer-content'),
+      $responsiveButton = $(`<div id="${toggleID}" class="elementor-panel-footer-tool tooltip-target" data-tooltip="Responsive Hide/Show">` +
+        '<i class="eicon-device-mobile" aria-hidden="true" data-tooltip="Responsive Hide/Show"/>' +
+        '<span class="elementor-screen-only">Responsive Hide/Show</span>' +
+        '</div>');
+
+    if (!$panel.length)
+      return;
+
+    renderTmpTemplate($panel, $responsiveButton);
+
+    $document.on('click', `#${toggleID}`, toggleResponsiveListener);
+
+  }
+
+  /**
+   *
+   */
+  function renderTmpTemplate($panel, $responsiveButton) {
+
+    let $tmpTemplate = $('<div hidden></div>');
+
+    $tmpTemplate.html($panel.html());
+    $('body').append($tmpTemplate);
+    $responsiveButton.insertAfter($('#elementor-panel-footer-responsive'));
+    $panel.html($tmpTemplate.html());
+    $tmpTemplate.remove();
+
+  }
+
+  /**
+   *
+   */
+  function toggleResponsiveListener() {
+
+    let toggleClass = 'responsive-toggle';
+    $(this).toggleClass(toggleClass);
+    $('#elementor-preview-iframe').contents().find('body').toggleClass(toggleClass);
+
+
+  }
+
   /**
    *
    */
   function elementorInit() {
 
     printBrand();
-
-    elementor.hooks.addAction('panel/open_editor/widget', function (panel, model, view) {
-      $('#elementor-panel-footer-responsive').ready(initResponsiveToggle);
-    });
+    initResponsiveToggle();
 
   }
 
@@ -65,35 +107,6 @@
     text += '%c\nElementor RTO! Powered by: %chttps://www.rto.de';
 
     setTimeout(console.log.bind(console, text, style, 'color: #9B0A46', ''));
-
-  }
-
-  /**
-   *
-   */
-  function initResponsiveToggle() {
-
-    let $responsiveToggle = $('#elementor-panel-footer-responsive-toggle');
-
-    if (!$responsiveToggle.length) {
-
-      $('<div id="elementor-panel-footer-responsive-toggle" class="elementor-panel-footer-tool" title="Responsive Hide/Show">' +
-        '<i class="eicon-device-mobile"></i>' +
-        '</div>')
-        .insertAfter('#elementor-panel-footer-responsive')
-        .on('click', toggleResponsive);
-    }
-
-  }
-
-  /**
-   *
-   */
-  function toggleResponsive() {
-
-    let toggleClass = 'responsive-toggle';
-    $(this).toggleClass(toggleClass);
-    $('#elementor-preview-iframe').contents().find('body').toggleClass(toggleClass);
 
   }
 
