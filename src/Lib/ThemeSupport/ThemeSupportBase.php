@@ -84,6 +84,6 @@ abstract class ThemeSupportBase extends Hooking {
      *
      * @return void
      */
-    public abstract function addThemeSupport();
+    abstract public function addThemeSupport();
 
 }

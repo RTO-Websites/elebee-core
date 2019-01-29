@@ -84,7 +84,7 @@ abstract class PostTypeSupportBase extends Hooking {
      *
      * @return void
      */
-    public abstract function hookCallback();
+    abstract public function hookCallback();
 
     /**
      * @since 0.2.0

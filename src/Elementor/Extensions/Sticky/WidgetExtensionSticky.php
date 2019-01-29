@@ -34,7 +34,7 @@ use Elementor\Widget_Base;
  */
 class WidgetExtensionSticky extends WidgetExtensionBase {
 
-    private $sectionId;
+    private $extensionSectionId;
 
     /**
      * @since 0.1.0
@@ -68,7 +68,7 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     public function __construct() {
 
         parent::__construct();
-        $this->sectionId = 'sectionElebeeSticky';
+        $this->extensionSectionId = 'sectionElebeeSticky';
         $this->controlStickyId = 'elebeeSticky';
         $this->controlStickyPlaceholderId = 'elebeeStickyPlaceholder';
         $this->controlStickyPositionId = 'elebeeStickyPosition';
@@ -101,7 +101,7 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
-            $this->sectionId, [
+            $this->extensionSectionId, [
                 'label' => __( 'Sticky', 'elebee' ),
                 'tab' => $this->getTab(),
             ]

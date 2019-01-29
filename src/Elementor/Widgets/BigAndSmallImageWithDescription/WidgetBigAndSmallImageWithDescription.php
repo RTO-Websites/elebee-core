@@ -48,7 +48,7 @@ class WidgetBigAndSmallImageWithDescription extends Widget_Base {
     /**
      * @since 0.1.0
      *
-     * @return string|void
+     * @return string
      */
     public function get_title(): string {
 

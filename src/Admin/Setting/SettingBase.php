@@ -82,6 +82,6 @@ abstract class SettingBase {
 
     }
 
-    public abstract function render();
+    abstract public function render();
 
 }

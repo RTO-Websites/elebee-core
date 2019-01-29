@@ -96,14 +96,14 @@ abstract class WidgetBase extends Widget_Base {
      *
      * @return void
      */
-    public abstract function enqueueStyles();
+    abstract public function enqueueStyles();
 
     /**
      * @since 0.1.0
      *
      * @return void
      */
-    public abstract function enqueueScripts();
+    abstract public function enqueueScripts();
 
     /**
      * @since 0.1.0

@@ -240,7 +240,7 @@ class CustomCss extends CustomPostTypeBase {
 
         $editorContent = filter_input( INPUT_GET, 'editorContent' );
 
-        if ( get_post_type() != $this->getName() || !$editorContent ) {
+        if ( !$editorContent || get_post_type() !== $this->getName() ) {
             return $content;
         }
 

@@ -86,7 +86,7 @@ class Renderer implements Visitor {
      */
     public function visit( Visitee $visitee ) {
 
-        switch ( get_class( $visitee ) ) {
+        switch ( \get_class( $visitee ) ) {
 
             case Album::class:
                 $this->renderAlbum( $visitee );

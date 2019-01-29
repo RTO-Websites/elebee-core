@@ -95,7 +95,7 @@ abstract class Hooking {
      *
      * @return void
      */
-    public abstract function defineAdminHooks();
+    abstract public function defineAdminHooks();
 
     /**
      * Register all of the hooks related to the public-facing functionality
@@ -105,6 +105,6 @@ abstract class Hooking {
      *
      * @return void
      */
-    public abstract function definePublicHooks();
+    abstract public function definePublicHooks();
 
 }

@@ -209,7 +209,7 @@ class MetaBox {
         $postType = get_post_type_object( $post->post_type );
         $currentUserCanEditPostType = current_user_can( $postType->cap->edit_post, $postId );
 
-        if ( wp_is_post_autosave( $postId ) || wp_is_post_revision( $postId ) || !$currentUserCanEditPostType ) {
+        if ( wp_is_post_autosave( $postId ) || !$currentUserCanEditPostType || wp_is_post_revision( $postId ) ) {
             return;
         }
 

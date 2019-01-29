@@ -497,13 +497,13 @@ class WidgetBetterAccordion extends WidgetBase {
      * @param $url
      * @return bool|string
      */
-    function inlineSvg( string $url ) {
+    private function inlineSvg( string $url ) {
 
         if ( end( explode( '.', $url ) ) == 'svg' ) {
             return file_get_contents( $url );
-        } else {
-            return '<img class="custom-icon" src="' . $url . '">';
         }
+
+        return '<img class="custom-icon" src="' . $url . '">';
 
     }
 

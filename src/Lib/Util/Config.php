@@ -37,8 +37,9 @@ class Config {
 
         global $wp_query;
 
-        if ( is_404() )
+        if ( is_404() ) {
             unset( $wp_query->query_vars['name'] );
+        }
 
         return $header;
 
@@ -139,8 +140,8 @@ class Config {
         $settings['formats'] = json_encode( $formats );
 
         $settings['forced_root_block'] = false;
-        $settings["force_p_newlines"] = true;
-        $settings["elementpath"] = true;
+        $settings['force_p_newlines'] = true;
+        $settings['elementpath'] = true;
 
         return $settings;
 
