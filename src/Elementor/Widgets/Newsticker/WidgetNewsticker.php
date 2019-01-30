@@ -2,12 +2,12 @@
 /**
  * WidgetNewsticker.php
  *
- * @since   0.1.0
+ * @since   0.6.0
  *
  * @package ElebeeCore\Elementor\Widgets\Newsticker
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Imprint/WidgetNewsticker.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Newsticker/WidgetNewsticker.html
  */
 
 namespace ElebeeCore\Elementor\Widgets\Newsticker;
@@ -21,24 +21,24 @@ use Elementor\Controls_Manager;
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Template;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Elementor Newsticker
  *
  * Elementor widget for newsticker.
  *
- * @since   0.1.0
+ * @since   0.6.0
  *
  * @package ElebeeCore\Elementor\Widgets\Newsticker
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Imprint/WidgetNewsticker.html
+ * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/Newsticker/WidgetNewsticker.html
  */
 class WidgetNewsticker extends WidgetBase {
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return string
      */
@@ -47,7 +47,7 @@ class WidgetNewsticker extends WidgetBase {
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return string
      */
@@ -56,7 +56,7 @@ class WidgetNewsticker extends WidgetBase {
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return string
      */
@@ -65,25 +65,25 @@ class WidgetNewsticker extends WidgetBase {
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return void
      */
     public function enqueueStyles() {
-        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/Newsticker/assets/css/css.css', [], Elebee::VERSION, 'all' );
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/Newsticker/assets/css/newsticker.css', [], Elebee::VERSION, 'all' );
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return void
      */
     public function enqueueScripts() {
-        wp_enqueue_script( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/Newsticker/assets/js/js.js', [], Elebee::VERSION, 'all' );
+        wp_enqueue_script( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/Newsticker/assets/js/newsticker.js', [], Elebee::VERSION, false );
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return void
      */
@@ -100,7 +100,7 @@ class WidgetNewsticker extends WidgetBase {
         $this->add_control(
             'text',
             [
-                'label' => __( 'Anzeigetext', 'elebee' ),
+                'label' => __( 'Display Text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'input_type' => 'text',
                 'placeholder' => __( 'Text eingeben ', 'elebee' ),
@@ -133,7 +133,7 @@ class WidgetNewsticker extends WidgetBase {
         $this->add_control(
             'newsticker_speed',
             [
-                'label' => __( 'Geschwindigkeit px/s', 'elebee' ),
+                'label' => __( 'Speed px/s', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => [
@@ -141,7 +141,7 @@ class WidgetNewsticker extends WidgetBase {
                         'max' => 300,
                     ],
                     'default' => [
-                        'size' => 20,
+                        'px' => 20,
                     ],
                 ],
             ]
@@ -178,7 +178,7 @@ class WidgetNewsticker extends WidgetBase {
                     'value' => Scheme_Color::COLOR_1,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .rto-newsticker-content' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .elebee-newsticker-content' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -188,7 +188,7 @@ class WidgetNewsticker extends WidgetBase {
             [
                 'name' => 'typography',
                 'scheme' => Scheme_Typography::TYPOGRAPHY_1,
-                'selector' => '{{WRAPPER}} .rto-newsticker-content',
+                'selector' => '{{WRAPPER}} .elebee-newsticker-content',
             ]
         );
 
@@ -196,7 +196,7 @@ class WidgetNewsticker extends WidgetBase {
             Group_Control_Text_Shadow::get_type(),
             [
                 'name' => 'newsticker_shadow',
-                'selector' => '{{WRAPPER}} .rto-newsticker-content',
+                'selector' => '{{WRAPPER}} .elebee-newsticker-content',
             ]
         );
 
@@ -221,7 +221,7 @@ class WidgetNewsticker extends WidgetBase {
                     'luminosity' => 'Luminosity',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .rto-newsticker-content' => 'mix-blend-mode: {{VALUE}}',
+                    '{{WRAPPER}} .elebee-newsticker-content' => 'mix-blend-mode: {{VALUE}}',
                 ],
                 'separator' => 'none',
             ]
@@ -231,7 +231,7 @@ class WidgetNewsticker extends WidgetBase {
     }
 
     /**
-     * @since 0.1.0
+     * @since 0.6.0
      *
      * @return void
      */
@@ -242,7 +242,7 @@ class WidgetNewsticker extends WidgetBase {
             return;
         }
 
-        $this->add_render_attribute( 'newsticker', 'class', 'rto-newsticker-content' );
+        $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-content' );
 
         if ( $settings['newsticker_speed'] ) {
             $this->add_render_attribute( 'newsticker', 'data-pxps', $settings['newsticker_speed']['size'] );
@@ -250,35 +250,17 @@ class WidgetNewsticker extends WidgetBase {
 
         if ( $settings['newsticker_repeat'] ) {
             $this->add_render_attribute( 'newsticker', 'data-repeat', $settings['newsticker_repeat'] );
-            $settings['text'] .= ' ' . $settings['text'] . ' ';
+            $settings['text'] = sprintf( '<span>%1$s </span><span>%1$s </span>', $settings['text'] );
         } else {
             $this->add_render_attribute( 'newsticker', 'class', 'start-right' );
         }
 
-        ?>
-
-        <div class="rto-newsticker-wrapper">
-            <div class="rto-newsticker-container">
-                <?php echo sprintf( '<%1$s %2$s>%3$s</%1$s>',
-                    $settings['newsticker_size'],
-                    $this->get_render_attribute_string( 'newsticker' ),
-                    $settings['text'] );
-                ?>
-            </div>
-            <?php if ( $settings['newsticker_repeat'] ) {
-                ?>
-                <div class="rto-newsticker-container hide">
-                    <?php echo sprintf( '<%1$s %2$s>%3$s</%1$s>',
-                        $settings['newsticker_size'],
-                        $this->get_render_attribute_string( 'newsticker' ),
-                        $settings['text'] );
-                    ?>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-
-        <?php
+        $newstickerTemplate = new Template( __DIR__ . '/partials/newsticker.php', [
+            'newstickerSize' => $settings['newsticker_size'],
+            'newstickerAttributes' => $this->get_render_attribute_string( 'newsticker' ),
+            'newstickerText' => $settings['text'],
+            'newstickerRepeat' => $settings['newsticker_repeat'],
+        ] );
+        $newstickerTemplate->render();
     }
 }
