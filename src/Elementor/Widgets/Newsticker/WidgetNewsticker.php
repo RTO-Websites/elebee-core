@@ -98,7 +98,7 @@ class WidgetNewsticker extends WidgetBase {
 
 
         $this->add_control(
-            'text',
+            'newsticker_text',
             [
                 'label' => __( 'Display Text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
@@ -111,7 +111,7 @@ class WidgetNewsticker extends WidgetBase {
         );
 
         $this->add_control(
-            'newsticker_size',
+            'newsticker_tag',
             [
                 'label' => __( 'HTML Tag', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
@@ -150,10 +150,10 @@ class WidgetNewsticker extends WidgetBase {
         $this->add_control(
             'newsticker_repeat',
             [
-                'label' => __( 'Repeat', 'elebee' ),
+                'label' => __( 'Direction', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
-                'label_off' => __( 'Off', 'elementor' ),
-                'label_on' => __( 'On', 'elementor' ),
+                'label_off' => __( 'Right', 'elementor' ),
+                'label_on' => __( 'Left', 'elementor' ),
                 'value' => 1,
             ]
         );
@@ -238,7 +238,7 @@ class WidgetNewsticker extends WidgetBase {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        if ( empty( $settings['text'] ) ) {
+        if ( empty( $settings['newsticker_text'] ) ) {
             return;
         }
 
@@ -250,15 +250,15 @@ class WidgetNewsticker extends WidgetBase {
 
         if ( $settings['newsticker_repeat'] ) {
             $this->add_render_attribute( 'newsticker', 'data-repeat', $settings['newsticker_repeat'] );
-            $settings['text'] = sprintf( '<span>%1$s </span><span>%1$s </span>', $settings['text'] );
+            $settings['newsticker_text'] = sprintf( '<span>%1$s </span><span>%1$s </span>', $settings['newsticker_text'] );
         } else {
             $this->add_render_attribute( 'newsticker', 'class', 'start-right' );
         }
 
         $newstickerTemplate = new Template( __DIR__ . '/partials/newsticker.php', [
-            'newstickerSize' => $settings['newsticker_size'],
+            'newstickerTag' => $settings['newsticker_tag'],
             'newstickerAttributes' => $this->get_render_attribute_string( 'newsticker' ),
-            'newstickerText' => $settings['text'],
+            'newstickerText' => $settings['newsticker_text'],
             'newstickerRepeat' => $settings['newsticker_repeat'],
         ] );
         $newstickerTemplate->render();

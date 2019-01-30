@@ -1,15 +1,8 @@
 (function ($) {
 
   $(window).on('elementor/frontend/init', function () {
-    var once = true;
-    elementorFrontend.hooks.addAction('frontend/element_ready/newsticker.default', function () {
-      if( once ) {
-        $('.elebee-newsticker-wrapper').each(function () {
-          calcAnimateDuration($(this));
-        });
-
-        once = false;
-      }
+    elementorFrontend.hooks.addAction('frontend/element_ready/newsticker.default', function ($newsticker) {
+        calcAnimateDuration($newsticker.find('.elebee-newsticker-wrapper'));
     });
   });
 
@@ -41,7 +34,8 @@
   }
 
   function resetAnimation($el) {
-    $el.find('.elebee-newsticker-container').each(function() {
+    $el.find('.elebee-newsticker-container').each(function () {
+      console.log('sagasg');
       $(this).toggleClass('hide');
     });
   }
