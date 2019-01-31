@@ -148,13 +148,14 @@ class WidgetNewsticker extends WidgetBase {
         );
 
         $this->add_control(
-            'newsticker_repeat',
+            'newsticker_start_position',
             [
-                'label' => __( 'Direction', 'elebee' ),
-                'type' => Controls_Manager::SWITCHER,
-                'label_off' => __( 'Right', 'elementor' ),
-                'label_on' => __( 'Left', 'elementor' ),
-                'value' => 1,
+                'label' => __( 'Start Position', 'elebee' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'right' => __( 'Right', 'elementor' ),
+                    'left' => __( 'Left', 'elementor' ),
+                ],
             ]
         );
 
@@ -244,22 +245,17 @@ class WidgetNewsticker extends WidgetBase {
 
         $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-content' );
 
+        $this->add_render_attribute( 'newsticker', 'data-start-position', $settings['newsticker_start_position'] );
+
         if ( $settings['newsticker_speed'] ) {
             $this->add_render_attribute( 'newsticker', 'data-pxps', $settings['newsticker_speed']['size'] );
-        }
-
-        if ( $settings['newsticker_repeat'] ) {
-            $this->add_render_attribute( 'newsticker', 'data-repeat', $settings['newsticker_repeat'] );
-            $settings['newsticker_text'] = sprintf( '<span>%1$s </span><span>%1$s </span>', $settings['newsticker_text'] );
-        } else {
-            $this->add_render_attribute( 'newsticker', 'class', 'start-right' );
         }
 
         $newstickerTemplate = new Template( __DIR__ . '/partials/newsticker.php', [
             'newstickerTag' => $settings['newsticker_tag'],
             'newstickerAttributes' => $this->get_render_attribute_string( 'newsticker' ),
             'newstickerText' => $settings['newsticker_text'],
-            'newstickerRepeat' => $settings['newsticker_repeat'],
+            'newstickerStartPosition' => $settings['newsticker_start_position'],
         ] );
         $newstickerTemplate->render();
     }

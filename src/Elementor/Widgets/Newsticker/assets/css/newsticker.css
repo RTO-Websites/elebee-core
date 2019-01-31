@@ -1,25 +1,45 @@
 .elebee-newsticker-wrapper {
   overflow: hidden;
-  box-sizing: content-box;
 }
 
 .elebee-newsticker-content {
-  display: inline-block;
   white-space: nowrap;
   box-sizing: content-box;
-  animation: newsticker linear 30s infinite normal none running;
+  width: 100%;
 }
 
-.elebee-newsticker-content.start-right {
-  padding-left: 100%;
+.elebee-newsticker-content > div {
+  min-width: 100%;
+  display: inline-block;
 }
 
-.hide .elebee-newsticker-content {
-  display: none;
+.elebee-newsticker-first {
+  animation: newsticker infinite linear;
+  transform: translateX(100%);
+}
+
+.elebee-newsticker-first.elebee-newsticker-left {
+  transform: translateX(0);
+}
+
+.elebee-newsticker-secound {
+  animation: newsticker-secound infinite linear;
+  margin-left: -4px;
+}
+
+.elebee-newsticker-secound.elebee-newsticker-left {
+  animation: newsticker infinite linear;
+  margin-left: 0;
 }
 
 @keyframes newsticker {
   100% {
     transform: translateX(-100%);
+  }
+}
+
+@keyframes newsticker-secound {
+  100% {
+    transform: translateX(-200%);
   }
 }
