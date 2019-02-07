@@ -131,7 +131,17 @@ class WidgetNewsticker extends WidgetBase {
         );
 
         $this->add_control(
-            'newsticker_speed',
+            'newsticker_play_state',
+            [
+                'label' => __( 'Pause on Hover', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'no',
+            ]
+        );
+
+
+        $this->add_control(
+            'newsticker_px_per_secound',
             [
                 'label' => __( 'Speed px/s', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
@@ -140,9 +150,9 @@ class WidgetNewsticker extends WidgetBase {
                         'min' => 1,
                         'max' => 300,
                     ],
-                    'default' => [
-                        'px' => 20,
-                    ],
+                ],
+                'default' => [
+                    'size' => 20,
                 ],
             ]
         );
@@ -155,6 +165,30 @@ class WidgetNewsticker extends WidgetBase {
                 'options' => [
                     'right' => __( 'Right', 'elementor' ),
                     'left' => __( 'Left', 'elementor' ),
+                ],
+                'default' => 'left',
+            ]
+        );
+
+        $this->add_control(
+            'newsticker_item_padding',
+            [
+                'label' => __( 'Item Gap', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%', 'rem' ],
+                'allowed_dimensions' => [
+                    'right',
+                    'left',
+                ],
+                'placeholder' => [
+                    'right' => '5',
+                    'left' => '5',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-newsticker-left' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'newsticker_start_position' => 'left',
                 ],
             ]
         );
@@ -244,11 +278,10 @@ class WidgetNewsticker extends WidgetBase {
         }
 
         $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-content' );
+        $this->add_render_attribute( 'newsticker', 'data-px-per-secound', $settings['newsticker_px_per_secound']['size'] );
 
-        $this->add_render_attribute( 'newsticker', 'data-start-position', $settings['newsticker_start_position'] );
-
-        if ( $settings['newsticker_speed'] ) {
-            $this->add_render_attribute( 'newsticker', 'data-pxps', $settings['newsticker_speed']['size'] );
+        if( 'yes' === $settings['newsticker_play_state'] ) {
+            $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-paused' );
         }
 
         $newstickerTemplate = new Template( __DIR__ . '/partials/newsticker.php', [

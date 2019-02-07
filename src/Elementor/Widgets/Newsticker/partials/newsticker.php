@@ -1,25 +1,22 @@
 <div class="elebee-newsticker-wrapper">
     <div class="elebee-newsticker-container">
-        <?php if( $newstickerStartPosition === 'right' ): ?>
-            <?php printf( '
+        <?php if ( 'right' === $newstickerStartPosition ):
+            printf( '
                 <%1$s %2$s>
-                    <div class="elebee-newsticker-first">%3$s&nbsp;&nbsp;&nbsp;</div>
-                    <div class="elebee-newsticker-secound">%3$s&nbsp;&nbsp;&nbsp;</div>
+                    <span class="elebee-newsticker-first elebee-newsticker-right">%3$s</span>
                 </%1$s>',
                 $newstickerTag,
                 $newstickerAttributes,
                 $newstickerText );
-            ?>
-        <?php else: ?>
-        <?php printf( '
+        else:
+            printf( '
                 <%1$s %2$s>
-                    <div class="elebee-newsticker-first elebee-newsticker-left">%3$s&nbsp;&nbsp;&nbsp;</div>
-                    <div class="elebee-newsticker-secound elebee-newsticker-left">%3$s&nbsp;&nbsp;&nbsp;</div>
+                    <span class="elebee-newsticker-first elebee-newsticker-left">%3$s</span>
+                    <span class="elebee-newsticker-secound elebee-newsticker-left">%3$s</span>
                 </%1$s>',
-            $newstickerTag,
-            $newstickerAttributes,
-            $newstickerText );
-        ?>
-        <?php endif; ?>
+                $newstickerTag,
+                $newstickerAttributes,
+                $newstickerText );
+        endif; ?>
     </div>
 </div>
