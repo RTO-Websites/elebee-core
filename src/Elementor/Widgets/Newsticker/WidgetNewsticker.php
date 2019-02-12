@@ -96,7 +96,6 @@ class WidgetNewsticker extends WidgetBase {
             ]
         );
 
-
         $this->add_control(
             'newsticker_text',
             [
@@ -139,7 +138,6 @@ class WidgetNewsticker extends WidgetBase {
             ]
         );
 
-
         $this->add_control(
             'newsticker_px_per_secound',
             [
@@ -175,20 +173,13 @@ class WidgetNewsticker extends WidgetBase {
             [
                 'label' => __( 'Item Gap', 'elebee' ),
                 'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%', 'rem' ],
+                'size_units' => [ 'px', '%', 'rem', 'vw' ],
                 'allowed_dimensions' => [
                     'right',
                     'left',
                 ],
-                'placeholder' => [
-                    'right' => '5',
-                    'left' => '5',
-                ],
                 'selectors' => [
-                    '{{WRAPPER}} .elebee-newsticker-left' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'newsticker_start_position' => 'left',
+                    '{{WRAPPER}} .elebee-newsticker-content > span' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
                 ],
             ]
         );
@@ -280,7 +271,7 @@ class WidgetNewsticker extends WidgetBase {
         $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-content' );
         $this->add_render_attribute( 'newsticker', 'data-px-per-secound', $settings['newsticker_px_per_secound']['size'] );
 
-        if( 'yes' === $settings['newsticker_play_state'] ) {
+        if ( 'yes' === $settings['newsticker_play_state'] ) {
             $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-paused' );
         }
 

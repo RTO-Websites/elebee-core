@@ -5,10 +5,21 @@
 
   function calcAnimateDuration($el) {
     var $content = $el.find('.elebee-newsticker-content'),
-      width = $content.find('.elebee-newsticker-first').innerWidth() +
-        $content.find('.elebee-newsticker-right').length * $content.innerWidth();
+      $first = $content.find('>span:first-of-type'),
+      $secound = $content.find('>span:last-of-type'),
+      width = $content.find('>span:first-of-type').innerWidth();
 
-    $content.find('.elebee-newsticker-first, .elebee-newsticker-secound')
-      .css('animation-duration', width / $content.data('px-per-secound') + 's');
+    if ($content.find('.elebee-newsticker-right').length) {
+      width += $content.innerWidth();
+
+      $first.addClass('elebee-newsticker-animate-200');
+      $secound
+        .css('animation-delay', width / $content.data('px-per-secound') / 2 + 's')
+        .addClass('elebee-newsticker-animate-300');
+    } else {
+      $first.add($secound).addClass('elebee-newsticker-animate');
+    }
+
+    $first.add($secound).css('animation-duration', width / $content.data('px-per-secound') + 's');
   }
 })(jQuery);

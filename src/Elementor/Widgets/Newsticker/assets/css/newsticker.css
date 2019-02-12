@@ -12,11 +12,6 @@
 .elebee-newsticker-content > span {
   display: inline-block;
   min-width: 100%;
-  animation: newsticker infinite linear running;
-}
-
-.elebee-newsticker-paused:hover > span {
-  animation-play-state: paused;
 }
 
 .elebee-newsticker-right {
@@ -24,9 +19,41 @@
   position: relative;
 }
 
+.elebee-newsticker-right:last-of-type {
+  transform: translateX(-100%);
+}
+
+.elebee-newsticker-paused:hover > span {
+  animation-play-state: paused;
+}
+
+.elebee-newsticker-animate {
+  animation: newsticker infinite linear;
+}
+
+.elebee-newsticker-animate-200 {
+  animation: newsticker-200 infinite linear;
+}
+
+.elebee-newsticker-animate-300 {
+  animation: newsticker-300 infinite linear;
+}
+
 @keyframes newsticker {
   100% {
-    right: 0;
     transform: translateX(-100%);
   }
 }
+
+@keyframes newsticker-200 {
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+@keyframes newsticker-300 {
+  100% {
+    transform: translateX(-300%);
+  }
+}
+
