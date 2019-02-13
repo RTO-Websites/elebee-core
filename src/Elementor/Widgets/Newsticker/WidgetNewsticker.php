@@ -12,14 +12,17 @@
 
 namespace ElebeeCore\Elementor\Widgets\Newsticker;
 
-use ElebeeCore\Elementor\Widgets\WidgetBase;
-use Elementor\Group_Control_Text_Shadow;
-use Elementor\Group_Control_Typography;
-use Elementor\Scheme_Color;
-use Elementor\Scheme_Typography;
-use Elementor\Controls_Manager;
-use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Util\Template;
+use Elementor\{
+    Group_Control_Text_Shadow,
+    Group_Control_Typography,
+    Controls_Manager
+};
+
+use ElebeeCore\{
+    Elementor\Widgets\WidgetBase,
+    Lib\Elebee,
+    Lib\Util\Template
+};
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -178,8 +181,12 @@ class WidgetNewsticker extends WidgetBase {
                     'right',
                     'left',
                 ],
+                'default' => [
+                    'left' => '10',
+                    'right' => '10',
+                ],
                 'selectors' => [
-                    '{{WRAPPER}} .elebee-newsticker-content > span' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
+                    '{{WRAPPER}} .elebee-newsticker-content > span > span' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
                 ],
             ]
         );
@@ -199,10 +206,6 @@ class WidgetNewsticker extends WidgetBase {
             [
                 'label' => __( 'Text Color', 'elementor' ),
                 'type' => Controls_Manager::COLOR,
-                'scheme' => [
-                    'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_1,
-                ],
                 'selectors' => [
                     '{{WRAPPER}} .elebee-newsticker-content' => 'color: {{VALUE}};',
                 ],
@@ -213,7 +216,6 @@ class WidgetNewsticker extends WidgetBase {
             Group_Control_Typography::get_type(),
             [
                 'name' => 'typography',
-                'scheme' => Scheme_Typography::TYPOGRAPHY_1,
                 'selector' => '{{WRAPPER}} .elebee-newsticker-content',
             ]
         );

@@ -7,7 +7,17 @@
     var $content = $el.find('.elebee-newsticker-content'),
       $first = $content.find('>span:first-of-type'),
       $secound = $content.find('>span:last-of-type'),
-      width = $content.find('>span:first-of-type').innerWidth();
+      width = $content.find('>span:first-of-type').innerWidth(),
+      elementCount = Math.ceil($content.innerWidth() / width);
+
+    if(!$first.length || !$secound.length) {
+      return;
+    }
+
+    $first.html($first.html().repeat(elementCount));
+    $secound.html($first.html());
+
+    width = $content.find('>span:first-of-type').innerWidth();
 
     if ($content.find('.elebee-newsticker-right').length) {
       width += $content.innerWidth();
