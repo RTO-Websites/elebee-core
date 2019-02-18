@@ -142,7 +142,7 @@ class WidgetNewsticker extends WidgetBase {
         );
 
         $this->add_control(
-            'newsticker_px_per_secound',
+            'newsticker_px_per_second',
             [
                 'label' => __( 'Speed px/s', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
@@ -272,7 +272,7 @@ class WidgetNewsticker extends WidgetBase {
         }
 
         $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-content' );
-        $this->add_render_attribute( 'newsticker', 'data-px-per-secound', $settings['newsticker_px_per_secound']['size'] );
+        $this->add_render_attribute( 'newsticker', 'data-px-per-second', $settings['newsticker_px_per_second']['size'] );
 
         if ( 'yes' === $settings['newsticker_play_state'] ) {
             $this->add_render_attribute( 'newsticker', 'class', 'elebee-newsticker-paused' );
