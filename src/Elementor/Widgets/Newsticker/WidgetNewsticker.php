@@ -185,6 +185,7 @@ class WidgetNewsticker extends WidgetBase {
                     'left' => '10',
                     'right' => '10',
                 ],
+                'render_type' => 'template',
                 'selectors' => [
                     '{{WRAPPER}} .elebee-newsticker-content > span > span' => 'padding-left: {{LEFT}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}};',
                 ],
