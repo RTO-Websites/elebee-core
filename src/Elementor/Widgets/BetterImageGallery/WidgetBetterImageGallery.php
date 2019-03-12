@@ -24,6 +24,7 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Typography;
+use Elementor\Repeater;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 
@@ -181,46 +182,47 @@ class WidgetBetterImageGallery extends WidgetBase {
                 ],
             ]
         );
-        $this->add_control(
-            'gallery_list',
-            [
-                'label' => 'Gallery List',
-                'type' => Controls_Manager::REPEATER,
-                'fields' => [
-                    [
-                        'name' => 'wp_gallery',
-                        'label' => __( 'Add Images', 'elebee' ),
-                        'type' => Controls_Manager::GALLERY,
-                    ],
-                    [
-                        'name' => 'gallery_title',
-                        'label' => __( 'Gallery Title', 'elebee' ),
-                        'type' => Controls_Manager::TEXT,
-                        'placeholder' => __( 'Gallery Title', 'elebee' ),
+        
+        $repeater = new Repeater();
 
-                    ],
-                    [
-                        'name' => 'custom_caption',
-                        'label' => __( 'Custom Caption', 'elebee' ),
-                        'type' => Controls_Manager::SWITCHER,
-                        'default' => 'No',
-                        'label_on' => __( 'Yes', 'elebee' ),
-                        'label_off' => __( 'No', 'elebee' ),
-                        'return_value' => 'yes',
-                    ],
-                    [
-                        'name' => 'custom_caption_text',
-                        'label' => __( 'Custom Caption', 'elebee' ),
-                        'type' => Controls_Manager::TEXT,
-                        'default' => __( 'Default caption', 'elebee' ),
-                        'placeholder' => __( 'Type your caption text here', 'elebee' ),
-                    ],
-                ],
-                'condition' => [
-                    'gallery_type!' => 'gesamt',
-                ],
-            ]
-        );
+		$repeater->add_control(
+			'wp_gallery',
+			[
+				'label' => __( 'Add Images', 'elebee' ),
+				'type' => Controls_Manager::GALLERY,
+			]
+		);
+
+		$repeater->add_control(
+			'gallery_title',
+			[
+				'label' => __( 'Gallery Title', 'elebee' ),
+				'type' => Controls_Manager::TEXT,
+				'placeholder' => __( 'Gallery Title', 'elebee' ),
+			]
+		);
+
+		$repeater->add_control(
+			'custom_caption',
+			[
+				'label' => __( 'Custom Caption', 'elebee' ),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'No',
+				'label_on' => __( 'Yes', 'elebee' ),
+				'label_off' => __( 'No', 'elebee' ),
+				'return_value' => 'yes',
+			]
+		);
+
+		$repeater->add_control(
+			'custom_caption_text',
+			[
+				'label' => __( 'Custom Caption', 'elebee' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Default caption', 'elebee' ),
+				'placeholder' => __( 'Type your caption text here', 'elebee' ),
+			]
+		);
 
         $this->add_control(
             'gesamt_rubid',
