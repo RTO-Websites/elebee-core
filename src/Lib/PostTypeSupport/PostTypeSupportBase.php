@@ -15,7 +15,7 @@ namespace ElebeeCore\Lib\PostTypeSupport;
 
 use ElebeeCore\Lib\Util\Hooking;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class PostTypeSupport
@@ -84,7 +84,7 @@ abstract class PostTypeSupportBase extends Hooking {
      *
      * @return void
      */
-    public abstract function hookCallback();
+    abstract public function hookCallback();
 
     /**
      * @since 0.2.0

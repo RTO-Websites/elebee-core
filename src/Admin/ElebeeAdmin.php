@@ -19,7 +19,7 @@ use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Settings;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * The admin-specific functionality of the theme.

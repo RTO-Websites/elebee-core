@@ -17,9 +17,13 @@
         'Shift-Tab': 'indentLess',
         'Ctrl-Alt-L': autoIndent,
         'Cmd-Alt-L': autoIndent,
-        'Ctrl-/': 'toggleComment',
-        'Cmd-/': 'toggleComment',
+        'Ctrl-/': blockComment,
+        'Cmd-/': blockComment,
+        'Ctrl-Alt-/': uncomment,
+        'Cmd-Alt-/': uncomment,
       },
+      tabSize: 4,
+      indentUnit: 4,
       autoCloseBrackets: true,
       continueComments: true,
       matchBrackets: true,
@@ -29,7 +33,7 @@
         options: {
           // @see https://github.com/blackmiaool/sass-lint
           rules: {
-            'no-empty-rulesets': 1,
+            'no-empty-rulesets': true,
             'bem-depth': 1,
             'border-zero': 0,
             'brace-style': '1tbs',
@@ -45,24 +49,15 @@
             },
             'extends-before-declarations': true,
             'extends-before-mixins': true,
-            'hex-length': {
+            'hex-length': [2, {
               'style': 'short',
-            },
-            'hex-notation': {
+            }],
+            'hex-notation': [2, {
               'style': 'lowercase',
-            },
-            'indentation': {
-              'size': 2
-            },
-            // 'leading-zero': {
-            //   'include': true
-            // },
-            'max-file-line-count': {
-              'length': 300
-            },
-            // 'max-line-length': {
-            //   'length': 100
-            // },
+            }],
+            'indentation': [2, {
+              'size': 4
+            }],
             'mixin-name-format': {
               'allow-leading-underscore': true,
               'convention': 'hyphenatedlowercase'
@@ -70,8 +65,7 @@
             'mixins-before-declarations': true,
             'no-disallowed-properties': [],
             'no-duplicate-properties': true,
-            // 'no-empty-rulesets': true
-            'no-ids': true,
+            'no-ids': [ 1, true ],
             'no-important': true,
             'no-invalid-hex': true,
             'no-mergeable-selectors': true,
@@ -84,13 +78,10 @@
             'one-declaration-per-line': true,
             'placeholder-in-extend': true,
             'placeholder-name-format': true,
-            // 'property-sort-order': {
-            //   'order': 'concentric'
-            // },
             'pseudo-element': true,
-            'quotes': {
-              'style': 'single'
-            },
+            'quotes': [2, {
+              'style': 'double'
+            }],
             'single-line-per-selector': true,
             'space-after-bang': {
               'include': false
@@ -133,6 +124,8 @@
       }
     });
 
+    window.editor.setSize( null, '80vh' );
+
     editor.on('keyup', autoComplete);
   }
 
@@ -168,6 +161,30 @@
       return;
     }
     editor.execCommand('autocomplete');
+  }
+
+  /**
+   *
+   * @returns {{from: *, to: *}}
+   */
+  function getSelectedRange() {
+    return { from: editor.getCursor( true ), to: editor.getCursor( false ) };
+  }
+
+  /**
+   *
+   */
+  function uncomment() {
+    var range = getSelectedRange();
+    editor.uncomment(range.from, range.to);
+  }
+
+  /**
+   *
+   */
+  function blockComment() {
+    var range = getSelectedRange();
+    editor.blockComment(range.from, range.to);
   }
 
   init();

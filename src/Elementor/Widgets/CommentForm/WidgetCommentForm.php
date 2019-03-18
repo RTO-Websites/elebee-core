@@ -16,14 +16,11 @@ namespace ElebeeCore\Elementor\Widgets\CommentForm;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
-use Elementor\Utils;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 if ( !defined( '__COMMENTFORM__' ) ) {
     define( '__COMMENTFORM__', plugins_url() . '/elementor-rto/extensions/CommentForm' );

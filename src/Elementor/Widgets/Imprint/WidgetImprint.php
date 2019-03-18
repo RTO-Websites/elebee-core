@@ -14,15 +14,15 @@ namespace ElebeeCore\Elementor\Widgets\Imprint;
 
 
 use ElebeeCore\Elementor\Widgets\WidgetBase;
+use ElebeeCore\Lib\Elebee;
+use ElebeeCore\Lib\Util\Template;
+use Elementor\Controls_Manager;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
-use Elementor\Controls_Manager;
-use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Util\Template;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Elementor Hello World

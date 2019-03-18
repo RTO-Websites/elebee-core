@@ -17,7 +17,7 @@ use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Lib\Util\Visitee;
 use ElebeeCore\Lib\Util\Visitor;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Renderer
@@ -86,7 +86,7 @@ class Renderer implements Visitor {
      */
     public function visit( Visitee $visitee ) {
 
-        switch ( get_class( $visitee ) ) {
+        switch ( \get_class( $visitee ) ) {
 
             case Album::class:
                 $this->renderAlbum( $visitee );

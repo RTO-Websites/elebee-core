@@ -28,7 +28,7 @@ use Elementor\Repeater;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  *

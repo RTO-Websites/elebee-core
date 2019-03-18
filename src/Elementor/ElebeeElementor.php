@@ -33,7 +33,7 @@ use Elementor\Elements_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * The elementor-specific functionality of the theme.
@@ -127,6 +127,17 @@ class ElebeeElementor {
      *
      * @return void
      */
+    public function enqueuePreviewStyles() {
+
+        wp_enqueue_style( $this->themeName . '-preview', get_stylesheet_directory_uri() . '/css/preview.min.css', [], $this->version, 'all' );
+
+    }
+
+    /**
+     * @since 0.3.2
+     *
+     * @return void
+     */
     public function enqueuePreviewScripts() {
 
         wp_enqueue_script( $this->themeName . '-preview', $this->jsDirUrl . '/preview.js', [ 'jquery' ], $this->version, true );
@@ -208,7 +219,7 @@ class ElebeeElementor {
         $elementsManager->add_category(
             'rto-elements',
             [
-                'title' => __( 'RTO Elements', 'elebee' ),
+                'title' => __( 'Elebee Elements', 'elebee' ),
                 'icon' => 'font',
             ]
         );
@@ -216,7 +227,7 @@ class ElebeeElementor {
         $elementsManager->add_category(
             'rto-elements-exclusive',
             [
-                'title' => __( 'RTO Elements - Exclusive', 'elebee' ),
+                'title' => __( 'Elebee Elements - Exclusive', 'elebee' ),
                 'icon' => 'font',
             ]
         );

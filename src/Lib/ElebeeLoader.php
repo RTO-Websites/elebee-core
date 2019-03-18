@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Register all actions and filters for the theme.

@@ -16,17 +16,16 @@ use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
+\defined( 'ABSPATH' ) || exit;
+
 class WidgetExtensionFitty extends WidgetExtensionBase {
 
     private static $scriptEnqueued = false;
-
-    private $sectionId;
 
     private $controlToggleId;
 
     public function __construct() {
 
-        $this->sectionId = 'elebeeFitty';
         $this->controlToggleId = 'elebeeFittyToggle';
 
         parent::__construct();
@@ -48,7 +47,7 @@ class WidgetExtensionFitty extends WidgetExtensionBase {
 
     public function enqueueScripts() {
 
-        wp_enqueue_script( $this->sectionId, get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Fitty/node_modules/fitty/dist/fitty.min.js', Elebee::VERSION, true );
+        wp_enqueue_script( 'elebeeFitty', get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Fitty/node_modules/fitty/dist/fitty.min.js', [], Elebee::VERSION );
 
     }
 

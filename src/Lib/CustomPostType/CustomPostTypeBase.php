@@ -13,6 +13,7 @@ namespace ElebeeCore\Lib\CustomPostType;
 
 use ElebeeCore\Lib\Util\Hooking;
 
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * @since   0.3.0
@@ -107,7 +108,7 @@ abstract class CustomPostTypeBase extends Hooking {
      * @param array $messages
      * @return array
      */
-    public abstract function addPostUpdatedMessages( array $messages ): array;
+    abstract public function addPostUpdatedMessages( array $messages ): array;
 
     /**
      * @since 0.3.0
@@ -118,6 +119,6 @@ abstract class CustomPostTypeBase extends Hooking {
      * @param array $bulkCounts
      * @return array
      */
-    public abstract function addBulkPostUpdatedMessages( array $bulkMessages, array $bulkCounts ): array;
+    abstract public function addBulkPostUpdatedMessages( array $bulkMessages, array $bulkCounts ): array;
 
 }

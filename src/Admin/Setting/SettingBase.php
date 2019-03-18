@@ -9,6 +9,8 @@
 namespace ElebeeCore\Admin\Setting;
 
 
+\defined( 'ABSPATH' ) || exit;
+
 abstract class SettingBase {
 
     private $name;
@@ -80,6 +82,6 @@ abstract class SettingBase {
 
     }
 
-    public abstract function render();
+    abstract public function render();
 
 }

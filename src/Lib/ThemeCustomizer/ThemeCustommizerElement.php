@@ -14,7 +14,7 @@
 namespace ElebeeCore\Lib\ThemeCustomizer;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ThemeCustommizerElement
@@ -105,6 +105,6 @@ abstract class ThemeCustommizerElement {
      * @param \WP_Customize_Manager $wpCustomize
      * @return void
      */
-    public abstract function register( \WP_Customize_Manager $wpCustomize );
+    abstract public function register( \WP_Customize_Manager $wpCustomize );
 
 }

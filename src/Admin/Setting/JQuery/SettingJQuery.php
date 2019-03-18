@@ -12,6 +12,8 @@ namespace ElebeeCore\Admin\Setting\JQuery;
 use ElebeeCore\Admin\Setting\SettingBase;
 use ElebeeCore\Lib\Util\Template;
 
+\defined( 'ABSPATH' ) || exit;
+
 class SettingJQuery extends SettingBase {
 
     private $choices;

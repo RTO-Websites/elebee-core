@@ -19,6 +19,8 @@ use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
+\defined( 'ABSPATH' ) || exit;
+
 /**
  * Class WidgetExtensionResponsiveAspectRatio
  *
@@ -35,7 +37,7 @@ class WidgetExtensionResponsiveAspectRatio extends WidgetExtensionBase {
      * @since 0.3.2
      * @var string
      */
-    private $sectionId;
+    private $extensionSectionId;
 
     /**
      * @since 0.3.2
@@ -63,7 +65,7 @@ class WidgetExtensionResponsiveAspectRatio extends WidgetExtensionBase {
     public function __construct() {
 
         parent::__construct();
-        $this->sectionId = 'sectionResponsiveAspectRatio';
+        $this->extensionSectionId = 'sectionResponsiveAspectRatio';
         $this->controlToggleId = 'aspectRatioToggle';
         $this->controlAspectRatioId = 'aspectRatio';
         $this->controlCustomAspectRatioId = 'customAspectRatio';
@@ -76,7 +78,7 @@ class WidgetExtensionResponsiveAspectRatio extends WidgetExtensionBase {
     public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
-            $this->sectionId, [
+            $this->extensionSectionId, [
                 'label' => __( 'Responsive Aspect Ratio', 'elebee' ),
                 'tab' => $this->getTab(),
             ]

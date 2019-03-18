@@ -19,7 +19,7 @@ use Elementor\Scheme_Color;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class CustomCss
@@ -106,7 +106,6 @@ class CustomCss extends CustomPostTypeBase {
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
         $this->getLoader()->addAction( 'admin_notices', $this, 'renderError', 9999 );
 
-        $this->getLoader()->addFilter( 'admin_body_class', $this, 'collapseAdminMenu' );
         $this->getLoader()->addFilter( 'wp_insert_post_data', $this, 'verifyPostData', 99, 2 );
         $this->getLoader()->addFilter( 'content_edit_pre', $this, 'restoreEditorContent', 10, 2 );
 
@@ -240,7 +239,7 @@ class CustomCss extends CustomPostTypeBase {
 
         $editorContent = filter_input( INPUT_GET, 'editorContent' );
 
-        if ( get_post_type() != $this->getName() || !$editorContent ) {
+        if ( !$editorContent || get_post_type() !== $this->getName() ) {
             return $content;
         }
 
@@ -412,24 +411,6 @@ class CustomCss extends CustomPostTypeBase {
         }
 
         return $css;
-
-    }
-
-    /**
-     * @since 0.3.0
-     *
-     * @param string $classes
-     * @return string
-     */
-    public function collapseAdminMenu( string $classes ): string {
-
-        global $post;
-
-        if ( $post && $post->post_type == $this->getName() ) {
-            $classes .= ' folded';
-        }
-
-        return $classes;
 
     }
 

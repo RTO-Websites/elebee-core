@@ -11,7 +11,7 @@ namespace ElebeeCore\Admin\Editor;
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Hooking;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class CodeMirror
@@ -75,9 +75,6 @@ class CodeMirror extends Hooking {
         $codemirrorVendorUri = $codemirrorJsUri . 'vendor/';
         $codemirrorVersion = '3.34.0';
 
-        $codemirrorStylesUri = $codemirrorUri . 'css/';
-        wp_enqueue_style( 'elebee-editor', $codemirrorStylesUri . 'editor.css', [ 'codemirror' ], Elebee::VERSION );
-
         wp_enqueue_style( 'codemirror', $codemirrorVendorUri . 'codemirror.css', $codemirrorVersion );
         wp_enqueue_style( 'codemirror-mdn-liket', $codemirrorVendorUri . 'theme/mdn-like.css', $codemirrorVersion );
 
@@ -90,7 +87,7 @@ class CodeMirror extends Hooking {
         wp_enqueue_script( 'codemirror-matchBrackets', $codemirrorVendorUri . 'addon/edit/matchBrackets.js', [ 'codemirror' ], $codemirrorVersion, true );
 
         wp_enqueue_script( 'codemirror-active-line', $codemirrorVendorUri . 'addon/selection/active-line.js', [ 'codemirror' ], $codemirrorVersion, true );
-//        wp_enqueue_script( 'codemirror-mark-selection', $codemirrorUri . 'addon/selection/mark-selection.js', [ 'codemirror' ], $codemirrorVersion, true );
+        #wp_enqueue_script( 'codemirror-mark-selection', $codemirrorUri . 'addon/selection/mark-selection.js', [ 'codemirror' ], $codemirrorVersion, true );
         wp_enqueue_script( 'codemirror-selection-pointer', $codemirrorVendorUri . 'addon/selection/selection-pointer.js', [ 'codemirror' ], $codemirrorVersion, true );
 
         wp_enqueue_script( 'codemirror-comment', $codemirrorVendorUri . 'addon/comment/comment.js', [ 'codemirror' ], $codemirrorVersion, true );

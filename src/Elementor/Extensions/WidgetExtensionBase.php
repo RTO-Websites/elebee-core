@@ -15,7 +15,7 @@ use ElebeeCore\Lib\ElebeeLoader;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ExtensionBase
@@ -293,7 +293,7 @@ abstract class WidgetExtensionBase {
      * @param Controls_Stack $element
      * @return void
      */
-    public abstract function startControlsSection( Controls_Stack $element );
+    abstract public function startControlsSection( Controls_Stack $element );
 
     /**
      * @since 0.3.2
@@ -301,7 +301,7 @@ abstract class WidgetExtensionBase {
      * @param Controls_Stack $element
      * @return void
      */
-    public abstract function addControls( Controls_Stack $element );
+    abstract public function addControls( Controls_Stack $element );
 
     /**
      * @since 0.3.2
@@ -310,7 +310,7 @@ abstract class WidgetExtensionBase {
      * @param Widget_Base $widget
      * @return string
      */
-    public abstract function extendRender( string $widgetContent, Widget_Base $widget = null ): string;
+    abstract public function extendRender( string $widgetContent, Widget_Base $widget = null ): string;
 
     /**
      * @since 0.3.2
@@ -319,6 +319,6 @@ abstract class WidgetExtensionBase {
      * @param Widget_Base $widget
      * @return string
      */
-    public abstract function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string;
+    abstract public function extendContentTemplate( string $widgetContent, Widget_Base $widget = null ): string;
 
 }

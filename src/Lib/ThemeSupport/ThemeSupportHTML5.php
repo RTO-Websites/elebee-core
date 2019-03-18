@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ThemeSupportHTML5

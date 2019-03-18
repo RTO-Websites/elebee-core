@@ -21,7 +21,7 @@ use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetCommentList
@@ -720,12 +720,10 @@ class WidgetCommentList extends Widget_Base {
                     || strip_tags( $pageData ) === '&hellip;'
                 ) {
                     $paginationPages .= sprintf( $this->commentPaginationPageTemplate, $pageData );
+                } elseif ( $count > 0 ) {
+                    $paginationNext = $pageData;
                 } else {
-                    if ( $count > 0 ) {
-                        $paginationNext = $pageData;
-                    } else {
-                        $paginationPrev = $pageData;
-                    }
+                    $paginationPrev = $pageData;
                 }
 
                 ++$count;

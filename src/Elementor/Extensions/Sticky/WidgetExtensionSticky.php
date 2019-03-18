@@ -20,7 +20,7 @@ use Elementor\Controls_Stack;
 use Elementor\Element_Base;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetExtensionSticky
@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class WidgetExtensionSticky extends WidgetExtensionBase {
 
-    private $sectionId;
+    private $extensionSectionId;
 
     /**
      * @since 0.1.0
@@ -61,12 +61,6 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     private $controlStickyOffsetId;
 
     /**
-     * @since 0.1.0
-     * @var bool
-     */
-    private static $enqueueScripts = false;
-
-    /**
      * Sticky constructor.
      *
      * @since 0.1.0
@@ -74,7 +68,7 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     public function __construct() {
 
         parent::__construct();
-        $this->sectionId = 'sectionElebeeSticky';
+        $this->extensionSectionId = 'sectionElebeeSticky';
         $this->controlStickyId = 'elebeeSticky';
         $this->controlStickyPlaceholderId = 'elebeeStickyPlaceholder';
         $this->controlStickyPositionId = 'elebeeStickyPosition';
@@ -83,20 +77,31 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
     }
 
     /**
-     * @since 0.2.0
+     * @inheritdoc
      */
-    public function definePublicHooks() {
+    public function register( string $tab, string $widgetId = '', string $sectionId = '', string $position = '', bool $separatorBefore = false, int $priority = 10 ) {
 
-        parent::definePublicHooks();
+        $this->definePublicHooks( $widgetId );
+        parent::register( $tab, $widgetId, $sectionId, $position, $separatorBefore, $priority );
+
+    }
+
+    /**
+     * @since 0.2.0
+     *
+     * @param string $widgetId
+     */
+    private function definePublicHooks( string $widgetId ) {
+
         $this->getLoader()->addAction( 'elementor/frontend/before_enqueue_scripts', $this, 'enqueueScrips' );
-        $this->getLoader()->addAction( 'elementor/frontend/element/before_render', $this, 'setRenderAttributes' );
+        $this->getLoader()->addAction( 'elementor/frontend/' . $widgetId . '/before_render', $this, 'setRenderAttributes' );
 
     }
 
     public function startControlsSection( Controls_Stack $element ) {
 
         $element->start_controls_section(
-            $this->sectionId, [
+            $this->extensionSectionId, [
                 'label' => __( 'Sticky', 'elebee' ),
                 'tab' => $this->getTab(),
             ]
@@ -176,7 +181,6 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
 
     }
 
-
     /**
      * @since 0.1.0
      *
@@ -184,11 +188,7 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
      */
     public function enqueueScrips() {
 
-        if ( !self::$enqueueScripts ) {
-            return;
-        }
-
-        wp_enqueue_script( 'sticky', __DIR__ . '/js/sticky.js', [], Elebee::VERSION, true );
+        wp_enqueue_script( 'sticky', get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Sticky/js/sticky.js', [], Elebee::VERSION, true );
 
     }
 
@@ -200,15 +200,9 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
      */
     public function setRenderAttributes( Element_Base $element ) {
 
-        if ( $element->get_name() != 'section' ) {
-            return;
-        }
-
         if ( $element->get_settings( $this->controlStickyId ) != true ) {
             return;
         }
-
-        self::$enqueueScripts = true;
 
         $attributes = [
             'data-elebee-sticky' => '',

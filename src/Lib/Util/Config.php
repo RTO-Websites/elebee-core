@@ -13,7 +13,7 @@
 namespace ElebeeCore\Lib\Util;
 
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Config
@@ -37,8 +37,9 @@ class Config {
 
         global $wp_query;
 
-        if ( is_404() )
+        if ( is_404() ) {
             unset( $wp_query->query_vars['name'] );
+        }
 
         return $header;
 
@@ -102,6 +103,7 @@ class Config {
 
     /**
      * @since 0.2.0
+     * @deprecated Obsolete since Wordpress 5.0
      *
      * @param array $settings
      * @return array
@@ -138,8 +140,8 @@ class Config {
         $settings['formats'] = json_encode( $formats );
 
         $settings['forced_root_block'] = false;
-        $settings["force_p_newlines"] = true;
-        $settings["elementpath"] = true;
+        $settings['force_p_newlines'] = true;
+        $settings['elementpath'] = true;
 
         return $settings;
 

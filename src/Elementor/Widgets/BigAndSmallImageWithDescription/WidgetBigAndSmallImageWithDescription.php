@@ -20,7 +20,7 @@ use Elementor\Scheme_Typography;
 use Elementor\Utils;
 use Elementor\Widget_Base;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class WidgetBigAndSmallImageWithDescription
@@ -48,7 +48,7 @@ class WidgetBigAndSmallImageWithDescription extends Widget_Base {
     /**
      * @since 0.1.0
      *
-     * @return string|void
+     * @return string
      */
     public function get_title(): string {
 

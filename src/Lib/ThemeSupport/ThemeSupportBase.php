@@ -15,7 +15,7 @@ namespace ElebeeCore\Lib\ThemeSupport;
 
 use ElebeeCore\Lib\Util\Hooking;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class ThemeSupport
@@ -84,6 +84,6 @@ abstract class ThemeSupportBase extends Hooking {
      *
      * @return void
      */
-    public abstract function addThemeSupport();
+    abstract public function addThemeSupport();
 
 }

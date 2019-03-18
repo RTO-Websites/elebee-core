@@ -9,6 +9,8 @@
 namespace ElebeeCore\Lib\ThemeSupport;
 
 
+\defined( 'ABSPATH' ) || exit;
+
 class ThemeSupportSvg extends ThemeSupportBase {
 
     /**
@@ -69,7 +71,7 @@ class ThemeSupportSvg extends ThemeSupportBase {
     public function svgThumbsFilter() {
 
         $final = '';
-        $obLevels = count( ob_get_level() );
+        $obLevels = ob_get_level();
 
         for ( $i = 0; $i < $obLevels; $i++ ) {
 

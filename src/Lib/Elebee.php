@@ -27,12 +27,11 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
 use ElebeeCore\Lib\Util\Config;
-use ElebeeCore\Lib\Util\HtmlCompression;
 use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
 use Elementor\Settings;
 
-defined( 'ABSPATH' ) || exit;
+\defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Elebee
@@ -277,8 +276,11 @@ class Elebee {
      */
     private function defineAdminHooks() {
 
-        $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
-        $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        global $wp_version;
+        if ( version_compare( $wp_version, '5.0', '<' ) ) {
+            $this->loader->addAction( 'tiny_mce_before_init', Config::class, 'switchTinymceEnterMode' );
+            $this->loader->addFilter( 'tiny_mce_plugins', Config::class, 'disableTinymceEmojies' );
+        }
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
@@ -308,9 +310,6 @@ class Elebee {
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
 
-        $htmlCompression = new HtmlCompression();
-        $this->loader->addAction( 'get_header', $htmlCompression, 'start' );
-
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles' );
@@ -336,6 +335,7 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
 
+        $this->loader->addAction( 'elementor/preview/enqueue_styles', $elebeeElementor, 'enqueuePreviewStyles' );
         $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }

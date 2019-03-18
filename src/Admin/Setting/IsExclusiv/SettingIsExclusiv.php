@@ -12,6 +12,8 @@ namespace ElebeeCore\Admin\Setting\IsExclusiv;
 use ElebeeCore\Admin\Setting\SettingBase;
 use ElebeeCore\Lib\Util\Template;
 
+\defined( 'ABSPATH' ) || exit;
+
 class SettingIsExclusiv extends SettingBase {
 
     /**
