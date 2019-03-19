@@ -6,7 +6,7 @@
         .prependTo($(this).find('.admin-quickbar-post-options'))
         .on('click', openWindow);
     });
-  }, 200);
+  }, 1000);
 
   function openWindow() {
     let url = $(this).next('.dashicons-edit').attr('href');
