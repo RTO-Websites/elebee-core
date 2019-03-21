@@ -16,6 +16,7 @@ namespace ElebeeCore\Admin;
 
 use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
 use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Settings;
 
@@ -157,6 +158,26 @@ class ElebeeAdmin {
             'manage_options',
             'elebee_settings',
             [ $this, 'renderAdminPage' ]
+        );
+
+    }
+
+    /**
+     * Show error message if Elementor not installed/active.
+     *
+     * @since 0.1.0
+     *
+     * @return void
+     */
+    public function elementorNotExists() {
+
+        if ( !class_exists( 'ElebeeCore\Lib\Util\AdminNotice\AdminNotice') ) {
+            return;
+        }
+
+        ( new AdminNotice() )->getNotice(
+            'elebee-missing-elementor',
+            __( 'The theme Eleebee works best with Elementor. Please install or activate Elementor-Plugin.')
         );
 
     }
