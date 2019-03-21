@@ -26,6 +26,7 @@ use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
+use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
 use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Pub\ElebeePublic;
@@ -94,10 +95,12 @@ class Elebee {
         $this->setupPostTypeSupport();
         $this->setupThemeSupport();
         $this->setupThemeCustomizer();
-        $this->setupCustomPostTypes();
         $this->defineAdminHooks();
         $this->definePublicHooks();
-        $this->defineElementorHooks();
+        if ( class_exists( 'Elementor\Settings' ) ) {
+            $this->defineElementorHooks();
+            $this->setupCustomPostTypes();
+        }
 
     }
 
@@ -283,10 +286,16 @@ class Elebee {
         }
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
+        $utilAdminNotice = new AdminNotice();
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
+        $this->loader->addAction( 'wp_ajax_dismiss_notice', $utilAdminNotice, 'dismissNotice' );
+
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
+        }
+        else {
+            $this->loader->addAction( 'admin_notices', $elebeeAdmin, 'elementorNotExists' );
         }
 
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueStyles', 100 );
