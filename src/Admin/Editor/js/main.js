@@ -10,25 +10,38 @@
       mode: 'text/x-scss',
       theme: 'mdn-like',
       lineNumbers: true,
+      matchBrackets: true,
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+      // addons
+        // selectionPointer: 'pointer',
+        // styleSelectedText: true,
       styleActiveLine: true,
-      selectionPointer: true,
+      styleSelectedText: true,
+      continueComments: true,
+      foldGutter: true,
+      foldOptions: true,
+      showTrailingSpace: true,
+      autoCloseBrackets: true,
+      highlightSelectionMatches: true,
+
       extraKeys: {
         'Tab': tabsToSpaces,
         'Shift-Tab': 'indentLess',
+        'Cmd-[': 'indentLess',
         'Ctrl-Alt-L': autoIndent,
         'Cmd-Alt-L': autoIndent,
         'Ctrl-/': blockComment,
         'Cmd-/': blockComment,
         'Ctrl-Alt-/': uncomment,
         'Cmd-Alt-/': uncomment,
+        'Shift-Ctrl-F': 'replace',
+        'Cmd-Alt-F': 'replace',
+        'Shift-Ctrl-R': 'replaceAll',
+        'Shift-Cmd-Alt-F': 'replaceAll',
+        'Ctrl-Space': 'autocomplete'
       },
       tabSize: 4,
       indentUnit: 4,
-      autoCloseBrackets: true,
-      continueComments: true,
-      matchBrackets: true,
-      foldGutter: true,
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
       lint: {
         options: {
           // @see https://github.com/blackmiaool/sass-lint
@@ -78,7 +91,11 @@
             'one-declaration-per-line': true,
             'placeholder-in-extend': true,
             'placeholder-name-format': true,
-            'pseudo-element': true,
+            'pseudo-element': false,
+            'property-sort-order': [0, {
+              'ignore-custom-properties': true,
+              'order': []
+            }],
             'quotes': [2, {
               'style': 'double'
             }],
@@ -184,7 +201,7 @@
    */
   function blockComment() {
     var range = getSelectedRange();
-    editor.blockComment(range.from, range.to);
+    editor.blockComment(range.from, range.to, { fullLines: false });
   }
 
   init();

@@ -34,6 +34,16 @@ class CodeMirror extends Hooking {
      */
     private $disableWysiwyg;
 
+    private $url = '';
+
+    private $vendorUrl ='';
+
+    private $version = '5.45.1';
+
+    private $allowedExtensions = [ 'css', 'js' ];
+
+    private $enqueueFiles = [];
+
     /**
      * CodeMirror constructor.
      * @param bool $disableWysiwyg
@@ -42,6 +52,9 @@ class CodeMirror extends Hooking {
 
         $this->disableWysiwyg = $disableWysiwyg;
         parent::__construct();
+
+        $this->url = trailingslashit(  str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__) );
+        $this->vendorUrl = $this->url . 'js/vendor/';
 
     }
 
@@ -62,7 +75,7 @@ class CodeMirror extends Hooking {
      *
      */
     public function definePublicHooks() {
-        // TODO: Implement definePublicHooks() method.
+        // No public hooks required
     }
 
     /**
@@ -70,61 +83,102 @@ class CodeMirror extends Hooking {
      */
     public function enqueueAdminStyles() {
 
-        $codemirrorUri = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/';
-        $codemirrorJsUri = $codemirrorUri . 'js/';
-        $codemirrorVendorUri = $codemirrorJsUri . 'vendor/';
-        $codemirrorVersion = '3.34.0';
+        # enqueue core files
+        wp_enqueue_style( 'codemirror', $this->vendorUrl . 'codemirror.css', [], $this->version );
+        #theme
+        wp_enqueue_style( 'mdn-like', $this->vendorUrl . 'theme/mdn-like.css', [ 'codemirror' ], $this->version);
 
-        wp_enqueue_style( 'codemirror', $codemirrorVendorUri . 'codemirror.css', $codemirrorVersion );
-        wp_enqueue_style( 'codemirror-mdn-liket', $codemirrorVendorUri . 'theme/mdn-like.css', $codemirrorVersion );
+        wp_enqueue_script( 'codemirror', $this->vendorUrl . 'codemirror.js', [], $this->version, true );
+        wp_enqueue_script( 'codemirror-scsslint', $this->vendorUrl . 'scsslint.js', [ 'addon-lint-css-lint' ], $this->version, true );
 
-        wp_enqueue_script( 'codemirror', $codemirrorVendorUri . 'codemirror.js', [], $codemirrorVersion, true );
+        # enqueue addon, mode and theme. Always insert in footer.
+        # 'name', 'file path', ['dependency1', ... ]
 
-        wp_enqueue_script( 'codemirror-css', $codemirrorVendorUri . 'mode/css/css.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-sass', $codemirrorVendorUri . 'mode/sass/sass.js', [ 'codemirror-css' ], $codemirrorVersion, true );
+        # addon
+        $this->addFile( 'addon-comment-comment', 'addon/comment/comment.js', [ 'codemirror' ] );
 
-        wp_enqueue_script( 'codemirror-closebrackets', $codemirrorVendorUri . 'addon/edit/closebrackets.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-matchBrackets', $codemirrorVendorUri . 'addon/edit/matchBrackets.js', [ 'codemirror' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-dialog-dialog', 'addon/dialog/dialog.css' );
+        $this->addFile( 'addon-dialog-dialog', 'addon/dialog/dialog.js', [ 'codemirror' ] );
 
-        wp_enqueue_script( 'codemirror-active-line', $codemirrorVendorUri . 'addon/selection/active-line.js', [ 'codemirror' ], $codemirrorVersion, true );
-        #wp_enqueue_script( 'codemirror-mark-selection', $codemirrorUri . 'addon/selection/mark-selection.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-selection-pointer', $codemirrorVendorUri . 'addon/selection/selection-pointer.js', [ 'codemirror' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-edit-closebrackets', 'addon/edit/closebrackets.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-edit-matchbrackets', 'addon/edit/matchbrackets.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-edit-trailingspace', 'addon/edit/trailingspace.js', [ 'codemirror' ] );
 
-        wp_enqueue_script( 'codemirror-comment', $codemirrorVendorUri . 'addon/comment/comment.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-continuecomment', $codemirrorVendorUri . 'addon/comment/continuecomment.js', [ 'codemirror' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-fold-foldgutter', 'addon/fold/foldgutter.css');
+        $this->addFile( 'addon-fold-foldcode', 'addon/fold/foldcode.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-fold-brace-fold', 'addon/fold/brace-fold.js', [ 'addon-fold-foldcode' ] );
+        $this->addFile( 'addon-fold-comment-fold', 'addon/fold/comment-fold.js', [ 'addon-fold-foldcode' ] );
+        $this->addFile( 'addon-fold-foldgutter', 'addon/fold/foldgutter.js', [ 'addon-fold-foldcode' ] );
 
-        wp_enqueue_style( 'codemirror-show-hint', $codemirrorVendorUri . 'addon/hint/show-hint.css' );
-        wp_enqueue_script( 'codemirror-show-hint', $codemirrorVendorUri . 'addon/hint/show-hint.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-css-hint', $codemirrorVendorUri . 'addon/hint/css-hint.js', [ 'codemirror-show-hint' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-hint-show-hint', 'addon/hint/show-hint.css' );
+        $this->addFile( 'addon-hint-css-hint', 'addon/hint/css-hint.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-hint-show-hint', 'addon/hint/show-hint.js', [ 'codemirror' ] );
 
-        wp_enqueue_style( 'codemirror-lint', $codemirrorVendorUri . 'addon/lint/lint.css' );
-        wp_enqueue_script( 'codemirror-lint', $codemirrorVendorUri . 'addon/lint/lint.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-css-lint', $codemirrorVendorUri . 'addon/lint/css-lint.js', [ 'codemirror-lint' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-scsslint', $codemirrorVendorUri . 'scsslint.js', [ 'codemirror-css-lint' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-scss-lint', $codemirrorVendorUri . 'addon/lint/scss-lint.js', [ 'codemirror-scsslint' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-lint-lint', 'addon/lint/lint.css' );
+        $this->addFile( 'addon-lint-lint', 'addon/lint/lint.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-lint-css-lint', 'addon/lint/css-lint.js', [ 'addon-lint-lint' ] );
+        $this->addFile( 'addon-lint-scss-lint', 'addon/lint/scss-lint.js', [ 'addon-lint-lint' ] );
 
-        wp_enqueue_style( 'codemirror-foldgutter', $codemirrorVendorUri . 'addon/fold/foldgutter.css' );
-        wp_enqueue_script( 'codemirror-foldcode', $codemirrorVendorUri . 'addon/fold/foldcode.js', [ 'codemirror' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-foldgutter', $codemirrorVendorUri . 'addon/fold/foldgutter.js', [ 'codemirror-foldcode' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-brace-fold', $codemirrorVendorUri . 'addon/fold/brace-fold.js', [ 'codemirror-foldcode' ], $codemirrorVersion, true );
-        wp_enqueue_script( 'codemirror-comment-fold', $codemirrorVendorUri . 'addon/fold/comment-fold.js', [ 'codemirror-foldcode' ], $codemirrorVersion, true );
+        $this->addFile( 'addon-scroll-annotatescrollbar', 'addon/scroll/annotatescrollbar.js', [ 'codemirror' ] );
 
-        $deps = [
-            'codemirror-sass',
-            'codemirror-closebrackets',
-            'codemirror-matchBrackets',
-            'codemirror-active-line',
-            'codemirror-selection-pointer',
-            'codemirror-comment',
-            'codemirror-continuecomment',
-            'codemirror-css-hint',
-            'codemirror-scss-lint',
-            'codemirror-foldgutter',
-            'codemirror-brace-fold',
-            'codemirror-comment-fold',
-        ];
-        wp_enqueue_script( 'config-codemirror', $codemirrorJsUri . 'main.js', $deps, Elebee::VERSION, true );
+        $this->addFile( 'addon-search-matchesonscrollbar', 'addon/search/matchesonscrollbar.css' );
+        $this->addFile( 'addon-search-jump-to-line', 'addon/search/jump-to-line.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-search-match-highlighter','addon/search/match-highlighter.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-search-matchesonscrollbar', 'addon/search/matchesonscrollbar.js', [ 'codemirror', 'addon-scroll-annotatescrollbar' ] );
+        $this->addFile( 'addon-search-search', 'addon/search/search.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-search-searchcursor', 'addon/search/searchcursor.js', [ 'codemirror' ] );
+
+        $this->addFile( 'addon-selection-active-line', 'addon/selection/active-line.js', [ 'codemirror' ] );
+        $this->addFile( 'addon-selection-mark-selection','addon/selection/mark-selection.js', [ 'codemirror' ] );
+
+        #mode
+        $this->addFile( 'mode-css-css', 'mode/css/css.js', [ 'codemirror' ] );
+
+        $this->addFile( 'mode-sass-sass', 'mode/sass/sass.js', [ 'mode-css-css' ]);
+
+        $deps = $this->enqueueFiles();
+
+        wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
 
     }
 
+    public function enqueueFiles() {
+
+        $enqueuedFiles = [];
+
+        foreach ( $this->enqueueFiles as $key => $fileMeta ) {
+            if ( $this->getFileType( $fileMeta[ 'path' ] ) === 'css' ) {
+                wp_enqueue_style( $fileMeta[ 'name' ] . '-css', $this->vendorUrl . $fileMeta[ 'path' ], $fileMeta[ 'deps' ], $this->version );
+            }
+            else if ( $this->getFileType( $fileMeta[ 'path' ] ) === 'js' ) {
+                wp_enqueue_script( $fileMeta[ 'name' ], $this->vendorUrl . $fileMeta[ 'path' ], $fileMeta[ 'deps' ], $this->version, true );
+
+                $enqueuedFiles[] = $fileMeta[ 'name' ];
+            }
+        }
+
+        return array_values( array_unique( $enqueuedFiles ) );
+    }
+
+    private function getFileType( string $file ) {
+
+        if( !is_string( $file ) ) {
+            return '';
+        }
+
+        $fileParts = explode( '.', $file );
+        $extension = end( $fileParts );
+
+        return in_array( $extension, $this->allowedExtensions ) ? $extension : '';
+
+    }
+
+    private function addFile( string $name, string $path, array $dependencies = [] ) {
+
+        $this->enqueueFiles[] = [
+            'name' => $name,
+            'path' => $path,
+            'deps' => $dependencies
+        ];
+    }
 }
