@@ -9,7 +9,9 @@ namespace ElebeeCore\Admin\Editor;
 
 
 use ElebeeCore\Lib\Elebee;
+use ElebeeCore\Lib\MetaBox\MetaKeyButton;
 use ElebeeCore\Lib\Util\Hooking;
+use ElebeeCore\Lib\MetaBox\MetaBox;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -44,6 +46,8 @@ class CodeMirror extends Hooking {
 
     private $enqueueFiles = [];
 
+    private $icons = [];
+
     /**
      * CodeMirror constructor.
      * @param bool $disableWysiwyg
@@ -53,9 +57,12 @@ class CodeMirror extends Hooking {
         $this->disableWysiwyg = $disableWysiwyg;
         parent::__construct();
 
+        $this->setIcons();
+
         $this->url = trailingslashit(  str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__) );
         $this->vendorUrl = $this->url . 'js/vendor/';
 
+        $this->addMetaBox();
     }
 
     /**
@@ -180,5 +187,137 @@ class CodeMirror extends Hooking {
             'path' => $path,
             'deps' => $dependencies
         ];
+    }
+
+    private function addMetaBox() {
+        global $post;
+
+        # ToDo: translate shortcut labels
+
+        $customCssButtons = [
+            # edit
+            'auto-indent' => [
+                'label' => __( 'Auto indent', 'elebee'),
+                'callback' => 'autoIndent',
+                'shortcut' => $this->renderDescription( 'Ctrl-Alt-L', 'Cmd-Alt-L' ),
+                'cssClass' => 'custom-css'
+            ],
+            'hint' => [
+                'label' => __( 'Hint', 'elebee' ),
+                'callback' => 'autoComplete',
+                'shortcut' => $this->renderDescription( 'Ctrl-Space', 'Cmd-Space' ),
+                'cssClass' => 'custom-css'
+            ],
+            'block-comment' => [
+                'label' => __( 'Block comment', 'elebee' ),
+                'callback' => 'blockComment',
+                'shortcut' => $this->renderDescription( 'Ctrl-/', 'Cmd-/' ),
+                'cssClass' => 'custom-css'
+            ],
+            'uncomment' => [
+                'label' => __( 'Uncomment', 'elebee' ),
+                'callback' => 'uncommentBlock',
+                'shortcut' => $this->renderDescription( 'Ctrl-Alt-/', 'Cmd-Alt/' ),
+                'cssClass' => 'custom-css'
+            ],
+            'delete-line' => [
+                'label' => __( 'Delete line', 'elebee' ),
+                'callback' => 'deleteLine',
+                'shortcut' => $this->renderDescription( 'Ctrl-D', 'Cmd-D' ),
+                'cssClass' => 'custom-css'
+            ],
+            'undo' => [
+                'label' => __( 'Undo', 'elebee' ),
+                'callback' => 'undoStep',
+                'shortcut' => $this->renderDescription( 'Ctrl-Z', 'Cmd-Z' ),
+                'cssClass' => 'custom-css'
+            ],
+            'redo' => [
+                'label' => __( 'Redo', 'elebee' ),
+                'callback' => 'redoStep',
+                'shortcut' => $this->renderDescription( 'Ctrl-Y, Shift-Ctrl-Z', 'Cmd-Y, Shift-Cmd-Z' ),
+                'cssClass' => 'custom-css'
+            ],
+            # search, replace
+            'find' => [
+                'label' => __( 'Find', 'elebee' ),
+                'callback' => 'findChars',
+                'shortcut' => $this->renderDescription( 'Ctrl-F', 'Cmd-F' ),
+                'cssClass' => 'custom-css'
+            ],
+            'find-next' => [
+                'label' => __( 'Find next', 'elebee' ),
+                'callback' => 'findNext',
+                'shortcut' => $this->renderDescription( 'Ctrl-G', 'Cmd-G' ),
+                'cssClass' => 'custom-css'
+            ],
+            'find-prev' => [
+                'label' => __( 'Find previous', 'elebee' ),
+                'callback' => 'findPrev',
+                'shortcut' => $this->renderDescription( 'Shift-Ctrl-G', 'Shift-Cmd-G' ),
+                'cssClass' => 'custom-css'
+            ],
+            'replace' => [
+                'label' => __( 'Replace', 'elebee' ),
+                'callback' => 'replaceChars',
+                'shortcut' => $this->renderDescription( 'Shift-Ctrl-F', 'Cmd-Alt-F' ),
+                'cssClass' => 'custom-css'
+            ],
+            'replace-all' => [
+                'label' => __( 'Replace all', 'elebee' ),
+                'callback' => 'replaceAll',
+                'shortcut' => $this->renderDescription( 'Shift-Ctrl-R', 'Shift-Cmd-Alt-F' ),
+                'cssClass' => 'custom-css'
+            ],
+        ];
+
+        $metaBox = new MetaBox( 'custom-css-meta-box', __( 'Shortcuts', 'elebee' ), 'side' );
+        $metaBox->addPostTypeSupport( 'elebee-global-css' );
+
+        foreach ( $customCssButtons as $key => $button ) {
+            $metaButton = new MetaKeyButton( $key, $button[ 'label' ] );
+            $metaButton->setConfiguration( $button[ 'callback' ], $button[ 'shortcut' ], $button[ 'cssClass' ] );
+            $metaBox->addMetaKey( $metaButton );
+        }
+
+        $metaBox->actionAddMetaBox( $post );
+    }
+
+    private function setIcons() {
+
+        $this->icons = [
+            'apple' => 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU2LjY5MyA1Ni42OTMiIGhlaWdodD0iNTYuNjkzcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1Ni42OTMgNTYuNjkzIiB3aWR0aD0iNTYuNjkzcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGQ9Ik00MS43NzcsMzAuNTE3Yy0wLjA2Mi02LjIzMiw1LjA4Mi05LjIyMSw1LjMxMi05LjM3MmMtMi44OTEtNC4yMjctNy4zOTUtNC44MDctOC45OTgtNC44NzMgICBjLTMuODMtMC4zODktNy40NzcsMi4yNTYtOS40MiwyLjI1NmMtMS45MzksMC00Ljk0MS0yLjE5OS04LjExNy0yLjE0M2MtNC4xNzgsMC4wNjItOC4wMjksMi40My0xMC4xNzksNi4xNyAgIGMtNC4zMzksNy41MjctMS4xMSwxOC42ODIsMy4xMTgsMjQuNzkxYzIuMDY3LDIuOTg2LDQuNTMyLDYuMzQ2LDcuNzY2LDYuMjIzYzMuMTE3LTAuMTIzLDQuMjkzLTIuMDE2LDguMDYxLTIuMDE2ICAgczQuODI2LDIuMDE2LDguMTIzLDEuOTUzYzMuMzUyLTAuMDYxLDUuNDc3LTMuMDQzLDcuNTI3LTYuMDQxYzIuMzczLTMuNDY5LDMuMzUtNi44MjgsMy40MDgtNi45OTggICBDNDguMzA1LDQwLjQzMyw0MS44NDQsMzcuOTU4LDQxLjc3NywzMC41MTd6Ii8+PHBhdGggZD0iTTM1LjU4MiwxMi4yMjljMS43MTUtMi4wODIsMi44NzctNC45NzUsMi41NjEtNy44NTVjLTIuNDc1LDAuMS01LjQ3MSwxLjY0NS03LjI0OCwzLjcyNSAgIGMtMS41OTIsMS44NDYtMi45ODQsNC43ODUtMi42MTEsNy42MTNDMzEuMDQ1LDE1LjkyNiwzMy44NjEsMTQuMzA3LDM1LjU4MiwxMi4yMjl6Ii8+PC9nPjwvc3ZnPg==',
+            'windows' => 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjI0cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMS4zLDE5LjUgOS4zLDIwLjcgOS4zLDEzLjEgMS4zLDEzLjEgICIvPjxwb2x5Z29uIHBvaW50cz0iMTEuNiwyMSAyMi43LDIyLjYgMjIuNywxMy4xIDExLjYsMTMuMSAgIi8+PHBvbHlnb24gcG9pbnRzPSIxMS42LDMgMTEuNiwxMC45IDIyLjcsMTAuOSAyMi43LDEuNCAgIi8+PHBvbHlnb24gcG9pbnRzPSIxLjMsMTAuOSA5LjMsMTAuOSA5LjMsMy4zIDEuMyw0LjUgICIvPjwvZz48L3N2Zz4=',
+        ];
+
+    }
+
+    private function getIcon( $name, $as = 'img' ) {
+        $output = '';
+
+        if ( isset( $this->icons[ $name ] ) ) {
+            $output = $this->icons[ $name ];
+
+            if ( $as === 'img' ) {
+                $output = '<img src="' . $output . '" class="custom-css-' . $name . '" />';
+            }
+        }
+
+        return $output;
+    }
+
+    private function renderDescription( $scWindows = '', $scApple = '' ) {
+        $description = [];
+
+        if ( !empty( $scWindows ) ) {
+            $description[] = $this->getIcon( 'windows' ) . $scWindows;
+        }
+
+        if ( !empty( $scApple ) ) {
+            $description[] = $this->getIcon( 'apple' ) . $scApple;
+        }
+
+        return join( '<br />' , $description );
+
     }
 }
