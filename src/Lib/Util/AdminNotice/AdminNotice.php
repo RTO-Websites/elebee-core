@@ -36,7 +36,7 @@ class AdminNotice {
     private $allowedNotices = [ 'success', 'error', 'warning', 'info' ];
 
     public function __construct() {
-        $this->utilUrl = str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__);
+        $this->utilUrl = trailingslashit( str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__) );
 
         $this->enqueueScripts();
         $this->localizeScripts();
