@@ -157,7 +157,7 @@ class WidgetImprint extends WidgetBase {
         );
 
         $this->add_control(
-            'title',
+            'imprint-title',
             [
                 'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
@@ -166,7 +166,7 @@ class WidgetImprint extends WidgetBase {
         );
 
         $this->add_control(
-            'header_size',
+            'title-tag',
             [
                 'label' => __( 'HTML Tag', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
@@ -311,25 +311,6 @@ class WidgetImprint extends WidgetBase {
             [
                 'label' => __( 'Text', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->add_control(
-            'h_tag_color',
-            [
-                'label' => __( 'H-Tag Color', 'elebee' ),
-                'type' => Controls_Manager::COLOR,
-                'scheme' => [
-                    'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_1,
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .text h2' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .text h3' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .text h4' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .text h5' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .text h6' => 'color: {{VALUE}};',
-                ],
             ]
         );
 
@@ -490,12 +471,11 @@ class WidgetImprint extends WidgetBase {
         }
 
         $this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
-//		$this->add_inline_editing_attributes( 'title' );
 
         $imprintTemplate = new Template( __DIR__ . '/partials/imprint.php', [
             'title' => $settings['title'],
-            'headerSize' => $settings['header_size'],
-            'headerAttributes' => $this->get_render_attribute_string( 'heading' ),
+            'titleTag' => $settings['title-tag'],
+            'headerAttributes' => $this->get_render_attribute_string( 'title' ),
             'text' => $settings['text'],
         ] );
         $imprintTemplate->render();

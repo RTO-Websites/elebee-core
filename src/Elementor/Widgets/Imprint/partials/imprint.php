@@ -2,17 +2,18 @@
 
 /**
  * @var $title string
- * @var $headerSize string
+ * @var $titleTag string
  * @var $headerAttributes string
+ * @var $text string
  */
 
 ?>
 
-<<?php echo $headerSize; ?> <?php echo $headerAttributes; ?>>
+<<?php echo $titleTag; ?> <?php echo $headerAttributes; ?>>
 
     <?php echo $title; ?>
 
-</<?php echo $headerSize; ?>>
+</<?php echo $titleTag; ?>>
 
 <div class="text elementor-inline-editing"
         data-elementor-setting-key="text"
