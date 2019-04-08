@@ -157,7 +157,7 @@ class WidgetImprint extends WidgetBase {
         );
 
         $this->add_control(
-            'imprint-title',
+            'title',
             [
                 'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
@@ -311,6 +311,25 @@ class WidgetImprint extends WidgetBase {
             [
                 'label' => __( 'Text', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'h_tag_color',
+            [
+                'label' => __( 'H-Tag Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_1,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .text h2' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .text h3' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .text h4' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .text h5' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .text h6' => 'color: {{VALUE}};',
+                ],
             ]
         );
 
