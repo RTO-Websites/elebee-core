@@ -100,7 +100,7 @@ class AdminNotice {
      */
     public function enqueueScripts() {
 
-        wp_enqueue_script( $this->utilName, $this->utilUrl . '/js/admin.js', [ 'jquery' ] );
+        wp_enqueue_script( $this->utilName, $this->utilUrl . 'js/admin.js', [ 'jquery' ] );
 
     }
 

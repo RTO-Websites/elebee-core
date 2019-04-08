@@ -1,222 +1,244 @@
-function init() {
+/**
+ *
+ */
+(function ($) {
+  'use strict';
 
-  window.editor = CodeMirror.fromTextArea(document.getElementById('content'), {
-    mode: 'text/x-scss',
-    theme: 'mdn-like',
-    lineNumbers: true,
-    matchBrackets: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    // addons
-    styleActiveLine: true,
-    styleSelectedText: true,
-    continueComments: true,
-    foldGutter: true,
-    foldOptions: true,
-    showTrailingSpace: true,
-    autoCloseBrackets: true,
-    highlightSelectionMatches: true,
-    extraKeys: {
-      'Ctrl-Alt-L': autoIndent,
-      'Cmd-Alt-L': autoIndent,
-      'Ctrl-/': blockComment,
-      'Cmd-/': blockComment,
-      'Ctrl-Alt-/': uncommentBlock,
-      'Cmd-Alt-/': uncommentBlock,
-      'Tab': tabsToSpaces,
-      'Shift-Tab': indentLess,
-      'Cmd-[': indentLess,
-      'Shift-Ctrl-F': replaceChars,
-      'Cmd-Alt-F': replaceChars,
-      'Shift-Ctrl-R': replaceAll,
-      'Shift-Cmd-Alt-F': replaceAll
-    },
-    tabSize: 4,
-    indentUnit: 4,
-    lint: {
-      options: {
-        // @see https://github.com/blackmiaool/sass-lint
-        rules: {
-          'no-empty-rulesets': true,
-          'bem-depth': 1,
-          'border-zero': 0,
-          'brace-style': '1tbs',
-          'class-name-format': {
-            'allow-leading-underscore': false,
-            'convention': '^(?!post\\-[0-9]+)([a-z][a-z0-9]*)(\\-\\-?[a-z0-9]+)*$',
-            'convention-explanation': 'Disallowed: leading numbers, uppercase letters, underscores'
-          },
-          'declarations-before-nesting': true,
-          'empty-line-between-blocks': {
-            'include': true,
-            'allow-single-line-rulesets': false
-          },
-          'extends-before-declarations': true,
-          'extends-before-mixins': true,
-          'hex-length': [2, {
-            'style': 'short',
-          }],
-          'hex-notation': [2, {
-            'style': 'lowercase',
-          }],
-          'indentation': [2, {
-            'size': 4
-          }],
-          'mixin-name-format': {
-            'allow-leading-underscore': true,
-            'convention': 'hyphenatedlowercase'
-          },
-          'mixins-before-declarations': true,
-          'no-disallowed-properties': [],
-          'no-duplicate-properties': true,
-          'no-ids': [1, true],
-          'no-important': true,
-          'no-invalid-hex': true,
-          'no-mergeable-selectors': true,
-          'no-misspelled-properties': true,
-          'no-trailing-whitespace': true,
-          'no-trailing-zero': true,
-          'no-universal-selectors': true,
-          'no-url-domains': true,
-          'no-vendor-prefixes': true,
-          'one-declaration-per-line': true,
-          'placeholder-in-extend': true,
-          'placeholder-name-format': true,
-          'pseudo-element': false,
-          'property-sort-order': [0, {
-            'ignore-custom-properties': true,
-            'order': []
-          }],
-          'quotes': [2, {
-            'style': 'double'
-          }],
-          'single-line-per-selector': true,
-          'space-after-bang': {
-            'include': false
-          },
-          'space-after-colon': {
-            'include': true
-          },
-          'space-after-comma': {
-            'include': true
-          },
-          'space-around-operator': {
-            'include': true
-          },
-          'space-before-bang': {
-            'include': true,
-          },
-          'space-before-brace': {
-            'include': true
-          },
-          'space-before-colon': {
-            'include': false
-          },
-          'space-between-parens': {
-            'include': false
-          },
-          'trailing-semicolon': {
-            'inlcude': true
-          },
-          'url-quotes': true,
-          'variable-for-property': false,
-          'variable-name-format': {
-            'allow-leading-underscore': true,
-            'convention': 'hyphenatedlowercase'
-          },
-          'zero-unit': {
-            'include': false
-          }
-        }
-      }
-    }
-  });
-
-  window.editor.setSize( null, '80vh' );
-
-  editor.on( 'keyup', autoComplete );
-}
-
-function autoIndent() {
-  // TODO: Auto remove trailing whitespace using the edit/trailingspace.js addon
-  let cm = window.editor;
-
-  cm.eachLine( function ( line ) {
-    cm.indentLine( line.lineNo() );
-  });
-}
-
-function autoComplete() {
-  let e = window.event;
-  if (e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey) {
+  if ( typeof CodeMirror === "undefined" ) {
+    console.log( 'CodeMirror is missing!');
     return;
   }
 
-  editor.execCommand( 'autocomplete' );
-}
+  let cm,
+    init,
+    configCodeMirror,
+    registerEvents,
+    triggerFunction,
 
-function blockComment() {
-  let range = getSelectedRange();
+    fns = {};
 
-  editor.blockComment( range.from, range.to, { fullLines: false } );
-}
+  /**
+   *
+   */
+  init = function () {
+    configCodeMirror();
+    registerEvents();
+  };
 
-function uncommentBlock() {
-  let range = getSelectedRange();
+  /**
+   *
+   */
+  configCodeMirror = function () {
+    cm = CodeMirror.fromTextArea(document.getElementById('content'), {
+      mode: 'text/x-scss',
+      theme: 'mdn-like',
+      lineNumbers: true,
+      matchBrackets: true,
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+      // addons
+      styleActiveLine: true,
+      styleSelectedText: true,
+      continueComments: true,
+      foldGutter: true,
+      foldOptions: true,
+      showTrailingSpace: true,
+      autoCloseBrackets: true,
+      highlightSelectionMatches: true,
+      extraKeys: {
+        'Ctrl-Alt-L': fns.autoIndent,
+        'Cmd-Alt-L': fns.autoIndent,
+        'Ctrl-/': fns.commentBlock,
+        'Cmd-/': fns.commentBlock,
+        'Ctrl-Alt-/': fns.uncommentBlock,
+        'Cmd-Alt-/': fns.uncommentBlock,
+        'Tab': fns.tabsToSpaces,
+        'Shift-Tab': CodeMirror.commands.indentLess,
+        'Cmd-[': CodeMirror.commands.indentLess,
+      },
+      tabSize: 4,
+      indentUnit: 4,
+      lint: {
+        options: {
+          // @see https://github.com/blackmiaool/sass-lint
+          rules: {
+            'no-empty-rulesets': true,
+            'bem-depth': 1,
+            'border-zero': 0,
+            'brace-style': '1tbs',
+            'class-name-format': {
+              'allow-leading-underscore': false,
+              'convention': '^(?!post\\-[0-9]+)([a-z][a-z0-9]*)(\\-\\-?[a-z0-9]+)*$',
+              'convention-explanation': 'Disallowed: leading numbers, uppercase letters, underscores'
+            },
+            'declarations-before-nesting': true,
+            'empty-line-between-blocks': {
+              'include': true,
+              'allow-single-line-rulesets': false
+            },
+            'extends-before-declarations': true,
+            'extends-before-mixins': true,
+            'hex-length': [2, {
+              'style': 'short',
+            }],
+            'hex-notation': [2, {
+              'style': 'lowercase',
+            }],
+            'indentation': [2, {
+              'size': 4
+            }],
+            'mixin-name-format': {
+              'allow-leading-underscore': true,
+              'convention': 'hyphenatedlowercase'
+            },
+            'mixins-before-declarations': true,
+            'no-disallowed-properties': [],
+            'no-duplicate-properties': true,
+            'no-ids': [1, true],
+            'no-important': true,
+            'no-invalid-hex': true,
+            'no-mergeable-selectors': true,
+            'no-misspelled-properties': true,
+            'no-trailing-whitespace': true,
+            'no-trailing-zero': true,
+            'no-universal-selectors': true,
+            'no-url-domains': true,
+            'no-vendor-prefixes': true,
+            'one-declaration-per-line': true,
+            'placeholder-in-extend': true,
+            'placeholder-name-format': true,
+            'pseudo-element': false,
+            'property-sort-order': [0, {
+              'ignore-custom-properties': true,
+              'order': []
+            }],
+            'quotes': [2, {
+              'style': 'double'
+            }],
+            'single-line-per-selector': true,
+            'space-after-bang': {
+              'include': false
+            },
+            'space-after-colon': {
+              'include': true
+            },
+            'space-after-comma': {
+              'include': true
+            },
+            'space-around-operator': {
+              'include': true
+            },
+            'space-before-bang': {
+              'include': true,
+            },
+            'space-before-brace': {
+              'include': true
+            },
+            'space-before-colon': {
+              'include': false
+            },
+            'space-between-parens': {
+              'include': false
+            },
+            'trailing-semicolon': {
+              'inlcude': true
+            },
+            'url-quotes': true,
+            'variable-for-property': false,
+            'variable-name-format': {
+              'allow-leading-underscore': true,
+              'convention': 'hyphenatedlowercase'
+            },
+            'zero-unit': {
+              'include': false
+            }
+          }
+        }
+      }
+    });
 
-  editor.uncomment( range.from, range.to );
-}
+    cm.setSize(null, '80vh');
+  };
 
-function deleteLine() {
-  editor.execCommand( 'deleteLine' );
-}
+  /**
+   *
+   */
+  registerEvents = function () {
 
-function undoStep() {
-  editor.execCommand( 'undo' );
-}
+    cm.on('keyup', fns.autoComplete);
 
-function redoStep() {
-  editor.execCommand( 'redo' );
-}
+    $( '.custom-css input[type="button"]' ).on( 'click', triggerFunction );
 
-function findChars() {
-  editor.execCommand( 'find' );
-}
+  };
 
-function findNext() {
-  editor.execCommand( 'findNext' );
-}
+  /**
+   *
+   */
+  triggerFunction = function () {
+    let functionName = $( this ).attr( 'name' ),
+      fnName = fns[ functionName ];
 
-function findPrev() {
-  editor.execCommand( 'findPrev' );
-}
+    if (typeof fnName === "function") {
+      fnName();
+    }
+    else {
+      cm.execCommand( functionName );
+    }
+  };
 
-function replaceChars() {
-  editor.execCommand( 'replace' );
-}
+  /**
+   *
+   */
+  fns.autoIndent = function () {
+    // TODO: Auto remove trailing whitespace using the edit/trailingspace.js addon
 
-function replaceAll() {
-  editor.execCommand( 'replaceAll' );
-}
+    cm.eachLine( function (line) {
+      cm.indentLine( line.lineNo() );
+    });
+  };
 
-function tabsToSpaces() {
-  let cm = window.editor;
-  let spaces = Array( cm.getOption('indentUnit') + 1).join(' ');
+  /**
+   *
+   */
+  fns.autoComplete = function () {
+    let e = window.event;
+    if ( e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey ) {
+      return;
+    }
 
-  cm.replaceSelection( spaces );
-}
+    cm.execCommand( 'autocomplete' );
+  };
 
-function indentLess() {
-  editor.execCommand( 'indentLess' );
-}
+  /**
+   *
+   */
+  fns.commentBlock = function () {
+    cm.blockComment(
+      cm.getCursor(true),
+      cm.getCursor(false),
+      {fullLines: true}
+    );
+  };
 
-/**
- * Helper function
- *
- * @returns {{from: *, to: *}}
- */
-function getSelectedRange() {
-  return { from: editor.getCursor( true ), to: editor.getCursor( false ) };
-}
+  /**
+   *
+   */
+  fns.uncommentBlock = function () {
+    cm.uncomment(
+      cm.getCursor(true),
+      cm.getCursor(false),
+      {lineComment: true}
+    );
+  };
 
+  /**
+   *
+   */
+  fns.tabsToSpaces = function () {
+    let spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
 
-init();
+    cm.replaceSelection(spaces);
+  };
+
+  init();
+
+})(jQuery);

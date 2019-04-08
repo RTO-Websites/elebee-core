@@ -1,17 +1,10 @@
-<?php
-    $config = $metaKey->getConfiguration();
-?>
-<p class="post-attributes-label-wrapper <?php echo $config[ 'class' ]; ?>">
+<p class="post-attributes-label-wrapper <?php echo $button[ 'cssClass' ]; ?>">
     <input type="button"
-           class="button-<?php echo $metaKey->getKey(); ?>"
-           name="<?php echo $metaKey->getKey(); ?>"
-           value="<?php echo $metaKey->getLabel(); ?>"
-           <?php if( !empty( $config[ 'callback' ] ) ) {
-               echo 'onclick="' .$config[ 'callback' ] . '(); return false;"';
-           }
-           ?>
+           class="button-<?php echo $key; ?>"
+           name="<?php echo $button[ 'callback' ]; ?>"
+           value="<?php echo $button[ 'label' ]; ?>"
     />
     <span class="button-description">
-        <?php echo $config[ 'description' ]; ?>
+        <?php echo $button[ 'shortcut' ]; ?>
     </span>
 </p>

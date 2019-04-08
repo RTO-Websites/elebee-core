@@ -18,8 +18,6 @@ use ElebeeCore\Lib\Util\Template;
 
 class MetaKeyButton extends MetaKeyBase {
 
-    private $configuration;
-
     /**
      * MetaKeyButton constructor.
      *
@@ -31,33 +29,10 @@ class MetaKeyButton extends MetaKeyBase {
      */
     public function __construct( string $key, string $label, int $type = self::TYPE_DEFAULT ) {
 
-        $this->configuration = [];
-
         $defaultTemplate = new Template( __DIR__ . '/partials/meta-key-button-default.php' );
         $this->setTemplate( $defaultTemplate );
 
         parent::__construct( $key, $label, $type );
-
-    }
-
-    public function setConfiguration( string $jsCallback = '', string $description = '', string $cssClass = '' ) {
-        $this->configuration = [
-            'callback' => $jsCallback,
-            'description' => $description,
-            'class' => $cssClass
-        ];
-    }
-
-    /**
-     * Get the button configuration.
-     *
-     * @since 0.7.0
-     *
-     * @return string
-     */
-    public function getConfiguration(): array {
-
-        return $this->configuration;
 
     }
 }
