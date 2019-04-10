@@ -21,7 +21,6 @@ use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
 use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
 use ElebeeCore\Elementor\Skins\SkinArchive;
 use ElebeeCore\Elementor\Widgets\BetterAccordion\WidgetBetterAccordion;
-use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
 use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
 use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
@@ -183,7 +182,6 @@ class ElebeeElementor {
     public function registerWidgets() {
 
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetImprint() );
-        Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterImageGallery() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterAccordion() );
