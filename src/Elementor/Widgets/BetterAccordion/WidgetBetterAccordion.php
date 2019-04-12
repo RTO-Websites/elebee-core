@@ -95,38 +95,38 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->start_controls_section(
             'section_title',
             [
-                'label' => __( 'Accordion', 'elementor' ),
+                'label' => __( 'Accordion', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'tabs',
             [
-                'label' => __( 'Accordion Items', 'elementor' ),
+                'label' => __( 'Accordion Items', 'elebee' ),
                 'type' => Controls_Manager::REPEATER,
                 'default' => [
                     [
-                        'tab_title' => __( 'Accordion #1', 'elementor' ),
-                        'tab_content' => __( 'I am item content. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'elementor' ),
+                        'tab_title' => __( 'Accordion #1', 'elebee' ),
+                        'tab_content' => __( 'I am item content. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'elebee' ),
                     ],
                     [
-                        'tab_title' => __( 'Accordion #2', 'elementor' ),
-                        'tab_content' => __( 'I am item content. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'elementor' ),
+                        'tab_title' => __( 'Accordion #2', 'elebee' ),
+                        'tab_content' => __( 'I am item content. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'elebee' ),
                     ],
                 ],
                 'fields' => [
                     [
                         'name' => 'tab_title',
-                        'label' => __( 'Title & Content', 'elementor' ),
+                        'label' => __( 'Title & Content', 'elebee' ),
                         'type' => Controls_Manager::TEXT,
-                        'default' => __( 'Accordion Title', 'elementor' ),
+                        'default' => __( 'Accordion Title', 'elebee' ),
                         'label_block' => true,
                     ],
                     [
                         'name' => 'tab_content',
-                        'label' => __( 'Content', 'elementor' ),
+                        'label' => __( 'Content', 'elebee' ),
                         'type' => Controls_Manager::WYSIWYG,
-                        'default' => __( 'Accordion Content', 'elementor' ),
+                        'default' => __( 'Accordion Content', 'elebee' ),
                         'show_label' => false,
                     ],
                 ],
@@ -248,7 +248,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'view',
             [
-                'label' => __( 'View', 'elementor' ),
+                'label' => __( 'View', 'elebee' ),
                 'type' => Controls_Manager::HIDDEN,
                 'default' => 'traditional',
             ]
@@ -259,7 +259,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->start_controls_section(
             'section_title_style',
             [
-                'label' => __( 'Accordion', 'elementor' ),
+                'label' => __( 'Accordion', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -267,12 +267,12 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'icon_align',
             [
-                'label' => __( 'Icon Alignment', 'elementor' ),
+                'label' => __( 'Icon Alignment', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => is_rtl() ? 'right' : 'left',
                 'options' => [
-                    'left' => __( 'Left', 'elementor' ),
-                    'right' => __( 'Right', 'elementor' ),
+                    'left' => __( 'Left', 'elebee' ),
+                    'right' => __( 'Right', 'elebee' ),
                 ],
             ]
         );
@@ -280,7 +280,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'border_width',
             [
-                'label' => __( 'Border Width', 'elementor' ),
+                'label' => __( 'Border Width', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 0,
@@ -303,7 +303,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'separator_width',
             [
-                'label' => __( 'Separator Width', 'elementor' ),
+                'label' => __( 'Separator Width', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 0,
@@ -323,7 +323,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'border_color',
             [
-                'label' => __( 'Border Color', 'elementor' ),
+                'label' => __( 'Border Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-accordion-item' => 'border-color: {{VALUE}};',
@@ -337,7 +337,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'heading_title',
             [
-                'label' => __( 'Title', 'elementor' ),
+                'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
@@ -346,7 +346,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'title_background',
             [
-                'label' => __( 'Background', 'elementor' ),
+                'label' => __( 'Background', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-tab-title' => 'background-color: {{VALUE}};',
@@ -357,7 +357,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'title_color',
             [
-                'label' => __( 'Color', 'elementor' ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-tab-title' => 'color: {{VALUE}};',
@@ -373,7 +373,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'tab_active_color',
             [
-                'label' => __( 'Active Color', 'elementor' ),
+                'label' => __( 'Active Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-tab-title.elementor-active' => 'color: {{VALUE}};',
@@ -398,7 +398,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'heading_content',
             [
-                'label' => __( 'Content', 'elementor' ),
+                'label' => __( 'Content', 'elebee' ),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
@@ -407,7 +407,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'content_background_color',
             [
-                'label' => __( 'Background', 'elementor' ),
+                'label' => __( 'Background', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-tab-content' => 'background-color: {{VALUE}};',
@@ -418,7 +418,7 @@ class WidgetBetterAccordion extends WidgetBase {
         $this->add_control(
             'content_color',
             [
-                'label' => __( 'Color', 'elementor' ),
+                'label' => __( 'Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-accordion .elementor-tab-content' => 'color: {{VALUE}};',

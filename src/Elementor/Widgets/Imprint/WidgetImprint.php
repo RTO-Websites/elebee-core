@@ -150,7 +150,7 @@ class WidgetImprint extends WidgetBase {
         $this->add_control(
             'title_options',
             [
-                'label' => __( 'Titel', 'elementor' ),
+                'label' => __( 'Title', 'elementor' ),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
@@ -161,7 +161,7 @@ class WidgetImprint extends WidgetBase {
             [
                 'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
-                'default' => __( 'Impressum', 'elebee' ),
+                'default' => __( 'Imprint', 'elebee' ),
             ]
         );
 
@@ -218,7 +218,7 @@ class WidgetImprint extends WidgetBase {
         $this->add_control(
             'imprint_options',
             [
-                'label' => __( 'Impressum', 'elementor' ),
+                'label' => __( 'Imprint', 'elementor' ),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]

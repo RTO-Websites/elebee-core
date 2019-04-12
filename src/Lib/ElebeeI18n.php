@@ -50,10 +50,7 @@ class ElebeeI18n {
      */
     public function loadThemeTEXTDOMAIN() {
 
-        load_theme_textdomain(
-            $this->domain,
-            dirname( dirname( __DIR__ ) . '/languages/' )
-        );
+         load_theme_textdomain( $this->domain, get_template_directory(). '/languages' );
 
     }
 

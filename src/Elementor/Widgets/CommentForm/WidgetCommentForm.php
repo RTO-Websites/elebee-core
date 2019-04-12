@@ -121,14 +121,14 @@ class WidgetCommentForm extends WidgetBase {
                 'label' => __( 'Title', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Write a Reply or Comment', 'elebee' ),
-                'placeholder' => __( 'Type your comment from title text here', 'elebee' ),
+                'placeholder' => __( 'Type your comment title here', 'elebee' ),
             ]
         );
 
         $this->add_responsive_control(
             'comment_title_align',
             [
-                'label' => __( 'Alignment Title', 'elebee' ),
+                'label' => __( 'Title Alignment', 'elebee' ),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
@@ -154,17 +154,17 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'comment_log_in',
             [
-                'label' => __( 'Log in Text', 'elebee' ),
+                'label' => __( 'Login prompt', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
-                'default' => __( 'You must be logged in to post a comment.', 'elebee' ),
-                'placeholder' => __( 'Type your log in as text here', 'elebee' ),
+                'default' => __( 'You must be logged in, to post a comment.', 'elebee' ),
+                'placeholder' => __( 'Type your login prompt here', 'elebee' ),
             ]
         );
 
         $this->add_control(
             'comment_logged_in_as',
             [
-                'label' => __( 'Logged in Text', 'elebee' ),
+                'label' => __( 'Logged in as text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Logged in as', 'elebee' ),
                 'placeholder' => __( 'Type your logged in as text here', 'elebee' ),
@@ -418,7 +418,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'comment_log_link_hover_color',
             [
-                'label' => __( 'HoverColor', 'elebee' ),
+                'label' => __( 'Hover Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),

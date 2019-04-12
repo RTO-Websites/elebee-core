@@ -224,7 +224,7 @@ class Elebee {
             ],
             [
                 'label' => __( 'Address', 'elebee' ),
-                'description' => __( '[coredata]address[/coredata]', 'elebee' ),
+                'description' => '[coredata]address[/coredata]',
                 'type' => 'textarea',
             ]
         );
@@ -237,7 +237,7 @@ class Elebee {
             ],
             [
                 'label' => __( 'E-Mail address', 'elebee' ),
-                'description' => __( '[coredata]email[/coredata]', 'elebee' ),
+                'description' => '[coredata]email[/coredata]',
                 'type' => 'text',
             ]
         );
@@ -250,7 +250,7 @@ class Elebee {
             ],
             [
                 'label' => __( 'Phone', 'elebee' ),
-                'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
+                'description' => '[coredata]phone[/coredata]',
                 'type' => 'text',
             ]
         );

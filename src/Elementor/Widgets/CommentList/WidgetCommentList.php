@@ -230,7 +230,8 @@ class WidgetCommentList extends Widget_Base {
         $this->add_control(
             'comment_list_date_format',
             [
-                'label' => __( 'Comment format<br><small>For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.</small>', 'elebee' ),
+                'label' => __( 'Comment format', 'elebee' ),
+                'description' => __( 'For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => 'd.m.Y \u\m H:i',
                 'separator' => 'before',

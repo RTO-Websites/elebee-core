@@ -97,7 +97,7 @@ class WidgetBigAndSmallImageWithDescription extends Widget_Base {
         $this->add_control(
             'big-image',
             [
-                'label' => __( 'Large image', 'elebee' ),
+                'label' => __( 'Big image', 'elebee' ),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [
                     'url' => Utils::get_placeholder_image_src(),

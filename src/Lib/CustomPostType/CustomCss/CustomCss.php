@@ -433,7 +433,7 @@ class CustomCss extends CustomPostTypeBase {
             9 => sprintf(
                 __( 'Partial scheduled for: <strong>%1$s</strong>.', 'elebee' ),
                 // translators: Publish box date format, see http://php.net/date
-                date_i18n( __( 'M j, Y @ G:i', 'elebee' ), strtotime( get_post()->post_date ) )
+                date_i18n( 'M j, Y @ G:i', strtotime( get_post()->post_date ) )
             ),
             10 => __( 'Partial draft updated.', 'elebee' ),
         ];

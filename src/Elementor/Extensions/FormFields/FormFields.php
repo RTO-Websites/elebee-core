@@ -132,7 +132,7 @@ add_action( 'elementor/element/form/section_form_fields/before_section_end', fun
     $fromTillControl =
         [
             'name' => 'from_till_time',
-            'label' => __( 'Von Bis Zeitraum', 'elementor-pro' ),
+            'label' => __( 'From till time', 'elementor-pro' ),
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => [
                 'future' => 'Zukunft',
@@ -145,7 +145,7 @@ add_action( 'elementor/element/form/section_form_fields/before_section_end', fun
     $placeholderControl =
         [
             'name' => 'placeholder2',
-            'label' => __( 'Placeholder Bis', 'elebee' ),
+            'label' => __( 'Placeholder till', 'elebee' ),
             'type' => \Elementor\Controls_Manager::TEXT,
             'default' => '',
             'conditions' => [
