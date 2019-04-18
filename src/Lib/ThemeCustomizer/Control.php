@@ -25,7 +25,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Control.html
  */
-class Control extends ThemeCustommizerElement {
+class Control extends Element {
 
     /**
      * @since 0.2.0

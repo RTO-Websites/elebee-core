@@ -14,12 +14,18 @@ namespace ElebeeCore\Lib;
 
 
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Admin\Setting\CoreData\SettingAddress;
+use ElebeeCore\Admin\Setting\CoreData\SettingEmail;
+use ElebeeCore\Admin\Setting\CoreData\SettingPhone;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
 use ElebeeCore\Elementor\ElebeeElementor;
 use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeCustomizer\Panel;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
-use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustomizer;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
@@ -73,7 +79,7 @@ class Elebee {
 
     /**
      * @since 0.2.0
-     * @var ThemeCustommizer
+     * @var ThemeCustomizer
      */
     private $themeCustomizer;
 
@@ -203,8 +209,9 @@ class Elebee {
      */
     public function setupThemeCustomizer() {
 
-        $this->themeCustomizer = new ThemeCustommizer();
+        $this->themeCustomizer = new ThemeCustomizer();
         $this->setupThemeSettingsCoreData();
+        $this->setupThemeSettingsGoogle();
         $this->themeCustomizer->register();
 
     }
@@ -216,41 +223,44 @@ class Elebee {
      */
     public function setupThemeSettingsCoreData() {
 
-        $settingCoreDataAddress = new Setting(
-            'elebee_core_data_address',
+        $settingCoreDataAddress = new SettingAddress();
+        $themeCustomizerSettingCoreDataAddress = new Setting(
+            $settingCoreDataAddress->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Address', 'elebee' ),
-                'description' => '[coredata]address[/coredata]',
+                'label' => $settingCoreDataAddress->getTitle(),
+                'description' => __( '[coredata]address[/coredata]', 'elebee' ),
                 'type' => 'textarea',
             ]
         );
 
-        $settingCoreDataEmail = new Setting(
-            'elebee_core_data_email',
+        $settingCoreDataEmail = new SettingEmail();
+        $themeCustomizerSettingCoreDataEmail = new Setting(
+            $settingCoreDataEmail->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'E-Mail address', 'elebee' ),
-                'description' => '[coredata]email[/coredata]',
+                'label' => $settingCoreDataEmail->getTitle(),
+                'description' => __( '[coredata]email[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
 
-        $settingCoreDataPhone = new Setting(
-            'elebee_core_data_phone',
+        $settingCoreDataDataPhone = new SettingPhone();
+        $themeCustomizerSettingCoreDataPhone = new Setting(
+            $settingCoreDataDataPhone->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Phone', 'elebee' ),
-                'description' => '[coredata]phone[/coredata]',
+                'label' => $settingCoreDataDataPhone->getTitle(),
+                'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
@@ -261,11 +271,65 @@ class Elebee {
             'priority' => 700,
             'description' => $description,
         ] );
-        $sectionCoreData->addSetting( $settingCoreDataAddress );
-        $sectionCoreData->addSetting( $settingCoreDataEmail );
-        $sectionCoreData->addSetting( $settingCoreDataPhone );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataAddress );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataEmail );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataPhone );
 
-        $this->themeCustomizer->addSection( $sectionCoreData );
+        $this->themeCustomizer->addElement( $sectionCoreData );
+
+    }
+
+    /**
+     *
+     */
+    function setupThemeSettingsGoogle() {
+
+        $settingGoogleAnalyticsTrackingId = new SettingTrackingId();
+        $themeCustomizerSettingGoogleAnalyticsTrackingId = new Setting(
+            $settingGoogleAnalyticsTrackingId->getName(),
+            [
+                'type' => 'option',
+            ],
+            [
+                'label' => $settingGoogleAnalyticsTrackingId->getTitle(),
+                'type' => 'text',
+                'input_attrs' => [
+                    'placeholder' => 'UA-XXXXX-X',
+                ],
+            ]
+        );
+
+        $settingGoogleAnalyticsAnonymizeIp = new SettingAnonymizeIp();
+        $themeCustomizerSettingGoogleAnalyticsAnonymizeIp = new Setting(
+            $settingGoogleAnalyticsAnonymizeIp->getName(),
+            [
+                'type' => 'option',
+                'default' => $settingGoogleAnalyticsAnonymizeIp->getDefault(),
+            ],
+            [
+                'label' => $settingGoogleAnalyticsAnonymizeIp->getTitle(),
+                'type' => 'checkbox',
+                'input_attrs' => [
+                    'checked' => true,
+                ],
+            ]
+        );
+
+        $sectionGoogleAnalytics = new Section( 'elebee_google_analytics_section', [
+            'title' => __( 'Analytics', 'elebee' ),
+            'description' => __( 'After entering the tracking ID, the Google Analytics Script is automatically included.', 'elebee' ),
+        ] );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsTrackingId );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsAnonymizeIp );
+
+        $panelGoogle = new Panel( 'elebee_google_panel', [
+            'priority' => 800,
+            'title' => __( 'Google', 'elebee' ),
+            'description' => '',
+        ] );
+        $panelGoogle->addSection( $sectionGoogleAnalytics );
+
+        $this->themeCustomizer->addElement( $panelGoogle );
 
     }
 
@@ -321,7 +385,8 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'wp_enqueue_styles', $elebeePublic, 'enqueueStyles', 100 );
+        $this->loader->addAction( 'wp_head', $elebeePublic, 'embedGoogleAnalytics', 0 );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles', 100 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
 
     }
@@ -344,7 +409,6 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
 
-        $this->loader->addAction( 'elementor/preview/enqueue_styles', $elebeeElementor, 'enqueuePreviewStyles' );
         $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }

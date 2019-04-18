@@ -6,12 +6,14 @@
  * @licence GPL-3.0
  */
 
-namespace ElebeeCore\Admin\Setting;
+namespace ElebeeCore\Admin\Setting\Lib;
 
+
+use ElebeeCore\Lib\Util\Renderable;
 
 \defined( 'ABSPATH' ) || exit;
 
-abstract class SettingBase {
+abstract class SettingBase implements Renderable {
 
     private $name;
 
@@ -60,13 +62,15 @@ abstract class SettingBase {
 
     }
 
-    public function register( $page ) {
+    public function register( string $page, string $section = 'default', array $args = [] ) {
 
         add_settings_field(
             $this->getName(),
             $this->getTitle(),
             [ $this, 'render' ],
-            $page
+            $page,
+            $section,
+            $args
         );
 
         register_setting( $page, $this->getName() );
@@ -78,10 +82,18 @@ abstract class SettingBase {
      */
     public function getOption() {
 
-        return get_option( $this->getName(), $this->getDefault() );
+        if ( $this->getDefault() === true ) {
+            $optionValue = get_option( $this->getName() );
+            $option = $optionValue === '' ? false : true;
+        }
+        else {
+            $option = get_option( $this->getName(), $this->getDefault() );
+        }
+
+        return $option;
 
     }
 
-    abstract public function render();
+    abstract public function render( array $args );
 
 }

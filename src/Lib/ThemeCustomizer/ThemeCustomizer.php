@@ -17,7 +17,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
 \defined( 'ABSPATH' ) || exit;
 
 /**
- * Class ThemeCustommizer
+ * Class ThemeCustomizer
  *
  * @since   0.2.0
  *
@@ -26,7 +26,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizer.html
  */
-class ThemeCustommizer {
+class ThemeCustomizer {
 
     /**
      * @since 0.2.0
@@ -46,30 +46,16 @@ class ThemeCustommizer {
     }
 
     /**
-     * Add a panel.
+     * Add a fist level element.
      *
      * @since 0.2.0
      *
-     * @param Panel $panel
+     * @param Root $element
      * @return void
      */
-    public function addPanel( Panel $panel ) {
+    public function addElement( Root $element ) {
 
-        $this->elementList[$panel->getId()] = $panel;
-
-    }
-
-    /**
-     * Add a section.
-     *
-     * @since 0.2.0
-     *
-     * @param Section $section
-     * @return void
-     */
-    public function addSection( Section $section ) {
-
-        $this->elementList[$section->getId()] = $section;
+        $this->elementList[$element->getId()] = $element;
 
     }
 
@@ -79,9 +65,9 @@ class ThemeCustommizer {
      * @since 0.2.0
      *
      * @param string $id
-     * @return ThemeCustommizerElement|null
+     * @return Root|null
      */
-    public function getElement( string $id ): ThemeCustommizerElement {
+    public function getElement( string $id ): Root {
 
         return isset( $this->elementList[$id] ) ? $this->elementList[$id] : null;
 

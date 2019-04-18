@@ -1,31 +1,21 @@
 <?php
 /**
- * IsExclusiv.php
+ * SettingCoice.php
  *
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
  */
 
-namespace ElebeeCore\Admin\Setting\IsExclusiv;
+namespace ElebeeCore\Admin\Setting\Lib;
 
 
-use ElebeeCore\Admin\Setting\SettingBase;
 use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
 
-class SettingIsExclusiv extends SettingBase {
+class SettingBinary extends SettingBase {
 
-    /**
-     * IsExclusiv constructor.
-     */
-    public function __construct() {
-
-        parent::__construct( 'is_exclusive', __( 'Is Exclusive', 'elebee' ), false );
-
-    }
-
-    public function render() {
+    public function render( array $args ) {
 
         $template = new Template( dirname( __DIR__ ) . '/partials/checkbox.php', [
             'name' => $this->getName(),

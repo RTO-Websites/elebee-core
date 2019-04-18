@@ -13,7 +13,10 @@
 namespace ElebeeCore\Pub;
 
 
-use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\SettingJQuery;
+use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -117,6 +120,21 @@ class ElebeePublic {
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
+
+    }
+
+    public function embedGoogleAnalytics() {
+        $trackingId = ( new SettingTrackingId() )->getOption();
+
+        if( empty( $trackingId ) ) {
+            return;
+        }
+
+        $googleAnalyticsTemplate = new Template( __DIR__ . '/partials/google-analytics.php', [
+            'gaTrackingId' => $trackingId,
+            'anonymizeIp' => ( new SettingAnonymizeIp() )->getOption() ? 'true' : 'false',
+        ] );
+        $googleAnalyticsTemplate->render();
 
     }
 

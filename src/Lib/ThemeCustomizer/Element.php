@@ -26,7 +26,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/ThemeCustommizerElement.html
  */
-abstract class ThemeCustommizerElement {
+abstract class Element {
 
     /**
      * @since 0.2.0
