@@ -82,10 +82,18 @@ abstract class SettingBase implements Renderable {
      */
     public function getOption() {
 
-        return get_option( $this->getName(), $this->getDefault() );
+        if ( $this->getDefault() === true ) {
+            $optionValue = get_option( $this->getName() );
+            $option = $optionValue === '' ? false : true;
+        }
+        else {
+            $option = get_option( $this->getName(), $this->getDefault() );
+        }
+
+        return $option;
 
     }
 
-    abstract public function render();
+    abstract public function render( array $args );
 
 }

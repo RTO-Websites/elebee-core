@@ -110,6 +110,9 @@ class ElebeeAdmin {
     public function enqueueScripts() {
 
         wp_enqueue_script( $this->themeName . '-admin', $this->jsDirUrl . '/admin.js', [ 'jquery' ], $this->version, false );
+        wp_localize_script( $this->themeName . '-admin', 'l10n', [
+            'noticeGoogleTrackingIdInvalid' => __( 'Goolge Tracking ID format is invalid.', 'elebee' )
+        ] );
 
     }
 

@@ -124,9 +124,14 @@ class ElebeePublic {
     }
 
     public function embedGoogleAnalytics() {
+        $trackingId = ( new SettingTrackingId() )->getOption();
+
+        if( empty( $trackingId ) ) {
+            return;
+        }
 
         $googleAnalyticsTemplate = new Template( __DIR__ . '/partials/google-analytics.php', [
-            'gaTrackingId' => ( new SettingTrackingId() )->getOption(),
+            'gaTrackingId' => $trackingId,
             'anonymizeIp' => ( new SettingAnonymizeIp() )->getOption() ? 'true' : 'false',
         ] );
         $googleAnalyticsTemplate->render();
