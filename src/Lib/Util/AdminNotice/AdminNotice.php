@@ -69,12 +69,12 @@ class AdminNotice {
      * @param bool $isDismissible
      *      Optional. After closing the notice, this will be never shown again for the current user. Default 'true'.
      *
-     * @return void
+     * @return string
      */
     public function getNotice( string $noticeName, string $message, string $type = 'error', bool $isDismissible = true ) {
 
         if ( $this->isNoticeDismissed( $noticeName ) ) {
-            return;
+            return '';
         }
 
         if ( !in_array( $type, $this->allowedNotices ) ) {
@@ -84,7 +84,7 @@ class AdminNotice {
         $additionalClass = $isDismissible === true ? ' is-dismissible' : '';
         $class = $noticeName . ' notice notice-' . $type . $additionalClass;
 
-        printf(
+        return sprintf(
             '<div class="%1$s" data-name="%2$s"><p>%3$s</p></div>',
             esc_attr( $class ), esc_attr( $noticeName ), esc_html( $message )
         );

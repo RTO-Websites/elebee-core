@@ -185,11 +185,8 @@ class ElebeeAdmin {
      */
     public function elementorNotExists() {
 
-        if ( !class_exists( 'ElebeeCore\Lib\Util\AdminNotice\AdminNotice') ) {
-            return;
-        }
-
-        ( new AdminNotice() )->getNotice(
+        $notice = new AdminNotice();
+        echo $notice->getNotice(
             'elebee-missing-elementor',
             __( 'The theme Eleebee works best with Elementor. Please install or activate Elementor-Plugin.')
         );
