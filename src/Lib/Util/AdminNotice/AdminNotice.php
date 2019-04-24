@@ -28,7 +28,7 @@ class AdminNotice {
     /**
      * @var string
      */
-    private $utilUrl = '';
+    private $assetsUrl;
 
     /**
      * @var array
@@ -36,7 +36,8 @@ class AdminNotice {
     private $allowedNotices = [ 'success', 'error', 'warning', 'info' ];
 
     public function __construct() {
-        $this->utilUrl = trailingslashit( str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__) );
+
+        $this->assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Lib/Util/AdminNotice';
 
     }
 
@@ -98,7 +99,7 @@ class AdminNotice {
      */
     public function enqueueScripts() {
 
-        wp_enqueue_script( $this->utilName, $this->utilUrl . 'js/admin.js', [ 'jquery' ] );
+        wp_enqueue_script( $this->utilName, $this->assetsUrl . '/js/admin.js', [ 'jquery' ] );
 
     }
 
