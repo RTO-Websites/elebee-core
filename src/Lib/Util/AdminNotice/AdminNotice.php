@@ -38,8 +38,6 @@ class AdminNotice {
     public function __construct() {
         $this->utilUrl = str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__);
 
-        $this->enqueueScripts();
-        $this->localizeScripts();
     }
 
     /**
