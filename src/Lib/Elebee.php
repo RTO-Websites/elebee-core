@@ -52,7 +52,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.5.2';
+    const VERSION = '0.7.1';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -286,10 +286,8 @@ class Elebee {
         }
 
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
-        $utilAdminNotice = new AdminNotice();
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
-        $this->loader->addAction( 'wp_ajax_dismiss_notice', $utilAdminNotice, 'dismissNotice' );
 
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
@@ -302,6 +300,11 @@ class Elebee {
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
+
+        $utilAdminNotice = new AdminNotice();
+        $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'enqueueScripts' );
+        $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'localizeScripts' );
+        $this->loader->addAction( 'wp_ajax_dismiss_notice', $utilAdminNotice, 'dismissNotice' );
 
     }
 
