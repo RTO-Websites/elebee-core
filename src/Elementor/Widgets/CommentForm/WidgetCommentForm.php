@@ -14,6 +14,7 @@ namespace ElebeeCore\Elementor\Widgets\CommentForm;
 
 
 use ElebeeCore\Elementor\Widgets\WidgetBase;
+use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
@@ -50,7 +51,7 @@ class WidgetCommentForm extends WidgetBase {
      * @since 0.1.0
      */
     public function enqueueStyles() {
-        // TODO: Implement enqueueStyles() method.
+        wp_enqueue_style( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentForm/assets/css/comment-form.css', [], Elebee::VERSION, 'all' );
     }
 
     /**
@@ -169,6 +170,30 @@ class WidgetCommentForm extends WidgetBase {
                     '20' => '20%',
                 ],
                 'default' => '100',
+            ]
+        );
+
+        $this->add_control(
+            'show_cookies_opt_in',
+            [
+                'label' => __( 'Show comments cookies opt-in checkbox.' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'elementor' ),
+                'label_off' => __( 'Hide', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
+            'show_gdpr_opt_in',
+            [
+                'label' => __( 'Show GDPR opt-in checkbox.', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'elementor' ),
+                'label_off' => __( 'Hide', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
             ]
         );
 
@@ -1033,10 +1058,13 @@ class WidgetCommentForm extends WidgetBase {
             'author' => '',
             'email' => '',
             'url' => '',
-            'cookies' => ''
+            'comment' => '',
+            'gdpr' => '',
         ];
 
         $settings = $this->get_settings();
+        # remove p-tag
+        $settings[ 'comment_gdpr' ] = str_replace( [ '<p>', '</p>' ], '', $settings[ 'comment_gdpr' ] );
         $sign = $settings[ 'comment_required_sign' ];
         $requiredContainer = !empty( $sign ) ? '<span class="required">' . $sign . '</span>' : '';
 
@@ -1077,12 +1105,17 @@ class WidgetCommentForm extends WidgetBase {
             $fields[ 'url' ] = ( new Template( __DIR__ . '/partials/url.php', $extraArgs ) )->getRendered();
         }
 
-        $cookiesArgs = [
-            'commentGdpr' => $settings[ 'comment_gdpr' ],
-            'required' => $requiredContainer,
-        ];
-        $fields[ 'cookies' ] = ( new Template( __DIR__ . '/partials/cookies.php', $cookiesArgs ) )->getRendered();
+        if ( $settings[ 'show_gdpr_opt_in'] === 'yes' ) {
+            $gdprArgs = [
+                'commentGdpr' => $settings[ 'comment_gdpr' ],
+                'required' => $requiredContainer,
+            ];
+            $fields[ 'gdpr' ] = ( new Template( __DIR__ . '/partials/gdpr.php', $gdprArgs ) )->getRendered();
+        }
 
+        if ( $settings[ 'show_cookies_opt_in'] !== 'yes' ) {
+            $fields[ 'cookies' ] = '';
+        }
 
         $loggedInAsArgs = [
             'loggedInAs' => $settings['comment_logged_in_as'],
@@ -1118,13 +1151,25 @@ class WidgetCommentForm extends WidgetBase {
             'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
         ];
 
-
-
+        # rearrange fields
         add_filter( 'comment_form_fields', function ( $fields ) {
 
-            $comment_field = $fields['comment'];
+            $commentField = $fields['comment'];
+            $cookiesField = $fields['cookies'];
+            $gdprField = $fields['gdpr'];
+
+            if( !empty( $cookiesField ) ) {
+                $cookiesField = '<div class="elementor-field-group elementor-column">' . $cookiesField  . '</div>';
+            }
+
             unset( $fields['comment'] );
-            $fields['comment'] = $comment_field;
+            unset( $fields['cookies'] );
+            unset( $fields['gdpr'] );
+
+            $fields['comment'] = $commentField;
+            $fields['cookies'] = $cookiesField;
+            $fields['gdpr'] = $gdprField;
+
             return $fields;
         } );
 

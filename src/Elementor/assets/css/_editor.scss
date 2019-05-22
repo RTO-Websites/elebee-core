@@ -7,3 +7,9 @@
     color: #33cc33;
   }
 }
+
+/* elementor switcher fix */
+.elementor-control.elementor-control-type-switcher .elementor-switch-label:before {
+  text-indent: -1rem;
+  z-index: 10;
+}
