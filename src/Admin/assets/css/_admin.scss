@@ -25,3 +25,8 @@
     }
   }
 }
+
+/* *** ToDo: remove, if editor selection is integrated *** */
+.wp-editor-container .cm-s-mdn-like.CodeMirror {
+  background-image: none;
+}

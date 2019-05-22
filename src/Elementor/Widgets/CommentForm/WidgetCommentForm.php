@@ -7,16 +7,18 @@
  * @package ElebeeCore\Elementor\Widgets\CommentForm
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
+ * @link    https://rto-extras.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
  */
 
 namespace ElebeeCore\Elementor\Widgets\CommentForm;
 
 
 use ElebeeCore\Elementor\Widgets\WidgetBase;
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
+use Elementor\Plugin;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
 
@@ -34,9 +36,15 @@ if ( !defined( '__COMMENTFORM__' ) ) {
  * @package ElebeeCore\Elementor\Widgets\CommentForm
  * @author  RTO GmbH <info@rto.de>
  * @licence GPL-3.0
- * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
+ * @link    https://rto-extras.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
  */
 class WidgetCommentForm extends WidgetBase {
+
+    public function __construct( array $data = [], array $args = null ) {
+        parent::__construct( $data, $args );
+
+        add_filter( 'elementor/widget/print_template', array( $this, 'skin_print_template' ), 10, 2 );
+    }
 
     /**
      * @since 0.1.0
@@ -85,6 +93,12 @@ class WidgetCommentForm extends WidgetBase {
 
     }
 
+    public function get_keywords() {
+
+        return [ 'guest book', 'comment form', 'user', 'form' ];
+
+    }
+
     /**
      * Register image widget controls.
      *
@@ -96,8 +110,9 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _register_controls() {
 
+        //<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
-            'section_comments',
+            'section_comment_form',
             [
                 'label' => __( 'Comment Form', 'elebee' ),
             ]
@@ -106,7 +121,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'page',
             [
-                'label' => __( 'Page', 'elementor-pro' ),
+                'label' => __( 'Page', 'elebee' ),
                 'description' => __( 'Comments get posted to the selected page.', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
@@ -116,38 +131,341 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->add_control(
-            'comment_title',
+            'label_comment',
             [
-                'label' => __( 'Title', 'elebee' ),
+                'label' => __( 'Comment label', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
-                'default' => __( 'Write a Reply or Comment', 'elebee' ),
-                'placeholder' => __( 'Type your comment title here', 'elebee' ),
+                'default' => __( 'Comment', 'elebee' ),
+                'placeholder' => __( 'Type your comment label text here', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'placeholder_comment',
+            [
+                'label' => __( 'Placeholder', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Comment', 'elebee' ),
+                'placeholder' => __( 'Type your comment placeholder text here', 'elebee' ),
             ]
         );
 
         $this->add_responsive_control(
-            'comment_title_align',
+            'field_width_comment',
             [
-                'label' => __( 'Title Alignment', 'elebee' ),
-                'type' => Controls_Manager::CHOOSE,
+                'label' => __( 'Comment Field Width', 'elementor-pro' ),
+                'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'left' => [
-                        'title' => __( 'Left', 'elebee' ),
-                        'icon' => 'fa fa-align-left',
-                    ],
-                    'center' => [
-                        'title' => __( 'Center', 'elebee' ),
-                        'icon' => 'fa fa-align-center',
-                    ],
-                    'right' => [
-                        'title' => __( 'Right', 'elebee' ),
-                        'icon' => 'fa fa-align-right',
-                    ],
+                    '' => __( 'Default', 'elementor-pro' ),
+                    '100' => '100%',
+                    '80' => '80%',
+                    '75' => '75%',
+                    '66' => '66%',
+                    '60' => '60%',
+                    '50' => '50%',
+                    '40' => '40%',
+                    '33' => '33%',
+                    '25' => '25%',
+                    '20' => '20%',
                 ],
-                'default' => '',
-                'selectors' => [
-                    '{{WRAPPER}} .comment-reply-title' => 'text-align: {{VALUE}};',
+                'default' => '100',
+            ]
+        );
+
+        $this->add_control(
+            'label_button',
+            [
+                'label' => __( 'Send Button Text', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Send', 'elebee' ),
+                'placeholder' => __( 'Type your send button text here', 'elebee' ),
+            ]
+        );
+
+        $this->start_controls_tabs(
+            'fields_tabs'
+        );
+
+        $this->start_controls_tab(
+            'name_tab',
+            [
+                'label' => __( 'Name', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'show_name',
+            [
+                'label' => __( 'Visibility', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'elementor' ),
+                'label_off' => __( 'Hide', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'label_name',
+            [
+                'label' => __( 'Label', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Name', 'elebee' ),
+                'condition' => [
+                    'show_name' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'placeholder_name',
+            [
+                'label' => __( 'Placeholder', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Name', 'elebee' ),
+                'condition' => [
+                    'show_name' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_responsive_control(
+            'field_width_name',
+            [
+                'label' => __( 'Field Width', 'elementor-pro' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __( 'Default', 'elementor-pro' ),
+                    '100' => '100%',
+                    '80' => '80%',
+                    '75' => '75%',
+                    '66' => '66%',
+                    '60' => '60%',
+                    '50' => '50%',
+                    '40' => '40%',
+                    '33' => '33%',
+                    '25' => '25%',
+                    '20' => '20%',
                 ],
+                'default' => '100',
+            ]
+        );
+
+        $this->add_control(
+            'require_name',
+            [
+                'label' => __( 'Require', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor' ),
+                'label_off' => __( 'No', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+                'condition' => [
+                    'show_name' => 'yes',
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'email_tab',
+            [
+                'label' => __( 'Email', 'elebee' )
+            ]
+        );
+
+        $this->add_control(
+            'show_email',
+            [
+                'label' => __( 'Visibility', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'elementor' ),
+                'label_off' => __( 'Hide', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'label_email',
+            [
+                'label' => __( 'Label', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Email', 'elebee' ),
+                'condition' => [
+                    'show_email' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'placeholder_email',
+            [
+                'label' => __( 'Placeholder', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Email', 'elebee' ),
+                'condition' => [
+                    'show_email' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_responsive_control(
+            'field_width_email',
+            [
+                'label' => __( 'Field Width', 'elementor-pro' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __( 'Default', 'elementor-pro' ),
+                    '100' => '100%',
+                    '80' => '80%',
+                    '75' => '75%',
+                    '66' => '66%',
+                    '60' => '60%',
+                    '50' => '50%',
+                    '40' => '40%',
+                    '33' => '33%',
+                    '25' => '25%',
+                    '20' => '20%',
+                ],
+                'default' => '100',
+            ]
+        );
+
+        $this->add_control(
+            'require_email',
+            [
+                'label' => __( 'Require', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor' ),
+                'label_off' => __( 'No', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+                'condition' => [
+                    'show_email' => 'yes',
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'extra_tab',
+            [
+                'label' => __( 'Extra', 'elebee' )
+            ]
+        );
+
+        $this->add_control(
+            'show_extra',
+            [
+                'label' => __( 'Visibility', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'elementor' ),
+                'label_off' => __( 'Hide', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+            ]
+        );
+
+        $this->add_control(
+            'use_extra_as_subject',
+            [
+                'label' => __( 'Field type', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'String', 'elementor' ),
+                'label_off' => __( 'Url', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+                'condition' => [
+                    'show_extra' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'label_extra',
+            [
+                'label' => __( 'Label', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Subject', 'elebee' ),
+                'condition' => [
+                    'show_extra' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'placeholder_extra',
+            [
+                'label' => __( 'Placeholder', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Subject', 'elebee' ),
+                'condition' => [
+                    'show_extra' => 'yes',
+                ]
+            ]
+        );
+
+        $this->add_responsive_control(
+            'field_width_extra',
+            [
+                'label' => __( 'Field Width', 'elementor-pro' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __( 'Default', 'elementor-pro' ),
+                    '100' => '100%',
+                    '80' => '80%',
+                    '75' => '75%',
+                    '66' => '66%',
+                    '60' => '60%',
+                    '50' => '50%',
+                    '40' => '40%',
+                    '33' => '33%',
+                    '25' => '25%',
+                    '20' => '20%',
+                ],
+                'default' => '100',
+            ]
+        );
+
+        $this->add_control(
+            'require_extra',
+            [
+                'label' => __( 'Require', 'elementor' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor' ),
+                'label_off' => __( 'No', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+                'condition' => [
+                    'show_extra' => 'yes',
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_form_texts',
+            [
+                'label' => __( 'Form texts', 'elebee' ),
+                'tab' => Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $gdprLink = get_permalink( get_option( 'wp_page_for_privacy_policy' ) );
+        $this->add_control(
+            'comment_gdpr',
+            [
+                'label' => __( 'GDPR', 'elebee' ),
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => sprintf( __( 'I have read the <a href="%s">privacy policy</a> and accept that my data will be saved for the pupose of contact or further inquiries.', 'elebee' ), $gdprLink ),
             ]
         );
 
@@ -157,7 +475,6 @@ class WidgetCommentForm extends WidgetBase {
                 'label' => __( 'Login prompt', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'You must be logged in, to post a comment.', 'elebee' ),
-                'placeholder' => __( 'Type your login prompt here', 'elebee' ),
             ]
         );
 
@@ -167,7 +484,7 @@ class WidgetCommentForm extends WidgetBase {
                 'label' => __( 'Logged in as text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Logged in as', 'elebee' ),
-                'placeholder' => __( 'Type your logged in as text here', 'elebee' ),
+                'description' => __( 'Use "%1$s" placeholder to display the username', 'elebee' ),
             ]
         );
 
@@ -182,89 +499,29 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->add_control(
+            'comment_required_sign',
+            [
+                'label' => __( 'Required sign', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => '*',
+                'placeholder' => '*',
+            ]
+        );
+
+        $this->add_control(
             'comment_required_text',
             [
                 'label' => __( 'Required Text', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
-                'default' => __( 'Required fields are marked %s', 'elebee' ),
-                'placeholder' => __( '%s is placeholder for sign', 'elebee' ),
-            ]
-        );
-
-        $this->add_responsive_control(
-            'comment_log_in_out_align',
-            [
-                'label' => __( 'Alignment Log in/out', 'elebee' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => [
-                    'left' => [
-                        'title' => __( 'Left', 'elebee' ),
-                        'icon' => 'fa fa-align-left',
-                    ],
-                    'center' => [
-                        'title' => __( 'Center', 'elebee' ),
-                        'icon' => 'fa fa-align-center',
-                    ],
-                    'right' => [
-                        'title' => __( 'Right', 'elebee' ),
-                        'icon' => 'fa fa-align-right',
-                    ],
-                ],
-                'default' => '',
-                'selectors' => [
-                    '{{WRAPPER}} .logged-in-as, {{WRAPPER}} .must-log-in' => 'text-align: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'comment_label',
-            [
-                'label' => __( 'Comment', 'elebee' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => __( 'Comment', 'elebee' ),
-                'placeholder' => __( 'Type your comment label text here', 'elebee' ),
-            ]
-        );
-
-        $this->add_control(
-            'comment_button',
-            [
-                'label' => __( 'Send Button Text', 'elebee' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => __( 'Send', 'elebee' ),
-                'placeholder' => __( 'Type your send button text here', 'elebee' ),
-            ]
-        );
-
-        $this->add_responsive_control(
-            'comment_button_align',
-            [
-                'label' => __( 'Alignment Button', 'elebee' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => [
-                    'left' => [
-                        'title' => __( 'Left', 'elebee' ),
-                        'icon' => 'fa fa-align-left',
-                    ],
-                    'center' => [
-                        'title' => __( 'Center', 'elebee' ),
-                        'icon' => 'fa fa-align-center',
-                    ],
-                    'right' => [
-                        'title' => __( 'Right', 'elebee' ),
-                        'icon' => 'fa fa-align-right',
-                    ],
-                ],
-                'default' => '',
-                'selectors' => [
-                    '{{WRAPPER}} .form-submit' => 'text-align: {{VALUE}};',
-                ],
+                'default' => __( 'Required fields are marked with %s', 'elebee' ),
+                'description' => __( 'Use "%s" placeholder to display the mark sign', 'elebee' ),
             ]
         );
 
         $this->end_controls_section();
+        //</editor-fold>
 
+        //<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_form_style',
             [
@@ -567,50 +824,6 @@ class WidgetCommentForm extends WidgetBase {
             ]
         );
 
-        $this->add_responsive_control(
-            'field_width',
-            [
-                'label' => __( 'Field Width', 'elementor-pro' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => [
-                    '' => __( 'Default', 'elementor-pro' ),
-                    '100' => '100%',
-                    '80' => '80%',
-                    '75' => '75%',
-                    '66' => '66%',
-                    '60' => '60%',
-                    '50' => '50%',
-                    '40' => '40%',
-                    '33' => '33%',
-                    '25' => '25%',
-                    '20' => '20%',
-                ],
-                'default' => '100',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'comment_field_width',
-            [
-                'label' => __( 'Comment Field Width', 'elementor-pro' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => [
-                    '' => __( 'Default', 'elementor-pro' ),
-                    '100' => '100%',
-                    '80' => '80%',
-                    '75' => '75%',
-                    '66' => '66%',
-                    '60' => '60%',
-                    '50' => '50%',
-                    '40' => '40%',
-                    '33' => '33%',
-                    '25' => '25%',
-                    '20' => '20%',
-                ],
-                'default' => '100',
-            ]
-        );
-
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -754,6 +967,7 @@ class WidgetCommentForm extends WidgetBase {
                 'type' => Controls_Manager::HOVER_ANIMATION,
             ]
         );
+        //</editor-fold>
 
         $this->end_controls_tab();
 
@@ -806,56 +1020,104 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function render() {
 
-        $settings = $this->get_settings();
+        $editor = Plugin::$instance->editor;
+        if ( $editor->is_edit_mode() ) {
+            return;
+        }
+
         $user = wp_get_current_user();
         $user_identity = $user->exists() ? $user->display_name : '';
         $commenter = wp_get_current_commenter();
-        $req = get_option( 'require_name_email' );
-        $required_text = sprintf( ' ' . __( $settings['comment_required_text'] ), '<span class="required">*</span>' );
-        $aria_req = ( $req ? " aria-required='true'" : '' );
-
-        if ( empty( $settings['field_width'] ) ) {
-            $settings['field_width'] = '100';
-        }
-
-        if ( empty( $settings['comment_field_width'] ) ) {
-            $settings['comment_field_width'] = '100';
-        }
 
         $fields = [
+            'author' => '',
+            'email' => '',
+            'url' => '',
+            'cookies' => ''
+        ];
 
-            'author' =>
-                '<div class="elementor-field-group elementor-column elementor-col-' . $settings['field_width'] . '">
-				<label for="author">' . __( 'Name', 'elebee' ) . '</label> ' .
-                ( $req ? '<span class="required">*</span>' : '' ) .
-                '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
-                '" size="30"' . $aria_req . ' /></div>',
+        $settings = $this->get_settings();
+        $sign = $settings[ 'comment_required_sign' ];
+        $requiredContainer = !empty( $sign ) ? '<span class="required">' . $sign . '</span>' : '';
 
-            'email' =>
-                '<div class="elementor-field-group elementor-column elementor-col-' . $settings['field_width'] . '">
-				<label for="email">' . __( 'Email', 'elebee' ) . '</label> ' .
-                ( $req ? '<span class="required">*</span>' : '' ) .
-                '<input id="email" name="email" type="text" value="' . esc_attr( $commenter['comment_author_email'] ) .
-                '" size="30"' . $aria_req . ' /></div>',
+        if ( $settings[ 'show_name'] === 'yes' ) {
+            $authorArgs = [
+                'fieldWidth' => !empty( $settings[ 'field_width_name' ] ) ? $settings[ 'field_width_name' ] : '100',
+                'authorLabel' => $settings[ 'label_name' ],
+                'authorPlaceholder' => $settings[ 'placeholder_name' ],
+                'required' => $settings[ 'require_name' ] === 'yes' ? $requiredContainer : '',
+                'authorName' => esc_attr( $commenter[ 'comment_author' ] ),
+            ];
 
-            'url' =>
-                '<div class="elementor-field-group elementor-column elementor-col-' . $settings['field_width'] . '">
-				<label for="url">' . __( 'Website', 'elebee' ) . '</label>' .
-                '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
-                '" size="30" /></div>',
+            $fields[ 'author' ] = ( new Template( __DIR__ . '/partials/author.php', $authorArgs ) )->getRendered();
+        }
+
+        if ( $settings[ 'show_email'] === 'yes' ) {
+            $emailArgs = [
+                'fieldWidth' => !empty( $settings[ 'field_width_email' ] ) ? $settings[ 'field_width_email' ] : '100',
+                'emailLabel' => $settings[ 'label_email' ],
+                'emailPlaceholder' => $settings[ 'placeholder_name' ],
+                'required' => $settings[ 'require_email' ] === 'yes' ? $requiredContainer : '',
+                'authorEmail' => esc_attr( $commenter[ 'comment_author_email' ] ),
+            ];
+
+            $fields[ 'email' ] = ( new Template( __DIR__ . '/partials/email.php', $emailArgs ) )->getRendered();
+        }
+
+        if ( $settings[ 'show_extra'] === 'yes' ) {
+            $extraArgs = [
+                'fieldWidth' =>  !empty( $settings[ 'field_width_extra' ] ) ? $settings[ 'field_width_extra' ] : '100',
+                'extraLabel' => $settings[ 'label_extra' ],
+                'extraPlaceholder' => $settings[ 'placeholder_extra' ],
+                'required' => $settings[ 'require_extra' ] === 'yes' ? $requiredContainer : '',
+                # ToDo: ignore url format, if selected as a subject
+                'extraValue' => esc_attr( $commenter[ 'comment_author_url' ] ),
+            ];
+
+            $fields[ 'url' ] = ( new Template( __DIR__ . '/partials/url.php', $extraArgs ) )->getRendered();
+        }
+
+        $cookiesArgs = [
+            'commentGdpr' => $settings[ 'comment_gdpr' ],
+            'required' => $requiredContainer,
+        ];
+        $fields[ 'cookies' ] = ( new Template( __DIR__ . '/partials/cookies.php', $cookiesArgs ) )->getRendered();
+
+
+        $loggedInAsArgs = [
+            'loggedInAs' => $settings['comment_logged_in_as'],
+            'logOut' => $settings['comment_log_out'],
+            'adminUrl' => admin_url( 'profile.php' ),
+            'userIdentity' => $user_identity,
+            'logOutUrl' => wp_logout_url( apply_filters( 'the_permalink', get_permalink() ) ),
+        ];
+
+        $mustLogInArgs = [
+            'logIn' => $settings[ 'comment_log_in' ],
+            'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )
+        ];
+
+        $commentFieldArgs = [
+            'fieldWidth' => !empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
+            'commentLabel' => $settings[ 'label_comment' ],
+            'commentPlaceholder' => $settings[ 'placeholder_comment' ],
+            'required' => $requiredContainer,
         ];
 
         $comments_args = [
-            'label_submit' => $settings['comment_button'],
-            'title_reply' => $settings['comment_title'],
+            'title_reply' => '',
+            'title_reply_before' => '',
+            'title_reply_after' => '',
+            'label_submit' => $settings[ 'label_button' ],
             'comment_notes_after' => '',
-            'logged_in_as' => '<div class="elementor-field-group elementor-column"><p class="logged-in-as">' . sprintf( __( $settings['comment_logged_in_as'] . ' <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">' . $settings['comment_log_out'] . '</a>', 'elebee' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink() ) ) ) . '</p></div>',
-            'must_log_in' => '<div class="elementor-field-group elementor-column"><p class="must-log-in">' . sprintf( __( '<a href="%s">' . $settings['comment_log_in'] . '</a>' ), wp_login_url( apply_filters( 'the_permalink', get_permalink() ) ) ) . '</p></div>',
-            'comment_notes_before' => '<div class="elementor-field-group elementor-column elementor-col-100"><p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p></div>',
-            'class_submit' => 'submit elementor-animation-' . $settings['button_hover_animation'],
+            'comment_notes_before' => '',
+            'class_submit' => 'submit elementor-animation-' . $settings[ 'button_hover_animation' ],
             'fields' => apply_filters( 'comment_form_default_fields', $fields ),
-            'comment_field' => '<div class="elementor-field-group elementor-column elementor-col-' . $settings['comment_field_width'] . '"><label for="comment">' . _x( $settings['comment_label'], 'noun' ) . '</label><br /><textarea id="comment" name="comment" aria-required="true"></textarea></p></div>',
+            'must_log_in' => ( new Template( __DIR__ . '/partials/must-log-in.php', $mustLogInArgs ) )->getRendered(),
+            'logged_in_as' => ( new Template( __DIR__ . '/partials/logged-in-as.php', $loggedInAsArgs ) )->getRendered(),
+            'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
         ];
+
 
 
         add_filter( 'comment_form_fields', function ( $fields ) {
@@ -867,7 +1129,33 @@ class WidgetCommentForm extends WidgetBase {
         } );
 
         comment_form( $comments_args, $settings['page'] );
-
     }
 
+    public function skin_print_template( $content, $button ) {
+        if ( 'comment_form' === $button->get_name() ) {
+            // If we don't want a JavaScript Template, just uncomment this below
+            // return '';
+
+            ob_start();
+            $this->_content_template();
+            $content = ob_get_clean();
+        }
+
+        return $content;
+    }
+
+    /**
+     * Render the widget output in the editor.
+     *
+     * Written as a Backbone JavaScript template and used to generate the live preview.
+     *
+     * @since  0.1.0
+     *
+     * @return void
+     */
+    protected function _content_template() {
+
+        include 'partials/editor-content.php';
+
+    }
 }
