@@ -159,6 +159,18 @@ class ElebeeAdmin {
     }
 
     /**
+     * @since 0.7.2
+     *
+     * @return void
+     */
+    public function setupCommentForm() {
+        # remove requirement of name and email comment form
+        if( filter_var( get_option( 'require_name_email'), FILTER_VALIDATE_BOOLEAN ) ) {
+            update_option( 'require_name_email', false );
+        }
+    }
+
+    /**
      * @since 0.1.0
      *
      * @return void

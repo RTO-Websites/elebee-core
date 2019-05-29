@@ -1,10 +1,14 @@
 /* Responsive Toggle */
+$color: (
+  error: #dc3232,
+  success: #46b450,
+);
 
 #elementor-panel-footer-responsive-toggle {
-  color: #cc3333;
+  color: map-get($color, error);
 
   &.responsive-toggle {
-    color: #33cc33;
+    color: map-get($color, success);
   }
 }
 
