@@ -9,11 +9,11 @@
  * @var $cssClass string
  */
 
-$ariaRequired = ( !empty( $requiered ) ? 'aria-required="true" required' : '' );
+$ariaRequired = ( !empty( $required ) ? 'aria-required="true" required="required"' : '' );
 ?>
 
 <div class="elementor-column elementor-col-<?php echo $fieldWidth; ?>">
     <label for="comment-author-extra"><?php echo $extraLabel . $required; ?></label>
-    <input id="comment-author-extra" name="comment-author-extra" type="text" size="30" class="<?php echo $cssClass; ?>"
+    <input id="comment-author-extra" name="comment-author-extra" type="text" class="<?php echo $cssClass; ?>"
         <?php echo $ariaRequired; ?> placeholder="<?php echo $extraPlaceholder; ?>" value="<?php echo $extraValue; ?>" />
 </div>

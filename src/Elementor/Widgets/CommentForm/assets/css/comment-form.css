@@ -10,6 +10,7 @@
 
 .elementor-widget-comment_form form > .elementor-column {
     float: left;
+    position: relative;
 }
 
 .elementor-widget-comment_form form.elebee-labels-above > .elementor-column {
@@ -36,4 +37,12 @@
 
 .elementor-widget-comment_form form input[type="checkbox"] {
     margin: 0 5px;
+}
+
+.elementor-widget-comment_form form .error {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #f22;
+    z-index: 100;
 }

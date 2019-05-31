@@ -3,7 +3,6 @@
 /**
  * @var $buttonClasses string
  * @var $buttonSize string
- * @var $buttonType string
  * @var $buttonHoverAnimation string
  * @var $buttonIcon string
  * @var $buttonIconAlign string
@@ -27,7 +26,7 @@ if ( !empty( $buttonText ) ) {
 ?>
 
 <div class="<?php echo $buttonClasses; ?>">
-    <button type="submit" class="elementor-button elementor-size-<?php echo $buttonSize; ?> elementor-button-<?php echo $buttonType; ?> elementor-animation-<?php echo $buttonHoverAnimation; ?>">
+    <button type="submit" class="elementor-button elementor-size-<?php echo $buttonSize; ?> elementor-animation-<?php echo $buttonHoverAnimation; ?>">
             <span>
                 <?php echo $icon; ?>
                 <?php echo $text; ?>

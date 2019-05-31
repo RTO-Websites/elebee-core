@@ -19,20 +19,24 @@
         require: settings.require_extra === 'yes' ? requiredContainer : ''
     };
 
+    var labelsPosition = settings.label_position === 'yes' ?  'above' : 'inline';
+
+    var openCommentsPages = JSON.parse( settings.open_comments_pages );
+    if ( typeof( openCommentsPages[ settings.page ] ) === 'undefined' ) { #>
+        <?php
+        $commentsClosedTitle = '<span class="elebee-notice-title">' . __( 'Comments are disabled!', 'elebee' ) . '</span>';
+        $commentsClosedContent = __( 'This form will not be displayed on Frontend.', 'elebee' );
+        ?>
+        <div class="elebee-notice elebee-notice-warning">
+            <# print( '<?php echo $commentsClosedTitle; ?>' ); #>
+            <# print( '<?php echo $commentsClosedContent; ?>' ); #>
+            <span class="elebee-notice-hint">ID: <# print( settings.page ); #></span>
+        </div>
+    <# }
+
     // strip p tag
     settings.comment_gdpr = settings.comment_gdpr.replace( /<p[^>]*>|<\/\p>/g, '' );
-
-    <?php
-    $commentsClosedTitle = '<span class="elebee-notice-title">' . __( 'Comments are disabled!', 'elebee' ) . '</span>';
-    $commentsClosedContent = '<div class="elebee-notice elebee-notice-warning">' .
-            $commentsClosedTitle .
-            __( 'This form will not be displayed on Frontend.', 'elebee' ) .
-        '</div>';
-    ?>
-    var commentsClosed = '<?php echo !comments_open() ? $commentsClosedContent : ''; ?>';
-    var labelsPosition = settings.label_position === 'yes' ?  'above' : 'inline';
 #>
-{{{ commentsClosed }}}
 <form action="#" method="post" id="commentform" class="elementor-form comment-form elebee-labels-{{{ labelsPosition }}}" novalidate>
     <# if ( settings.show_name === 'yes' ) { #>
     <div class="elementor-column elementor-col-{{{ settings.field_width_name }}}">
