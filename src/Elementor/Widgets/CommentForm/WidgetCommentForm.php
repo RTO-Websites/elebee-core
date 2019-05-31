@@ -75,6 +75,7 @@ class WidgetCommentForm extends WidgetBase {
                 'fieldIsEmpty' => __( 'Field is empty', 'elebee' ),
                 'emailInvalid' => __( 'Email format is invalid', 'elebee' ),
                 'required' => __( 'This field is required', 'elebee'),
+                'formSubmitSuccess' => __( 'Thank you for your submission!', 'elebee'),
             );
 
             wp_localize_script( $this->get_name(), 'themeLocalization', $translationArray );

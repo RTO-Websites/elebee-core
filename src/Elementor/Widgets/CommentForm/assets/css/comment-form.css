@@ -39,7 +39,7 @@
     margin: 0 5px;
 }
 
-.elementor-widget-comment_form form .error {
+.elementor-widget-comment_form form .form-error {
     position: absolute;
     bottom: 0;
     right: 0;

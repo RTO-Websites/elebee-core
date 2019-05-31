@@ -7,11 +7,11 @@ jQuery.extend( jQuery.fn, {
     let container =  jQuery( this ).parent();
 
     if (jQuery( this ).val().length === 0) {
-      container.append( '<div class="error">' + themeLocalization.fieldIsEmpty + '</div>' );
+      container.append( '<div class="form-error">' + themeLocalization.fieldIsEmpty + '</div>' );
 
       return false;
     } else {
-      container.find( '.error' ).remove();
+      container.find( '.form-error' ).remove();
 
       return true;
     }
@@ -26,13 +26,13 @@ jQuery.extend( jQuery.fn, {
       container =  jQuery( this ).parent();
 
     if ( emailToValidate === '' ) {
-      container.append( '<div class="error">' + themeLocalization.fieldIsEmpty + '</div>' );
+      container.append( '<div class="form-error">' + themeLocalization.fieldIsEmpty + '</div>' );
   }
     else if ( !emailReg.test( emailToValidate ) ) {
-      container.append( '<div class="error">' + themeLocalization.emailInvalid + '</div>' );
+      container.append( '<div class="form-error">' + themeLocalization.emailInvalid + '</div>' );
     }
     else {
-      container.find( '.error' ).remove();
+      container.find( '.form-error' ).remove();
 
       return true;
     }
@@ -44,11 +44,11 @@ jQuery.extend( jQuery.fn, {
     let container =  jQuery( this ).parent();
 
     if ( !jQuery( this ).is( ':checked' ) ) {
-      container.append( '<div class="error">' + themeLocalization.required + '</div>' );
+      container.append( '<div class="form-error">' + themeLocalization.required + '</div>' );
 
       return false;
     } else {
-      container.find( '.error' ).remove();
+      container.find( '.form-error' ).remove();
 
       return true;
     }
@@ -60,16 +60,19 @@ jQuery(function ($) {
   /*
    * On comment form submit
    */
-  $('#commentform').submit(function ( e ) {
+  $( '.comment-form' ).submit( function ( e ) {
 
     e.preventDefault();
 
     // define some vars
-    let author = $( '#comment-author-name' ),
-      email = $( '#comment-author-email' ),
-      extra = $( '#comment-author-extra' ),
-      cookies = $( '#wp-comment-cookies-consent' ),
-      gdpr = $( '#comment-gdpr' ),
+    let form = $( this ),
+      author = form.find( '#comment-author-name' ),
+      email = form.find( '#comment-author-email' ),
+      extra = form.find( '#comment-author-extra' ),
+      cookies = form.find( '#wp-comment-cookies-consent' ),
+      gdpr = form.find( '#comment-gdpr' ),
+      message = form.find( '.comment-form-messages' ),
+      hasErrors = true,
       button = $('button[type="submit"]');
 
     if ( typeof author !== 'undefined' && author.attr( 'required' ) === 'required' ) {
@@ -95,43 +98,43 @@ jQuery(function ($) {
     }
 
     // validate comment in any case
-    $('#comment').validate();
+    $( '#comment' ).validate();
 
+    hasErrors = ( form.find( '.form-error' ).length > 0 );
     // if comment form isn't in process, submit it
-    if (!button.hasClass('loadingform') && !$('#comment-author-name').hasClass('error') && !$('#comment-author-email').hasClass('error') && !$('#comment').hasClass('error')) {
+    if ( !form.hasClass( 'send-form' ) && !hasErrors ) {
 
       // ajax request
       $.ajax({
         type: 'POST',
         url: themeVars.ajaxUrl, // admin-ajax.php URL
-        data: $(this).serialize() + '&action=ajaxcomments', // send form data + action parameter
-        beforeSend: function (xhr) {
+        data: $( this ).serialize() + '&action=ajaxcomments', // send form data + action parameter
+        beforeSend: function ( xhr ) {
           // what to do just after the form has been submitted
-          button.addClass('loadingform').val('Loading...');
+          form.addClass( 'send-form' );
         },
         error: function (request, status, error) {
-          if (status == 500) {
-            alert('Error while adding comment');
-          } else if (status == 'timeout') {
-            alert('Error: Server doesn\'t respond.');
+          let formError = '';
+          if ( status === 500 ) {
+            formError = 'Error while adding comment';
+          } else if ( status === 'timeout' ) {
+            formError = "Error: Server doesn't respond.";
           } else {
             // process WordPress errors
-            var wpErrorHtml = request.responseText.split("<p>"),
-              wpErrorStr = wpErrorHtml[1].split("</p>");
+            let wpErrorHtml = request.responseText.split( "<p>" ),
+              wpErrorStr = wpErrorHtml[ 1 ].split( "</p>" );
 
-            // ToDo: display alert on page
-            alert(wpErrorStr[0]);
+            formError = wpErrorStr[ 0 ];
           }
+          message.html( '<div class="comment-error">' + formError + '</div>' );
         },
         success: function () {
-          // clear textarea field
-          $('#comment').val('');
-
-          // ToDo: display success message
+          form[ 0 ].reset();
+          message.html( '<div class="comment-error">' + themeLocalization.formSubmitSuccess + '</div>' )
         },
         complete: function () {
           // what to do after a comment has been added
-          button.removeClass('loadingform').val('Post Comment');
+          form.removeClass( 'send-form' );
         }
       });
     }

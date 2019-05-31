@@ -24,7 +24,7 @@ if ( !empty( $buttonText ) ) {
     $text = '<span class="elementor-button-text">' . $buttonText . '</span>';
 }
 ?>
-
+<div class="comment-form-messages"></div>
 <div class="<?php echo $buttonClasses; ?>">
     <button type="submit" class="elementor-button elementor-size-<?php echo $buttonSize; ?> elementor-animation-<?php echo $buttonHoverAnimation; ?>">
             <span>
