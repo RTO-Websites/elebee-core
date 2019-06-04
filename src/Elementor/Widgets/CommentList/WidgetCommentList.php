@@ -159,7 +159,7 @@ class WidgetCommentList extends WidgetBase {
      * @since 0.1.0
      */
     protected function _register_controls() {
-
+        //<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
             'section_comments',
             [
@@ -601,23 +601,6 @@ class WidgetCommentList extends WidgetBase {
                 ]
             );
 
-            $this->add_control(
-                'comment_list_prev_icon_shape',
-                [
-                    'label' => __( 'Shape', 'elementor' ),
-                    'type' => Controls_Manager::SELECT,
-                    'options' => [
-                        'circle' => __( 'Circle', 'elementor' ),
-                        'square' => __( 'Square', 'elementor' ),
-                    ],
-                    'default' => 'circle',
-                    'condition' => [
-                        'comment_list_prev_icon!' => '',
-                        'comment_list_prev_icon_view!' => 'default',
-                    ],
-                ]
-            );
-
             $this->end_controls_tab();
 
             $this->start_controls_tab(
@@ -709,23 +692,6 @@ class WidgetCommentList extends WidgetBase {
                     'default' => 'default',
                     'condition' => [
                         'comment_list_next_icon!' => '',
-                    ],
-                ]
-            );
-
-            $this->add_control(
-                'comment_list_next_icon_shape',
-                [
-                    'label' => __( 'Shape', 'elementor' ),
-                    'type' => Controls_Manager::SELECT,
-                    'options' => [
-                        'circle' => __( 'Circle', 'elementor' ),
-                        'square' => __( 'Square', 'elementor' ),
-                    ],
-                    'default' => 'circle',
-                    'condition' => [
-                        'comment_list_next_icon!' => '',
-                        'comment_list_next_icon_view!' => 'default',
                     ],
                 ]
             );
@@ -826,22 +792,6 @@ class WidgetCommentList extends WidgetBase {
                 ]
             );
 
-            $this->add_control(
-                'comment_list_first_icon_shape',
-                [
-                    'label' => __( 'Shape', 'elementor' ),
-                    'type' => Controls_Manager::SELECT,
-                    'options' => [
-                        'circle' => __( 'Circle', 'elementor' ),
-                        'square' => __( 'Square', 'elementor' ),
-                    ],
-                    'default' => 'circle',
-                    'condition' => [
-                        'comment_list_first_icon_view!' => 'default',
-                    ],
-                ]
-            );
-
             $this->end_controls_tab();
 
             $this->start_controls_tab(
@@ -938,23 +888,6 @@ class WidgetCommentList extends WidgetBase {
                     ],
                 ]
             );
-
-            $this->add_control(
-                'comment_list_last_icon_shape',
-                [
-                    'label' => __( 'Shape', 'elementor' ),
-                    'type' => Controls_Manager::SELECT,
-                    'options' => [
-                        'circle' => __( 'Circle', 'elementor' ),
-                        'square' => __( 'Square', 'elementor' ),
-                    ],
-                    'default' => 'circle',
-                    'condition' => [
-                        'comment_list_last_icon!' => '',
-                        'comment_list_last_icon_view!' => 'default',
-                    ],
-                ]
-            );
         }
 
         $this->end_controls_tab();
@@ -962,7 +895,9 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tabs();
 
         $this->end_controls_section();
+        //</editor-fold>
 
+        //<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_comments_style',
             [
@@ -974,7 +909,7 @@ class WidgetCommentList extends WidgetBase {
         $this->add_control(
             'comment_color',
             [
-                'label' => __( 'Color', 'elebee' ),
+                'label' => __( 'Text Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -986,7 +921,36 @@ class WidgetCommentList extends WidgetBase {
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
+            'text_align',
+            [
+                'label' => __( 'Alignment', 'elementor' ),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => __( 'Left', 'elementor' ),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'center' => [
+                        'title' => __( 'Center', 'elementor' ),
+                        'icon' => 'fa fa-align-center',
+                    ],
+                    'right' => [
+                        'title' => __( 'Right', 'elementor' ),
+                        'icon' => 'fa fa-align-right',
+                    ],
+                    'justify' => [
+                        'title' => __( 'Justified', 'elementor' ),
+                        'icon' => 'fa fa-align-justify',
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .comment-body' => 'text-align: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
             'comment_margin',
             [
                 'label' => __( 'Margin', 'elebee' ),
@@ -1008,7 +972,7 @@ class WidgetCommentList extends WidgetBase {
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'comment_padding',
             [
                 'label' => __( 'Padding', 'elebee' ),
@@ -1091,6 +1055,15 @@ class WidgetCommentList extends WidgetBase {
             ]
         );
 
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'pagination_typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}} .pagination',
+            ]
+        );
+
         $this->start_controls_tabs( 'tabs_button_style' );
 
         $this->start_controls_tab(
@@ -1122,7 +1095,7 @@ class WidgetCommentList extends WidgetBase {
                 'type' => Controls_Manager::COLOR,
                 'default' => '#fff',
                 'selectors' => [
-                    '{{WRAPPER}} .page-numbers' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .page-numbers, {{WRAPPER}} .elebee-button-icon' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -1173,6 +1146,7 @@ class WidgetCommentList extends WidgetBase {
                     'ms' => [
                         'min' => 100,
                         'max' => 2000,
+                        'step' => 100,
                     ],
                 ],
                 'default' => [
@@ -1189,17 +1163,191 @@ class WidgetCommentList extends WidgetBase {
 
         $this->end_controls_tabs();
 
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_style_icon',
             [
-                'name' => 'pagination_typography',
-                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
-                'selector' => '{{WRAPPER}} .pagination',
+                'label' => __( 'Icon', 'elementor' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs( 'icon_colors' );
+
+        $this->start_controls_tab(
+            'icon_colors_normal',
+            [
+                'label' => __( 'Normal', 'elementor' ),
+            ]
+        );
+
+        $this->add_control(
+            'primary_color',
+            [
+                'label' => __( 'Primary Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-view-stacked .elebee-icon' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .elebee-view-framed .elebee-icon, {{WRAPPER}} .elebee-view-default .elebee-icon' => 'color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_1,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'secondary_color',
+            [
+                'label' => __( 'Secondary Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-view-framed .elebee-icon' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .elebee-view-stacked .elebee-icon' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'icon_colors_hover',
+            [
+                'label' => __( 'Hover', 'elementor' ),
+            ]
+        );
+
+        $this->add_control(
+            'hover_primary_color',
+            [
+                'label' => __( 'Primary Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-view-stacked:hover .elebee-icon' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .elebee-view-framed:hover .elebee-icon, {{WRAPPER}}.elebee-view-default:hover .elebee-icon' => 'color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hover_secondary_color',
+            [
+                'label' => __( 'Secondary Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-view-framed:hover .elebee-icon' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .elebee-view-stacked:hover .elebee-icon' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'icon_transition_duration',
+            [
+                'label' => __( 'Transition Duration', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'ms' ],
+                'range' => [
+                    'ms' => [
+                        'min' => 100,
+                        'max' => 2000,
+                        'step' => 100,
+                    ],
+                ],
+                'default' => [
+                    'size' => 600,
+                    'unit' => 'ms',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-button-icon' => 'transition: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->add_control(
+            'icons_size',
+            [
+                'label' => __( 'Size', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => 6,
+                        'max' => 300,
+                    ],
+                ],
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'icon_padding',
+            [
+                'label' => __( 'Padding', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'padding: {{SIZE}}{{UNIT}};',
+                ],
+                'range' => [
+                    'em' => [
+                        'min' => 0,
+                        'max' => 5,
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'rotate',
+            [
+                'label' => __( 'Rotate', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 0,
+                    'unit' => 'deg',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon i' => 'transform: rotate({{SIZE}}{{UNIT}});',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'border_width',
+            [
+                'label' => __( 'Border Width', 'elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'border_radius',
+            [
+                'label' => __( 'Border Radius', 'elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
             ]
         );
 
         $this->end_controls_section();
-
+        //</editor-fold>
     }
 
     /**
@@ -1295,13 +1443,11 @@ class WidgetCommentList extends WidgetBase {
 
     protected function getButtonArgs( $button ) {
         $view = $this->getSetting( 'comment_list_' .$button . '_icon_view' );
-        $shape = $this->getSetting( 'comment_list_' . $button . '_icon_shape' );
         $viewClass =  !empty( $view ) ? ' elebee-view-' . $view : '';
-        $shapeClass = !empty( $shape ) ? ' elebee-shape-' . $shape : '';
 
         $args = [
             'text' => $this->getSetting( 'comment_list_' . $button . '_text' ),
-            'buttonClass' => 'elebee-comments-' . $button . '-button' . $viewClass . $shapeClass,
+            'buttonClass' => 'elebee-comments-' . $button . '-button' . $viewClass,
             'iconClass' => esc_attr( $this->getSetting( 'comment_list_' . $button . '_icon' ) ),
             'iconAlign' => esc_attr( $this->getSetting( 'comment_list_' . $button . '_icon_position' ) ),
         ];
@@ -1364,6 +1510,8 @@ class WidgetCommentList extends WidgetBase {
             return;
         }
 
+        $format_args = [];
+        $url_query_args = [];
         $settings = $this->get_settings_for_display();
         $commentsPerPage = !empty( $settings[ 'comment_list_per_page' ] ) ? $settings[ 'comment_list_per_page' ] : get_option( 'comments_per_page' );
 
