@@ -1,0 +1,68 @@
+ul.comment-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.comment-list ul.children {
+    list-style-type: none;
+}
+
+/* *** pagination *** */
+.elementor-widget-comments .pagination {
+    padding: 0;
+}
+
+.elementor-widget-comments .elebee-button-icon {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.elementor-widget-comments .elebee-button-icon i::before {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.elementor-widget-comments .current {
+    font-weight: bold;
+}
+
+/* *** set better position *** */
+.elementor-widget-comments .elebee-button-icon .fa-angle-right::before {
+    top: -4%;
+    transform: translateX(-33%);
+}
+
+.elementor-widget-comments .elebee-icon i {
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    font-size: 1rem;
+    display: block;
+}
+
+.elementor-widget-comments .pagination li {
+    display: inline-block;
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+}
+
+.elebee-view-framed .elebee-button-icon {
+    border: 2px solid #6ec1e4;
+}
+
+.elebee-view-stacked .elebee-button-icon {
+    background-color: #6ec1e4;
+}
+
+.elebee-shape-circle .elebee-button-icon {
+    border-radius: 50%;
+}
+
+.elebee-align-icon-left {
+    float: left;
+}
+
+.elebee-align-icon-right {
+    float: right;
+}

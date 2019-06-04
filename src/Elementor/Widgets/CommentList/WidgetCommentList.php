@@ -14,12 +14,13 @@ namespace ElebeeCore\Elementor\Widgets\CommentList;
 
 
 use ElebeeCore\Elementor\Widgets\CommentList\Lib\Walker;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
+use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
-use Elementor\Widget_Base;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -33,7 +34,7 @@ use Elementor\Widget_Base;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentList/WidgetCommentList.html
  */
-class WidgetCommentList extends Widget_Base {
+class WidgetCommentList extends WidgetBase {
 
     /**
      * @since 0.1.0
@@ -61,6 +62,12 @@ class WidgetCommentList extends Widget_Base {
     ];
 
     /**
+     * @since 0.7.1
+     * @var string
+     */
+    private $assetsPath;
+
+    /**
      * CommentList constructor.
      *
      * @since 0.1.0
@@ -73,8 +80,22 @@ class WidgetCommentList extends Widget_Base {
 
         parent::__construct( $data, $args );
 
+        $this->assetsPath = get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentList/assets/';
         $this->commentPaginationPageTemplate = '<li>%s</li>';
         $this->pageComments = get_option( 'page_comments' );
+    }
+
+    /**
+     * @since 0.7.1
+     */
+    public function enqueueStyles() {
+        wp_enqueue_style( $this->get_name(), $this->assetsPath . 'css/comment-list.css', [], Elebee::VERSION, 'all' );
+    }
+
+    /**
+     * @since 0.7.1
+     */
+    public function enqueueScripts() {
 
     }
 
@@ -108,6 +129,12 @@ class WidgetCommentList extends Widget_Base {
     public function get_icon() {
 
         return 'fa fa-comments-o';
+
+    }
+
+    public function get_keywords() {
+
+        return [ 'comments', 'list', 'form' ];
 
     }
 
@@ -218,25 +245,147 @@ class WidgetCommentList extends Widget_Base {
         );
 
         $this->add_control(
-            'comment_list_author_format',
+            'comment_list_author_structure',
             [
-                'label' => __( 'Author format', 'elebee' ),
+                'label' => __( 'Author Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => '%s <span class="says">says:</span>',
+                'description' => __( '%s: Placeholder for author name.', 'elebee'),
                 'separator' => 'before',
             ]
         );
 
         $this->add_control(
-            'comment_list_date_format',
+            'comment_list_date_structure',
             [
-                'label' => __( 'Comment format', 'elebee' ),
-                'description' => __( 'For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
+                'label' => __( 'Date Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
-                'default' => 'd.m.Y \u\m H:i',
+                'default' => 'Posted at %1$s %2$s ',
+                'description' => __( '%1$s: Placeholder for date', 'elebee') . '<br>' . __( '%2$s: Placeholder for time', 'elebee'),
                 'separator' => 'before',
             ]
         );
+
+        $this->add_control(
+            'comment_date_format',
+            [
+                'label' => __( 'Date Format', 'elementor' ),
+                'type' => Controls_Manager::SELECT2,
+                'options' => [
+                    'j-f-y' => 'j. F Y',
+                    'y-m-d' => 'Y-m-d',
+                    'm-d-y' => 'm/d/Y',
+                    'd-m-y' => 'd/m/Y',
+                    'mdy' => 'm.d.Y',
+                    'custom' => __( 'Custom', 'elebee' ),
+                ],
+                'default' => 'j-f-y',
+            ]
+        );
+
+        $this->add_control(
+            'comment_date_format_custom',
+            [
+                'label' => __( 'Date Format Custom', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => '',
+                'condition' => [
+                    'comment_date_format' => 'custom',
+                ],
+                'description' => __( 'For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'comment_time_format_custom',
+            [
+                'label' => __( 'Date Time Custom', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => 'H:i',
+                'description' => __( 'For a reference on how to format a time, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'reply_format',
+            [
+                'label' => __( 'Reply Format', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_show_avatar',
+            [
+                'label' => __( 'Show avatar', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_author_structure',
+            [
+                'label' => __( 'Author Structure', 'elebee' ),
+                'type' => Controls_Manager::TEXTAREA,
+                'default' => '%s <span class="says">says:</span>',
+                'description' => __( '%s: Placeholder for author name.', 'elebee'),
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_date_structure',
+            [
+                'label' => __( 'Date Structure', 'elebee' ),
+                'type' => Controls_Manager::TEXTAREA,
+                'default' => 'Posted at %1$s %2$s ',
+                'description' => __( '%1$s: Placeholder for date', 'elebee') . '<br>' . __( '%2$s: Placeholder for time', 'elebee'),
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_date_format',
+            [
+                'label' => __( 'Date Format', 'elementor' ),
+                'type' => Controls_Manager::SELECT2,
+                'options' => [
+                    'j-f-y' => 'j. F Y',
+                    'y-m-d' => 'Y-m-d',
+                    'm-d-y' => 'm/d/Y',
+                    'd-m-y' => 'd/m/Y',
+                    'mdy' => 'm.d.Y',
+                    'custom' => __( 'Custom', 'elebee' ),
+                ],
+                'default' => 'j-f-y',
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_date_format_custom',
+            [
+                'label' => __( 'Date Format Custom', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => '',
+                'condition' => [
+                    'comment_date_format' => 'custom',
+                ],
+                'description' => __( 'For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'comment_reply_time_format_custom',
+            [
+                'label' => __( 'Date Time Custom', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => 'H:i',
+                'description' => __( 'For a reference on how to format a time, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
+            ]
+        );
+
+
 
         $this->end_controls_section();
 
@@ -253,7 +402,6 @@ class WidgetCommentList extends Widget_Base {
                 [
                     'type' => Controls_Manager::RAW_HTML,
                     'raw' => sprintf( __( 'Please note: pagination is only available once the option <a href="%1$s" target="_blank">Break comments into pages</a> has been activated.', 'elebee' ), admin_url( '/options-discussion.php#page_comments' ) ),
-                    'content_classes' => 'your-class',
                 ]
             );
         } else {
@@ -272,6 +420,8 @@ class WidgetCommentList extends Widget_Base {
                     'label' => __( 'Comments per page', 'elebee' ),
                     'type' => Controls_Manager::NUMBER,
                     'default' => get_option( 'comments_per_page' ),
+                    'placeholder' => get_option( 'comments_per_page' ),
+                    'description' => sprintf( __( 'Default number for the "comments per page" option is set on <a href="%1$s" target="_blank">WP Settings > Discussion</a> page', 'elebee' ), admin_url( '/options-discussion.php#comments_per_page' ) ),
                     'min' => 1,
                     'condition' => [
                         'comment_list_paginate' => 'yes',
@@ -280,7 +430,7 @@ class WidgetCommentList extends Widget_Base {
             );
 
             $this->add_control(
-                'comment_list_pagination_position',
+                'comment_list_position',
                 [
                     'label' => __( 'Pagination position', 'elebee' ),
                     'type' => Controls_Manager::SELECT,
@@ -297,9 +447,90 @@ class WidgetCommentList extends Widget_Base {
             );
 
             $this->add_control(
-                'comment_list_pagination_prev_label',
+                'comment_list_show_all',
                 [
-                    'label' => __( 'Previous label', 'elebee' ),
+                    'label' => __( 'Show all pages', 'elebee' ),
+                    'type' => Controls_Manager::SWITCHER,
+                    'label_on' => __( 'Yes', 'elebee' ),
+                    'label_off' => __( 'No', 'elebee' ),
+                    'return_value' => 'yes',
+                    'default' => 'yes',
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_end_size',
+                [
+                    'label' => __( 'Start/End size', 'elebee' ),
+                    'type' => Controls_Manager::NUMBER,
+                    'default' => 2,
+                    'placeholder' => 2,
+                    'description' => __( 'How many numbers on either the start and the end list edges.', 'elebee' ),
+                    'min' => 1,
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                        'comment_list_show_all!' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_mid_size',
+                [
+                    'label' => __( 'Middle size', 'elebee' ),
+                    'type' => Controls_Manager::NUMBER,
+                    'default' => 2,
+                    'placeholder' => 2,
+                    'description' => __( 'How many numbers to either side of current page, but not including current page.', 'elebee' ),
+                    'min' => 1,
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                        'comment_list_show_all!' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_last',
+                [
+                    'label' => __( 'First/last buttons?', 'elebee' ),
+                    'type' => Controls_Manager::SWITCHER,
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->start_controls_tabs(
+                'navigation_buttons'
+            );
+
+            $this->start_controls_tab(
+                'navigation_button_prev',
+                [
+                    'label' => __( 'Previous', 'elebee' ),
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_text',
+                [
+                    'label' => __( 'Label', 'elebee' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => __( 'Previous', 'elebee' ),
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_icon',
+                [
+                    'label' => __( 'Icon', 'elebee' ),
                     'type' => Controls_Manager::ICON,
                     'default' => 'fa fa-angle-left',
                     'include' => [
@@ -314,6 +545,85 @@ class WidgetCommentList extends Widget_Base {
                         'fa fa-long-arrow-left',
                         'fa fa-toggle-left',
                     ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_icon_position',
+                [
+                    'label' => __( 'Icon Position', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'left' => __( 'Before', 'elementor' ),
+                        'right' => __( 'After', 'elementor' ),
+                    ],
+                    'default' => 'left',
+                    'condition' => [
+                        'comment_list_prev_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_icon_indent',
+                [
+                    'label' => __( 'Icon Spacing', 'elementor' ),
+                    'type' => Controls_Manager::SLIDER,
+                    'range' => [
+                        'px' => [
+                            'max' => 50,
+                        ],
+                    ],
+                    'condition' => [
+                        'comment_list_prev_icon!' => '',
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .elebee-comments-prev-button .elebee-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
+                        '{{WRAPPER}} .elebee-comments-prev-button .elebee-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_icon_view',
+                [
+                    'label' => __( 'View', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'default' => __( 'Default', 'elementor' ),
+                        'stacked' => __( 'Full', 'elebee' ),
+                        'framed' => __( 'Framed', 'elementor' ),
+                    ],
+                    'default' => 'default',
+                    'condition' => [
+                        'comment_list_prev_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_prev_icon_shape',
+                [
+                    'label' => __( 'Shape', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'circle' => __( 'Circle', 'elementor' ),
+                        'square' => __( 'Square', 'elementor' ),
+                    ],
+                    'default' => 'circle',
+                    'condition' => [
+                        'comment_list_prev_icon!' => '',
+                        'comment_list_prev_icon_view!' => 'default',
+                    ],
+                ]
+            );
+
+            $this->end_controls_tab();
+
+            $this->start_controls_tab(
+                'navigation_button_next',
+                [
+                    'label' => __( 'Next', 'elebee' ),
                     'condition' => [
                         'comment_list_paginate' => 'yes',
                     ],
@@ -321,9 +631,18 @@ class WidgetCommentList extends Widget_Base {
             );
 
             $this->add_control(
-                'comment_list_pagination_next_label',
+                'comment_list_next_text',
                 [
-                    'label' => __( 'Next label', 'elebee' ),
+                    'label' => __( 'Label', 'elebee' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => __( 'Next', 'elebee' ),
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_next_icon',
+                [
+                    'label' => __( 'Icon', 'elebee' ),
                     'type' => Controls_Manager::ICON,
                     'default' => 'fa fa-angle-right',
                     'include' => [
@@ -338,24 +657,105 @@ class WidgetCommentList extends Widget_Base {
                         'fa fa-long-arrow-right',
                         'fa fa-toggle-right',
                     ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_next_icon_position',
+                [
+                    'label' => __( 'Icon Position', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => 'left',
+                    'options' => [
+                        'left' => __( 'Before', 'elementor' ),
+                        'right' => __( 'After', 'elementor' ),
+                    ],
                     'condition' => [
-                        'comment_list_paginate' => 'yes',
+                        'comment_list_next_icon!' => '',
                     ],
                 ]
             );
 
             $this->add_control(
-                'comment_list_pagination_first_last',
+                'comment_list_next_icon_indent',
                 [
-                    'label' => __( 'First/last buttons?', 'elebee' ),
-                    'type' => Controls_Manager::SWITCHER,
+                    'label' => __( 'Icon Spacing', 'elementor' ),
+                    'type' => Controls_Manager::SLIDER,
+                    'range' => [
+                        'px' => [
+                            'max' => 50,
+                        ],
+                    ],
+                    'condition' => [
+                        'comment_list_next_icon!' => '',
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .elebee-comments-next-button .elebee-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
+                        '{{WRAPPER}} .elebee-comments-next-button .elebee-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+                    ],
                 ]
             );
 
             $this->add_control(
-                'comment_list_pagination_first_button',
+                'comment_list_next_icon_view',
                 [
-                    'label' => __( 'First label', 'elebee' ),
+                    'label' => __( 'View', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'default' => __( 'Default', 'elementor' ),
+                        'stacked' => __( 'Full', 'elebee' ),
+                        'framed' => __( 'Framed', 'elementor' ),
+                    ],
+                    'default' => 'default',
+                    'condition' => [
+                        'comment_list_next_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_next_icon_shape',
+                [
+                    'label' => __( 'Shape', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'circle' => __( 'Circle', 'elementor' ),
+                        'square' => __( 'Square', 'elementor' ),
+                    ],
+                    'default' => 'circle',
+                    'condition' => [
+                        'comment_list_next_icon!' => '',
+                        'comment_list_next_icon_view!' => 'default',
+                    ],
+                ]
+            );
+
+            $this->end_controls_tab();
+
+            $this->start_controls_tab(
+                'navigation_button_first',
+                [
+                    'label' => __( 'First', 'elebee' ),
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                        'comment_list_first_last' => 'yes',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_text',
+                [
+                    'label' => __( 'Label', 'elebee' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => __( 'First', 'elebee' ),
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_icon',
+                [
+                    'label' => __( 'Icon', 'elebee' ),
                     'type' => Controls_Manager::ICON,
                     'default' => 'fa fa-angle-double-left',
                     'include' => [
@@ -370,17 +770,105 @@ class WidgetCommentList extends Widget_Base {
                         'fa fa-long-arrow-left',
                         'fa fa-toggle-left',
                     ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_icon_position',
+                [
+                    'label' => __( 'Icon Position', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => 'left',
+                    'options' => [
+                        'left' => __( 'Before', 'elementor' ),
+                        'right' => __( 'After', 'elementor' ),
+                    ],
                     'condition' => [
-                        'comment_list_paginate' => 'yes',
-                        'comment_list_pagination_first_last' => 'yes',
+                        'comment_list_first_icon!' => '',
                     ],
                 ]
             );
 
             $this->add_control(
-                'comment_list_pagination_last_button',
+                'comment_list_first_icon_indent',
                 [
-                    'label' => __( 'Last label', 'elebee' ),
+                    'label' => __( 'Icon Spacing', 'elementor' ),
+                    'type' => Controls_Manager::SLIDER,
+                    'range' => [
+                        'px' => [
+                            'max' => 50,
+                        ],
+                    ],
+                    'condition' => [
+                        'comment_list_first_icon!' => '',
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .elebee-comments-first-button .elebee-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
+                        '{{WRAPPER}} .elebee-comments-first-button .elebee-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_icon_view',
+                [
+                    'label' => __( 'View', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'default' => __( 'Default', 'elementor' ),
+                        'stacked' => __( 'Full', 'elebee' ),
+                        'framed' => __( 'Framed', 'elementor' ),
+                    ],
+                    'default' => 'default',
+                    'condition' => [
+                        'comment_list_first_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_first_icon_shape',
+                [
+                    'label' => __( 'Shape', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'circle' => __( 'Circle', 'elementor' ),
+                        'square' => __( 'Square', 'elementor' ),
+                    ],
+                    'default' => 'circle',
+                    'condition' => [
+                        'comment_list_first_icon_view!' => 'default',
+                    ],
+                ]
+            );
+
+            $this->end_controls_tab();
+
+            $this->start_controls_tab(
+                'navigation_button_last',
+                [
+                    'label' => __( 'Last', 'elebee' ),
+                    'condition' => [
+                        'comment_list_paginate' => 'yes',
+                        'comment_list_first_last' => 'yes',
+                    ],
+                ]
+            );
+
+
+            $this->add_control(
+                'comment_list_last_text',
+                [
+                    'label' => __( 'Label', 'elebee' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => __( 'Last', 'elebee' ),
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_last_icon',
+                [
+                    'label' => __( 'Icon', 'elebee' ),
                     'type' => Controls_Manager::ICON,
                     'default' => 'fa fa-angle-double-right',
                     'include' => [
@@ -395,13 +883,83 @@ class WidgetCommentList extends Widget_Base {
                         'fa fa-long-arrow-right',
                         'fa fa-toggle-right',
                     ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_last_icon_position',
+                [
+                    'label' => __( 'Icon Position', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => 'left',
+                    'options' => [
+                        'left' => __( 'Before', 'elementor' ),
+                        'right' => __( 'After', 'elementor' ),
+                    ],
                     'condition' => [
-                        'comment_list_paginate' => 'yes',
-                        'comment_list_pagination_first_last' => 'yes',
+                        'comment_list_last_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_last_icon_indent',
+                [
+                    'label' => __( 'Icon Spacing', 'elementor' ),
+                    'type' => Controls_Manager::SLIDER,
+                    'range' => [
+                        'px' => [
+                            'max' => 50,
+                        ],
+                    ],
+                    'condition' => [
+                        'comment_list_last_icon!' => '',
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .elebee-comments-last-button .elebee-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
+                        '{{WRAPPER}} .elebee-comments-last-button .elebee-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_last_icon_view',
+                [
+                    'label' => __( 'View', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'default' => __( 'Default', 'elementor' ),
+                        'stacked' => __( 'Full', 'elebee' ),
+                        'framed' => __( 'Framed', 'elementor' ),
+                    ],
+                    'default' => 'default',
+                    'condition' => [
+                        'comment_list_last_icon!' => '',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'comment_list_last_icon_shape',
+                [
+                    'label' => __( 'Shape', 'elementor' ),
+                    'type' => Controls_Manager::SELECT,
+                    'options' => [
+                        'circle' => __( 'Circle', 'elementor' ),
+                        'square' => __( 'Square', 'elementor' ),
+                    ],
+                    'default' => 'circle',
+                    'condition' => [
+                        'comment_list_last_icon!' => '',
+                        'comment_list_last_icon_view!' => 'default',
                     ],
                 ]
             );
         }
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
 
         $this->end_controls_section();
 
@@ -647,64 +1205,28 @@ class WidgetCommentList extends Widget_Base {
     /**
      * @since 0.1.0
      *
-     * @param Template $renderer
-     * @return string
-     */
-    protected function getFirstButton( Template $renderer ): string {
-
-        $settings = $this->get_settings();
-        $link = str_replace( '%_%', '', $this->paginationSettings['pagenumLink'] );
-        $link = str_replace( '%#%', '', $link );
-        if ( $this->paginationSettings['addArgs'] ) {
-            $link = add_query_arg( $this->paginationSettings['addArgs'], $link );
-        }
-        $renderer->setVar( 'url', esc_url( apply_filters( 'paginate_links', $link ) ) );
-        $renderer->setVar( 'iconClass', $settings['comment_list_pagination_first_button'] );
-        return $renderer->getRendered();
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @param Template $renderer
-     * @return string
-     */
-    protected function getLastButton( Template $renderer ): string {
-
-        $settings = $this->get_settings();
-        $link = str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] );
-        $link = str_replace( '%#%', $this->paginationSettings['totalPages'], $link );
-        if ( $this->paginationSettings['addArgs'] ) {
-            $link = add_query_arg( $this->paginationSettings['addArgs'], $link );
-        }
-        $renderer->setVar( 'url', esc_url( apply_filters( 'paginate_links', $link ) ) );
-        $renderer->setVar( 'iconClass', $settings['comment_list_pagination_last_button'] );
-        return $renderer->getRendered();
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
      * @return string
      */
     protected function getCommentPagination(): string {
 
-        $settings = $this->get_settings();
+        $settings = $this->get_settings_for_display();
+
+        $prevRenderer = new Template( __DIR__ . '/partials/page-button.php', $this->getButtonArgs( 'prev' ) );
+        $nextRenderer = new Template( __DIR__ . '/partials/page-button.php', $this->getButtonArgs( 'next' ) );
 
         $pagination = paginate_comments_links( [
             'echo' => false,
-            'mid_size' => 2,
-            'end_size' => 3,
+            'show_all' => $settings[ 'comment_list_show_all' ] === 'yes' ? true : false,
+            'mid_size' => $settings[ 'comment_list_mid_size' ],
+            'end_size' => $settings[ 'comment_list_end_size' ],
             'type' => 'array',
             'add_fragment' => '',
-            'base' => $this->paginationSettings['pagenumLink'],
-            'current' => $this->paginationSettings['currentPage'],
-            'format' => $this->paginationSettings['urlFormat'],
-            'total' => $this->paginationSettings['totalPages'],
-            'next_text' => '<i class="' . esc_attr( $settings['comment_list_pagination_next_label'] ) . '"></i>',
-            'prev_text' => '<i class="' . esc_attr( $settings['comment_list_pagination_prev_label'] ) . '"></i>',
+            'base' => $this->paginationSettings[ 'pagenumLink' ],
+            'current' => $this->paginationSettings[ 'currentPage' ],
+            'format' => $this->paginationSettings[ 'urlFormat' ],
+            'total' => $this->paginationSettings[ 'totalPages' ],
+            'prev_text' => $prevRenderer->getRendered(),
+            'next_text' => $nextRenderer->getRendered(),
         ] );
 
         $paginationPages = '';
@@ -730,13 +1252,32 @@ class WidgetCommentList extends Widget_Base {
                 ++$count;
             }
 
-            if ( 'yes' === $settings['comment_list_pagination_first_last'] ) {
-                $endRenderer = new Template( __DIR__ . '/partials/end-li.php' );
-                if ( $this->paginationSettings['currentPage'] > 1 ) {
-                    $paginationFirst = $this->getFirstButton( $endRenderer );
+            if ( 'yes' === $settings['comment_list_first_last'] ) {
+
+                $firstLink = str_replace( '%_%', '', $this->paginationSettings[ 'pagenumLink' ] );
+                $firstLink = str_replace( '%#%', '', $firstLink );
+                if ( $this->paginationSettings[ 'addArgs' ] ) {
+                    $firstLink = add_query_arg( $this->paginationSettings[ 'addArgs' ], $firstLink );
                 }
-                if ( $this->paginationSettings['currentPage'] < $this->paginationSettings['totalPages'] ) {
-                    $paginationLast = $this->getLastButton( $endRenderer );
+                $firstArgs = $this->getButtonArgs( 'first' );
+                $firstArgs[ 'url' ] = $firstLink;
+                $firstRenderer = new Template( __DIR__ . '/partials/end-li.php', $firstArgs );
+
+
+                $lastLink = str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] );
+                $lastLink = str_replace( '%#%', $this->paginationSettings[ 'totalPages' ], $lastLink );
+                if ( $this->paginationSettings[ 'addArgs' ] ) {
+                    $lastLink = add_query_arg( $this->paginationSettings[ 'addArgs' ], $lastLink );
+                }
+                $lastArgs = $this->getButtonArgs( 'last' );
+                $lastArgs[ 'url' ] = $lastLink;
+                $lastRenderer = new Template( __DIR__ . '/partials/end-li.php', $lastArgs );
+
+                if ( $this->paginationSettings[ 'currentPage' ] > 1 ) {
+                    $paginationFirst = $firstRenderer->getRendered();
+                }
+                if ( $this->paginationSettings[ 'currentPage' ] < $this->paginationSettings[ 'totalPages' ] ) {
+                    $paginationLast = $lastRenderer->getRendered();
                 }
             }
         }
@@ -750,6 +1291,32 @@ class WidgetCommentList extends Widget_Base {
         ] );
         return $template->getRendered();
 
+    }
+
+    protected function getButtonArgs( $button ) {
+        $view = $this->getSetting( 'comment_list_' .$button . '_icon_view' );
+        $shape = $this->getSetting( 'comment_list_' . $button . '_icon_shape' );
+        $viewClass =  !empty( $view ) ? ' elebee-view-' . $view : '';
+        $shapeClass = !empty( $shape ) ? ' elebee-shape-' . $shape : '';
+
+        $args = [
+            'text' => $this->getSetting( 'comment_list_' . $button . '_text' ),
+            'buttonClass' => 'elebee-comments-' . $button . '-button' . $viewClass . $shapeClass,
+            'iconClass' => esc_attr( $this->getSetting( 'comment_list_' . $button . '_icon' ) ),
+            'iconAlign' => esc_attr( $this->getSetting( 'comment_list_' . $button . '_icon_position' ) ),
+        ];
+
+        return $args;
+    }
+
+    /**
+     * @param $name string
+     * @return string
+     */
+    protected function getSetting( $name ) {
+        $settings = $this->get_settings_for_display();
+
+        return isset( $settings[ $name ] ) ? $settings[ $name ] : '';
     }
 
     /**
@@ -797,28 +1364,30 @@ class WidgetCommentList extends Widget_Base {
             return;
         }
 
-        $settings = $this->get_settings();
-        $this->paginationSettings['totalPages'] = get_comment_pages_count( $comments, $settings['comment_list_per_page'] );
+        $settings = $this->get_settings_for_display();
+        $commentsPerPage = !empty( $settings[ 'comment_list_per_page' ] ) ? $settings[ 'comment_list_per_page' ] : get_option( 'comments_per_page' );
+
+        $this->paginationSettings[ 'totalPages' ] = get_comment_pages_count( $comments, $commentsPerPage );
 
         // Setting up default values based on the current URL.
-        $this->paginationSettings['pagenumLink'] = html_entity_decode( get_pagenum_link() );
-        $url_parts = explode( '?', $this->paginationSettings['pagenumLink'] );
+        $this->paginationSettings[ 'pagenumLink' ] = html_entity_decode( get_pagenum_link() );
+        $url_parts = explode( '?', $this->paginationSettings[ 'pagenumLink' ] );
 
         // Append the format placeholder to the base URL.
-        $this->paginationSettings['pagenumLink'] = trailingslashit( $url_parts[0] ) . '%_%';
+        $this->paginationSettings[ 'pagenumLink' ] = trailingslashit( $url_parts[0] ) . '%_%';
 
-        $this->paginationSettings['pageVar'] = 'paged-' . $this->get_id();
-        $this->paginationSettings['currentPage'] = filter_input( INPUT_GET, $this->paginationSettings['pageVar'], FILTER_VALIDATE_INT );
-        if ( empty( $this->paginationSettings['currentPage'] ) ) {
-            $this->paginationSettings['currentPage'] = 1;
+        $this->paginationSettings[ 'pageVar' ] = 'paged-' . $this->get_id();
+        $this->paginationSettings[ 'currentPage' ] = filter_input( INPUT_GET, $this->paginationSettings[ 'pageVar' ], FILTER_VALIDATE_INT );
+        if ( empty( $this->paginationSettings[ 'currentPage' ] ) ) {
+            $this->paginationSettings[ 'currentPage' ] = 1;
         }
 
-        $this->paginationSettings['urlFormat'] = '?' . $this->paginationSettings['pageVar'] . '=%#%';
+        $this->paginationSettings[ 'urlFormat' ] = '?' . $this->paginationSettings[ 'pageVar' ] . '=%#%';
 
         // Merge additional query vars found in the original URL into 'add_args' array.
         if ( isset( $url_parts[1] ) ) {
             // Find the format argument.
-            $format = explode( '?', str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] ) );
+            $format = explode( '?', str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] ) );
             $format_query = isset( $format[1] ) ? $format[1] : '';
             wp_parse_str( $format_query, $format_args );
 
@@ -830,7 +1399,7 @@ class WidgetCommentList extends Widget_Base {
                 unset( $url_query_args[$format_arg] );
             }
 
-            $this->paginationSettings['addArgs'] = urlencode_deep( $url_query_args );
+            $this->paginationSettings[ 'addArgs' ] = urlencode_deep( $url_query_args );
         }
 
     }
@@ -846,11 +1415,20 @@ class WidgetCommentList extends Widget_Base {
      */
     protected function render() {
 
-        $settings = $this->get_settings();
+        $settings = $this->get_settings_for_display();
         $args = [
-            'post_id' => $settings['comments_from_post'],
+            'post_id' => $settings[ 'comments_from_post' ],
+            'status' => 'approve',
         ];
+
         $comments = get_comments( $args );
+        if ( empty( $comments ) ) {
+            $noCommentsTitle = '<span class="elebee-notice-title">' . __( 'No comments available!', 'elebee' ) . '</span>';
+            echo '<div class="elebee-notice elebee-notice-warning">' . $noCommentsTitle . '</div>';
+
+            return;
+        }
+
         $this->setPaginationSettings( $comments );
 
         $allowPagination = $this->pageComments && 'yes' === $settings['comment_list_paginate'];
@@ -859,7 +1437,7 @@ class WidgetCommentList extends Widget_Base {
             $pagination = $this->getCommentPagination();
         }
 
-        if ( $allowPagination && in_array( $settings['comment_list_pagination_position'], [ 'top-bottom', 'top' ] ) ) {
+        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'top' ] ) ) {
             echo $pagination;
         }
         echo '<ul class="comment-list">';
@@ -873,7 +1451,7 @@ class WidgetCommentList extends Widget_Base {
             $comments
         );
         echo '</ul>';
-        if ( $allowPagination && in_array( $settings['comment_list_pagination_position'], [ 'top-bottom', 'bottom' ] ) ) {
+        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
         }
 
