@@ -159,7 +159,7 @@ class WidgetCommentList extends WidgetBase {
      * @since 0.1.0
      */
     protected function _register_controls() {
-        //<editor-fold desc="Elementor Tab Content">
+        #<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
             'section_comments',
             [
@@ -895,9 +895,9 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tabs();
 
         $this->end_controls_section();
-        //</editor-fold>
+        #</editor-fold>
 
-        //<editor-fold desc="Elementor Tab Style">
+        #<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_comments_style',
             [
@@ -1154,7 +1154,7 @@ class WidgetCommentList extends WidgetBase {
                     'unit' => 'ms',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .page-numbers:not(.current)' => 'transition: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .page-numbers:not(.current)' => 'transition: color {{SIZE}}{{UNIT}}, background-color {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1347,7 +1347,7 @@ class WidgetCommentList extends WidgetBase {
         );
 
         $this->end_controls_section();
-        //</editor-fold>
+        #</editor-fold>
     }
 
     /**
@@ -1517,11 +1517,11 @@ class WidgetCommentList extends WidgetBase {
 
         $this->paginationSettings[ 'totalPages' ] = get_comment_pages_count( $comments, $commentsPerPage );
 
-        // Setting up default values based on the current URL.
+        # Setting up default values based on the current URL.
         $this->paginationSettings[ 'pagenumLink' ] = html_entity_decode( get_pagenum_link() );
         $url_parts = explode( '?', $this->paginationSettings[ 'pagenumLink' ] );
 
-        // Append the format placeholder to the base URL.
+        # Append the format placeholder to the base URL.
         $this->paginationSettings[ 'pagenumLink' ] = trailingslashit( $url_parts[0] ) . '%_%';
 
         $this->paginationSettings[ 'pageVar' ] = 'paged-' . $this->get_id();
@@ -1532,17 +1532,17 @@ class WidgetCommentList extends WidgetBase {
 
         $this->paginationSettings[ 'urlFormat' ] = '?' . $this->paginationSettings[ 'pageVar' ] . '=%#%';
 
-        // Merge additional query vars found in the original URL into 'add_args' array.
+        # Merge additional query vars found in the original URL into 'add_args' array.
         if ( isset( $url_parts[1] ) ) {
-            // Find the format argument.
+            # Find the format argument.
             $format = explode( '?', str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] ) );
             $format_query = isset( $format[1] ) ? $format[1] : '';
             wp_parse_str( $format_query, $format_args );
 
-            // Find the query args of the requested URL.
+            # Find the query args of the requested URL.
             wp_parse_str( $url_parts[1], $url_query_args );
 
-            // Remove the format argument from the array of query arguments, to avoid overwriting custom format.
+            # Remove the format argument from the array of query arguments, to avoid overwriting custom format.
             foreach ( $format_args as $format_arg => $format_arg_value ) {
                 unset( $url_query_args[$format_arg] );
             }

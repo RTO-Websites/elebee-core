@@ -41,17 +41,40 @@ if ( !defined( '__COMMENTFORM__' ) ) {
  * @link    https://rto-extras.github.io/elebee-core-api/master/ElebeeCore/Elementor/Widgets/CommentForm/WidgetCommentForm.html
  */
 class WidgetCommentForm extends WidgetBase {
-    private $assetsPath;
+    private $assetsPath = '';
+
+    public $settings = null;
+
+    private static $scriptEnqueued = false;
 
     public function __construct( array $data = [], array $args = null ) {
         parent::__construct( $data, $args );
 
         $this->assetsPath = get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentForm/assets/';
 
-        add_filter( 'elementor/widget/print_template', [ $this, 'skinPrintTemplate' ], 10, 2 );
+    }
 
-        add_action( 'wp_ajax_ajaxcomments', [ $this, 'ajaxCommentSubmit' ] );
-        add_action( 'wp_ajax_nopriv_ajaxcomments', [ $this, 'ajaxCommentSubmit' ] );
+    public function definePublicHooks() {
+
+        parent::definePublicHooks();
+
+        $this->getLoader()->addAction( 'wp_ajax_nopriv_ajaxcomments', $this, 'ajaxCommentSubmit' );
+
+        $this->getLoader()->addFilter( 'comment_form_fields', $this, 'rearrangeFields', 100, 1  );
+        $this->getLoader()->addFilter( 'comment_form_defaults', $this, 'getSubmitButton', 110, 1  );
+
+    }
+
+    public function defineAdminHooks() {
+
+        parent::defineAdminHooks();
+
+        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'skinPrintTemplate', 10, 2  );
+
+    }
+
+    public function initSettings() {
+        $this->settings = $this->get_settings_for_display();
     }
 
     /**
@@ -65,7 +88,7 @@ class WidgetCommentForm extends WidgetBase {
      * @since 0.1.0
      */
     public function enqueueScripts() {
-        wp_enqueue_script( $this->get_name(), $this->assetsPath . 'js/ajax-comments.js', [ 'jquery' ] );
+        wp_enqueue_script( $this->get_name(), $this->assetsPath . 'js/ajax-comments.js', [ 'jquery' ], Elebee::VERSION );
 
         # Prevent loading localized string multiple times.
         $wpScripts = wp_scripts();
@@ -80,6 +103,24 @@ class WidgetCommentForm extends WidgetBase {
 
             wp_localize_script( $this->get_name(), 'themeLocalization', $translationArray );
         }
+    }
+
+    /**
+     * @param $settings array
+     */
+    public function setSettings( $settings ) {
+
+        $this->settings = $settings;
+
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getSettings() {
+
+        return $this->settings;
+
     }
 
     /**
@@ -132,7 +173,7 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _register_controls() {
 
-        //<editor-fold desc="Elementor Tab Content">
+        #<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
             'section_comment_form',
             [
@@ -524,7 +565,7 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->end_controls_section();
-        
+
         $this->start_controls_section(
             'section_submit_button',
             [
@@ -725,9 +766,9 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->end_controls_section();
-        //</editor-fold>
+        #</editor-fold>
 
-        //<editor-fold desc="Elementor Tab Style">
+        #<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_form_style',
             [
@@ -801,11 +842,11 @@ class WidgetCommentForm extends WidgetBase {
                 ],
                 'selectors' => [
                     'body.rtl {{WRAPPER}} .elebee-labels-inline label' => 'padding-left: {{SIZE}}{{UNIT}};',
-                    // for the label position = inline option
+                    # for the label position = inline option
                     'body:not(.rtl) {{WRAPPER}} .elebee-labels-inline label' => 'padding-right: {{SIZE}}{{UNIT}};',
-                    // for the label position = inline option
+                    # for the label position = inline option
                     'body {{WRAPPER}} .elebee-labels-above label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
-                    // for the label position = above option
+                    # for the label position = above option
                 ],
             ]
         );
@@ -1112,7 +1153,7 @@ class WidgetCommentForm extends WidgetBase {
                 'type' => Controls_Manager::HOVER_ANIMATION,
             ]
         );
-        //</editor-fold>
+        #</editor-fold>
 
         $this->end_controls_tab();
 
@@ -1183,6 +1224,8 @@ class WidgetCommentForm extends WidgetBase {
         ];
 
         $settings = $this->get_settings_for_display();
+        $this->setSettings( $settings );
+
         # remove p-tag
         $settings[ 'comment_gdpr' ] = str_replace( [ '<p>', '</p>' ], '', $settings[ 'comment_gdpr' ] );
         $sign = $settings[ 'comment_required_sign' ];
@@ -1192,42 +1235,45 @@ class WidgetCommentForm extends WidgetBase {
 
         if ( $settings[ 'show_name'] === 'yes' ) {
             $authorArgs = [
-                'fieldWidth' => !empty( $settings[ 'field_width_name' ] ) ? $settings[ 'field_width_name' ] : '100',
-                'authorLabel' => $settings[ 'label_name' ],
-                'authorPlaceholder' => $settings[ 'placeholder_name' ],
+                'type' => 'author',
+                'width' => !empty( $settings[ 'field_width_name' ] ) ? $settings[ 'field_width_name' ] : '100',
+                'label' => $settings[ 'label_name' ],
+                'placeholder' => $settings[ 'placeholder_name' ],
                 'required' => $settings[ 'require_name' ] === 'yes' ? $requiredContainer : '',
-                'authorName' => esc_attr( $commenter[ 'comment_author' ] ),
+                'value' => esc_attr( $commenter[ 'comment_author' ] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'author' ] = ( new Template( __DIR__ . '/partials/author.php', $authorArgs ) )->getRendered();
+            $fields[ 'author' ] = ( new Template( __DIR__ . '/partials/input-field.php', $authorArgs ) )->getRendered();
         }
 
         if ( $settings[ 'show_email'] === 'yes' ) {
             $emailArgs = [
-                'fieldWidth' => !empty( $settings[ 'field_width_email' ] ) ? $settings[ 'field_width_email' ] : '100',
-                'emailLabel' => $settings[ 'label_email' ],
-                'emailPlaceholder' => $settings[ 'placeholder_email' ],
+                'type' => 'email',
+                'width' => !empty( $settings[ 'field_width_email' ] ) ? $settings[ 'field_width_email' ] : '100',
+                'label' => $settings[ 'label_email' ],
+                'placeholder' => $settings[ 'placeholder_email' ],
                 'required' => $settings[ 'require_email' ] === 'yes' ? $requiredContainer : '',
-                'authorEmail' => esc_attr( $commenter[ 'comment_author_email' ] ),
+                'value' => esc_attr( $commenter[ 'comment_author_email' ] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'email' ] = ( new Template( __DIR__ . '/partials/email.php', $emailArgs ) )->getRendered();
+            $fields[ 'email' ] = ( new Template( __DIR__ . '/partials/input-field.php', $emailArgs ) )->getRendered();
         }
 
         if ( $settings[ 'show_extra'] === 'yes' ) {
             $extraArgs = [
-                'fieldWidth' =>  !empty( $settings[ 'field_width_extra' ] ) ? $settings[ 'field_width_extra' ] : '100',
-                'extraLabel' => $settings[ 'label_extra' ],
-                'extraPlaceholder' => $settings[ 'placeholder_extra' ],
+                'type' => 'extra',
+                'width' =>  !empty( $settings[ 'field_width_extra' ] ) ? $settings[ 'field_width_extra' ] : '100',
+                'label' => $settings[ 'label_extra' ],
+                'placeholder' => $settings[ 'placeholder_extra' ],
                 'required' => $settings[ 'require_extra' ] === 'yes' ? $requiredContainer : '',
                 # ToDo: ignore url format, if selected as a subject
-                'extraValue' => esc_attr( $commenter[ 'comment_author_url' ] ),
+                'value' => esc_attr( $commenter[ 'comment_author_url' ] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'url' ] = ( new Template( __DIR__ . '/partials/url.php', $extraArgs ) )->getRendered();
+            $fields[ 'url' ] = ( new Template( __DIR__ . '/partials/input-field.php', $extraArgs ) )->getRendered();
         }
 
         if ( $settings[ 'show_gdpr_opt_in'] === 'yes' ) {
@@ -1279,58 +1325,67 @@ class WidgetCommentForm extends WidgetBase {
             'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
         ];
 
-        # rearrange fields
-        add_filter( 'comment_form_fields', function ( $fields ) {
-
-            $commentField = $fields['comment'];
-            $cookiesField = $fields['cookies'];
-            $gdprField = $fields['gdpr'];
-
-            if( !empty( $cookiesField ) ) {
-                $cookiesField = '<div class="elementor-field-group elementor-column">' . $cookiesField  . '</div>';
-            }
-
-            unset( $fields['comment'] );
-            unset( $fields['cookies'] );
-            unset( $fields['gdpr'] );
-
-            $fields['comment'] = $commentField;
-            $fields['cookies'] = $cookiesField;
-            $fields['gdpr'] = $gdprField;
-
-            return $fields;
-        } );
-
-        # overwrite wordpress default submit button
-        # use of Closure: https://php.net/manual/de/functions.anonymous.php
-        add_filter( 'comment_form_defaults', function( $defaults ) use ( $settings ) {
-
-            $buttonClasses = 'elementor-field-group elementor-column elementor-field-type-submit';
-            $buttonClasses .= ' elementor-col-' . ( !empty( $settings[ 'button_width' ] ) ? $settings[ 'button_width' ] : '100' );
-            $submitButtonArgs = [
-                'buttonClasses' => $buttonClasses,
-                'buttonSize' => !empty( $settings[ 'button_size' ] ) ? $settings[ 'button_size' ] : '100',
-                'buttonHoverAnimation' => $settings[ 'button_hover_animation' ],
-                'buttonIcon' => $settings[ 'button_icon' ],
-                'buttonIconAlign' => $settings[ 'button_icon_align' ],
-                'submitText' => esc_html__( 'Submit', 'elementor' ),
-                'buttonText' => $settings[ 'button_text' ],
-            ];
-
-            // Override the default submit button:
-            $defaults['submit_button'] = ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered();
-
-            return $defaults;
-        }, 10 );
-
         comment_form( $comments_args, $settings['page'] );
+    }
+
+    /**
+     * Rearrange fields in proper order.
+     *
+     * @param $fields array
+     * @return array
+     */
+    public function rearrangeFields( $fields ) {
+
+        $commentField = $fields['comment'];
+        $cookiesField = $fields['cookies'];
+        $gdprField = $fields['gdpr'];
+
+        if( !empty( $cookiesField ) ) {
+            $cookiesField = '<div class="elementor-field-group elementor-column elementor-widget-text-editor">' . $cookiesField  . '</div>';
+        }
+
+        unset( $fields['comment'] );
+        unset( $fields['cookies'] );
+        unset( $fields['gdpr'] );
+
+        $fields['comment'] = $commentField;
+        $fields['cookies'] = $cookiesField;
+        $fields['gdpr'] = $gdprField;
+
+        return $fields;
+
+    }
+
+    /**
+     * Overwrite wordpress default submit button.
+     *
+     * @param $defaults array
+     * @return array
+     */
+    public function getSubmitButton( $defaults ) {
+        $settings = $this->getSettings();
+
+        $buttonClasses = 'elementor-field-group elementor-column elementor-field-type-submit';
+        $buttonClasses .= ' elementor-col-' . ( !empty( $settings[ 'button_width' ] ) ? $settings[ 'button_width' ] : '100' );
+        $submitButtonArgs = [
+            'buttonClasses' => $buttonClasses,
+            'buttonSize' => !empty( $settings[ 'button_size' ] ) ? $settings[ 'button_size' ] : '100',
+            'buttonHoverAnimation' => $settings[ 'button_hover_animation' ],
+            'buttonIcon' => $settings[ 'button_icon' ],
+            'buttonIconAlign' => $settings[ 'button_icon_align' ],
+            'submitText' => esc_html__( 'Submit', 'elementor' ),
+            'buttonText' => $settings[ 'button_text' ],
+        ];
+
+        # Override the default submit button:
+        $defaults['submit_button'] = ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered();
+
+        return $defaults;
+
     }
 
     public function skinPrintTemplate( $content, $button ) {
         if ( 'comment_form' === $button->get_name() ) {
-            // If we don't want a JavaScript Template, just uncomment this below
-            // return '';
-
             ob_start();
             $this->_content_template();
             $content = ob_get_clean();
@@ -1350,7 +1405,7 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _content_template() {
 
-        include 'partials/editor-content.php';
+        echo ( new Template( __DIR__ . '/partials/editor-content.php' ) )->getRendered();
 
     }
 
@@ -1362,24 +1417,25 @@ class WidgetCommentForm extends WidgetBase {
         # https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
         $commentData = [
             'comment_post_ID' => filter_input( INPUT_POST, 'comment_post_ID' ),
-            'author' => filter_input( INPUT_POST, 'comment-author-name' ),
-            'email' => filter_input( INPUT_POST, 'comment-author-email' ),
-            'url' => filter_input( INPUT_POST, 'comment-author-extra' ),
+            'author' => filter_input( INPUT_POST, 'comment-author' ),
+            'email' => filter_input( INPUT_POST, 'comment-email' ),
+            'url' => filter_input( INPUT_POST, 'comment-extra' ),
             'comment' => filter_input( INPUT_POST, 'comment' ),
             'comment_parent' => filter_input( INPUT_POST, 'comment_parent' ),
         ];
 
         $comment = wp_handle_comment_submission( $commentData );
-        if ( is_wp_error( $comment ) ) {
-            $errorData = intval( $comment->get_error_data() );
-            if ( !empty( $errorData ) ) {
-                wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), array( 'response' => $errorData, 'back_link' => true ) );
-            } else {
-                wp_die( 'Unknown error' );
-            }
+
+        if ( !is_wp_error( $comment ) ) {
+            die();
         }
 
-        die();
+        $errorData = (int)$comment->get_error_data();
+        if ( empty( $errorData ) ) {
+            wp_die( 'Unknown error' );
+        }
+
+        wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), array( 'response' => $errorData, 'back_link' => true ) );
 
     }
 }

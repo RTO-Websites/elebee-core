@@ -66,9 +66,9 @@ jQuery(function ($) {
 
     // define some vars
     let form = $( this ),
-      author = form.find( '#comment-author-name' ),
-      email = form.find( '#comment-author-email' ),
-      extra = form.find( '#comment-author-extra' ),
+      author = form.find( '#comment-author' ),
+      email = form.find( '#comment-email' ),
+      extra = form.find( '#comment-extra' ),
       cookies = form.find( '#wp-comment-cookies-consent' ),
       gdpr = form.find( '#comment-gdpr' ),
       message = form.find( '.comment-form-messages' ),
