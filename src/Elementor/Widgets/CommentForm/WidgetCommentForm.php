@@ -54,6 +54,11 @@ class WidgetCommentForm extends WidgetBase {
 
     }
 
+    /**
+     * Implement public js and css files.
+     *
+     * @return void
+     */
     public function definePublicHooks() {
 
         parent::definePublicHooks();
@@ -61,20 +66,20 @@ class WidgetCommentForm extends WidgetBase {
         $this->getLoader()->addAction( 'wp_ajax_nopriv_ajaxcomments', $this, 'ajaxCommentSubmit' );
 
         $this->getLoader()->addFilter( 'comment_form_fields', $this, 'rearrangeFields', 100, 1  );
-        $this->getLoader()->addFilter( 'comment_form_defaults', $this, 'getSubmitButton', 110, 1  );
 
     }
 
+    /**
+     * Implement admin js and css files.
+     *
+     * @return void
+     */
     public function defineAdminHooks() {
 
         parent::defineAdminHooks();
 
         $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'skinPrintTemplate', 10, 2  );
 
-    }
-
-    public function initSettings() {
-        $this->settings = $this->get_settings_for_display();
     }
 
     /**
@@ -103,24 +108,6 @@ class WidgetCommentForm extends WidgetBase {
 
             wp_localize_script( $this->get_name(), 'themeLocalization', $translationArray );
         }
-    }
-
-    /**
-     * @param $settings array
-     */
-    public function setSettings( $settings ) {
-
-        $this->settings = $settings;
-
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getSettings() {
-
-        return $this->settings;
-
     }
 
     /**
@@ -1224,7 +1211,6 @@ class WidgetCommentForm extends WidgetBase {
         ];
 
         $settings = $this->get_settings_for_display();
-        $this->setSettings( $settings );
 
         # remove p-tag
         $settings[ 'comment_gdpr' ] = str_replace( [ '<p>', '</p>' ], '', $settings[ 'comment_gdpr' ] );
@@ -1310,6 +1296,19 @@ class WidgetCommentForm extends WidgetBase {
             'rows' => $settings[ 'rows_comment' ],
         ];
 
+
+        $buttonClasses = 'elementor-field-group elementor-column elementor-field-type-submit';
+        $buttonClasses .= ' elementor-col-' . ( !empty( $settings[ 'button_width' ] ) ? $settings[ 'button_width' ] : '100' );
+        $submitButtonArgs = [
+            'buttonClasses' => $buttonClasses,
+            'buttonSize' => !empty( $settings[ 'button_size' ] ) ? $settings[ 'button_size' ] : '100',
+            'buttonHoverAnimation' => $settings[ 'button_hover_animation' ],
+            'buttonIcon' => $settings[ 'button_icon' ],
+            'buttonIconAlign' => $settings[ 'button_icon_align' ],
+            'submitText' => esc_html__( 'Submit', 'elementor' ),
+            'buttonText' => $settings[ 'button_text' ],
+        ];
+
         $comments_args = [
             'title_reply' => '',
             'title_reply_before' => '',
@@ -1323,6 +1322,7 @@ class WidgetCommentForm extends WidgetBase {
             'must_log_in' => ( new Template( __DIR__ . '/partials/must-log-in.php', $mustLogInArgs ) )->getRendered(),
             'logged_in_as' => ( new Template( __DIR__ . '/partials/logged-in-as.php', $loggedInAsArgs ) )->getRendered(),
             'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
+            'submit_button' => ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered(),
         ];
 
         comment_form( $comments_args, $settings['page'] );
@@ -1353,34 +1353,6 @@ class WidgetCommentForm extends WidgetBase {
         $fields['gdpr'] = $gdprField;
 
         return $fields;
-
-    }
-
-    /**
-     * Overwrite wordpress default submit button.
-     *
-     * @param $defaults array
-     * @return array
-     */
-    public function getSubmitButton( $defaults ) {
-        $settings = $this->getSettings();
-
-        $buttonClasses = 'elementor-field-group elementor-column elementor-field-type-submit';
-        $buttonClasses .= ' elementor-col-' . ( !empty( $settings[ 'button_width' ] ) ? $settings[ 'button_width' ] : '100' );
-        $submitButtonArgs = [
-            'buttonClasses' => $buttonClasses,
-            'buttonSize' => !empty( $settings[ 'button_size' ] ) ? $settings[ 'button_size' ] : '100',
-            'buttonHoverAnimation' => $settings[ 'button_hover_animation' ],
-            'buttonIcon' => $settings[ 'button_icon' ],
-            'buttonIconAlign' => $settings[ 'button_icon_align' ],
-            'submitText' => esc_html__( 'Submit', 'elementor' ),
-            'buttonText' => $settings[ 'button_text' ],
-        ];
-
-        # Override the default submit button:
-        $defaults['submit_button'] = ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered();
-
-        return $defaults;
 
     }
 
