@@ -1006,6 +1006,102 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'section_header_style',
+            [
+                'label' => __( 'Comment Header', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_break',
+            [
+                'label' => __( 'Break Author and Date-Time', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor' ),
+                'label_off' => __( 'No', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_author_color',
+            [
+                'label' => __( 'Text Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-author' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'comment_header_author_typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}} .comment-meta .comment-author',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'comment_header_author_padding',
+            [
+                'label' => __( 'Author Padding', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em' ],
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-author' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_datetime_color',
+            [
+                'label' => __( 'Text Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'comment_heading_datetime_typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}} .comment-meta .comment-metadata',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'comment_header_datetime_padding',
+            [
+                'label' => __( 'Date-Time Padding', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em' ],
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'section_pagination_style',
             [
                 'label' => __( 'Pagination', 'elebee' ),
@@ -1517,11 +1613,11 @@ class WidgetCommentList extends WidgetBase {
 
         $this->paginationSettings[ 'totalPages' ] = get_comment_pages_count( $comments, $commentsPerPage );
 
-        # Setting up default values based on the current URL.
+        // Setting up default values based on the current URL.
         $this->paginationSettings[ 'pagenumLink' ] = html_entity_decode( get_pagenum_link() );
         $url_parts = explode( '?', $this->paginationSettings[ 'pagenumLink' ] );
 
-        # Append the format placeholder to the base URL.
+        // Append the format placeholder to the base URL.
         $this->paginationSettings[ 'pagenumLink' ] = trailingslashit( $url_parts[0] ) . '%_%';
 
         $this->paginationSettings[ 'pageVar' ] = 'paged-' . $this->get_id();
@@ -1532,17 +1628,17 @@ class WidgetCommentList extends WidgetBase {
 
         $this->paginationSettings[ 'urlFormat' ] = '?' . $this->paginationSettings[ 'pageVar' ] . '=%#%';
 
-        # Merge additional query vars found in the original URL into 'add_args' array.
+        // Merge additional query vars found in the original URL into 'add_args' array.
         if ( isset( $url_parts[1] ) ) {
-            # Find the format argument.
+            // Find the format argument.
             $format = explode( '?', str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] ) );
             $format_query = isset( $format[1] ) ? $format[1] : '';
             wp_parse_str( $format_query, $format_args );
 
-            # Find the query args of the requested URL.
+            // Find the query args of the requested URL.
             wp_parse_str( $url_parts[1], $url_query_args );
 
-            # Remove the format argument from the array of query arguments, to avoid overwriting custom format.
+            // Remove the format argument from the array of query arguments, to avoid overwriting custom format.
             foreach ( $format_args as $format_arg => $format_arg_value ) {
                 unset( $url_query_args[$format_arg] );
             }

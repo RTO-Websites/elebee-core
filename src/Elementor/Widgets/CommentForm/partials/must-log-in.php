@@ -7,7 +7,7 @@
 
 ?>
 
-<div class="elementor-field-group elementor-column">
+<div class="elementor-field-group elementor-column elementor-widget-text-editor">
     <p class="must-log-in">
         <?php echo sprintf( '<a href="%s">' . $logIn . '</a>', $logInUrl ); ?>
     </p>

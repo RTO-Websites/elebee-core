@@ -155,22 +155,27 @@ class Walker extends Walker_Comment {
         $date = date( $dateFormat, strtotime( $comment->comment_date ) );
         $time = date( $timeFormat, strtotime($comment->comment_date ) );
         $dateStructure = $this->settings[ 'comment_' . $type . '_date_structure' ];
+
+        $headerItemsClass = $this->settings[ 'comment_header_break' ] !== 'yes' ? 'elebee-display-inline' : '';
         ?>
         <<?php echo $tag; ?> id="comment-<?php echo $id; ?>" <?php echo $class; ?>>
         <article id="div-comment-<?php echo $id; ?>" class="comment-body">
             <header class="comment-meta">
-                <div class="comment-author vcard">
+                <div class="comment-author <?php echo $headerItemsClass; ?> vcard">
                     <?php echo $avatar; ?>
                     <?php printf( $authorStructure, get_comment_author( $comment ) ); ?>
                 </div><!-- .comment-author -->
 
-                <div class="comment-metadata">
+                <div class="comment-metadata <?php echo $headerItemsClass; ?>">
                     <time datetime="<?php comment_time( 'c' ); ?>">
                         <?php printf( $dateStructure, $date, $time ); ?>
                     </time>
-                    <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
                 </div><!-- .comment-metadata -->
 
+                <?php if ( !is_admin() ) {
+                    edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' );
+                }
+                ?>
                 <?php if ( '0' == $comment->comment_approved ) : ?>
                     <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
                 <?php endif; ?>

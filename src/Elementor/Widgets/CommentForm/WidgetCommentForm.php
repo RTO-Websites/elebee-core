@@ -95,10 +95,10 @@ class WidgetCommentForm extends WidgetBase {
     public function enqueueScripts() {
         wp_enqueue_script( $this->get_name(), $this->assetsPath . 'js/ajax-comments.js', [ 'jquery' ], Elebee::VERSION );
 
-        # Prevent loading localized string multiple times.
+        // Prevent loading localized string multiple times.
         $wpScripts = wp_scripts();
         if ( ! $wpScripts->get_data( $this->get_name(), 'data' ) ) {
-            # Localize the script with new data
+            // Localize the script with new data
             $translationArray = array(
                 'fieldIsEmpty' => __( 'Field is empty', 'elebee' ),
                 'emailInvalid' => __( 'Email format is invalid', 'elebee' ),
@@ -160,7 +160,7 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _register_controls() {
 
-        #<editor-fold desc="Elementor Tab Content">
+        //<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
             'section_comment_form',
             [
@@ -186,60 +186,6 @@ class WidgetCommentForm extends WidgetBase {
                 'label' => __( 'Display Warning', 'elebee' ),
                 'type' => Controls_Manager::HIDDEN,
                 'default' => json_encode( $this->getCommentPages() ),
-            ]
-        );
-
-        $this->add_control(
-            'label_comment',
-            [
-                'label' => __( 'Comment label', 'elebee' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => __( 'Comment', 'elebee' ),
-                'placeholder' => __( 'Type your comment label text here', 'elebee' ),
-                'separator' => 'before',
-            ]
-        );
-
-        $this->add_control(
-            'placeholder_comment',
-            [
-                'label' => __( 'Placeholder', 'elementor' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => __( 'Comment', 'elebee' ),
-                'placeholder' => __( 'Type your comment placeholder text here', 'elebee' ),
-            ]
-        );
-
-        $this->add_responsive_control(
-            'field_width_comment',
-            [
-                'label' => __( 'Comment Field Width', 'elementor' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => [
-                    '' => __( 'Default', 'elementor' ),
-                    '100' => '100%',
-                    '80' => '80%',
-                    '75' => '75%',
-                    '66' => '66%',
-                    '60' => '60%',
-                    '50' => '50%',
-                    '40' => '40%',
-                    '33' => '33%',
-                    '25' => '25%',
-                    '20' => '20%',
-                ],
-                'default' => '100',
-            ]
-        );
-        $this->add_control(
-            'rows_comment',
-            [
-                'label' => __( 'Rows', 'elementor-pro' ),
-                'type' => Controls_Manager::NUMBER,
-                'min' => 1,
-                'step' => 1,
-                'default' => 4,
-                'separator' => 'after',
             ]
         );
 
@@ -508,6 +454,69 @@ class WidgetCommentForm extends WidgetBase {
 
         $this->end_controls_tab();
 
+        $this->start_controls_tab(
+            'comment_tab',
+            [
+                'label' => __( 'Comment', 'elementor' )
+            ]
+        );
+
+        $this->add_control(
+            'label_comment',
+            [
+                'label' => __( 'Comment label', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Comment', 'elebee' ),
+                'placeholder' => __( 'Type your comment label text here', 'elebee' ),
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'placeholder_comment',
+            [
+                'label' => __( 'Placeholder', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Comment', 'elebee' ),
+                'placeholder' => __( 'Type your comment placeholder text here', 'elebee' ),
+            ]
+        );
+
+        $this->add_responsive_control(
+            'field_width_comment',
+            [
+                'label' => __( 'Comment Field Width', 'elementor' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __( 'Default', 'elementor' ),
+                    '100' => '100%',
+                    '80' => '80%',
+                    '75' => '75%',
+                    '66' => '66%',
+                    '60' => '60%',
+                    '50' => '50%',
+                    '40' => '40%',
+                    '33' => '33%',
+                    '25' => '25%',
+                    '20' => '20%',
+                ],
+                'default' => '100',
+            ]
+        );
+        $this->add_control(
+            'rows_comment',
+            [
+                'label' => __( 'Rows', 'elementor' ),
+                'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'step' => 1,
+                'default' => 4,
+                'separator' => 'after',
+            ]
+        );
+
+        $this->end_controls_tab();
+
         $this->end_controls_tabs();
 
         $this->add_control(
@@ -753,9 +762,9 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->end_controls_section();
-        #</editor-fold>
+        //</editor-fold>
 
-        #<editor-fold desc="Elementor Tab Style">
+        //<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_form_style',
             [
@@ -765,29 +774,9 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->add_control(
-            'column_gap',
-            [
-                'label' => __( 'Columns Gap', 'elementor' ),
-                'type' => Controls_Manager::SLIDER,
-                'default' => [
-                    'size' => 10,
-                ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 60,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .elementor-column label, {{WRAPPER}} .elementor-column input, {{WRAPPER}} .elementor-column textarea, {{WRAPPER}} .button[type="submit"]' => 'margin-left: calc( {{SIZE}}{{UNIT}}/2 ); margin-right: calc( {{SIZE}}{{UNIT}}/2 );',
-                ],
-            ]
-        );
-
-        $this->add_control(
             'row_gap',
             [
-                'label' => __( 'Rows Gap', 'elementor' ),
+                'label' => __( 'Vertical gap between fields', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 10,
@@ -805,18 +794,42 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->add_control(
-            'heading_label',
+            'column_gap',
             [
-                'label' => __( 'Label', 'elementor-pro' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
+                'label' => __( 'Horizontal gap between fields', 'elebee' ),
+                'description' => __( 'Affects adjacent fields.', 'elebee'  ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 10,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-column input:not([type=checkbox]) + label, {{WRAPPER}} .elementor-column input:not([type=checkbox]), 
+                    {{WRAPPER}} .elementor-column textarea, {{WRAPPER}} .button[type=submit]' => 'margin-left: calc( {{SIZE}}{{UNIT}}/2 ); margin-right: calc( {{SIZE}}{{UNIT}}/2 );',
+                    '{{WRAPPER}} .elementor-column.elebee-checkbox-style > div' => 'margin-left: calc( {{SIZE}}{{UNIT}}/2 ); margin-right: calc( {{SIZE}}{{UNIT}}/2 );',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_label_style',
+            [
+                'label' => __( 'Label', 'elementor' ),
+                'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
             'label_spacing',
             [
-                'label' => __( 'Spacing', 'elementor-pro' ),
+                'label' => __( 'Spacing', 'elementor' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 0,
@@ -841,7 +854,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'label_color',
             [
-                'label' => __( 'Text Color', 'elementor-pro' ),
+                'label' => __( 'Text Color', 'elementor' ),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .elementor-column > label' => 'color: {{VALUE}};',
@@ -1000,6 +1013,94 @@ class WidgetCommentForm extends WidgetBase {
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'section_checkbox_style',
+            [
+                'label' => __( 'Checkbox', 'elementor' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'checkbox_label_spacing',
+            [
+                'label' => __( 'Spacing', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 0,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    'body.rtl {{WRAPPER}} label.elebee-checkbox-label' => 'padding-right: {{SIZE}}{{UNIT}};',
+                    'body:not(.rtl) {{WRAPPER}} label.elebee-checkbox-label' => 'padding-left: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'checkbox_label_color',
+            [
+                'label' => __( 'Text Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-checkbox-style label' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'checkbox_label_typography',
+                'selector' => '{{WRAPPER}} .elebee-checkbox-style label',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->add_control(
+            'checkbox_size',
+            [
+                'label' => __( 'Size', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 20,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 10,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-checkbox-style input[type=checkbox]' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+
+        $this->add_responsive_control(
+            'checkbox_margin',
+            [
+                'label' => __( 'Margin', 'elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-checkbox-style input[type=checkbox]' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'section_button_style',
             [
                 'label' => __( 'Button', 'elebee' ),
@@ -1140,7 +1241,7 @@ class WidgetCommentForm extends WidgetBase {
                 'type' => Controls_Manager::HOVER_ANIMATION,
             ]
         );
-        #</editor-fold>
+        //</editor-fold>
 
         $this->end_controls_tab();
 
@@ -1207,12 +1308,13 @@ class WidgetCommentForm extends WidgetBase {
             'email' => '',
             'url' => '',
             'comment' => '',
+            'cookies' => '',
             'gdpr' => '',
         ];
 
         $settings = $this->get_settings_for_display();
 
-        # remove p-tag
+        // remove p-tag
         $settings[ 'comment_gdpr' ] = str_replace( [ '<p>', '</p>' ], '', $settings[ 'comment_gdpr' ] );
         $sign = $settings[ 'comment_required_sign' ];
         $requiredContainer = !empty( $sign ) ? '<span class="required">' . $sign . '</span>' : '';
@@ -1254,7 +1356,7 @@ class WidgetCommentForm extends WidgetBase {
                 'label' => $settings[ 'label_extra' ],
                 'placeholder' => $settings[ 'placeholder_extra' ],
                 'required' => $settings[ 'require_extra' ] === 'yes' ? $requiredContainer : '',
-                # ToDo: ignore url format, if selected as a subject
+                // ToDo: ignore url format, if selected as a subject
                 'value' => esc_attr( $commenter[ 'comment_author_url' ] ),
                 'cssClass' => $fieldsSizeClass,
             ];
@@ -1264,14 +1366,21 @@ class WidgetCommentForm extends WidgetBase {
 
         if ( $settings[ 'show_gdpr_opt_in'] === 'yes' ) {
             $gdprArgs = [
-                'commentGdpr' => $settings[ 'comment_gdpr' ],
+                'label' => $settings[ 'comment_gdpr' ],
                 'required' => $requiredContainer,
+                'type' => 'gdpr',
             ];
-            $fields[ 'gdpr' ] = ( new Template( __DIR__ . '/partials/gdpr.php', $gdprArgs ) )->getRendered();
+            $fields[ 'gdpr' ] = ( new Template( __DIR__ . '/partials/checkbox.php', $gdprArgs ) )->getRendered();
         }
 
-        if ( $settings[ 'show_cookies_opt_in'] !== 'yes' ) {
-            $fields[ 'cookies' ] = '';
+        if ( $settings[ 'show_cookies_opt_in'] === 'yes' ) {
+            $cookiesArgs = [
+                // restyle wordpress cookies consent
+                'label' => __( 'Save my name, email, and website in this browser for the next time I comment.'),
+                'required' => $settings[ 'show_cookies_opt_in' ] === 'yes' ? $requiredContainer : '',
+                'type' => 'cookies',
+            ];
+            $fields[ 'cookies' ] = ( new Template( __DIR__ . '/partials/checkbox.php', $cookiesArgs ) )->getRendered();
         }
 
         $loggedInAsArgs = [
@@ -1340,10 +1449,6 @@ class WidgetCommentForm extends WidgetBase {
         $cookiesField = $fields['cookies'];
         $gdprField = $fields['gdpr'];
 
-        if( !empty( $cookiesField ) ) {
-            $cookiesField = '<div class="elementor-field-group elementor-column elementor-widget-text-editor">' . $cookiesField  . '</div>';
-        }
-
         unset( $fields['comment'] );
         unset( $fields['cookies'] );
         unset( $fields['gdpr'] );
@@ -1385,8 +1490,8 @@ class WidgetCommentForm extends WidgetBase {
      * Source: https://rudrastyh.com/wordpress/ajax-comments.html
      */
     public function ajaxCommentSubmit() {
-        # array keys are pre defined
-        # https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
+        // array keys are pre defined
+        // https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
         $commentData = [
             'comment_post_ID' => filter_input( INPUT_POST, 'comment_post_ID' ),
             'author' => filter_input( INPUT_POST, 'comment-author' ),

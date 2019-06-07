@@ -9,10 +9,15 @@
  * @var $rows int
  */
 
+$labelHtml = '';
+if ( !empty( $label ) ) {
+    $labelHtml = '<label for="comment">' . $commentLabel . $required . '</label>';
+}
+
 ?>
 
 <div class="elementor-column elementor-col-<?php echo $fieldWidth; ?>">
-    <label for="comment"><?php echo $commentLabel . $required; ?></label>
+    <?php echo $labelHtml; ?>
     <textarea id="comment" name="comment" class="<?php echo $cssClass; ?>" rows="<?php echo $rows; ?>"
               placeholder="<?php echo $commentPlaceholder; ?>" aria-required="true" required="required"></textarea>
 </div>

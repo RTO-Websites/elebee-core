@@ -18,7 +18,7 @@
 }
 
 .elementor-widget-comment_form form label {
-    margin: 0 5px;
+    flex: 1;
 }
 
 .elementor-widget-comment_form form label:after {
@@ -34,6 +34,9 @@
     border: 1px solid #000;
     margin: 0 5px;
 }
+.elementor-widget-comment_form form textarea {
+    line-height: 1.9;
+}
 
 .elementor-widget-comment_form form input[type="checkbox"] {
     margin: 0 5px;
@@ -45,4 +48,13 @@
     right: 0;
     color: #f22;
     z-index: 100;
+}
+
+.elebee-checkbox-style {
+    display: flex;
+    flex-flow: column;
+}
+
+.elebee-checkbox-style > * {
+    display: flex;
 }

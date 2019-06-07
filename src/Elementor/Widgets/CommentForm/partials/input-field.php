@@ -11,10 +11,14 @@
  */
 
 $ariaRequired = ( !empty( $required ) ? 'aria-required="true" required="required"' : '' );
+$labelHtml = '';
+if ( !empty( $label ) ) {
+    $labelHtml = '<label for="comment-' . $type . '">' . $label . $required . '</label>';
+}
 ?>
 
 <div class="elementor-column elementor-col-<?php echo $width; ?>">
-    <label for="comment-<?php echo $type; ?>"><?php echo $label . $required; ?></label>
+    <?php echo $labelHtml; ?>
     <input id="comment-<?php echo $type; ?>" name="comment-<?php echo $type; ?>" type="text" class="<?php echo $cssClass; ?>"
         <?php echo $ariaRequired; ?> placeholder="<?php echo $placeholder; ?>" value="<?php echo $value; ?>" />
 </div>

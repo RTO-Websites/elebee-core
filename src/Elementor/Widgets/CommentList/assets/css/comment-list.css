@@ -53,3 +53,7 @@ ul.comment-list ul.children {
 .elebee-align-icon-right {
     float: right;
 }
+
+.elebee-display-inline {
+    display: inline;
+}

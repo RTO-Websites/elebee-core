@@ -40,7 +40,9 @@
 <form action="#" method="post" id="commentform" class="elementor-form comment-form elebee-labels-{{{ labelsPosition }}}" novalidate>
     <# if ( settings.show_name === 'yes' ) { #>
     <div class="elementor-column elementor-col-{{{ settings.field_width_name }}}">
+        <# if ( '' !== settings.label_name ) { #>
         <label for="comment-author-name">{{{ settings.label_name }}}{{{ formName.require }}}</label>
+        <# } #>
         <input id="comment-author-name" name="comment-author-name" type="text" {{{ formName.aria }}}
                placeholder="{{{ settings.placeholder_name }}}" value="" {{{ fieldClass }}} />
     </div>
@@ -48,7 +50,9 @@
 
     <# if ( settings.show_email === 'yes' ) { #>
     <div class="elementor-column elementor-col-{{{ settings.field_width_email }}}">
+        <# if ( '' !== settings.label_email ) { #>
         <label for="comment-author-email">{{{ settings.label_email }}}{{{ formEmail.require }}}</label>
+        <# } #>
         <input id="comment-author-email" name="comment-author-email" type="text" {{{ formEmail.aria }}}
                placeholder="{{{ settings.placeholder_email }}}" value="" {{{ fieldClass }}} />
     </div>
@@ -56,32 +60,36 @@
 
     <# if ( settings.show_extra === 'yes' ) { #>
     <div class="elementor-column elementor-col-{{{ settings.field_width_extra }}}">
+        <# if ( '' !== settings.label_extra ) { #>
         <label for="comment-author-extra">{{{ settings.label_extra }}}{{{ formExtra.require }}}</label>
+        <# } #>
         <input id="comment-author-extra" name="comment-author-extra" type="text" {{{ formExtra.aria }}}
                placeholder="{{{ settings.placeholder_extra }}}" value="" {{{ fieldClass }}} />
     </div>
     <# } #>
 
     <div class="elementor-column elementor-col-{{{ settings.field_width_comment }}}">
+        <# if ( '' !== settings.label_comment ) { #>
         <label for="comment">{{{ settings.label_comment }}}{{{ requiredContainer }}}</label>
+        <# } #>
         <textarea id="comment" name="comment" aria-required="true" rows="{{{ settings.rows_comment }}}"
                placeholder="{{{ settings.placeholder_comment }}}" value="" {{{ fieldClass }}}></textarea>
     </div>
 
     <# if ( settings.show_cookies_opt_in === 'yes' ) { #>
-    <div class="elementor-column">
-        <div class="comment-form-cookies-consent">
+    <div class="elementor-column elebee-checkbox-style">
+        <div class="comment-form-cookies-consent elementor-widget-text-editor">
             <input name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" type="checkbox" value="yes">
-            <label for="wp-comment-cookies-consent"><?php _e( 'Save my name, email, and website in this browser for the next time I comment.' ) ; ?></label>
+            <label for="wp-comment-cookies-consent" class="elebee-checkbox-label"><?php _e( 'Save my name, email, and website in this browser for the next time I comment.' ) ; ?></label>
         </div>
     </div>
     <# } #>
 
     <# if ( settings.show_gdpr_opt_in === 'yes' ) { #>
-    <div class="elementor-column">
-        <div class="elementor-field-option">
+    <div class="elementor-column elebee-checkbox-style">
+        <div class="elementor-field-option elementor-widget-text-editor">
             <input type="checkbox" value="yes" id="comment-gdpr" name="comment-gdpr" aria-required="true">
-            <label for="comment-gdpr">{{{ settings.comment_gdpr }}}{{{ requiredContainer }}}</label>
+            <label for="comment-gdpr" class="elebee-checkbox-label">{{{ settings.comment_gdpr }}}{{{ requiredContainer }}}</label>
         </div>
     </div>
     <# } #>

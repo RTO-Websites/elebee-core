@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @var $label string Contains HTML
+ * @var $required string Contains HTML
+ * @var string $type [ gdpr, cookies ]
+ */
+
+?>
+
+<div class="elementor-column elebee-checkbox-style">
+    <div class="comment-form-<?php echo $type; ?>-consent elementor-widget-text-editor">
+        <input name="wp-comment-<?php echo $type; ?>-consent" id="wp-comment-<?php echo $type; ?>-consent" type="checkbox" value="yes">
+        <label for="wp-comment-<?php echo $type; ?>-consent" class="elebee-checkbox-label"><?php echo $label . $required; ?></label>
+    </div>
+</div>
