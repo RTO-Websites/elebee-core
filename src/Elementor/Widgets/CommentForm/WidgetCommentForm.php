@@ -1158,8 +1158,23 @@ class WidgetCommentForm extends WidgetBase {
             Group_Control_Border::get_type(), [
                 'name' => 'button_border',
                 'label' => __( 'Border', 'elebee' ),
-                'placeholder' => '1px',
-                'default' => '1px',
+                'fields_options' => [
+                    'border' => [
+                        'default' => 'none',
+                    ],
+                    'width' => [
+                        'default' => [
+                            'top' => '',
+                            'right' => '',
+                            'bottom' => '',
+                            'left' => '',
+                            'isLinked' => false,
+                        ],
+                    ],
+                    'color' => [
+                        'default' => '#000',
+                    ],
+                ],
                 'selector' => '{{WRAPPER}} button[type="submit"]',
                 'separator' => 'before',
             ]
