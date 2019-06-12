@@ -286,7 +286,7 @@ class WidgetCommentList extends WidgetBase {
         $this->add_control(
             'comment_date_format_custom',
             [
-                'label' => __( 'Date Format Custom', 'elebee' ),
+                'label' => __( 'Custom Date Format', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
                 'condition' => [
@@ -299,7 +299,7 @@ class WidgetCommentList extends WidgetBase {
         $this->add_control(
             'comment_time_format_custom',
             [
-                'label' => __( 'Date Time Custom', 'elebee' ),
+                'label' => __( 'Custom Time Format', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => 'H:i',
                 'description' => __( 'For a reference on how to format a time, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),

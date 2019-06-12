@@ -215,7 +215,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'label_name',
             [
-                'label' => __( 'Label', 'elementor' ),
+                'label' => __( 'Label', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Name', 'elebee' ),
                 'condition' => [
@@ -227,7 +227,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'placeholder_name',
             [
-                'label' => __( 'Placeholder', 'elementor' ),
+                'label' => __( 'Placeholder', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Name', 'elebee' ),
                 'condition' => [
@@ -239,7 +239,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_responsive_control(
             'field_width_name',
             [
-                'label' => __( 'Field Width', 'elementor' ),
+                'label' => __( 'Field Width', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     '' => __( 'Default', 'elementor' ),
@@ -261,7 +261,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'require_name',
             [
-                'label' => __( 'Required', 'elementor' ),
+                'label' => __( 'Required', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __( 'Yes', 'elementor' ),
                 'label_off' => __( 'No', 'elementor' ),
@@ -321,7 +321,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_responsive_control(
             'field_width_email',
             [
-                'label' => __( 'Field Width', 'elementor' ),
+                'label' => __( 'Field Width', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     '' => __( 'Default', 'elementor' ),
@@ -343,7 +343,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'require_email',
             [
-                'label' => __( 'Required', 'elementor' ),
+                'label' => __( 'Required', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __( 'Yes', 'elementor' ),
                 'label_off' => __( 'No', 'elementor' ),
@@ -394,7 +394,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'label_extra',
             [
-                'label' => __( 'Label', 'elementor' ),
+                'label' => __( 'Label', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Subject', 'elebee' ),
                 'condition' => [
@@ -406,7 +406,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'placeholder_extra',
             [
-                'label' => __( 'Placeholder', 'elementor' ),
+                'label' => __( 'Placeholder', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'default' => __( 'Subject', 'elebee' ),
                 'condition' => [
@@ -418,7 +418,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_responsive_control(
             'field_width_extra',
             [
-                'label' => __( 'Field Width', 'elementor' ),
+                'label' => __( 'Field Width', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     '' => __( 'Default', 'elementor' ),
@@ -440,7 +440,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'require_extra',
             [
-                'label' => __( 'Required', 'elementor' ),
+                'label' => __( 'Required', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __( 'Yes', 'elementor' ),
                 'label_off' => __( 'No', 'elementor' ),
@@ -457,7 +457,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->start_controls_tab(
             'comment_tab',
             [
-                'label' => __( 'Comment', 'elementor' )
+                'label' => __( 'Comment', 'elebee' )
             ]
         );
 
@@ -485,7 +485,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_responsive_control(
             'field_width_comment',
             [
-                'label' => __( 'Comment Field Width', 'elementor' ),
+                'label' => __( 'Comment Field Width', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     '' => __( 'Default', 'elementor' ),
@@ -506,7 +506,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'rows_comment',
             [
-                'label' => __( 'Rows', 'elementor' ),
+                'label' => __( 'Rows', 'elebee' ),
                 'type' => Controls_Manager::NUMBER,
                 'min' => 1,
                 'step' => 1,
@@ -522,7 +522,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'input_size',
             [
-                'label' => __( 'Input Size', 'elementor' ),
+                'label' => __( 'Input Size', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     'xs' => __( 'Extra Small', 'elementor' ),
@@ -539,7 +539,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'show_cookies_opt_in',
             [
-                'label' => __( 'Show comments cookies opt-in checkbox.' ),
+                'label' => __( 'Show comments cookies opt-in checkbox.', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __( 'Show', 'elementor' ),
                 'label_off' => __( 'Hide', 'elementor' ),
@@ -551,7 +551,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->add_control(
             'show_gdpr_opt_in',
             [
-                'label' => __( 'Show GDPR opt-in checkbox.', 'elementor' ),
+                'label' => __( 'Show GDPR opt-in checkbox.', 'elebee' ),
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __( 'Show', 'elementor' ),
                 'label_off' => __( 'Hide', 'elementor' ),
@@ -565,7 +565,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->start_controls_section(
             'section_submit_button',
             [
-                'label' => __( 'Submit Button', 'elementor' ),
+                'label' => __( 'Submit Button', 'elebee' ),
             ]
         );
 
@@ -628,7 +628,7 @@ class WidgetCommentForm extends WidgetBase {
                         'icon' => 'fa fa-align-left',
                     ],
                     'center' => [
-                        'title' => __( 'Center', 'elementor' ),
+                        'title' => __( 'Center', 'elebee' ),
                         'icon' => 'fa fa-align-center',
                     ],
                     'end' => [
