@@ -316,21 +316,12 @@ class WidgetCommentList extends WidgetBase {
         );
 
         $this->add_control(
-            'comment_reply_show_avatar',
-            [
-                'label' => __( 'Show avatar', 'elebee' ),
-                'type' => Controls_Manager::SWITCHER,
-            ]
-        );
-
-        $this->add_control(
             'comment_reply_author_structure',
             [
                 'label' => __( 'Author Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => '%s <span class="says">says:</span>',
                 'description' => __( '%s: Placeholder for author name.', 'elebee'),
-                'separator' => 'before',
             ]
         );
 
@@ -369,7 +360,7 @@ class WidgetCommentList extends WidgetBase {
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
                 'condition' => [
-                    'comment_date_format' => 'custom',
+                    'comment_reply_date_format' => 'custom',
                 ],
                 'description' => __( 'For a reference on how to format a date, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
             ]
@@ -899,6 +890,102 @@ class WidgetCommentList extends WidgetBase {
 
         #<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
+            'section_header_style',
+            [
+                'label' => __( 'Comment Header', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_break',
+            [
+                'label' => __( 'Break Author and Date-Time', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor' ),
+                'label_off' => __( 'No', 'elementor' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+                'separator' => 'after',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'comment_header_author_padding',
+            [
+                'label' => __( 'Author Padding', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em' ],
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-author' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_author_color',
+            [
+                'label' => __( 'Text Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-author' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'comment_header_author_typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}} .comment-meta .comment-author',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'comment_header_datetime_padding',
+            [
+                'label' => __( 'Date-Time Padding', 'elebee' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em' ],
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'comment_header_datetime_color',
+            [
+                'label' => __( 'Text Color', 'elementor' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Scheme_Color::get_type(),
+                    'value' => Scheme_Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'comment_heading_datetime_typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}} .comment-meta .comment-metadata',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'section_comments_style',
             [
                 'label' => __( 'Comments', 'elebee' ),
@@ -1000,102 +1087,6 @@ class WidgetCommentList extends WidgetBase {
                 'name' => 'comment_typography',
                 'scheme' => Scheme_Typography::TYPOGRAPHY_3,
                 'selector' => '{{WRAPPER}} .comment-list',
-            ]
-        );
-
-        $this->end_controls_section();
-
-        $this->start_controls_section(
-            'section_header_style',
-            [
-                'label' => __( 'Comment Header', 'elebee' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->add_control(
-            'comment_header_break',
-            [
-                'label' => __( 'Break Author and Date-Time', 'elebee' ),
-                'type' => Controls_Manager::SWITCHER,
-                'label_on' => __( 'Yes', 'elementor' ),
-                'label_off' => __( 'No', 'elementor' ),
-                'return_value' => 'yes',
-                'default' => 'yes',
-            ]
-        );
-
-        $this->add_control(
-            'comment_header_author_color',
-            [
-                'label' => __( 'Text Color', 'elementor' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .comment-meta .comment-author' => 'color: {{VALUE}};',
-                ],
-                'scheme' => [
-                    'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_3,
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            [
-                'name' => 'comment_header_author_typography',
-                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
-                'selector' => '{{WRAPPER}} .comment-meta .comment-author',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'comment_header_author_padding',
-            [
-                'label' => __( 'Author Padding', 'elebee' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em' ],
-                'selectors' => [
-                    '{{WRAPPER}} .comment-meta .comment-author' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-                'separator' => 'before',
-            ]
-        );
-
-        $this->add_control(
-            'comment_header_datetime_color',
-            [
-                'label' => __( 'Text Color', 'elementor' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'color: {{VALUE}};',
-                ],
-                'scheme' => [
-                    'type' => Scheme_Color::get_type(),
-                    'value' => Scheme_Color::COLOR_3,
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            [
-                'name' => 'comment_heading_datetime_typography',
-                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
-                'selector' => '{{WRAPPER}} .comment-meta .comment-metadata',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'comment_header_datetime_padding',
-            [
-                'label' => __( 'Date-Time Padding', 'elebee' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em' ],
-                'selectors' => [
-                    '{{WRAPPER}} .comment-meta .comment-metadata' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-                'separator' => 'before',
             ]
         );
 
@@ -1259,13 +1250,84 @@ class WidgetCommentList extends WidgetBase {
 
         $this->end_controls_tabs();
 
-        $this->end_controls_section();
-
-        $this->start_controls_section(
-            'section_style_icon',
+        $this->add_control(
+            'icon_colors_heading',
             [
                 'label' => __( 'Icon', 'elementor' ),
-                'tab' => Controls_Manager::TAB_STYLE,
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'icons_size',
+            [
+                'label' => __( 'Size', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => 6,
+                        'max' => 300,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'icon_padding',
+            [
+                'label' => __( 'Padding', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'padding: {{SIZE}}{{UNIT}};',
+                ],
+                'range' => [
+                    'em' => [
+                        'min' => 0,
+                        'max' => 5,
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'rotate',
+            [
+                'label' => __( 'Rotate', 'elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 0,
+                    'unit' => 'deg',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon i' => 'transform: rotate({{SIZE}}{{UNIT}});',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'border_width',
+            [
+                'label' => __( 'Border Width', 'elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'border_radius',
+            [
+                'label' => __( 'Border Radius', 'elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
             ]
         );
 
@@ -1368,79 +1430,6 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tab();
 
         $this->end_controls_tabs();
-
-        $this->add_control(
-            'icons_size',
-            [
-                'label' => __( 'Size', 'elementor' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => [
-                    'px' => [
-                        'min' => 6,
-                        'max' => 300,
-                    ],
-                ],
-                'separator' => 'before',
-                'selectors' => [
-                    '{{WRAPPER}} .elebee-icon' => 'font-size: {{SIZE}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'icon_padding',
-            [
-                'label' => __( 'Padding', 'elementor' ),
-                'type' => Controls_Manager::SLIDER,
-                'selectors' => [
-                    '{{WRAPPER}} .elebee-icon' => 'padding: {{SIZE}}{{UNIT}};',
-                ],
-                'range' => [
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                    ],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'rotate',
-            [
-                'label' => __( 'Rotate', 'elementor' ),
-                'type' => Controls_Manager::SLIDER,
-                'default' => [
-                    'size' => 0,
-                    'unit' => 'deg',
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .elebee-icon i' => 'transform: rotate({{SIZE}}{{UNIT}});',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'border_width',
-            [
-                'label' => __( 'Border Width', 'elementor' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'selectors' => [
-                    '{{WRAPPER}} .elebee-icon' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'border_radius',
-            [
-                'label' => __( 'Border Radius', 'elementor' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%' ],
-                'selectors' => [
-                    '{{WRAPPER}} .elebee-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
 
         $this->end_controls_section();
         #</editor-fold>

@@ -141,10 +141,16 @@ class Walker extends Walker_Comment {
             'mdy' => 'm.d.Y',
         ];
 
-        $dateFormatKey = $this->settings['comment_date_format'];
-        $dateFormat = $dateFormatKey === 'custom' ? $this->settings['comment_date_format_custom'] : $preDefinedDates[ $dateFormatKey ];
+        $dType = $comment->comment_parent > 0 ? 'reply_' : '';
+        $dateFormatKey = $this->settings[ 'comment_' . $dType . 'date_format' ];
+        if( $dateFormatKey === 'custom' ) {
+            $dateFormat = $this->settings[ 'comment_' . $dType . 'date_format_custom' ];
+        }
+        else {
+            $dateFormat = $preDefinedDates[ $dateFormatKey ];
+        }
 
-        $timeFormat = $this->settings['comment_time_format_custom'];
+        $timeFormat = $this->settings[ 'comment_' . $dType . 'time_format_custom' ];
 
         $tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
         $id = $comment->comment_ID;

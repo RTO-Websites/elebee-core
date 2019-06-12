@@ -1437,7 +1437,7 @@ class WidgetCommentForm extends WidgetBase {
             'title_reply' => '',
             'title_reply_before' => '',
             'title_reply_after' => '',
-            'class_form' => 'comment-form '. $labelsPosition,
+            'class_form' => 'elementor-form comment-form '. $labelsPosition,
             'label_submit' => $settings[ 'button_text' ],
             'comment_notes_after' => '',
             'comment_notes_before' => '',
