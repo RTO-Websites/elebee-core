@@ -22,7 +22,6 @@ use Elementor\Group_Control_Typography;
 use Elementor\Plugin;
 use Elementor\Scheme_Color;
 use Elementor\Scheme_Typography;
-use ElementorPro\Modules\Forms\Controls\Fields_Map;
 
 \defined( 'ABSPATH' ) || exit;
 

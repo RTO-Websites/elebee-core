@@ -70,7 +70,7 @@ jQuery(function ($) {
       email = form.find( '#comment-email' ),
       extra = form.find( '#comment-extra' ),
       cookies = form.find( '#wp-comment-cookies-consent' ),
-      gdpr = form.find( '#comment-gdpr' ),
+      gdpr = form.find( '#wp-comment-gdpr-consent' ),
       message = form.find( '.comment-form-messages' ),
       hasErrors = true,
       button = $('button[type="submit"]');
@@ -79,7 +79,7 @@ jQuery(function ($) {
       author.validate();
     }
 
-    if ( typeof author !== 'undefined' ) {
+    if ( typeof email !== 'undefined' ) {
       if ( email.attr( 'required' ) === 'required' || email.val().length > 5 ) {
         email.validateEmail();
       }
