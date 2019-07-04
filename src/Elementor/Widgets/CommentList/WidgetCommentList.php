@@ -159,7 +159,7 @@ class WidgetCommentList extends WidgetBase {
      * @since 0.1.0
      */
     protected function _register_controls() {
-        #<editor-fold desc="Elementor Tab Content">
+        //<editor-fold desc="Elementor Tab Content">
         $this->start_controls_section(
             'section_comments',
             [
@@ -886,9 +886,9 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tabs();
 
         $this->end_controls_section();
-        #</editor-fold>
+        ///editor-fold>
 
-        #<editor-fold desc="Elementor Tab Style">
+        //<editor-fold desc="Elementor Tab Style">
         $this->start_controls_section(
             'section_header_style',
             [
@@ -1432,7 +1432,7 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tabs();
 
         $this->end_controls_section();
-        #</editor-fold>
+        //</editor-fold>
     }
 
     /**
@@ -1656,8 +1656,8 @@ class WidgetCommentList extends WidgetBase {
 
         $comments = get_comments( $args );
         if ( empty( $comments ) ) {
-            $noCommentsTitle = '<span class="elebee-notice-title">' . __( 'No comments available!', 'elebee' ) . '</span>';
-            echo '<div class="elebee-notice elebee-notice-warning">' . $noCommentsTitle . '</div>';
+            $noCommentsTitle = __( 'No comments available!', 'elebee' );
+            echo ( new Template( __DIR__ . '/partials/no-comments.php', $noCommentsTitle ) )->getRendered();
 
             return;
         }
@@ -1673,17 +1673,21 @@ class WidgetCommentList extends WidgetBase {
         if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'top' ] ) ) {
             echo $pagination;
         }
-        echo '<ul class="comment-list">';
-        wp_list_comments(
+
+        $avatarSize = ( 'yes' === $settings['comment_show_avatar'] ? $settings['comment_avatar_size']['size'] : 0 );
+        $commentList = wp_list_comments(
             [
                 'per_page' => ( $allowPagination ? $settings['comment_list_per_page'] : '' ),
-                'avatar_size' => ( 'yes' === $settings['comment_show_avatar'] ? $settings['comment_avatar_size']['size'] : 0 ),
+                'avatar_size' => $avatarSize,
                 'walker' => new Walker( $settings ),
                 'page' => $this->paginationSettings['currentPage'],
+                'echo' => false,
             ],
             $comments
         );
-        echo '</ul>';
+
+        echo ( new Template( __DIR__ . '/partials/comment-list.php', $commentList ) )->getRendered();
+
         if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
         }

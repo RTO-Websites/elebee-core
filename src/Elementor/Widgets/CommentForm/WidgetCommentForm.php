@@ -841,11 +841,11 @@ class WidgetCommentForm extends WidgetBase {
                 ],
                 'selectors' => [
                     'body.rtl {{WRAPPER}} .elebee-labels-inline label' => 'padding-left: {{SIZE}}{{UNIT}};',
-                    # for the label position = inline option
+                    // for the label position = inline option
                     'body:not(.rtl) {{WRAPPER}} .elebee-labels-inline label' => 'padding-right: {{SIZE}}{{UNIT}};',
-                    # for the label position = inline option
+                    // for the label position = inline option
                     'body {{WRAPPER}} .elebee-labels-above label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
-                    # for the label position = above option
+                    // for the label position = above option
                 ],
             ]
         );
