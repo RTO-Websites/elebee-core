@@ -115,6 +115,7 @@ class ElebeePublic {
             'isSearch' => number_format( is_search() ),
             'isMobile' => number_format( wp_is_mobile() ),
             'debug' => number_format( WP_DEBUG ),
+            'live' => '<!-- heartbeat alive -->',
         ] );
 
         if ( WP_DEBUG ) {
