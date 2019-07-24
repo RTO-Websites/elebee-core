@@ -1,0 +1,60 @@
+.comment-form .elementor-field-group  > p {
+    margin: 0;
+}
+
+.elementor-widget-comment_form form::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.elementor-widget-comment_form form > .elementor-column {
+    float: left;
+    position: relative;
+}
+
+.elementor-widget-comment_form form.elebee-labels-above > .elementor-column {
+    flex-flow: row wrap;
+}
+
+.elementor-widget-comment_form form label {
+    flex: 1;
+}
+
+.elementor-widget-comment_form form label:after {
+    display: block;
+    content: '';
+    flex-basis: 100%;
+    height: 0;
+}
+
+.elementor-widget-comment_form form input:not([type="submit"]):not([type="checkbox"]),
+.elementor-widget-comment_form form textarea {
+    width: 100%;
+    border: 1px solid #000;
+    margin: 0 5px;
+}
+.elementor-widget-comment_form form textarea {
+    line-height: 1.9;
+}
+
+.elementor-widget-comment_form form input[type="checkbox"] {
+    margin: 0 5px;
+}
+
+.elementor-widget-comment_form form .form-error {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #f22;
+    z-index: 100;
+}
+
+.elebee-checkbox-style {
+    display: flex;
+    flex-flow: column;
+}
+
+.elebee-checkbox-style > * {
+    display: flex;
+}

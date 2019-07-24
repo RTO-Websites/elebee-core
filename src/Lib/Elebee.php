@@ -352,6 +352,7 @@ class Elebee {
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
+        $this->loader->addAction( 'after_setup_theme', $elebeeAdmin, 'setupCommentForm' );
 
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );

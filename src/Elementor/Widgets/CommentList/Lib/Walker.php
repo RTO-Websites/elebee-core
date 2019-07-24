@@ -122,6 +122,7 @@ class Walker extends Walker_Comment {
 
     /**
      * Outputs a comment in the HTML5 format.
+     * https://developer.wordpress.org/reference/classes/walker_comment/html5_comment/
      *
      * @since 0.1.0
      *
@@ -132,49 +133,79 @@ class Walker extends Walker_Comment {
      * @param array      $args    An array of arguments.
      */
     protected function html5_comment( $comment, $depth, $args ) {
+        $preDefinedDates = [
+            'j-f-y' => 'j. F Y',
+            'y-m-d' => 'Y-m-d',
+            'm-d-y' => 'm/d/Y',
+            'd-m-y' => 'd/m/Y',
+            'mdy' => 'm.d.Y',
+        ];
+
+        $dType = $comment->comment_parent > 0 ? 'reply_' : '';
+        $dateFormatKey = $this->settings[ 'comment_' . $dType . 'date_format' ];
+        if( $dateFormatKey === 'custom' ) {
+            $dateFormat = $this->settings[ 'comment_' . $dType . 'date_format_custom' ];
+        }
+        else {
+            $dateFormat = $preDefinedDates[ $dateFormatKey ];
+        }
+
+        $timeFormat = $this->settings[ 'comment_' . $dType . 'time_format_custom' ];
 
         $tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
+        $id = $comment->comment_ID;
+        $class = comment_class( $comment->comment_parent === 0 ? 'parent' : '', $id, $comment->post_ID, false );
+        $avatar = 0 !== $args[ 'avatar_size' ]  ? get_avatar( $comment, $args[ 'avatar_size' ] ) : '';
+        $type = $comment->comment_parent > 0 ? 'reply' : 'list';
+        $authorStructure = $this->settings[ 'comment_' . $type . '_author_structure' ];
+        $date = date( $dateFormat, strtotime( $comment->comment_date ) );
+        $time = date( $timeFormat, strtotime($comment->comment_date ) );
+        $dateStructure = $this->settings[ 'comment_' . $type . '_date_structure' ];
+
+        $headerItemsClass = $this->settings[ 'comment_header_break' ] !== 'yes' ? 'elebee-display-inline' : '';
         ?>
-        <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
-        <article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
-            <footer class="comment-meta">
-                <div class="comment-author vcard">
-                    <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-                    <?php
-                    printf( $this->settings['comment_list_author_format'], get_comment_author( $comment ) );
-                    ?>
+        <<?php echo $tag; ?> id="comment-<?php echo $id; ?>" <?php echo $class; ?>>
+        <article id="div-comment-<?php echo $id; ?>" class="comment-body">
+            <header class="comment-meta">
+                <div class="comment-author <?php echo $headerItemsClass; ?> vcard">
+                    <?php echo $avatar; ?>
+                    <?php printf( $authorStructure, get_comment_author( $comment ) ); ?>
                 </div><!-- .comment-author -->
 
-                <div class="comment-metadata">
+                <div class="comment-metadata <?php echo $headerItemsClass; ?>">
                     <time datetime="<?php comment_time( 'c' ); ?>">
-                        <?php
-                        $date = DateTime::createFromFormat( 'Y-m-d H:i:s', $comment->comment_date );
-                        echo $date->format( $this->settings['comment_list_date_format'] );
-                        ?>
+                        <?php printf( $dateStructure, $date, $time ); ?>
                     </time>
-                    <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
                 </div><!-- .comment-metadata -->
 
+                <?php if ( !is_admin() ) {
+                    edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' );
+                }
+                ?>
                 <?php if ( '0' == $comment->comment_approved ) : ?>
                     <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
                 <?php endif; ?>
-            </footer><!-- .comment-meta -->
+            </header><!-- .comment-meta -->
 
-            <div class="comment-content">
-                <?php comment_text(); ?>
-            </div><!-- .comment-content -->
+            <section>
+                <div class="comment-content">
+                    <?php comment_text(); ?>
+                </div><!-- .comment-content -->
+            </section>
 
-            <?php
-            if ( 'yes' === $this->settings['comment_list_allow_reply'] ) {
-                comment_reply_link( array_merge( $args, [
-                    'add_below' => 'div-comment',
-                    'depth' => $depth,
-                    'max_depth' => $args['max_depth'],
-                    'before' => '<div class="reply">',
-                    'after' => '</div>',
-                ] ) );
-            }
-            ?>
+            <footer>
+                <?php
+                if ( 'yes' === $this->settings[ 'comment_list_allow_reply' ] ) {
+                    comment_reply_link( array_merge( $args, [
+                        'add_below' => 'div-comment',
+                        'depth' => $depth,
+                        'max_depth' => $args['max_depth'],
+                        'before' => '<div class="reply">',
+                        'after' => '</div>',
+                    ] ) );
+                }
+                ?>
+            </footer>
         </article><!-- .comment-body -->
         <?php
 
