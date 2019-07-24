@@ -28,6 +28,8 @@ use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
 use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
 use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
 use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
+use ElebeeCore\Elementor\Widgets\WidgetImageGallery\WidgetImageGallery;
+use ElebeeCore\Elementor\Widgets\WidgetImageCarousel\WidgetImageCarousel;
 use Elementor\Controls_Manager;
 use Elementor\Elements_Manager;
 use Elementor\Plugin;
@@ -187,6 +189,8 @@ class ElebeeElementor {
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentForm() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetCommentList() );
         Plugin::instance()->widgets_manager->register_widget_type( new WidgetBetterAccordion() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetImageGallery() );
+        Plugin::instance()->widgets_manager->register_widget_type( new WidgetImageCarousel() );
 
     }
 
