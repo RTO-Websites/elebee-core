@@ -118,7 +118,7 @@ class CustomCss extends CustomPostTypeBase {
 
         parent::definePublicHooks();
 
-        $this->getLoader()->addAction( 'elementor/frontend/after_register_scripts', $this, 'enqueuePublicStyles' );
+        $this->getLoader()->addAction( 'elementor/frontend/after_enqueue_styles', $this, 'enqueuePublicStyles' );
 
     }
 
