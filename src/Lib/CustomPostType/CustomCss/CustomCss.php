@@ -177,7 +177,7 @@ class CustomCss extends CustomPostTypeBase {
         $recentRelease->the_post();
         $version = get_post_modified_time();
 
-        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'main', 'elementor-frontend' ], $version );
+        wp_enqueue_style( 'elebee-global', $this->compiledFileUrl, [ 'elebee-main', 'elementor-frontend' ], $version );
 
         wp_reset_postdata();
 
