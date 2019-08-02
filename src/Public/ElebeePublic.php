@@ -75,12 +75,7 @@ class ElebeePublic {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', [], $this->version, 'all' );
-
-        if ( is_user_logged_in() ) {
-            # common.css file cause faulty display in the gallery lightbox
-            wp_deregister_style( 'elementor-common' );
-        }
+        wp_enqueue_style( 'elebee-main', get_stylesheet_directory_uri() . '/css/main.min.css', [], $this->version, 'all' );
 
     }
 
