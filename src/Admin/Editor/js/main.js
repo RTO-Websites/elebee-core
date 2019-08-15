@@ -23,6 +23,7 @@
   init = function () {
     configCodeMirror();
     registerEvents();
+    window.editor = cm;
   };
 
   /**
