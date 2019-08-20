@@ -22,6 +22,7 @@ use Elementor\Scheme_Typography;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
+use ElebeeCore\Elementor\Database\Database;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
 
 \defined( 'ABSPATH' ) || exit;
@@ -1670,9 +1671,132 @@ class WidgetCommentForm extends WidgetBase {
     }
 
     /**
+     * Update ratings on the database
+     *
+     * Add, remove or update the ratings on the database based on the submitted data
+     *
+     * @since  0.7.2
+     */
+    public function ajaxCommentForm () {
+        $postID = isset( $_POST[ 'postID' ] ) ? $_POST[ 'postID' ] : false;
+        $commentForms = isset( $_POST[ 'commentForms' ] ) ? $_POST[ 'commentForms' ] : false;
+
+        if ( ! $postID ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Missing required parameter "postID"',
+            ] );
+            exit;
+        }
+
+        if ( ! $commentForms ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Missing required parameter "commentForms"',
+            ] );
+            exit;
+        }
+
+        if ( ! is_numeric( $postID ) ) {
+            var_dump( $postID );
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Parameter "postID" need to be of type "int"',
+            ] );
+            exit;
+        }
+
+        if ( ! is_array( $commentForms ) ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Parameter "commentForms" need to be of type "array"',
+            ] );
+            exit;
+        }
+
+        $database = new Database();
+
+        foreach ( $commentForms as $commentForm ) {
+            if ( ! $commentForm[ 'widgetID' ] ) {
+                continue;
+            }
+
+            $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
+
+            foreach ( $dbCategories as $dbCategory ) {
+                $found = false;
+
+                foreach ( $commentForm[ 'categories' ] as $category ) {
+                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if ( ! $found ) {
+                    $database->categories->archiveByCategoryID( $dbCategory->categoryID );
+                }
+            }
+
+            if ( ! $commentForm[ 'categories' ] ) {
+                continue;
+            }
+
+            foreach ( $commentForm[ 'categories' ] as $category ) {
+                $found = false;
+
+                foreach ( $dbCategories as $dbCategory ) {
+                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                        $found = true;
+                        breaK;
+                    }
+                }
+
+                if ( $found ) {
+                    $database->categories->updateByCategoryID(
+                        $category[ '_id' ],
+                        $postID,
+                        $commentForm[ 'widgetID' ],
+                        $commentForm[ 'targetPostID' ],
+                        $category[ 'category_label' ],
+                        $category[ 'category_icon' ],
+                        $category[ 'category_default_color' ],
+                        $category[ 'category_hover_color' ],
+                        $category[ 'category_selected_color' ],
+                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                    );
+                } else {
+                    $database->categories->add(
+                        $postID,
+                        $commentForm[ 'widgetID' ],
+                        $commentForm[ 'targetPostID' ],
+                        $category[ '_id' ],
+                        $category[ 'category_label' ],
+                        $category[ 'category_icon' ],
+                        $category[ 'category_default_color' ],
+                        $category[ 'category_hover_color' ],
+                        $category[ 'category_selected_color' ],
+                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                    );
+                }
+            }
+        }
+
+        
+        echo json_encode( [
+            'error' => false,
+        ] );
+        exit;
+    }
+
+    /**
      * Source: https://rudrastyh.com/wordpress/ajax-comments.html
      */
-    public function ajaxCommentSubmit() {
+    public function ajaxCommentSubmit () {
         // array keys are pre defined
         // https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
         $commentData = [
@@ -1686,16 +1810,16 @@ class WidgetCommentForm extends WidgetBase {
 
         $comment = wp_handle_comment_submission( $commentData );
 
-        if ( !is_wp_error( $comment ) ) {
+        if ( ! is_wp_error( $comment ) ) {
             die();
         }
 
-        $errorData = (int)$comment->get_error_data();
+        $errorData = (int) $comment->get_error_data();
         if ( empty( $errorData ) ) {
             wp_die( 'Unknown error' );
         }
 
-        wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), array( 'response' => $errorData, 'back_link' => true ) );
+        wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), [ 'response' => $errorData, 'back_link' => true ] );
 
     }
 }
