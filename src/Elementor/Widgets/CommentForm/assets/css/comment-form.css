@@ -58,3 +58,63 @@
 .elebee-checkbox-style > * {
     display: flex;
 }
+
+
+.elebee-rating-stars {
+    display: flex;
+    align-self: flex-start;
+    padding-left: 2rem;
+}
+
+.elebee-rating-star {
+    padding-left: 2rem;
+    display: inline;
+    position: relative;
+}
+
+.elebee-rating-star label {
+    display: none !important;
+}
+
+.elebee-rating-star input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
+.elebee-rating-star input.checked ~ i {
+    color: orange;
+}
+
+.elebee-rating-star input.hover ~ i {
+    color: darkorange;
+}
+
+.elebee-rating-star i {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.showmore {
+    font-weight: 400;
+    color: #222222;
+}
+
+.showmore:hover {
+    color: #333333;
+}
+
+.comment-form-error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    padding: 1rem;
+}
+
+.comment-form-success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    padding: 1rem;
+}
