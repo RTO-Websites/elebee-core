@@ -20,9 +20,9 @@ use Elementor\Scheme_Color;
 use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
 use ElebeeCore\Lib\Util\Template;
+use ElebeeCore\Database\Database;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use ElebeeCore\Elementor\Database\Database;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
 
 \defined( 'ABSPATH' ) || exit;
@@ -94,21 +94,15 @@ class WidgetCommentForm extends WidgetBase {
      * @since 0.1.0
      */
     public function enqueueScripts() {
-        wp_enqueue_script( $this->get_name(), $this->assetsPath . 'js/ajax-comments.js', [ 'jquery' ], Elebee::VERSION );
-
-        // Prevent loading localized string multiple times.
-        $wpScripts = wp_scripts();
-        if ( ! $wpScripts->get_data( $this->get_name(), 'data' ) ) {
-            // Localize the script with new data
-            $translationArray = array(
-                'fieldIsEmpty' => __( 'Field is empty', 'elebee' ),
-                'emailInvalid' => __( 'Email format is invalid', 'elebee' ),
-                'required' => __( 'This field is required', 'elebee'),
-                'formSubmitSuccess' => __( 'Thank you for your submission!', 'elebee'),
-            );
-
-            wp_localize_script( $this->get_name(), 'themeLocalization', $translationArray );
-        }
+        wp_enqueue_script( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentForm/assets/js/comment-form.js', [ 'jquery' ], time(), 'all' );
+        wp_localize_script( $this->get_name(), 'commentFormLocalize', [
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'language' => [
+                'showMore' => __( 'Show more..', 'elebee' ),
+                'showLess' => __( 'Show less..', 'elebee' ),
+                'commentSuccessSend' => __( 'Successfully send!', 'elebee' ),
+            ],
+        ] );
     }
 
     /**
@@ -1786,40 +1780,35 @@ class WidgetCommentForm extends WidgetBase {
             }
         }
 
-        
+
         echo json_encode( [
             'error' => false,
         ] );
         exit;
     }
 
-    /**
-     * Source: https://rudrastyh.com/wordpress/ajax-comments.html
-     */
-    public function ajaxCommentSubmit () {
-        // array keys are pre defined
-        // https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
-        $commentData = [
-            'comment_post_ID' => filter_input( INPUT_POST, 'comment_post_ID' ),
-            'author' => filter_input( INPUT_POST, 'comment-author' ),
-            'email' => filter_input( INPUT_POST, 'comment-email' ),
-            'url' => filter_input( INPUT_POST, 'comment-extra' ),
-            'comment' => filter_input( INPUT_POST, 'comment' ),
-            'comment_parent' => filter_input( INPUT_POST, 'comment_parent' ),
-        ];
+    public static function ajaxPostComment () {
+        $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
 
-        $comment = wp_handle_comment_submission( $commentData );
+        if ( is_wp_error( $comment ) ) {
+            if ( empty( $comment->get_error_data() ) ) {
+                echo json_encode( [
+                    'error' => true,
+                    'message' => 'Unknown error',
+                ] );
+                exit;
+            }
 
-        if ( ! is_wp_error( $comment ) ) {
-            die();
+            echo json_encode( [
+                'error' => true,
+                'message' => $comment->get_error_message(),
+            ] );
+            exit;
         }
 
-        $errorData = (int) $comment->get_error_data();
-        if ( empty( $errorData ) ) {
-            wp_die( 'Unknown error' );
-        }
-
-        wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), [ 'response' => $errorData, 'back_link' => true ] );
-
+        echo json_encode( [
+            'error' => false,
+        ] );
+        exit;
     }
 }
