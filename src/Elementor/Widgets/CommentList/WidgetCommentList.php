@@ -13,14 +13,14 @@
 namespace ElebeeCore\Elementor\Widgets\CommentList;
 
 
-use ElebeeCore\Elementor\Widgets\CommentList\Lib\Walker;
-use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Util\Template;
-use Elementor\Controls_Manager;
-use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Color;
+use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
+use ElebeeCore\Lib\Util\Template;
+use Elementor\Group_Control_Typography;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
+use ElebeeCore\Elementor\Widgets\CommentList\Lib\Walker;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -1686,7 +1686,7 @@ class WidgetCommentList extends WidgetBase {
             $comments
         );
 
-        echo ( new Template( __DIR__ . '/partials/comment-list.php', $commentList ) )->getRendered();
+        echo ( new Template( __DIR__ . '/partials/comment-list.php', [ 'commentList' => $commentList ] ) )->getRendered();
 
         if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
