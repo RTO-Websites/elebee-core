@@ -13,15 +13,16 @@
 namespace ElebeeCore\Elementor\Widgets\CommentForm;
 
 
-use ElebeeCore\Elementor\Widgets\WidgetBase;
+use Elementor\Plugin;
+use Elementor\Repeater;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Util\Template;
+use Elementor\Scheme_Color;
 use Elementor\Controls_Manager;
+use Elementor\Scheme_Typography;
+use ElebeeCore\Lib\Util\Template;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use Elementor\Plugin;
-use Elementor\Scheme_Color;
-use Elementor\Scheme_Typography;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -85,7 +86,7 @@ class WidgetCommentForm extends WidgetBase {
      * @since 0.1.0
      */
     public function enqueueStyles() {
-        wp_enqueue_style( $this->get_name(), $this->assetsPath . 'css/comment-form.css', [], Elebee::VERSION, 'all' );
+        wp_enqueue_style( $this->get_name(), $this->assetsPath . 'css/comment-form.css', [ 'font-awesome' ], Elebee::VERSION, 'all' );
     }
 
     /**
@@ -1263,6 +1264,165 @@ class WidgetCommentForm extends WidgetBase {
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'section_ratings',
+            [
+                'label' => __( 'Ratings', 'elebee' ),
+            ]
+        );
+
+        $repeater = new Repeater();
+
+        $repeater->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'rating_title_typography',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $repeater->add_control( 'category_label', [
+            'label' => __( 'Rating Label', 'elebee' ),
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Rating',
+        ] );
+
+        $repeater->add_control( 'category_icon', [
+            'label' => __( 'Rating Icon', 'elebee' ),
+            'type' => Controls_Manager::ICON,
+            'default' => 'fa fa-star',
+            'selector' => [
+                '{[WRAPPER}} .elebee-rating:before' => 'content: "{{VALUE}}"',
+            ],
+        ] );
+
+        $repeater->add_control(
+            'category_default_color',
+            [
+                'label' => __( 'Rating Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'category_selected_color',
+            [
+                'label' => __( 'Rating Selected Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} input.checked ~ i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'category_hover_color',
+            [
+                'label' => __( 'Rating Hover Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} input.hover ~ i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control( 'category_required', [
+            'label' => __( 'Rating Required', 'elebee' ),
+            'type' => Controls_Manager::SWITCHER,
+            'default' => false,
+            'label_on' => __( 'Required', 'elebee' ),
+            'label_off' => __( 'Not required', 'elebee' ),
+        ] );
+
+        $this->add_control( 'list_categories', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'type' => Controls_Manager::REPEATER,
+            'prevent_empty' => false,
+            'fields' => $repeater->get_controls(),
+            'title_field' => '{{{ category_label }}}',
+        ] );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section( 'section_rating_style', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'tab' => Controls_Manager::TAB_STYLE,
+        ] );
+
+        $this->add_control( 'category_spacing', [
+            'label' => __( 'Rating Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 0,
+                    'max' => 50,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 10,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating:not(:first-child) td' => 'padding-top: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control( 'category_icon_spacing', [
+            'label' => __( 'Icon Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 8,
+                    'max' => 100,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 16,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating-star' => 'padding-left: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control(
+            'category_icon_size',
+            [
+                'label' => __( 'Icon Size', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 16,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 8,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-rating-star' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .elebee-rating-star input' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ratings_title_typography',
+                'selector' => '{{WRAPPER}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
@@ -1410,6 +1570,13 @@ class WidgetCommentForm extends WidgetBase {
             'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )
         ];
 
+        $ratingFieldsArgs = [
+            'fieldWidth' => ! empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
+            'widgetID' => $this->get_id(),
+            'required' => '<span class="required">' . $sign . '</span>',
+            'settings' => $settings,
+        ];
+
         $commentFieldArgs = [
             'fieldWidth' => !empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
             'commentLabel' => $settings[ 'label_comment' ],
@@ -1444,7 +1611,9 @@ class WidgetCommentForm extends WidgetBase {
             'fields' => apply_filters( 'comment_form_default_fields', $fields ),
             'must_log_in' => ( new Template( __DIR__ . '/partials/must-log-in.php', $mustLogInArgs ) )->getRendered(),
             'logged_in_as' => ( new Template( __DIR__ . '/partials/logged-in-as.php', $loggedInAsArgs ) )->getRendered(),
-            'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
+            'comment_field' =>
+                ( new Template( __DIR__ . '/partials/rating-fields.php', $ratingFieldsArgs ) )->getRendered() .
+                ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
             'submit_button' => ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered(),
         ];
 
@@ -1496,7 +1665,7 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _content_template() {
 
-        echo ( new Template( __DIR__ . '/partials/editor-content.php' ) )->getRendered();
+        echo ( new Template( __DIR__ . '/partials/editor-content.php', [ 'id' => $this->get_id() ] ) )->getRendered();
 
     }
 
