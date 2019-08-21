@@ -1666,7 +1666,7 @@ class WidgetCommentList extends WidgetBase {
 
         if ( empty( $comments ) ) {
             $noCommentsTitle = __( 'No comments available!', 'elebee' );
-            echo ( new Template( __DIR__ . '/partials/no-comments.php', $noCommentsTitle ) )->getRendered();
+            echo ( new Template( __DIR__ . '/partials/no-comments.php', [ 'noticeTitle' => $noCommentsTitle ] ) )->getRendered();
 
             return;
         }
