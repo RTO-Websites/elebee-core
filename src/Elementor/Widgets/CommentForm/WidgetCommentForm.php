@@ -1787,6 +1787,96 @@ class WidgetCommentForm extends WidgetBase {
         exit;
     }
 
+    /**
+     * @param $commentData
+     */
+    function preprocessComment ( $commentData ) {
+
+        if ( ! isset( $_POST[ 'widgetID' ] ) ) {
+            return wp_die(
+                'Please try again in a few minutes, if the problem persists please contact an administrator.',
+                __( 'Comment Submission Failure' ),
+                [
+                    'back_link' => true,
+                ]
+            );
+        }
+
+        $widgetID = $_POST[ 'widgetID' ];
+        $ratings = isset( $_POST[ 'elebee-ratings' ] ) ? $_POST[ 'elebee-ratings' ] : [];
+
+        $database = new Database();
+        $categories = $database->categories->getByWidgetID( $widgetID );
+
+        foreach ( $categories as $category ) {
+            if ( $category->required ) {
+                if ( ! $ratings[ $category->categoryID ] ) {
+                    return wp_die(
+                        sprintf(
+                        // translators: %s is the name of the category
+                            __( '"%s" is required but not set.', 'elebee' ),
+
+                            $category->name
+                        ),
+                        __( 'Comment Submission Failure' ),
+                        [
+                            'back_link' => true,
+                        ]
+                    );
+                }
+            }
+        }
+
+        foreach ( $ratings as $key => $value ) {
+            if ( $value > 5 ) {
+                return wp_die(
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Comment Submission Failure' ),
+                    [
+                        'back_link' => true,
+                    ]
+                );
+            }
+
+            $found = false;
+
+            foreach ( $categories as $category ) {
+                if ( $category->categoryID == $key ) {
+                    $found = true;
+                }
+            }
+
+            if ( ! $found ) {
+                return wp_die(
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Comment Submission Failure' ),
+                    [
+                        'back_link' => true,
+                    ]
+                );
+            }
+        }
+
+        return $commentData;
+
+    }
+
+    /**
+     * @since  0.7.2
+     * @param $commentId
+     */
+    public function submitComment ( $commentId ) {
+
+        $widgetID = $_POST[ 'widgetID' ];
+        $ratings = isset( $_POST[ 'elebee-ratings' ] ) ? $_POST[ 'elebee-ratings' ] : [];
+
+        add_comment_meta( $commentId, 'elebeeRatings', [
+            'widgetId' => $widgetID,
+            'ratings' => $ratings,
+        ] );
+
+    }
+
     public static function ajaxPostComment () {
         $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
 

@@ -388,6 +388,8 @@ class Elebee {
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
+        $this->loader->addFilter( 'preprocess_comment', WidgetCommentForm::class, 'preprocessComment' );
+        $this->loader->addAction( 'comment_post', WidgetCommentForm::class, 'submitComment' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
