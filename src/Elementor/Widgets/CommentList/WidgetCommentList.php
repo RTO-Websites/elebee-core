@@ -2139,4 +2139,25 @@ class WidgetCommentList extends WidgetBase {
 
     }
 
+    public static function getCommentContent () {
+        $commentID = isset( $_POST[ 'commentID' ] ) ? $_POST[ 'commentID' ] : false;
+
+        if ( ! $commentID ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Required parameter commentID not set',
+            ] );
+            die;
+        }
+
+        $comment = get_comment( $commentID );
+
+        echo json_encode( [
+            'error' => false,
+            'content' => $comment->comment_content,
+        ] );
+        exit;
+    }
+
 }

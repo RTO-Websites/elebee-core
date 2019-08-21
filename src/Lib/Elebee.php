@@ -35,6 +35,7 @@ use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
 use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
+use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
 use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
 use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
 use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
@@ -367,6 +368,7 @@ class Elebee {
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
         $this->loader->addAction( 'wp_ajax_comment_form', WidgetCommentForm::class, 'ajaxCommentForm' );
         $this->loader->addAction( 'wp_ajax_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
         $utilAdminNotice = new AdminNotice();
         $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'enqueueScripts' );
@@ -398,6 +400,7 @@ class Elebee {
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
 
         $this->loader->addAction( 'wp_ajax_nopriv_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_nopriv_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
     }
 
