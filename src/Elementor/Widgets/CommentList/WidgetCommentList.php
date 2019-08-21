@@ -17,6 +17,7 @@ use ElebeeCore\Lib\Elebee;
 use Elementor\Scheme_Color;
 use Elementor\Controls_Manager;
 use Elementor\Scheme_Typography;
+use ElebeeCore\Database\Database;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Group_Control_Typography;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
@@ -159,11 +160,39 @@ class WidgetCommentList extends WidgetBase {
      * @since 0.1.0
      */
     protected function _register_controls() {
-        //<editor-fold desc="Elementor Tab Content">
+        // <options name="General">
+
+        $this->start_controls_section(
+            'section_general',
+            [
+                'label' => __( 'General', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'comments_ratings_toggle',
+            [
+                'label' => __( 'Comments or Ratings?', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => '',
+                'label_on' => 'Comments',
+                'label_off' => 'Ratings',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // </options name="General">
+
+
+        // <options name="Comments">
         $this->start_controls_section(
             'section_comments',
             [
                 'label' => __( 'Comments', 'elebee' ),
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -312,6 +341,9 @@ class WidgetCommentList extends WidgetBase {
             'reply_format',
             [
                 'label' => __( 'Reply Format', 'elebee' ),
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -384,6 +416,9 @@ class WidgetCommentList extends WidgetBase {
             'section_pagination',
             [
                 'label' => __( 'Pagination', 'elebee' ),
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -894,6 +929,9 @@ class WidgetCommentList extends WidgetBase {
             [
                 'label' => __( 'Comment Header', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -990,6 +1028,9 @@ class WidgetCommentList extends WidgetBase {
             [
                 'label' => __( 'Comments', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -1097,6 +1138,9 @@ class WidgetCommentList extends WidgetBase {
             [
                 'label' => __( 'Pagination', 'elebee' ),
                 'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'comments_ratings_toggle' => '',
+                ],
             ]
         );
 
@@ -1432,7 +1476,299 @@ class WidgetCommentList extends WidgetBase {
         $this->end_controls_tabs();
 
         $this->end_controls_section();
-        //</editor-fold>
+
+        $this->start_controls_section( 'section_categories_style', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'tab' => Controls_Manager::TAB_STYLE,
+            'condition' => [
+                'comments_ratings_toggle' => '',
+            ],
+        ] );
+
+        $this->add_control( 'category_spacing', [
+            'label' => __( 'Rating Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 0,
+                    'max' => 50,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 10,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating:not(:first-child) td' => 'padding-top: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control( 'category_icon_spacing', [
+            'label' => __( 'Icon Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 8,
+                    'max' => 100,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 16,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating-star' => 'padding-left: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control(
+            'category_icon_size',
+            [
+                'label' => __( 'Icon Size', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 16,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 8,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-rating-star' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .elebee-rating-star input' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ratings_label_typography',
+                'selector' => '{{WRAPPER}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
+        // </options name="Comments">
+
+
+        // <options name="Ratings">
+        $this->start_controls_section(
+            'ratings_section_ratings',
+            [
+                'label' => __( 'Ratings', 'elebee' ),
+                'condition' => [
+                    'comments_ratings_toggle' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ratings_show_seo_rating',
+            [
+                'label' => __( 'Show rating on search engines?', 'elebee' ),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'ratings_comments_from_post',
+            [
+                'label' => __( 'Post', 'elebee' ),
+                'type' => Controls_Manager::SELECT2,
+                'label_block' => true,
+                'default' => get_the_ID(),
+                'options' => $this->getCommentPages(),
+            ]
+        );
+
+        $this->add_control(
+            'ratings_no_ratings_text',
+            [
+                'label' => __( 'No ratings text', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'label_block' => true,
+                'default' => __( 'There are no ratings yet.', 'elebee' ),
+            ]
+        );
+
+        $this->add_control(
+            'ratings_format_text',
+            [
+                'label' => __( 'Ratings Format', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'label_block' => true,
+                'default' => __( '%1$s / %2$s', 'elebee' ),
+                'description' => '%1$s is the number of average stars.<br/>%2$s is the number of possible stars.',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'ratings_section_total',
+            [
+                'label' => __( 'Total', 'elebee' ),
+                'condition' => [
+                    'comments_ratings_toggle' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control( 'ratings_only_total', [
+            'label' => __( 'Show only total', 'elebee' ),
+            'type' => Controls_Manager::SWITCHER,
+            'default' => '',
+        ] );
+
+
+        $this->add_control( 'ratings_total_label', [
+            'label' => __( 'Total Label', 'elebee' ),
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Total',
+        ] );
+
+        $this->add_control( 'ratings_total_icon', [
+            'label' => __( 'Total Icon', 'elebee' ),
+            'type' => Controls_Manager::ICON,
+            'default' => 'fa fa-star',
+            'selector' => [
+                '{[WRAPPER}} .elebee-rating:before' => 'content: "{{VALUE}}"',
+            ],
+        ] );
+
+        $this->add_control(
+            'ratings_total_color',
+            [
+                'label' => __( 'Total Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} i.total' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ratings_total_color_selected',
+            [
+                'label' => __( 'Total Selected Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} i.total.checked' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'ratings_section_pagination_style',
+            [
+                'label' => __( 'Pagination', 'elebee' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'comments_ratings_toggle' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'typography',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+                'selector' => '{{WRAPPER}}',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section( 'section_ratings_rating_style', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'tab' => Controls_Manager::TAB_STYLE,
+            'condition' => [
+                'comments_ratings_toggle' => 'yes',
+            ],
+        ] );
+
+        $this->add_control( 'ratings_category_spacing', [
+            'label' => __( 'Rating Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 0,
+                    'max' => 50,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 10,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating:not(:first-child) td' => 'padding-top: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control( 'ratings_category_icon_spacing', [
+            'label' => __( 'Icon Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 8,
+                    'max' => 100,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 16,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating-star' => 'padding-left: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control(
+            'ratings_category_icon_size',
+            [
+                'label' => __( 'Icon Size', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 16,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 8,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-rating-star' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .elebee-rating-star input' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ratings_ratings_label_typography',
+                'selector' => '{{WRAPPER}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
+        // </options name="Ratings">
     }
 
     /**
@@ -1637,16 +1973,7 @@ class WidgetCommentList extends WidgetBase {
 
     }
 
-    /**
-     * Render image widget output on the frontend.
-     *
-     * Written in PHP and used to generate the final HTML.
-     *
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    protected function render() {
+    public function renderComments () {
 
         $settings = $this->get_settings_for_display();
         $args = [
@@ -1673,23 +2000,23 @@ class WidgetCommentList extends WidgetBase {
 
         $this->setPaginationSettings( $comments );
 
-        $allowPagination = $this->pageComments && 'yes' === $settings['comment_list_paginate'];
+        $allowPagination = $this->pageComments && 'yes' === $settings[ 'comment_list_paginate' ];
         $pagination = '';
         if ( $allowPagination ) {
             $pagination = $this->getCommentPagination();
         }
 
-        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'top' ] ) ) {
+        if ( $allowPagination && in_array( $settings[ 'comment_list_position' ], [ 'top-bottom', 'top' ] ) ) {
             echo $pagination;
         }
 
-        $avatarSize = ( 'yes' === $settings['comment_show_avatar'] ? $settings['comment_avatar_size']['size'] : 0 );
+        $avatarSize = ( 'yes' === $settings[ 'comment_show_avatar' ] ? $settings[ 'comment_avatar_size' ][ 'size' ] : 0 );
         $commentList = wp_list_comments(
             [
-                'per_page' => ( $allowPagination ? $settings['comment_list_per_page'] : '' ),
+                'per_page' => ( $allowPagination ? $settings[ 'comment_list_per_page' ] : '' ),
                 'avatar_size' => $avatarSize,
                 'walker' => new Walker( $settings ),
-                'page' => $this->paginationSettings['currentPage'],
+                'page' => $this->paginationSettings[ 'currentPage' ],
                 'echo' => false,
             ],
             $comments
@@ -1697,8 +2024,117 @@ class WidgetCommentList extends WidgetBase {
 
         echo ( new Template( __DIR__ . '/partials/comment-list.php', [ 'commentList' => $commentList ] ) )->getRendered();
 
-        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
+        if ( $allowPagination && in_array( $settings[ 'comment_list_position' ], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
+        }
+
+    }
+
+    public function renderRatings () {
+
+        $settings = $this->get_settings_for_display();
+        $comments = get_comments( [ 'post_id' => $settings[ 'ratings_comments_from_post' ] ] );
+        $endResults = [];
+
+        $database = new Database();
+        $categories = $database->categories->getByTargetPostID( $settings[ 'ratings_comments_from_post' ] != null ? $settings[ 'ratings_comments_from_post' ] : get_post()->ID );
+
+        $totalPoints = 0;
+        $totalVotes = 0;
+        foreach ( $comments as $comment ) {
+            $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
+
+            if ( ! $commentMeta || ! is_array( $commentMeta ) ) {
+                continue;
+            }
+
+            if ( ! $commentMeta[ 'ratings' ] || ! is_array( $commentMeta[ 'ratings' ] ) ) {
+                continue;
+            }
+
+            foreach ( $commentMeta[ 'ratings' ] as $key => $rating ) {
+                $found = false;
+
+                foreach ( $categories as $category ) {
+                    if ( $category->categoryID == $key ) {
+                        $found = $category;
+                        break;
+                    }
+                }
+
+                if ( ! $found ) {
+                    continue;
+                }
+
+                if ( ! $endResults[ $key ] ) {
+                    $endResults[ $key ] = [
+                        'name' => $found->name,
+                        'icon' => $found->icon,
+                        'colorSelected' => $found->colorSelected,
+                        'color' => $found->color,
+                        'voters' => 1,
+                        'points' => (int) $rating,
+                    ];
+                    $totalPoints += $rating;
+                    $totalVotes++;
+                    continue;
+                }
+
+                $endResults[ $key ][ 'voters' ] = $endResults[ $key ][ 'voters' ] + 1;
+                $endResults[ $key ][ 'points' ] = $endResults[ $key ][ 'points' ] + $rating;
+                $totalPoints += $rating;
+                $totalVotes++;
+            }
+        }
+
+        if ( ! is_array( $endResults ) || count( $endResults ) == 0 ) {
+            echo $settings[ 'ratings_no_ratings_text' ];
+            return;
+        }
+
+        $endResults[ 'total' ] = [
+            'name' => $settings[ 'ratings_total_label' ],
+            'icon' => $settings[ 'ratings_total_icon' ],
+            'colorSelected' => $settings[ 'ratings_total_color_selected' ],
+            'color' => $settings[ 'ratings_total_color' ],
+            'voters' => $totalVotes,
+            'points' => $totalPoints,
+        ];
+
+        if ( $settings[ 'ratings_only_total' ] == 'yes' ) {
+            $vars = [
+                'endResults' => [ 'total' => $endResults[ 'total' ] ],
+                'settings' => $settings,
+            ];
+        } else {
+            $vars = [
+                'endResults' => $endResults,
+                'settings' => $settings,
+            ];
+        }
+
+        $templateLocation = __DIR__ . '/partials/comment-rating.php';
+        $template = new Template( $templateLocation, $vars );
+        $template->render();
+
+    }
+
+    /**
+     * Render image widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 0.1.0
+     *
+     * @return void
+     */
+    protected function render() {
+        $settings = $this->get_settings_for_display();
+
+        if ( $settings[ 'comments_ratings_toggle' ] == '' ) {
+            $this->renderComments();
+        } else {
+            $this->renderRatings();
         }
 
     }

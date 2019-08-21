@@ -85,11 +85,11 @@
 }
 
 .elebee-rating-star input.checked ~ i {
-    color: orange;
+    color: #FFA500;
 }
 
 .elebee-rating-star input.hover ~ i {
-    color: darkorange;
+    color: #FF8C00;
 }
 
 .elebee-rating-star i {
