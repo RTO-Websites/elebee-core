@@ -1653,8 +1653,17 @@ class WidgetCommentList extends WidgetBase {
             'post_id' => $settings[ 'comments_from_post' ],
             'status' => 'approve',
         ];
-
         $comments = get_comments( $args );
+
+        if ( is_user_logged_in() ) {
+            $args = [
+                'post_id' => $settings[ 'comments_from_post' ],
+                'status' => 'hold',
+            ];
+            $commentsOnHold = get_comments( $args );
+            $comments = array_merge( $comments, $commentsOnHold );
+        }
+
         if ( empty( $comments ) ) {
             $noCommentsTitle = __( 'No comments available!', 'elebee' );
             echo ( new Template( __DIR__ . '/partials/no-comments.php', $noCommentsTitle ) )->getRendered();

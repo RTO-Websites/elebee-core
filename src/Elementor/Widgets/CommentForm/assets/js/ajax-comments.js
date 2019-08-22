@@ -80,7 +80,7 @@ jQuery(function ($) {
     }
 
     if ( typeof email !== 'undefined' ) {
-      if ( email.attr( 'required' ) === 'required' || email.val().length > 5 ) {
+      if ( email.attr( 'required' ) === 'required' || email.val() && email.val().length > 5 ) {
         email.validateEmail();
       }
     }
@@ -122,9 +122,15 @@ jQuery(function ($) {
           } else {
             // process WordPress errors
             let wpErrorHtml = request.responseText.split( "<p>" ),
-              wpErrorStr = wpErrorHtml[ 1 ].split( "</p>" );
+              wpErrorStr = '';
 
-            formError = wpErrorStr[ 0 ];
+            if ( typeof wpErrorHtml[ 1 ] !== 'undefined' ) {
+              wpErrorStr = wpErrorHtml[ 1 ].split( "</p>" );
+              formError = wpErrorStr[ 0 ];
+            }
+            else {
+              formError = request.responseText;
+            }
           }
           message.html( '<div class="comment-error">' + formError + '</div>' );
         },
