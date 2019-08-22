@@ -129,7 +129,7 @@ jQuery(function ($) {
               formError = wpErrorStr[ 0 ];
             }
             else {
-              formError = request.responseTex;
+              formError = request.responseText;
             }
           }
           message.html( '<div class="comment-error">' + formError + '</div>' );
