@@ -165,6 +165,8 @@ class CodeMirror extends Hooking {
         ];
 
         wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
+        wp_enqueue_style( 'elebee-editor', $this->url . 'css/editor.css', [ 'codemirror' ], Elebee::VERSION );
+
     }
 
     private function initMetaBox() {
