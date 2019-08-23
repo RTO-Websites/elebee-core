@@ -132,6 +132,8 @@ class CodeMirror extends Hooking {
         wp_enqueue_script( 'addon-selection-active-line', $this->vendorUrl . 'addon/selection/active-line.js', [ 'codemirror' ], $this->version, true );
         wp_enqueue_script( 'addon-selection-mark-selection', $this->vendorUrl . 'addon/selection/mark-selection.js', [ 'codemirror' ], $this->version, true );
 
+
+        wp_enqueue_script( 'addon-active-line-contoller', $this->url . 'js/activeLineController.js', [ 'codemirror' ], $this->version, true );
         #mode
         wp_enqueue_style( 'mode-sass-sass-css', $this->vendorUrl . 'mode/sass/sass.js', [ 'mode-css-css' ], $this->version );
         wp_enqueue_script( 'mode-css-css', $this->vendorUrl . 'mode/css/css.js', [ 'codemirror' ], $this->version, true );
