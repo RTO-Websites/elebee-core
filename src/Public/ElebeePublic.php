@@ -92,11 +92,11 @@ class ElebeePublic {
         switch ( $settingJQuery ) {
             case 'latest-cdn':
                 wp_deregister_script( 'jquery' );
-                wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
+                wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js', [], '3.4.1' );
                 break;
             case 'latest-local':
                 wp_deregister_script( 'jquery' );
-                wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/public/assets/js/jquery.min.js', [], '3.3.1' );
+                wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/public/assets/js/jquery.min.js', [], '3.4.1' );
                 break;
         }
 
