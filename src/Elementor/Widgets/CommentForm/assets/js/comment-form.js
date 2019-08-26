@@ -28,7 +28,7 @@
         let commentID = e.target.dataset['commentid'];
         
         if ( ! commentID ) {
-            return console.error( 'No commentID' );
+            return;
         }
         
         if ( cache[commentID]['shortContent'] ) {
@@ -56,7 +56,7 @@
         let commentID = e.target.dataset['commentid'];
         
         if ( ! commentID ) {
-            return console.error( 'No commentID' );
+            return;
         }
         
         if ( ! cache[commentID] ) cache[commentID] = {};
@@ -84,12 +84,10 @@
     }
     
     function clickStar ( e ) {
-        console.log( 'TEST' )
         let star = $( e.target );
     
         for ( let i = 0; i < 5; i++ ) {
             let stars = $( star.parent().parent().children()[i] ).children( 'input' );
-            console.log( 'Uncheck:', stars );
             stars.removeClass( 'checked' );
         }
         
