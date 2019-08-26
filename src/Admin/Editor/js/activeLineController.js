@@ -5,7 +5,6 @@
  * Sets a cookie with current active line
  */
 function newActiveLine(cm, sel) {
-  console.log(sel.ranges[0]['anchor'])
   document.cookie = "lastline=" + sel.ranges[0]['anchor']['line']+'+'+sel.ranges[0]['anchor']['ch'];
 }
 
@@ -16,9 +15,7 @@ function setActiveLine() {
   cmActiveLineWatcher.focus();
   var position = getPostition(getCookie('lastline'));
   cmActiveLineWatcher.doc.setCursor(parseInt(position[0]),parseInt(position[1]));
-  console.log(cmActiveLineWatcher.getScrollInfo());
   cmActiveLineWatcher.scrollIntoView(null, cmActiveLineWatcher.getScrollInfo()['clientHeight']/2);
-
 }
 
 /**
@@ -43,6 +40,12 @@ function getCookie(cname) {
   }
   return "";
 }
+
+/**
+ * splits cookie int line and char position
+ * @param query
+ * @returns {never|string[]}
+ */
 function getPostition(query){
     var positionArray =query.split('+');
     return positionArray
