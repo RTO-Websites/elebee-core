@@ -70,7 +70,6 @@
     
                 data.commentForms.push( d );
     
-                console.log( commentForm, data );
             }
             
             $.ajax( {
@@ -81,16 +80,7 @@
                 success: this.ajaxSuccess,
                 error: this.ajaxError
             } );
-        },
-        
-        ajaxSuccess: function () {
-            console.log( "Saved!" );
-        },
-        
-        ajaxError: function () {
-            console.log( "Error by saving!" )
-        },
-        
+        }
     } );
     
     $( window ).on( 'elementor:init', function () {
