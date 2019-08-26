@@ -1660,7 +1660,7 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _content_template() {
 
-        echo ( new Template( __DIR__ . '/partials/editor-content.php', [ 'id' => $this->get_id() ] ) )->getRendered();
+        ( new Template( __DIR__ . '/partials/editor-content.php', [ 'id' => $this->get_id() ] ) )->render();
 
     }
 
@@ -1672,8 +1672,8 @@ class WidgetCommentForm extends WidgetBase {
      * @since  0.7.2
      */
     public function ajaxCommentForm () {
-        $postID = isset( $_POST[ 'postID' ] ) ? $_POST[ 'postID' ] : false;
-        $commentForms = isset( $_POST[ 'commentForms' ] ) ? $_POST[ 'commentForms' ] : false;
+        $postID = filter_input( INPUT_POST, 'postID' );
+        $commentForms = filter_input( INPUT_POST, 'commentForms' );
 
         if ( ! $postID ) {
             echo json_encode( [
@@ -1801,8 +1801,8 @@ class WidgetCommentForm extends WidgetBase {
             );
         }
 
-        $widgetID = $_POST[ 'widgetID' ];
-        $ratings = isset( $_POST[ 'elebee-ratings' ] ) ? $_POST[ 'elebee-ratings' ] : [];
+        $widgetID = filter_input( INPUT_POST, 'widgetID' );
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
 
         $database = new Database();
         $categories = $database->categories->getByWidgetID( $widgetID );
@@ -1866,8 +1866,8 @@ class WidgetCommentForm extends WidgetBase {
      */
     public function submitComment ( $commentId ) {
 
-        $widgetID = $_POST[ 'widgetID' ];
-        $ratings = isset( $_POST[ 'elebee-ratings' ] ) ? $_POST[ 'elebee-ratings' ] : [];
+        $widgetID = filter_input( INPUT_POST, 'widgetID' );
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
 
         add_comment_meta( $commentId, 'elebeeRatings', [
             'widgetId' => $widgetID,
