@@ -1694,7 +1694,6 @@ class WidgetCommentForm extends WidgetBase {
         }
 
         if ( ! is_numeric( $postID ) ) {
-            var_dump( $postID );
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
