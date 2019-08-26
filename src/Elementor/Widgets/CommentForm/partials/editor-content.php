@@ -67,20 +67,59 @@
                placeholder="{{{ settings.placeholder_extra }}}" value="" {{{ fieldClass }}} />
     </div>
     <# } #>
+    
+    <div class="elementor-field-group elementor-column elementor-col-{{{ settings.field_width_comment }}}">
+        <table class="elebee-ratings">
+            <input type="hidden" name="widgetID" value="<?php echo $id; ?>">
+            
+            <# for( let category of settings[ 'list_categories' ] ) { #>
+            <tr class="elebee-rating elementor-repeater-item-{{{ category['_id'] }}}">
+                <td class="elebee-rating-name">
+                    {{{ category[ 'category_label' ] }}}
+                    <# let ratingRequired = category['category_required'] ? '<span class="required">' + sign + '</span>'
+                    : '' #>
+                    <# let ratingRequiredHTML = category['category_required'] ? 'required="required"' : '' #>
+                    {{{ ratingRequired }}}
+                </td>
 
+                <td class="elebee-rating-stars">
+                    <# for ( let i = 1; i <= 5; i++ ) { #>
+                    <# let starLabel = i + ' ' + ( i === 1 ? 'Star' : 'Stars' ) #>
+
+                    <div class="elebee-rating-star">
+                        <input type="radio"
+                               id="elebee-rating-star-{{{ category['_id'] }}}-{{{ i }}}"
+                               {{{ ratingRequiredHTML }}}
+                               name="elebee-ratings[ {{{ category['_id'] }}} ]"
+                               value="{{{ i }}}"
+                               title="{{{ starLabel }}}"/>
+
+                        <i class="{{{ category['category_icon'] }}}"></i>
+
+                        <label for="elebee-rating-star-{{{ category['_id'] }}}-{{{ i }}}">{{{ starLabel }}}</label>
+                    </div>
+                    <# } #>
+                </td>
+            </tr>
+            <# } #>
+        </table>
+    </div>
+    
     <div class="elementor-column elementor-col-{{{ settings.field_width_comment }}}">
         <# if ( '' !== settings.label_comment ) { #>
         <label for="comment">{{{ settings.label_comment }}}{{{ requiredContainer }}}</label>
         <# } #>
         <textarea id="comment" name="comment" aria-required="true" rows="{{{ settings.rows_comment }}}"
-               placeholder="{{{ settings.placeholder_comment }}}" value="" {{{ fieldClass }}}></textarea>
+                  placeholder="{{{ settings.placeholder_comment }}}" value="" {{{ fieldClass }}}></textarea>
     </div>
 
     <# if ( settings.show_cookies_opt_in === 'yes' ) { #>
     <div class="elementor-column elebee-checkbox-style">
         <div class="comment-form-cookies-consent elementor-widget-text-editor">
-            <input name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" type="checkbox" value="yes">
-            <label for="wp-comment-cookies-consent" class="elebee-checkbox-label"><?php _e( 'Save my name, email, and website in this browser for the next time I comment.' ) ; ?></label>
+            <input name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" type="checkbox"
+                   value="yes">
+            <label for="wp-comment-cookies-consent"
+                   class="elebee-checkbox-label"><?php _e( 'Save my name, email, and website in this browser for the next time I comment.' ); ?></label>
         </div>
     </div>
     <# } #>
@@ -89,7 +128,8 @@
     <div class="elementor-column elebee-checkbox-style">
         <div class="elementor-field-option elementor-widget-text-editor">
             <input type="checkbox" value="yes" id="comment-gdpr" name="comment-gdpr" aria-required="true">
-            <label for="comment-gdpr" class="elebee-checkbox-label">{{{ settings.comment_gdpr }}}{{{ requiredContainer }}}</label>
+            <label for="comment-gdpr" class="elebee-checkbox-label">{{{ settings.comment_gdpr }}}{{{
+                requiredContainer }}}</label>
         </div>
     </div>
     <# } #>
@@ -110,7 +150,8 @@
     #>
 
     <div class="{{ buttonClasses }}">
-        <button id="{{ settings.button_css_id }}" type="submit" class="elementor-button elementor-size-{{ settings.button_size }} elementor-animation-{{ settings.button_hover_animation }}">
+        <button id="{{ settings.button_css_id }}" type="submit"
+                class="elementor-button elementor-size-{{ settings.button_size }} elementor-animation-{{ settings.button_hover_animation }}">
             <span>
                 <# if ( settings.button_icon ) { #>
                     <span class="elementor-button-icon elementor-align-icon-{{ settings.button_icon_align }}">

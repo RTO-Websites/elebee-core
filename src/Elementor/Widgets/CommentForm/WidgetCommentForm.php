@@ -13,15 +13,17 @@
 namespace ElebeeCore\Elementor\Widgets\CommentForm;
 
 
-use ElebeeCore\Elementor\Widgets\WidgetBase;
+use Elementor\Plugin;
+use Elementor\Repeater;
 use ElebeeCore\Lib\Elebee;
-use ElebeeCore\Lib\Util\Template;
+use Elementor\Scheme_Color;
 use Elementor\Controls_Manager;
+use Elementor\Scheme_Typography;
+use ElebeeCore\Lib\Util\Template;
+use ElebeeCore\Database\Database;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use Elementor\Plugin;
-use Elementor\Scheme_Color;
-use Elementor\Scheme_Typography;
+use ElebeeCore\Elementor\Widgets\WidgetBase;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -85,28 +87,22 @@ class WidgetCommentForm extends WidgetBase {
      * @since 0.1.0
      */
     public function enqueueStyles() {
-        wp_enqueue_style( $this->get_name(), $this->assetsPath . 'css/comment-form.css', [], Elebee::VERSION, 'all' );
+        wp_enqueue_style( $this->get_name(), $this->assetsPath . 'css/comment-form.css', [ 'font-awesome' ], Elebee::VERSION, 'all' );
     }
 
     /**
      * @since 0.1.0
      */
     public function enqueueScripts() {
-        wp_enqueue_script( $this->get_name(), $this->assetsPath . 'js/ajax-comments.js', [ 'jquery' ], Elebee::VERSION );
-
-        // Prevent loading localized string multiple times.
-        $wpScripts = wp_scripts();
-        if ( ! $wpScripts->get_data( $this->get_name(), 'data' ) ) {
-            // Localize the script with new data
-            $translationArray = array(
-                'fieldIsEmpty' => __( 'Field is empty', 'elebee' ),
-                'emailInvalid' => __( 'Email format is invalid', 'elebee' ),
-                'required' => __( 'This field is required', 'elebee'),
-                'formSubmitSuccess' => __( 'Thank you for your submission!', 'elebee'),
-            );
-
-            wp_localize_script( $this->get_name(), 'themeLocalization', $translationArray );
-        }
+        wp_enqueue_script( $this->get_name(), get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentForm/assets/js/comment-form.js', [ 'jquery' ], time(), 'all' );
+        wp_localize_script( $this->get_name(), 'commentFormLocalize', [
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'language' => [
+                'showMore' => __( 'Show more..', 'elebee' ),
+                'showLess' => __( 'Show less..', 'elebee' ),
+                'commentSuccessSend' => __( 'Successfully send!', 'elebee' ),
+            ],
+        ] );
     }
 
     /**
@@ -1263,6 +1259,165 @@ class WidgetCommentForm extends WidgetBase {
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'section_ratings',
+            [
+                'label' => __( 'Ratings', 'elebee' ),
+            ]
+        );
+
+        $repeater = new Repeater();
+
+        $repeater->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'rating_title_typography',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $repeater->add_control( 'category_label', [
+            'label' => __( 'Rating Label', 'elebee' ),
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Rating',
+        ] );
+
+        $repeater->add_control( 'category_icon', [
+            'label' => __( 'Rating Icon', 'elebee' ),
+            'type' => Controls_Manager::ICON,
+            'default' => 'fa fa-star',
+            'selector' => [
+                '{[WRAPPER}} .elebee-rating:before' => 'content: "{{VALUE}}"',
+            ],
+        ] );
+
+        $repeater->add_control(
+            'category_default_color',
+            [
+                'label' => __( 'Rating Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'category_selected_color',
+            [
+                'label' => __( 'Rating Selected Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} input.checked ~ i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'category_hover_color',
+            [
+                'label' => __( 'Rating Hover Color', 'elebee' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} input.hover ~ i' => 'color: {{VALUE}}',
+                ],
+            ]
+        );
+
+        $repeater->add_control( 'category_required', [
+            'label' => __( 'Rating Required', 'elebee' ),
+            'type' => Controls_Manager::SWITCHER,
+            'default' => false,
+            'label_on' => __( 'Required', 'elebee' ),
+            'label_off' => __( 'Not required', 'elebee' ),
+        ] );
+
+        $this->add_control( 'list_categories', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'type' => Controls_Manager::REPEATER,
+            'prevent_empty' => false,
+            'fields' => $repeater->get_controls(),
+            'title_field' => '{{{ category_label }}}',
+        ] );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section( 'section_rating_style', [
+            'label' => __( 'Ratings', 'elebee' ),
+            'tab' => Controls_Manager::TAB_STYLE,
+        ] );
+
+        $this->add_control( 'category_spacing', [
+            'label' => __( 'Rating Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 0,
+                    'max' => 50,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 10,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating:not(:first-child) td' => 'padding-top: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control( 'category_icon_spacing', [
+            'label' => __( 'Icon Spacing', 'elebee' ),
+            'type' => Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range' => [
+                'px' => [
+                    'min' => 8,
+                    'max' => 100,
+                ],
+            ],
+            'default' => [
+                'unit' => 'px',
+                'size' => 16,
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .elebee-rating-star' => 'padding-left: {{SIZE}}{{UNIT}}',
+            ],
+        ] );
+
+        $this->add_control(
+            'category_icon_size',
+            [
+                'label' => __( 'Icon Size', 'elebee' ),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 16,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 8,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elebee-rating-star' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .elebee-rating-star input' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ratings_title_typography',
+                'selector' => '{{WRAPPER}} .elebee-rating-name',
+                'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
@@ -1410,6 +1565,13 @@ class WidgetCommentForm extends WidgetBase {
             'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )
         ];
 
+        $ratingFieldsArgs = [
+            'fieldWidth' => ! empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
+            'widgetID' => $this->get_id(),
+            'required' => '<span class="required">' . $sign . '</span>',
+            'settings' => $settings,
+        ];
+
         $commentFieldArgs = [
             'fieldWidth' => !empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
             'commentLabel' => $settings[ 'label_comment' ],
@@ -1444,7 +1606,9 @@ class WidgetCommentForm extends WidgetBase {
             'fields' => apply_filters( 'comment_form_default_fields', $fields ),
             'must_log_in' => ( new Template( __DIR__ . '/partials/must-log-in.php', $mustLogInArgs ) )->getRendered(),
             'logged_in_as' => ( new Template( __DIR__ . '/partials/logged-in-as.php', $loggedInAsArgs ) )->getRendered(),
-            'comment_field' => ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
+            'comment_field' =>
+                ( new Template( __DIR__ . '/partials/rating-fields.php', $ratingFieldsArgs ) )->getRendered() .
+                ( new Template( __DIR__ . '/partials/comment-field.php', $commentFieldArgs ) )->getRendered(),
             'submit_button' => ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered(),
         ];
 
@@ -1496,37 +1660,244 @@ class WidgetCommentForm extends WidgetBase {
      */
     protected function _content_template() {
 
-        echo ( new Template( __DIR__ . '/partials/editor-content.php' ) )->getRendered();
+        ( new Template( __DIR__ . '/partials/editor-content.php', [ 'id' => $this->get_id() ] ) )->render();
 
     }
 
     /**
-     * Source: https://rudrastyh.com/wordpress/ajax-comments.html
+     * Update ratings on the database
+     *
+     * Add, remove or update the ratings on the database based on the submitted data
+     *
+     * @since  0.7.2
      */
-    public function ajaxCommentSubmit() {
-        // array keys are pre defined
-        // https://developer.wordpress.org/reference/functions/wp_handle_comment_submission/
-        $commentData = [
-            'comment_post_ID' => filter_input( INPUT_POST, 'comment_post_ID' ),
-            'author' => filter_input( INPUT_POST, 'comment-author' ),
-            'email' => filter_input( INPUT_POST, 'comment-email' ),
-            'url' => filter_input( INPUT_POST, 'comment-extra' ),
-            'comment' => filter_input( INPUT_POST, 'comment' ),
-            'comment_parent' => filter_input( INPUT_POST, 'comment_parent' ),
-        ];
+    public function ajaxCommentForm () {
+        $postID = filter_input( INPUT_POST, 'postID' );
+        $commentForms = filter_input( INPUT_POST, 'commentForms' );
 
-        $comment = wp_handle_comment_submission( $commentData );
-
-        if ( !is_wp_error( $comment ) ) {
-            die();
+        if ( ! $postID ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Missing required parameter "postID"',
+            ] );
+            exit;
         }
 
-        $errorData = (int)$comment->get_error_data();
-        if ( empty( $errorData ) ) {
-            wp_die( 'Unknown error' );
+        if ( ! $commentForms ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Missing required parameter "commentForms"',
+            ] );
+            exit;
         }
 
-        wp_die( '<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), array( 'response' => $errorData, 'back_link' => true ) );
+        if ( ! is_numeric( $postID ) ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Parameter "postID" need to be of type "int"',
+            ] );
+            exit;
+        }
 
+        if ( ! is_array( $commentForms ) ) {
+            echo json_encode( [
+                'error' => true,
+                'code' => 400,
+                'message' => 'Parameter "commentForms" need to be of type "array"',
+            ] );
+            exit;
+        }
+
+        $database = new Database();
+
+        foreach ( $commentForms as $commentForm ) {
+            if ( ! $commentForm[ 'widgetID' ] ) {
+                continue;
+            }
+
+            $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
+
+            foreach ( $dbCategories as $dbCategory ) {
+                $found = false;
+
+                foreach ( $commentForm[ 'categories' ] as $category ) {
+                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if ( ! $found ) {
+                    $database->categories->archiveByCategoryID( $dbCategory->categoryID );
+                }
+            }
+
+            if ( ! $commentForm[ 'categories' ] ) {
+                continue;
+            }
+
+            foreach ( $commentForm[ 'categories' ] as $category ) {
+                $found = false;
+
+                foreach ( $dbCategories as $dbCategory ) {
+                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                        $found = true;
+                        breaK;
+                    }
+                }
+
+                if ( $found ) {
+                    $database->categories->updateByCategoryID(
+                        $category[ '_id' ],
+                        $postID,
+                        $commentForm[ 'widgetID' ],
+                        $commentForm[ 'targetPostID' ],
+                        $category[ 'category_label' ],
+                        $category[ 'category_icon' ],
+                        $category[ 'category_default_color' ],
+                        $category[ 'category_hover_color' ],
+                        $category[ 'category_selected_color' ],
+                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                    );
+                } else {
+                    $database->categories->add(
+                        $postID,
+                        $commentForm[ 'widgetID' ],
+                        $commentForm[ 'targetPostID' ],
+                        $category[ '_id' ],
+                        $category[ 'category_label' ],
+                        $category[ 'category_icon' ],
+                        $category[ 'category_default_color' ],
+                        $category[ 'category_hover_color' ],
+                        $category[ 'category_selected_color' ],
+                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                    );
+                }
+            }
+        }
+
+
+        echo json_encode( [
+            'error' => false,
+        ] );
+        exit;
+    }
+
+    /**
+     * @param $commentData
+     */
+    function preprocessComment ( $commentData ) {
+
+        if ( ! isset( $_POST[ 'widgetID' ] ) ) {
+            return wp_die(
+                'Please try again in a few minutes, if the problem persists please contact an administrator.',
+                __( 'Comment Submission Failure' ),
+                [
+                    'back_link' => true,
+                ]
+            );
+        }
+
+        $widgetID = filter_input( INPUT_POST, 'widgetID' );
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
+
+        $database = new Database();
+        $categories = $database->categories->getByWidgetID( $widgetID );
+
+        foreach ( $categories as $category ) {
+            if ( $category->required ) {
+                if ( ! $ratings[ $category->categoryID ] ) {
+                    return wp_die(
+                        sprintf(
+                        // translators: %s is the name of the category
+                            __( '"%s" is required but not set.', 'elebee' ),
+
+                            $category->name
+                        ),
+                        __( 'Comment Submission Failure' ),
+                        [
+                            'back_link' => true,
+                        ]
+                    );
+                }
+            }
+        }
+
+        foreach ( $ratings as $key => $value ) {
+            if ( $value > 5 ) {
+                return wp_die(
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Comment Submission Failure' ),
+                    [
+                        'back_link' => true,
+                    ]
+                );
+            }
+
+            $found = false;
+
+            foreach ( $categories as $category ) {
+                if ( $category->categoryID == $key ) {
+                    $found = true;
+                }
+            }
+
+            if ( ! $found ) {
+                return wp_die(
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Comment Submission Failure' ),
+                    [
+                        'back_link' => true,
+                    ]
+                );
+            }
+        }
+
+        return $commentData;
+
+    }
+
+    /**
+     * @since  0.7.2
+     * @param $commentId
+     */
+    public function submitComment ( $commentId ) {
+
+        $widgetID = filter_input( INPUT_POST, 'widgetID' );
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
+
+        add_comment_meta( $commentId, 'elebeeRatings', [
+            'widgetId' => $widgetID,
+            'ratings' => $ratings,
+        ] );
+
+    }
+
+    public static function ajaxPostComment () {
+        $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
+
+        if ( is_wp_error( $comment ) ) {
+            if ( empty( $comment->get_error_data() ) ) {
+                echo json_encode( [
+                    'error' => true,
+                    'message' => 'Unknown error',
+                ] );
+                exit;
+            }
+
+            echo json_encode( [
+                'error' => true,
+                'message' => $comment->get_error_message(),
+            ] );
+            exit;
+        }
+
+        echo json_encode( [
+            'error' => false,
+        ] );
+        exit;
     }
 }

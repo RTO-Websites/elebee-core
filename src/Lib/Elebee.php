@@ -13,30 +13,32 @@
 namespace ElebeeCore\Lib;
 
 
+use Elementor\Settings;
+use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Pub\ElebeePublic;
 use ElebeeCore\Admin\ElebeeAdmin;
-use ElebeeCore\Admin\Setting\CoreData\SettingAddress;
-use ElebeeCore\Admin\Setting\CoreData\SettingEmail;
-use ElebeeCore\Admin\Setting\CoreData\SettingPhone;
-use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
-use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Elementor\ElebeeElementor;
-use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
-use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
 use ElebeeCore\Lib\ThemeCustomizer\Panel;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
-use ElebeeCore\Lib\ThemeCustomizer\ThemeCustomizer;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
+use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
+use ElebeeCore\Admin\Setting\CoreData\SettingEmail;
+use ElebeeCore\Admin\Setting\CoreData\SettingPhone;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustomizer;
+use ElebeeCore\Admin\Setting\CoreData\SettingAddress;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
-use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
-use ElebeeCore\Lib\Util\Config;
-use ElebeeCore\Lib\Util\Template;
-use ElebeeCore\Pub\ElebeePublic;
-use Elementor\Settings;
+use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
+use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
+use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
+use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -356,8 +358,7 @@ class Elebee {
 
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
-        }
-        else {
+        } else {
             $this->loader->addAction( 'admin_notices', $elebeeAdmin, 'elementorNotExists' );
         }
 
@@ -365,6 +366,9 @@ class Elebee {
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
+        $this->loader->addAction( 'wp_ajax_comment_form', WidgetCommentForm::class, 'ajaxCommentForm' );
+        $this->loader->addAction( 'wp_ajax_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
         $utilAdminNotice = new AdminNotice();
         $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'enqueueScripts' );
@@ -386,12 +390,17 @@ class Elebee {
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
+        $this->loader->addFilter( 'preprocess_comment', WidgetCommentForm::class, 'preprocessComment' );
+        $this->loader->addAction( 'comment_post', WidgetCommentForm::class, 'submitComment' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'wp_head', $elebeePublic, 'embedGoogleAnalytics', 0 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles', 100 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
+
+        $this->loader->addAction( 'wp_ajax_nopriv_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_nopriv_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
     }
 

@@ -57,3 +57,8 @@ ul.comment-list ul.children {
 .elebee-display-inline {
     display: inline;
 }
+
+.elebee-rating-star i.checked {
+    color: #FFA500;
+}
+
