@@ -21,6 +21,9 @@
     }
     
     function showLess ( e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         let target = $( e.target );
         let commentID = e.target.dataset['commentid'];
         
