@@ -5,7 +5,8 @@
  * Sets a cookie with current active line
  */
 function newActiveLine(cm, sel) {
-  document.cookie = "lastline=" + sel.ranges[0]['anchor']['line'];
+  console.log(sel.ranges[0]['anchor'])
+  document.cookie = "lastline=" + sel.ranges[0]['anchor']['line']+'+'+sel.ranges[0]['anchor']['ch'];
 }
 
 /**
@@ -13,8 +14,11 @@ function newActiveLine(cm, sel) {
  */
 function setActiveLine() {
   cmActiveLineWatcher.focus();
-  cmActiveLineWatcher.doc.setCursor(parseInt(getCookie('lastline')))
-  cmActiveLineWatcher.skipToEnd();
+  var position = getPostition(getCookie('lastline'));
+  cmActiveLineWatcher.doc.setCursor(parseInt(position[0]),parseInt(position[1]));
+  console.log(cmActiveLineWatcher.getScrollInfo());
+  cmActiveLineWatcher.scrollIntoView(null, cmActiveLineWatcher.getScrollInfo()['clientHeight']/2);
+
 }
 
 /**
@@ -39,7 +43,10 @@ function getCookie(cname) {
   }
   return "";
 }
-
+function getPostition(query){
+    var positionArray =query.split('+');
+    return positionArray
+}
 var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
 var ref = document.referrer;
 if (ref === (window.location.href)
