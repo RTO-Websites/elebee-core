@@ -1673,7 +1673,9 @@ class WidgetCommentForm extends WidgetBase {
      */
     public function ajaxCommentForm() {
         $postID = filter_input( INPUT_POST, 'postID' );
-        $commentForms = filter_input( INPUT_POST, 'commentForms' );
+        $commentForms = filter_input( INPUT_POST, 'commentForms',
+            FILTER_DEFAULT,
+            FILTER_REQUIRE_ARRAY );
 
         if ( !$postID ) {
             echo json_encode( [
@@ -1789,11 +1791,11 @@ class WidgetCommentForm extends WidgetBase {
     /**
      * @param $commentData
      */
-    function preprocessComment( $commentData ) {
+    public static function preprocessComment( $commentData ) {
 
-        if ( !isset( $_POST['widgetID'] ) ) {
+        if ( !filter_has_var( INPUT_POST, 'widgetID' ) ) {
             return wp_die(
-                'Please try again in a few minutes, if the problem persists please contact an administrator.',
+                'No wid.Please try again in a few minutes, if the problem persists please contact an administrator.',
                 __( 'Comment Submission Failure' ),
                 [
                     'back_link' => true,
@@ -1831,7 +1833,7 @@ class WidgetCommentForm extends WidgetBase {
         foreach ( $ratings as $key => $value ) {
             if ( $value > 5 ) {
                 return wp_die(
-                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'val>5.Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),
                     [
                         'back_link' => true,
@@ -1848,8 +1850,9 @@ class WidgetCommentForm extends WidgetBase {
             }
 
             if ( !$found ) {
+                var_dump( $categories );
                 return wp_die(
-                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'catfail.Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),
                     [
                         'back_link' => true,
