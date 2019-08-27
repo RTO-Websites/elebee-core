@@ -1790,6 +1790,7 @@ class WidgetCommentForm extends WidgetBase {
 
     /**
      * @param $commentData
+     * @return mixed
      */
     public static function preprocessComment( $commentData ) {
 

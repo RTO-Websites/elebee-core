@@ -2066,7 +2066,7 @@ class WidgetCommentList extends WidgetBase {
                     continue;
                 }
 
-                if ( ! $endResults[ $key ] ) {
+                if ( empty( $endResults[ $key ] ) ) {
                     $endResults[ $key ] = [
                         'name' => $found->name,
                         'icon' => $found->icon,
