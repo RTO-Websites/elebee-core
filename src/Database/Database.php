@@ -18,6 +18,7 @@ class Database {
      */
     public function __construct () {
         $this->categories = new Categories();
+        $this->init();
     }
 
     /**
