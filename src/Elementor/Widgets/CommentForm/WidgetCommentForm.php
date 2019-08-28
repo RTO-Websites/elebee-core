@@ -1798,7 +1798,7 @@ class WidgetCommentForm extends WidgetBase {
 
         if ( !filter_has_var( INPUT_POST, 'widgetID' ) ) {
             return wp_die(
-                'No wid.Please try again in a few minutes, if the problem persists please contact an administrator.',
+                'Please try again in a few minutes, if the problem persists please contact an administrator.',
                 __( 'Comment Submission Failure' ),
                 [
                     'back_link' => true,
@@ -1836,7 +1836,7 @@ class WidgetCommentForm extends WidgetBase {
         foreach ( $ratings as $key => $value ) {
             if ( $value > 5 ) {
                 return wp_die(
-                    __( 'val>5.Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),
                     [
                         'back_link' => true,
@@ -1854,7 +1854,7 @@ class WidgetCommentForm extends WidgetBase {
 
             if ( !$found ) {
                 return wp_die(
-                    __( 'catfail.Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
+                    __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),
                     [
                         'back_link' => true,
