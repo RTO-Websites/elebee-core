@@ -1999,7 +1999,8 @@ class WidgetCommentList extends WidgetBase {
 
         if ( empty( $comments ) ) {
             $noCommentsTitle = __( 'No comments available!', 'elebee' );
-            echo ( new Template( __DIR__ . '/partials/no-comments.php', [ 'noticeTitle' => $noCommentsTitle ] ) )->getRendered();
+            $template = new Template( __DIR__ . '/partials/no-comments.php', [ 'noticeTitle' => $noCommentsTitle ] );
+            $template->render();
 
             return;
         }
@@ -2028,7 +2029,8 @@ class WidgetCommentList extends WidgetBase {
             $comments
         );
 
-        echo ( new Template( __DIR__ . '/partials/comment-list.php', [ 'commentList' => $commentList ] ) )->getRendered();
+        $template = new Template( __DIR__ . '/partials/comment-list.php', [ 'commentList' => $commentList ] );
+        $template->render();
 
         if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;

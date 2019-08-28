@@ -22,9 +22,7 @@
 
     <table class="elebee-ratings">
         <?php if ( is_array( $ratingInfos ) ) : ?>
-            <?php
-            foreach ( $ratingInfos as $ratingInfo ) {
-                ?>
+            <?php foreach ( $ratingInfos as $ratingInfo ): ?>
                 <tr class="elebee-rating">
                     <td class="elebee-rating-name">
                         <?php echo !empty( $ratingInfo['category'] ) ? $ratingInfo['category']->name : ''; ?>
@@ -47,7 +45,7 @@
                         ?>
                     </td>
                 </tr>
-            <?php } ?>
+            <?php endforeach; ?>
         <?php endif; ?>
     </table>
 
