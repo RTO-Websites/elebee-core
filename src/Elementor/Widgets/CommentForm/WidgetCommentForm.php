@@ -24,6 +24,7 @@ use ElebeeCore\Database\Database;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
+use Elementor\Utils;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -170,8 +171,8 @@ class WidgetCommentForm extends WidgetBase {
                 'description' => __( 'Comments get posted to the selected page.', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
-                'default' => get_the_ID(),
-                'options' => $this->getCommentPages(),
+                'default' => 'dynamic',
+                'options' => [ 'dynamic' => __( 'Dynamic', 'elementor' ) ] + $this->getCommentPages(),
             ]
         );
 
@@ -1612,7 +1613,8 @@ class WidgetCommentForm extends WidgetBase {
             'submit_button' => ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered(),
         ];
 
-        comment_form( $comments_args, $settings['page'] );
+        $page = $settings['page'] === 'dynamic' ? get_the_ID() : $settings['page'];
+        comment_form( $comments_args, $page );
     }
 
     /**
@@ -1851,7 +1853,6 @@ class WidgetCommentForm extends WidgetBase {
             }
 
             if ( !$found ) {
-                var_dump( $categories );
                 return wp_die(
                     __( 'catfail.Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),

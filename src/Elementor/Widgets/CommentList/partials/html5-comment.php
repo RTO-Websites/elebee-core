@@ -11,7 +11,7 @@
             </time>
         </div><!-- .comment-metadata -->
 
-        <?php if ( ! is_admin() ) {
+        <?php if ( !is_admin() ) {
             edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' );
         }
         ?>
@@ -27,20 +27,20 @@
                 ?>
                 <tr class="elebee-rating">
                     <td class="elebee-rating-name">
-                        <?php echo $ratingInfo[ 'category' ]->name; ?>
+                        <?php echo !empty( $ratingInfo['category'] ) ? $ratingInfo['category']->name : ''; ?>
                     </td>
 
                     <td class="elebee-rating-stars">
                         <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
                             <?php
-                            $selectedColor = ! empty( $ratingInfo[ 'category' ]->colorSelected ) ? $ratingInfo[ 'category' ]->colorSelected : 'orange';
-                            $defaultColor = ! empty( $ratingInfo[ 'category' ]->color ) ? $ratingInfo[ 'category' ]->color : 'black';
+                            $selectedColor = !empty( $ratingInfo['category']->colorSelected ) ? $ratingInfo['category']->colorSelected : 'orange';
+                            $defaultColor = !empty( $ratingInfo['category']->color ) ? $ratingInfo['category']->color : 'black';
                             ?>
-                            <?php $color = ( $ratingInfo[ 'rating' ] >= $i ? $selectedColor : $defaultColor ); ?>
+                            <?php $color = ( $ratingInfo['rating'] >= $i ? $selectedColor : $defaultColor ); ?>
 
                             <div class="elebee-rating-star">
-                                <i class="<?php echo $ratingInfo[ 'category' ]->icon; ?>"
-                                   style="color: <?php echo $color; ?>"></i>
+                                <i class="<?php echo $ratingInfo['category']->icon; ?>"
+                                        style="color: <?php echo $color; ?>"></i>
                             </div>
                         <?php
                         endfor;
@@ -59,11 +59,11 @@
 
     <footer>
         <?php
-        if ( 'yes' === $settings[ 'comment_list_allow_reply' ] ) {
+        if ( 'yes' === $settings['comment_list_allow_reply'] ) {
             comment_reply_link( array_merge( $args, [
                 'add_below' => 'div-comment',
                 'depth' => $depth,
-                'max_depth' => $args[ 'max_depth' ],
+                'max_depth' => $args['max_depth'],
                 'before' => '<div class="reply">',
                 'after' => '</div>',
             ] ) );

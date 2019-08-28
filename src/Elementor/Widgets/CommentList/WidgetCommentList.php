@@ -22,6 +22,7 @@ use ElebeeCore\Lib\Util\Template;
 use Elementor\Group_Control_Typography;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
 use ElebeeCore\Elementor\Widgets\CommentList\Lib\Walker;
+use ElementorPro\Classes\Utils;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -71,11 +72,11 @@ class WidgetCommentList extends WidgetBase {
     /**
      * CommentList constructor.
      *
-     * @since 0.1.0
-     *
      * @param array $data
      * @param array $args
      * @throws \Exception
+     * @since 0.1.0
+     *
      */
     public function __construct( array $data = [], array $args = null ) {
 
@@ -202,8 +203,8 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Post', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
-                'default' => get_the_ID(),
-                'options' => $this->getCommentPages(),
+                'default' => 'dynamic',
+                'options' => [ 'dynamic' => __( 'Dynamic', 'elementor' ) ] + $this->getCommentPages(),
             ]
         );
 
@@ -279,7 +280,7 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Author Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => '%s <span class="says">says:</span>',
-                'description' => __( '%s: Placeholder for author name.', 'elebee'),
+                'description' => __( '%s: Placeholder for author name.', 'elebee' ),
                 'separator' => 'before',
             ]
         );
@@ -290,7 +291,7 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Date Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => 'Posted at %1$s %2$s ',
-                'description' => __( '%1$s: Placeholder for date', 'elebee') . '<br>' . __( '%2$s: Placeholder for time', 'elebee'),
+                'description' => __( '%1$s: Placeholder for date', 'elebee' ) . '<br>' . __( '%2$s: Placeholder for time', 'elebee' ),
                 'separator' => 'before',
             ]
         );
@@ -353,7 +354,7 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Author Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => '%s <span class="says">says:</span>',
-                'description' => __( '%s: Placeholder for author name.', 'elebee'),
+                'description' => __( '%s: Placeholder for author name.', 'elebee' ),
             ]
         );
 
@@ -363,7 +364,7 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Date Structure', 'elebee' ),
                 'type' => Controls_Manager::TEXTAREA,
                 'default' => 'Posted at %1$s %2$s ',
-                'description' => __( '%1$s: Placeholder for date', 'elebee') . '<br>' . __( '%2$s: Placeholder for time', 'elebee'),
+                'description' => __( '%1$s: Placeholder for date', 'elebee' ) . '<br>' . __( '%2$s: Placeholder for time', 'elebee' ),
                 'separator' => 'before',
             ]
         );
@@ -407,7 +408,6 @@ class WidgetCommentList extends WidgetBase {
                 'description' => __( 'For a reference on how to format a time, visit the <a href="http://php.net/manual/en/function.date.php#refsect1-function.date-parameters" target="_blank">php date manual</a>.', 'elebee' ),
             ]
         );
-
 
 
         $this->end_controls_section();
@@ -1584,8 +1584,8 @@ class WidgetCommentList extends WidgetBase {
                 'label' => __( 'Post', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
-                'default' => get_the_ID(),
-                'options' => $this->getCommentPages(),
+                'default' => 'dynamic',
+                'options' => [ 'dynamic' => __( 'Dynamic', 'elementor' ) ] + $this->getCommentPages(),
             ]
         );
 
@@ -1772,9 +1772,9 @@ class WidgetCommentList extends WidgetBase {
     }
 
     /**
+     * @return string
      * @since 0.1.0
      *
-     * @return string
      */
     protected function getCommentPagination(): string {
 
@@ -1785,15 +1785,15 @@ class WidgetCommentList extends WidgetBase {
 
         $pagination = paginate_comments_links( [
             'echo' => false,
-            'show_all' => $settings[ 'comment_list_show_all' ] === 'yes' ? true : false,
-            'mid_size' => $settings[ 'comment_list_mid_size' ],
-            'end_size' => $settings[ 'comment_list_end_size' ],
+            'show_all' => $settings['comment_list_show_all'] === 'yes' ? true : false,
+            'mid_size' => $settings['comment_list_mid_size'],
+            'end_size' => $settings['comment_list_end_size'],
             'type' => 'array',
             'add_fragment' => '',
-            'base' => $this->paginationSettings[ 'pagenumLink' ],
-            'current' => $this->paginationSettings[ 'currentPage' ],
-            'format' => $this->paginationSettings[ 'urlFormat' ],
-            'total' => $this->paginationSettings[ 'totalPages' ],
+            'base' => $this->paginationSettings['pagenumLink'],
+            'current' => $this->paginationSettings['currentPage'],
+            'format' => $this->paginationSettings['urlFormat'],
+            'total' => $this->paginationSettings['totalPages'],
             'prev_text' => $prevRenderer->getRendered(),
             'next_text' => $nextRenderer->getRendered(),
         ] );
@@ -1823,29 +1823,29 @@ class WidgetCommentList extends WidgetBase {
 
             if ( 'yes' === $settings['comment_list_first_last'] ) {
 
-                $firstLink = str_replace( '%_%', '', $this->paginationSettings[ 'pagenumLink' ] );
+                $firstLink = str_replace( '%_%', '', $this->paginationSettings['pagenumLink'] );
                 $firstLink = str_replace( '%#%', '', $firstLink );
-                if ( $this->paginationSettings[ 'addArgs' ] ) {
-                    $firstLink = add_query_arg( $this->paginationSettings[ 'addArgs' ], $firstLink );
+                if ( $this->paginationSettings['addArgs'] ) {
+                    $firstLink = add_query_arg( $this->paginationSettings['addArgs'], $firstLink );
                 }
                 $firstArgs = $this->getButtonArgs( 'first' );
-                $firstArgs[ 'url' ] = $firstLink;
+                $firstArgs['url'] = $firstLink;
                 $firstRenderer = new Template( __DIR__ . '/partials/end-li.php', $firstArgs );
 
 
-                $lastLink = str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] );
-                $lastLink = str_replace( '%#%', $this->paginationSettings[ 'totalPages' ], $lastLink );
-                if ( $this->paginationSettings[ 'addArgs' ] ) {
-                    $lastLink = add_query_arg( $this->paginationSettings[ 'addArgs' ], $lastLink );
+                $lastLink = str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] );
+                $lastLink = str_replace( '%#%', $this->paginationSettings['totalPages'], $lastLink );
+                if ( $this->paginationSettings['addArgs'] ) {
+                    $lastLink = add_query_arg( $this->paginationSettings['addArgs'], $lastLink );
                 }
                 $lastArgs = $this->getButtonArgs( 'last' );
-                $lastArgs[ 'url' ] = $lastLink;
+                $lastArgs['url'] = $lastLink;
                 $lastRenderer = new Template( __DIR__ . '/partials/end-li.php', $lastArgs );
 
-                if ( $this->paginationSettings[ 'currentPage' ] > 1 ) {
+                if ( $this->paginationSettings['currentPage'] > 1 ) {
                     $paginationFirst = $firstRenderer->getRendered();
                 }
-                if ( $this->paginationSettings[ 'currentPage' ] < $this->paginationSettings[ 'totalPages' ] ) {
+                if ( $this->paginationSettings['currentPage'] < $this->paginationSettings['totalPages'] ) {
                     $paginationLast = $lastRenderer->getRendered();
                 }
             }
@@ -1863,8 +1863,8 @@ class WidgetCommentList extends WidgetBase {
     }
 
     protected function getButtonArgs( $button ) {
-        $view = $this->getSetting( 'comment_list_' .$button . '_icon_view' );
-        $viewClass =  !empty( $view ) ? ' elebee-view-' . $view : '';
+        $view = $this->getSetting( 'comment_list_' . $button . '_icon_view' );
+        $viewClass = !empty( $view ) ? ' elebee-view-' . $view : '';
 
         $args = [
             'text' => $this->getSetting( 'comment_list_' . $button . '_text' ),
@@ -1883,13 +1883,13 @@ class WidgetCommentList extends WidgetBase {
     protected function getSetting( $name ) {
         $settings = $this->get_settings_for_display();
 
-        return isset( $settings[ $name ] ) ? $settings[ $name ] : '';
+        return isset( $settings[$name] ) ? $settings[$name] : '';
     }
 
     /**
+     * @return array
      * @since 0.1.0
      *
-     * @return array
      */
     protected function getCommentPages(): array {
 
@@ -1919,11 +1919,11 @@ class WidgetCommentList extends WidgetBase {
     }
 
     /**
-     * @since 0.1.0
-     *
      * @param array $comments
      *
      * @return void
+     * @since 0.1.0
+     *
      */
     protected function setPaginationSettings( array $comments ) {
 
@@ -1934,29 +1934,29 @@ class WidgetCommentList extends WidgetBase {
         $format_args = [];
         $url_query_args = [];
         $settings = $this->get_settings_for_display();
-        $commentsPerPage = !empty( $settings[ 'comment_list_per_page' ] ) ? $settings[ 'comment_list_per_page' ] : get_option( 'comments_per_page' );
+        $commentsPerPage = !empty( $settings['comment_list_per_page'] ) ? $settings['comment_list_per_page'] : get_option( 'comments_per_page' );
 
-        $this->paginationSettings[ 'totalPages' ] = get_comment_pages_count( $comments, $commentsPerPage );
+        $this->paginationSettings['totalPages'] = get_comment_pages_count( $comments, $commentsPerPage );
 
         // Setting up default values based on the current URL.
-        $this->paginationSettings[ 'pagenumLink' ] = html_entity_decode( get_pagenum_link() );
-        $url_parts = explode( '?', $this->paginationSettings[ 'pagenumLink' ] );
+        $this->paginationSettings['pagenumLink'] = html_entity_decode( get_pagenum_link() );
+        $url_parts = explode( '?', $this->paginationSettings['pagenumLink'] );
 
         // Append the format placeholder to the base URL.
-        $this->paginationSettings[ 'pagenumLink' ] = trailingslashit( $url_parts[0] ) . '%_%';
+        $this->paginationSettings['pagenumLink'] = trailingslashit( $url_parts[0] ) . '%_%';
 
-        $this->paginationSettings[ 'pageVar' ] = 'paged-' . $this->get_id();
-        $this->paginationSettings[ 'currentPage' ] = filter_input( INPUT_GET, $this->paginationSettings[ 'pageVar' ], FILTER_VALIDATE_INT );
-        if ( empty( $this->paginationSettings[ 'currentPage' ] ) ) {
-            $this->paginationSettings[ 'currentPage' ] = 1;
+        $this->paginationSettings['pageVar'] = 'paged-' . $this->get_id();
+        $this->paginationSettings['currentPage'] = filter_input( INPUT_GET, $this->paginationSettings['pageVar'], FILTER_VALIDATE_INT );
+        if ( empty( $this->paginationSettings['currentPage'] ) ) {
+            $this->paginationSettings['currentPage'] = 1;
         }
 
-        $this->paginationSettings[ 'urlFormat' ] = '?' . $this->paginationSettings[ 'pageVar' ] . '=%#%';
+        $this->paginationSettings['urlFormat'] = '?' . $this->paginationSettings['pageVar'] . '=%#%';
 
         // Merge additional query vars found in the original URL into 'add_args' array.
         if ( isset( $url_parts[1] ) ) {
             // Find the format argument.
-            $format = explode( '?', str_replace( '%_%', $this->paginationSettings[ 'urlFormat' ], $this->paginationSettings[ 'pagenumLink' ] ) );
+            $format = explode( '?', str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] ) );
             $format_query = isset( $format[1] ) ? $format[1] : '';
             wp_parse_str( $format_query, $format_args );
 
@@ -1968,23 +1968,29 @@ class WidgetCommentList extends WidgetBase {
                 unset( $url_query_args[$format_arg] );
             }
 
-            $this->paginationSettings[ 'addArgs' ] = urlencode_deep( $url_query_args );
+            $this->paginationSettings['addArgs'] = urlencode_deep( $url_query_args );
         }
 
     }
 
-    public function renderComments () {
+    public function renderComments() {
 
         $settings = $this->get_settings_for_display();
+
+        $page = $settings['comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
+        }
+
         $args = [
-            'post_id' => $settings[ 'comments_from_post' ],
+            'post_id' => $page,
             'status' => 'approve',
         ];
         $comments = get_comments( $args );
 
         if ( is_user_logged_in() ) {
             $args = [
-                'post_id' => $settings[ 'comments_from_post' ],
+                'post_id' => $settings['comments_from_post'],
                 'status' => 'hold',
             ];
             $commentsOnHold = get_comments( $args );
@@ -2000,23 +2006,23 @@ class WidgetCommentList extends WidgetBase {
 
         $this->setPaginationSettings( $comments );
 
-        $allowPagination = $this->pageComments && 'yes' === $settings[ 'comment_list_paginate' ];
+        $allowPagination = $this->pageComments && 'yes' === $settings['comment_list_paginate'];
         $pagination = '';
         if ( $allowPagination ) {
             $pagination = $this->getCommentPagination();
         }
 
-        if ( $allowPagination && in_array( $settings[ 'comment_list_position' ], [ 'top-bottom', 'top' ] ) ) {
+        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'top' ] ) ) {
             echo $pagination;
         }
 
-        $avatarSize = ( 'yes' === $settings[ 'comment_show_avatar' ] ? $settings[ 'comment_avatar_size' ][ 'size' ] : 0 );
+        $avatarSize = ( 'yes' === $settings['comment_show_avatar'] ? $settings['comment_avatar_size']['size'] : 0 );
         $commentList = wp_list_comments(
             [
-                'per_page' => ( $allowPagination ? $settings[ 'comment_list_per_page' ] : '' ),
+                'per_page' => ( $allowPagination ? $settings['comment_list_per_page'] : '' ),
                 'avatar_size' => $avatarSize,
                 'walker' => new Walker( $settings ),
-                'page' => $this->paginationSettings[ 'currentPage' ],
+                'page' => $this->paginationSettings['currentPage'],
                 'echo' => false,
             ],
             $comments
@@ -2024,35 +2030,46 @@ class WidgetCommentList extends WidgetBase {
 
         echo ( new Template( __DIR__ . '/partials/comment-list.php', [ 'commentList' => $commentList ] ) )->getRendered();
 
-        if ( $allowPagination && in_array( $settings[ 'comment_list_position' ], [ 'top-bottom', 'bottom' ] ) ) {
+        if ( $allowPagination && in_array( $settings['comment_list_position'], [ 'top-bottom', 'bottom' ] ) ) {
             echo $pagination;
         }
 
     }
 
-    public function renderRatings () {
+    public function renderRatings() {
 
         $settings = $this->get_settings_for_display();
-        $comments = get_comments( [ 'post_id' => $settings[ 'ratings_comments_from_post' ] ] );
-        $endResults = [];
 
         $database = new Database();
-        $categories = $database->categories->getByTargetPostID( $settings[ 'ratings_comments_from_post' ] != null ? $settings[ 'ratings_comments_from_post' ] : get_post()->ID );
+        $page = $settings['ratings_comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
+        }
+
+        $categories = $database->categories->getByTargetPostID( $page );
+
+        if ( empty( $categories ) && class_exists( 'ElementorPro\Classes\Utils' ) ) {
+            $categories = $database->categories->getByTargetPostID( Utils::get_current_post_id() );
+        }
+
+        $comments = get_comments( [ 'post_id' => $page ] );
+        $endResults = [];
+
 
         $totalPoints = 0;
         $totalVotes = 0;
         foreach ( $comments as $comment ) {
             $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
 
-            if ( ! $commentMeta || ! is_array( $commentMeta ) ) {
+            if ( !$commentMeta || !is_array( $commentMeta ) ) {
                 continue;
             }
 
-            if ( ! $commentMeta[ 'ratings' ] || ! is_array( $commentMeta[ 'ratings' ] ) ) {
+            if ( !$commentMeta['ratings'] || !is_array( $commentMeta['ratings'] ) ) {
                 continue;
             }
 
-            foreach ( $commentMeta[ 'ratings' ] as $key => $rating ) {
+            foreach ( $commentMeta['ratings'] as $key => $rating ) {
                 $found = false;
 
                 foreach ( $categories as $category ) {
@@ -2062,48 +2079,48 @@ class WidgetCommentList extends WidgetBase {
                     }
                 }
 
-                if ( ! $found ) {
+                if ( !$found ) {
                     continue;
                 }
 
-                if ( empty( $endResults[ $key ] ) ) {
-                    $endResults[ $key ] = [
+                if ( empty( $endResults[$key] ) ) {
+                    $endResults[$key] = [
                         'name' => $found->name,
                         'icon' => $found->icon,
                         'colorSelected' => $found->colorSelected,
                         'color' => $found->color,
                         'voters' => 1,
-                        'points' => (int) $rating,
+                        'points' => (int)$rating,
                     ];
                     $totalPoints += $rating;
                     $totalVotes++;
                     continue;
                 }
 
-                $endResults[ $key ][ 'voters' ] = $endResults[ $key ][ 'voters' ] + 1;
-                $endResults[ $key ][ 'points' ] = $endResults[ $key ][ 'points' ] + $rating;
+                $endResults[$key]['voters'] = $endResults[$key]['voters'] + 1;
+                $endResults[$key]['points'] = $endResults[$key]['points'] + $rating;
                 $totalPoints += $rating;
                 $totalVotes++;
             }
         }
 
-        if ( ! is_array( $endResults ) || count( $endResults ) == 0 ) {
-            echo $settings[ 'ratings_no_ratings_text' ];
+        if ( !is_array( $endResults ) || count( $endResults ) == 0 ) {
+            echo $settings['ratings_no_ratings_text'];
             return;
         }
 
-        $endResults[ 'total' ] = [
-            'name' => $settings[ 'ratings_total_label' ],
-            'icon' => $settings[ 'ratings_total_icon' ],
-            'colorSelected' => $settings[ 'ratings_total_color_selected' ],
-            'color' => $settings[ 'ratings_total_color' ],
+        $endResults['total'] = [
+            'name' => $settings['ratings_total_label'],
+            'icon' => $settings['ratings_total_icon'],
+            'colorSelected' => $settings['ratings_total_color_selected'],
+            'color' => $settings['ratings_total_color'],
             'voters' => $totalVotes,
             'points' => $totalPoints,
         ];
 
-        if ( $settings[ 'ratings_only_total' ] == 'yes' ) {
+        if ( $settings['ratings_only_total'] == 'yes' ) {
             $vars = [
-                'endResults' => [ 'total' => $endResults[ 'total' ] ],
+                'endResults' => [ 'total' => $endResults['total'] ],
                 'settings' => $settings,
             ];
         } else {
@@ -2124,14 +2141,14 @@ class WidgetCommentList extends WidgetBase {
      *
      * Written in PHP and used to generate the final HTML.
      *
+     * @return void
      * @since 0.1.0
      *
-     * @return void
      */
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        if ( $settings[ 'comments_ratings_toggle' ] == '' ) {
+        if ( $settings['comments_ratings_toggle'] == '' ) {
             $this->renderComments();
         } else {
             $this->renderRatings();
@@ -2139,10 +2156,10 @@ class WidgetCommentList extends WidgetBase {
 
     }
 
-    public static function getCommentContent () {
-        $commentID = isset( $_POST[ 'commentID' ] ) ? $_POST[ 'commentID' ] : false;
+    public static function getCommentContent() {
+        $commentID = isset( $_POST['commentID'] ) ? $_POST['commentID'] : false;
 
-        if ( ! $commentID ) {
+        if ( !$commentID ) {
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
