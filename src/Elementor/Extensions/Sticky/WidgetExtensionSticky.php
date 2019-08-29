@@ -102,7 +102,7 @@ class WidgetExtensionSticky extends WidgetExtensionBase {
 
         $element->start_controls_section(
             $this->extensionSectionId, [
-                'label' => __( 'Sticky', 'elebee' ),
+                'label' => __( 'Sticky (Deprecated)', 'elebee' ),
                 'tab' => $this->getTab(),
             ]
         );
