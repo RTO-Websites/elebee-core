@@ -1931,8 +1931,8 @@ class WidgetCommentList extends WidgetBase {
             return;
         }
 
-        $format_args = [];
-        $url_query_args = [];
+        $formatArgs = [];
+        $urlQueryArgs = [];
         $settings = $this->get_settings_for_display();
         $commentsPerPage = !empty( $settings['comment_list_per_page'] ) ? $settings['comment_list_per_page'] : get_option( 'comments_per_page' );
 
@@ -1940,10 +1940,10 @@ class WidgetCommentList extends WidgetBase {
 
         // Setting up default values based on the current URL.
         $this->paginationSettings['pagenumLink'] = html_entity_decode( get_pagenum_link() );
-        $url_parts = explode( '?', $this->paginationSettings['pagenumLink'] );
+        $urlParts = explode( '?', $this->paginationSettings['pagenumLink'] );
 
         // Append the format placeholder to the base URL.
-        $this->paginationSettings['pagenumLink'] = trailingslashit( $url_parts[0] ) . '%_%';
+        $this->paginationSettings['pagenumLink'] = trailingslashit( $urlParts[0] ) . '%_%';
 
         $this->paginationSettings['pageVar'] = 'paged-' . $this->get_id();
         $this->paginationSettings['currentPage'] = filter_input( INPUT_GET, $this->paginationSettings['pageVar'], FILTER_VALIDATE_INT );
@@ -1954,21 +1954,21 @@ class WidgetCommentList extends WidgetBase {
         $this->paginationSettings['urlFormat'] = '?' . $this->paginationSettings['pageVar'] . '=%#%';
 
         // Merge additional query vars found in the original URL into 'add_args' array.
-        if ( isset( $url_parts[1] ) ) {
+        if ( isset( $urlParts[1] ) ) {
             // Find the format argument.
             $format = explode( '?', str_replace( '%_%', $this->paginationSettings['urlFormat'], $this->paginationSettings['pagenumLink'] ) );
-            $format_query = isset( $format[1] ) ? $format[1] : '';
-            wp_parse_str( $format_query, $format_args );
+            $formatQuery = isset( $format[1] ) ? $format[1] : '';
+            wp_parse_str( $formatQuery, $formatArgs );
 
             // Find the query args of the requested URL.
-            wp_parse_str( $url_parts[1], $url_query_args );
+            wp_parse_str( $urlParts[1], $urlQueryArgs );
 
             // Remove the format argument from the array of query arguments, to avoid overwriting custom format.
-            foreach ( $format_args as $format_arg => $format_arg_value ) {
-                unset( $url_query_args[$format_arg] );
+            foreach ( $formatArgs as $formatArg => $formatArgValue ) {
+                unset( $urlQueryArgs[$formatArg] );
             }
 
-            $this->paginationSettings['addArgs'] = urlencode_deep( $url_query_args );
+            $this->paginationSettings['addArgs'] = urlencode_deep( $urlQueryArgs );
         }
 
     }
