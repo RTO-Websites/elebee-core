@@ -2159,7 +2159,7 @@ class WidgetCommentList extends WidgetBase {
     }
 
     public static function getCommentContent() {
-        $commentID = filter_has_var( INPUT_POST, 'commentID' ) ? filter_var( INPUT_POST, 'commentID' ) : false;
+        $commentID = filter_input( INPUT_POST, 'commentID' );
 
         if ( !$commentID ) {
             echo json_encode( [
