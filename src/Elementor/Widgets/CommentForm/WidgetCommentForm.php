@@ -24,6 +24,7 @@ use ElebeeCore\Database\Database;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use ElebeeCore\Elementor\Widgets\WidgetBase;
+use Elementor\Utils;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -66,7 +67,7 @@ class WidgetCommentForm extends WidgetBase {
 
         $this->getLoader()->addAction( 'wp_ajax_nopriv_ajaxcomments', $this, 'ajaxCommentSubmit' );
 
-        $this->getLoader()->addFilter( 'comment_form_fields', $this, 'rearrangeFields', 100, 1  );
+        $this->getLoader()->addFilter( 'comment_form_fields', $this, 'rearrangeFields', 100, 1 );
 
     }
 
@@ -79,7 +80,7 @@ class WidgetCommentForm extends WidgetBase {
 
         parent::defineAdminHooks();
 
-        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'skinPrintTemplate', 10, 2  );
+        $this->getLoader()->addFilter( 'elementor/widget/print_template', $this, 'skinPrintTemplate', 10, 2 );
 
     }
 
@@ -149,9 +150,9 @@ class WidgetCommentForm extends WidgetBase {
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
      *
+     * @return void
      * @since 0.1.0
      *
-     * @return void
      */
     protected function _register_controls() {
 
@@ -170,8 +171,8 @@ class WidgetCommentForm extends WidgetBase {
                 'description' => __( 'Comments get posted to the selected page.', 'elebee' ),
                 'type' => Controls_Manager::SELECT2,
                 'label_block' => true,
-                'default' => get_the_ID(),
-                'options' => $this->getCommentPages(),
+                'default' => 'dynamic',
+                'options' => [ 'dynamic' => __( 'Dynamic', 'elementor' ) ] + $this->getCommentPages(),
             ]
         );
 
@@ -215,7 +216,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Name', 'elebee' ),
                 'condition' => [
                     'show_name' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -227,7 +228,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Name', 'elebee' ),
                 'condition' => [
                     'show_name' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -264,7 +265,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => 'no',
                 'condition' => [
                     'show_name' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -273,7 +274,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->start_controls_tab(
             'email_tab',
             [
-                'label' => __( 'Email', 'elebee' )
+                'label' => __( 'Email', 'elebee' ),
             ]
         );
 
@@ -297,7 +298,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Email', 'elebee' ),
                 'condition' => [
                     'show_email' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -309,7 +310,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Email', 'elebee' ),
                 'condition' => [
                     'show_email' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -346,7 +347,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => 'no',
                 'condition' => [
                     'show_email' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -355,7 +356,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->start_controls_tab(
             'extra_tab',
             [
-                'label' => __( 'Extra', 'elebee' )
+                'label' => __( 'Extra', 'elebee' ),
             ]
         );
 
@@ -382,7 +383,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => 'yes',
                 'condition' => [
                     'show_extra' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -394,7 +395,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Subject', 'elebee' ),
                 'condition' => [
                     'show_extra' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -406,7 +407,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => __( 'Subject', 'elebee' ),
                 'condition' => [
                     'show_extra' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -443,7 +444,7 @@ class WidgetCommentForm extends WidgetBase {
                 'default' => 'no',
                 'condition' => [
                     'show_extra' => 'yes',
-                ]
+                ],
             ]
         );
 
@@ -452,7 +453,7 @@ class WidgetCommentForm extends WidgetBase {
         $this->start_controls_tab(
             'comment_tab',
             [
-                'label' => __( 'Comment', 'elebee' )
+                'label' => __( 'Comment', 'elebee' ),
             ]
         );
 
@@ -792,7 +793,7 @@ class WidgetCommentForm extends WidgetBase {
             'column_gap',
             [
                 'label' => __( 'Horizontal gap between fields', 'elebee' ),
-                'description' => __( 'Affects adjacent fields.', 'elebee'  ),
+                'description' => __( 'Affects adjacent fields.', 'elebee' ),
                 'type' => Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 10,
@@ -1421,9 +1422,9 @@ class WidgetCommentForm extends WidgetBase {
     }
 
     /**
+     * @return array
      * @since 0.1.0
      *
-     * @return array
      */
     private function getCommentPages(): array {
 
@@ -1457,9 +1458,9 @@ class WidgetCommentForm extends WidgetBase {
      *
      * Written in PHP and used to generate the final HTML.
      *
+     * @return void
      * @since 0.1.0
      *
-     * @return void
      */
     protected function render() {
 
@@ -1484,72 +1485,72 @@ class WidgetCommentForm extends WidgetBase {
         $settings = $this->get_settings_for_display();
 
         // remove p-tag
-        $settings[ 'comment_gdpr' ] = str_replace( [ '<p>', '</p>' ], '', $settings[ 'comment_gdpr' ] );
-        $sign = $settings[ 'comment_required_sign' ];
+        $settings['comment_gdpr'] = str_replace( [ '<p>', '</p>' ], '', $settings['comment_gdpr'] );
+        $sign = $settings['comment_required_sign'];
         $requiredContainer = !empty( $sign ) ? '<span class="required">' . $sign . '</span>' : '';
-        $fieldsSizeClass = 'elementor-field-textual elementor-size-' . $settings[ 'input_size' ];
-        $labelsPosition = 'elebee-labels-' . ( $settings[ 'label_position' ] === 'yes' ?  'above' : 'inline' );
+        $fieldsSizeClass = 'elementor-field-textual elementor-size-' . $settings['input_size'];
+        $labelsPosition = 'elebee-labels-' . ( $settings['label_position'] === 'yes' ? 'above' : 'inline' );
 
-        if ( $settings[ 'show_name'] === 'yes' ) {
+        if ( $settings['show_name'] === 'yes' ) {
             $authorArgs = [
                 'type' => 'author',
-                'width' => !empty( $settings[ 'field_width_name' ] ) ? $settings[ 'field_width_name' ] : '100',
-                'label' => $settings[ 'label_name' ],
-                'placeholder' => $settings[ 'placeholder_name' ],
-                'required' => $settings[ 'require_name' ] === 'yes' ? $requiredContainer : '',
-                'value' => esc_attr( $commenter[ 'comment_author' ] ),
+                'width' => !empty( $settings['field_width_name'] ) ? $settings['field_width_name'] : '100',
+                'label' => $settings['label_name'],
+                'placeholder' => $settings['placeholder_name'],
+                'required' => $settings['require_name'] === 'yes' ? $requiredContainer : '',
+                'value' => esc_attr( $commenter['comment_author'] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'author' ] = ( new Template( __DIR__ . '/partials/input-field.php', $authorArgs ) )->getRendered();
+            $fields['author'] = ( new Template( __DIR__ . '/partials/input-field.php', $authorArgs ) )->getRendered();
         }
 
-        if ( $settings[ 'show_email'] === 'yes' ) {
+        if ( $settings['show_email'] === 'yes' ) {
             $emailArgs = [
                 'type' => 'email',
-                'width' => !empty( $settings[ 'field_width_email' ] ) ? $settings[ 'field_width_email' ] : '100',
-                'label' => $settings[ 'label_email' ],
-                'placeholder' => $settings[ 'placeholder_email' ],
-                'required' => $settings[ 'require_email' ] === 'yes' ? $requiredContainer : '',
-                'value' => esc_attr( $commenter[ 'comment_author_email' ] ),
+                'width' => !empty( $settings['field_width_email'] ) ? $settings['field_width_email'] : '100',
+                'label' => $settings['label_email'],
+                'placeholder' => $settings['placeholder_email'],
+                'required' => $settings['require_email'] === 'yes' ? $requiredContainer : '',
+                'value' => esc_attr( $commenter['comment_author_email'] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'email' ] = ( new Template( __DIR__ . '/partials/input-field.php', $emailArgs ) )->getRendered();
+            $fields['email'] = ( new Template( __DIR__ . '/partials/input-field.php', $emailArgs ) )->getRendered();
         }
 
-        if ( $settings[ 'show_extra'] === 'yes' ) {
+        if ( $settings['show_extra'] === 'yes' ) {
             $extraArgs = [
                 'type' => 'extra',
-                'width' =>  !empty( $settings[ 'field_width_extra' ] ) ? $settings[ 'field_width_extra' ] : '100',
-                'label' => $settings[ 'label_extra' ],
-                'placeholder' => $settings[ 'placeholder_extra' ],
-                'required' => $settings[ 'require_extra' ] === 'yes' ? $requiredContainer : '',
+                'width' => !empty( $settings['field_width_extra'] ) ? $settings['field_width_extra'] : '100',
+                'label' => $settings['label_extra'],
+                'placeholder' => $settings['placeholder_extra'],
+                'required' => $settings['require_extra'] === 'yes' ? $requiredContainer : '',
                 // ToDo: ignore url format, if selected as a subject
-                'value' => esc_attr( $commenter[ 'comment_author_url' ] ),
+                'value' => esc_attr( $commenter['comment_author_url'] ),
                 'cssClass' => $fieldsSizeClass,
             ];
 
-            $fields[ 'url' ] = ( new Template( __DIR__ . '/partials/input-field.php', $extraArgs ) )->getRendered();
+            $fields['url'] = ( new Template( __DIR__ . '/partials/input-field.php', $extraArgs ) )->getRendered();
         }
 
-        if ( $settings[ 'show_gdpr_opt_in'] === 'yes' ) {
+        if ( $settings['show_gdpr_opt_in'] === 'yes' ) {
             $gdprArgs = [
-                'label' => $settings[ 'comment_gdpr' ],
+                'label' => $settings['comment_gdpr'],
                 'required' => $requiredContainer,
                 'type' => 'gdpr',
             ];
-            $fields[ 'gdpr' ] = ( new Template( __DIR__ . '/partials/checkbox.php', $gdprArgs ) )->getRendered();
+            $fields['gdpr'] = ( new Template( __DIR__ . '/partials/checkbox.php', $gdprArgs ) )->getRendered();
         }
 
-        if ( $settings[ 'show_cookies_opt_in'] === 'yes' ) {
+        if ( $settings['show_cookies_opt_in'] === 'yes' ) {
             $cookiesArgs = [
                 // restyle wordpress cookies consent
-                'label' => __( 'Save my name, email, and website in this browser for the next time I comment.'),
-                'required' => $settings[ 'show_cookies_opt_in' ] === 'yes' ? $requiredContainer : '',
+                'label' => __( 'Save my name, email, and website in this browser for the next time I comment.' ),
+                'required' => $settings['show_cookies_opt_in'] === 'yes' ? $requiredContainer : '',
                 'type' => 'cookies',
             ];
-            $fields[ 'cookies' ] = ( new Template( __DIR__ . '/partials/checkbox.php', $cookiesArgs ) )->getRendered();
+            $fields['cookies'] = ( new Template( __DIR__ . '/partials/checkbox.php', $cookiesArgs ) )->getRendered();
         }
 
         $loggedInAsArgs = [
@@ -1561,48 +1562,48 @@ class WidgetCommentForm extends WidgetBase {
         ];
 
         $mustLogInArgs = [
-            'logIn' => $settings[ 'comment_log_in' ],
-            'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )
+            'logIn' => $settings['comment_log_in'],
+            'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) ),
         ];
 
         $ratingFieldsArgs = [
-            'fieldWidth' => ! empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
+            'fieldWidth' => !empty( $settings['field_width_comment'] ) ? $settings['field_width_comment'] : '100',
             'widgetID' => $this->get_id(),
             'required' => '<span class="required">' . $sign . '</span>',
             'settings' => $settings,
         ];
 
         $commentFieldArgs = [
-            'fieldWidth' => !empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
-            'commentLabel' => $settings[ 'label_comment' ],
-            'commentPlaceholder' => $settings[ 'placeholder_comment' ],
+            'fieldWidth' => !empty( $settings['field_width_comment'] ) ? $settings['field_width_comment'] : '100',
+            'commentLabel' => $settings['label_comment'],
+            'commentPlaceholder' => $settings['placeholder_comment'],
             'required' => '<span class="required">' . $sign . '</span>',
             'cssClass' => $fieldsSizeClass,
-            'rows' => $settings[ 'rows_comment' ],
+            'rows' => $settings['rows_comment'],
         ];
 
 
         $buttonClasses = 'elementor-field-group elementor-column elementor-field-type-submit';
-        $buttonClasses .= ' elementor-col-' . ( !empty( $settings[ 'button_width' ] ) ? $settings[ 'button_width' ] : '100' );
+        $buttonClasses .= ' elementor-col-' . ( !empty( $settings['button_width'] ) ? $settings['button_width'] : '100' );
         $submitButtonArgs = [
             'buttonClasses' => $buttonClasses,
-            'buttonSize' => !empty( $settings[ 'button_size' ] ) ? $settings[ 'button_size' ] : '100',
-            'buttonHoverAnimation' => $settings[ 'button_hover_animation' ],
-            'buttonIcon' => $settings[ 'button_icon' ],
-            'buttonIconAlign' => $settings[ 'button_icon_align' ],
+            'buttonSize' => !empty( $settings['button_size'] ) ? $settings['button_size'] : '100',
+            'buttonHoverAnimation' => $settings['button_hover_animation'],
+            'buttonIcon' => $settings['button_icon'],
+            'buttonIconAlign' => $settings['button_icon_align'],
             'submitText' => esc_html__( 'Submit', 'elementor' ),
-            'buttonText' => $settings[ 'button_text' ],
+            'buttonText' => $settings['button_text'],
         ];
 
         $comments_args = [
             'title_reply' => '',
             'title_reply_before' => '',
             'title_reply_after' => '',
-            'class_form' => 'elementor-form comment-form '. $labelsPosition,
-            'label_submit' => $settings[ 'button_text' ],
+            'class_form' => 'elementor-form comment-form ' . $labelsPosition,
+            'label_submit' => $settings['button_text'],
             'comment_notes_after' => '',
             'comment_notes_before' => '',
-            'class_submit' => 'submit elementor-animation-' . $settings[ 'button_hover_animation' ],
+            'class_submit' => 'submit elementor-animation-' . $settings['button_hover_animation'],
             'fields' => apply_filters( 'comment_form_default_fields', $fields ),
             'must_log_in' => ( new Template( __DIR__ . '/partials/must-log-in.php', $mustLogInArgs ) )->getRendered(),
             'logged_in_as' => ( new Template( __DIR__ . '/partials/logged-in-as.php', $loggedInAsArgs ) )->getRendered(),
@@ -1612,7 +1613,8 @@ class WidgetCommentForm extends WidgetBase {
             'submit_button' => ( new Template( __DIR__ . '/partials/submit-button.php', $submitButtonArgs ) )->getRendered(),
         ];
 
-        comment_form( $comments_args, $settings['page'] );
+        $page = $settings['page'] === 'dynamic' ? get_the_ID() : $settings['page'];
+        comment_form( $comments_args, $page );
     }
 
     /**
@@ -1654,9 +1656,9 @@ class WidgetCommentForm extends WidgetBase {
      *
      * Written as a Backbone JavaScript template and used to generate the live preview.
      *
+     * @return void
      * @since  0.1.0
      *
-     * @return void
      */
     protected function _content_template() {
 
@@ -1671,11 +1673,13 @@ class WidgetCommentForm extends WidgetBase {
      *
      * @since  0.7.2
      */
-    public function ajaxCommentForm () {
+    public function ajaxCommentForm() {
         $postID = filter_input( INPUT_POST, 'postID' );
-        $commentForms = filter_input( INPUT_POST, 'commentForms' );
+        $commentForms = filter_input( INPUT_POST, 'commentForms',
+            FILTER_DEFAULT,
+            FILTER_REQUIRE_ARRAY );
 
-        if ( ! $postID ) {
+        if ( !$postID ) {
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
@@ -1684,7 +1688,7 @@ class WidgetCommentForm extends WidgetBase {
             exit;
         }
 
-        if ( ! $commentForms ) {
+        if ( !$commentForms ) {
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
@@ -1693,7 +1697,7 @@ class WidgetCommentForm extends WidgetBase {
             exit;
         }
 
-        if ( ! is_numeric( $postID ) ) {
+        if ( !is_numeric( $postID ) ) {
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
@@ -1702,7 +1706,7 @@ class WidgetCommentForm extends WidgetBase {
             exit;
         }
 
-        if ( ! is_array( $commentForms ) ) {
+        if ( !is_array( $commentForms ) ) {
             echo json_encode( [
                 'error' => true,
                 'code' => 400,
@@ -1714,36 +1718,36 @@ class WidgetCommentForm extends WidgetBase {
         $database = new Database();
 
         foreach ( $commentForms as $commentForm ) {
-            if ( ! $commentForm[ 'widgetID' ] ) {
+            if ( !$commentForm['widgetID'] ) {
                 continue;
             }
 
-            $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
+            $dbCategories = $database->categories->getByWidgetID( $commentForm['widgetID'] );
 
             foreach ( $dbCategories as $dbCategory ) {
                 $found = false;
 
-                foreach ( $commentForm[ 'categories' ] as $category ) {
-                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                foreach ( $commentForm['categories'] as $category ) {
+                    if ( $category['_id'] == $dbCategory->categoryID ) {
                         $found = true;
                         break;
                     }
                 }
 
-                if ( ! $found ) {
+                if ( !$found ) {
                     $database->categories->archiveByCategoryID( $dbCategory->categoryID );
                 }
             }
 
-            if ( ! $commentForm[ 'categories' ] ) {
+            if ( !$commentForm['categories'] ) {
                 continue;
             }
 
-            foreach ( $commentForm[ 'categories' ] as $category ) {
+            foreach ( $commentForm['categories'] as $category ) {
                 $found = false;
 
                 foreach ( $dbCategories as $dbCategory ) {
-                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                    if ( $category['_id'] == $dbCategory->categoryID ) {
                         $found = true;
                         breaK;
                     }
@@ -1751,29 +1755,29 @@ class WidgetCommentForm extends WidgetBase {
 
                 if ( $found ) {
                     $database->categories->updateByCategoryID(
-                        $category[ '_id' ],
+                        $category['_id'],
                         $postID,
-                        $commentForm[ 'widgetID' ],
-                        $commentForm[ 'targetPostID' ],
-                        $category[ 'category_label' ],
-                        $category[ 'category_icon' ],
-                        $category[ 'category_default_color' ],
-                        $category[ 'category_hover_color' ],
-                        $category[ 'category_selected_color' ],
-                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                        $commentForm['widgetID'],
+                        $commentForm['targetPostID'],
+                        $category['category_label'],
+                        $category['category_icon'],
+                        $category['category_default_color'],
+                        $category['category_hover_color'],
+                        $category['category_selected_color'],
+                        ( $category['category_required'] == 'yes' ? 1 : 0 )
                     );
                 } else {
                     $database->categories->add(
                         $postID,
-                        $commentForm[ 'widgetID' ],
-                        $commentForm[ 'targetPostID' ],
-                        $category[ '_id' ],
-                        $category[ 'category_label' ],
-                        $category[ 'category_icon' ],
-                        $category[ 'category_default_color' ],
-                        $category[ 'category_hover_color' ],
-                        $category[ 'category_selected_color' ],
-                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                        $commentForm['widgetID'],
+                        $commentForm['targetPostID'],
+                        $category['_id'],
+                        $category['category_label'],
+                        $category['category_icon'],
+                        $category['category_default_color'],
+                        $category['category_hover_color'],
+                        $category['category_selected_color'],
+                        ( $category['category_required'] == 'yes' ? 1 : 0 )
                     );
                 }
             }
@@ -1788,10 +1792,11 @@ class WidgetCommentForm extends WidgetBase {
 
     /**
      * @param $commentData
+     * @return mixed
      */
-    function preprocessComment ( $commentData ) {
+    public static function preprocessComment( $commentData ) {
 
-        if ( ! isset( $_POST[ 'widgetID' ] ) ) {
+        if ( !filter_has_var( INPUT_POST, 'widgetID' ) ) {
             return wp_die(
                 'Please try again in a few minutes, if the problem persists please contact an administrator.',
                 __( 'Comment Submission Failure' ),
@@ -1802,14 +1807,16 @@ class WidgetCommentForm extends WidgetBase {
         }
 
         $widgetID = filter_input( INPUT_POST, 'widgetID' );
-        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings' )
+            ? filter_input( INPUT_POST, 'elebee-ratings', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )
+            : [];
 
         $database = new Database();
         $categories = $database->categories->getByWidgetID( $widgetID );
 
         foreach ( $categories as $category ) {
             if ( $category->required ) {
-                if ( ! $ratings[ $category->categoryID ] ) {
+                if ( !$ratings[$category->categoryID] ) {
                     return wp_die(
                         sprintf(
                         // translators: %s is the name of the category
@@ -1845,7 +1852,7 @@ class WidgetCommentForm extends WidgetBase {
                 }
             }
 
-            if ( ! $found ) {
+            if ( !$found ) {
                 return wp_die(
                     __( 'Please try again in a few minutes, if the problem persists please contact an administrator.', 'elebee' ),
                     __( 'Comment Submission Failure' ),
@@ -1861,13 +1868,15 @@ class WidgetCommentForm extends WidgetBase {
     }
 
     /**
-     * @since  0.7.2
      * @param $commentId
+     * @since  0.7.2
      */
-    public function submitComment ( $commentId ) {
+    public function submitComment( $commentId ) {
 
         $widgetID = filter_input( INPUT_POST, 'widgetID' );
-        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings') ? filter_input( INPUT_POST, 'elebee-ratings' ) : [];
+        $ratings = filter_has_var( INPUT_POST, 'elebee-ratings' )
+            ? filter_input( INPUT_POST, 'elebee-ratings', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )
+            : [];
 
         add_comment_meta( $commentId, 'elebeeRatings', [
             'widgetId' => $widgetID,
@@ -1876,7 +1885,7 @@ class WidgetCommentForm extends WidgetBase {
 
     }
 
-    public static function ajaxPostComment () {
+    public static function ajaxPostComment() {
         $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
 
         if ( is_wp_error( $comment ) ) {

@@ -14,6 +14,7 @@ namespace ElebeeCore\Elementor\Widgets\CommentList\Lib;
 
 
 use DateTime;
+use ElementorPro\Classes\Utils;
 use WP_Comment;
 use Walker_Comment;
 use ElebeeCore\Database\Database;
@@ -42,9 +43,9 @@ class Walker extends Walker_Comment {
     /**
      * Walker constructor.
      *
+     * @param array $args
      * @since 0.1.0
      *
-     * @param array $args
      */
     public function __construct( $args = [] ) {
 
@@ -54,7 +55,7 @@ class Walker extends Walker_Comment {
 
     }
 
-    public function substrwords ( $text, $maxchar, $end = '...' ) {
+    public function substrwords( $text, $maxchar, $end = '...' ) {
         if ( strlen( $text ) > $maxchar || $text == '' ) {
 
             $words = preg_split( '/\s/', $text );
@@ -62,12 +63,12 @@ class Walker extends Walker_Comment {
             $i = 0;
 
             while ( 1 ) {
-                $length = strlen( $output ) + strlen( $words[ $i ] );
+                $length = strlen( $output ) + strlen( $words[$i] );
 
                 if ( $length > $maxchar ) {
                     break;
                 } else {
-                    $output .= " " . $words[ $i ];
+                    $output .= " " . $words[$i];
                     ++$i;
                 }
             }
@@ -90,22 +91,30 @@ class Walker extends Walker_Comment {
     /**
      * Outputs a single comment.
      *
-     * @since 0.1.0
-     *
+     * @param WP_Comment $comment Comment to display.
+     * @param int $depth Depth of the current comment.
+     * @param array $args An array of arguments.
      * @see   wp_list_comments()
      *
-     * @param WP_Comment $comment Comment to display.
-     * @param int        $depth   Depth of the current comment.
-     * @param array      $args    An array of arguments.
+     * @since 0.1.0
+     *
      */
     protected function comment( $comment, $depth, $args ) {
         $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
-        $ratings = isset( $commentMeta[ 'ratings' ] ) ? $commentMeta[ 'ratings' ] : [];
+        $ratings = isset( $commentMeta['ratings'] ) ? $commentMeta['ratings'] : [];
         $date = DateTime::createFromFormat( 'Y-m-d H:i:s', $comment->comment_date );
 
         $database = new Database();
-        $categories = $database->categories->getByTargetPostID( $this->settings[ 'comments_from_post' ] != null ? $this->settings[ 'comments_from_post' ] : get_post()->ID );
+        $page = $this->settings['comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
+        }
 
+        $categories = $database->categories->getByTargetPostID( $page );
+
+        if ( empty( $categories ) && class_exists( 'ElementorPro\Classes\Utils' ) ) {
+            $categories = $database->categories->getByTargetPostID( Utils::get_current_post_id() );
+        }
 
         $ratingInfos = [];
 
@@ -149,13 +158,13 @@ class Walker extends Walker_Comment {
      * Outputs a comment in the HTML5 format.
      * https://developer.wordpress.org/reference/classes/walker_comment/html5_comment/
      *
-     * @since 0.1.0
-     *
+     * @param WP_Comment $comment Comment to display.
+     * @param int $depth Depth of the current comment.
+     * @param array $args An array of arguments.
      * @see   wp_list_comments()
      *
-     * @param WP_Comment $comment Comment to display.
-     * @param int        $depth   Depth of the current comment.
-     * @param array      $args    An array of arguments.
+     * @since 0.1.0
+     *
      */
     protected function html5_comment( $comment, $depth, $args ) {
         $preDefinedDates = [
@@ -167,33 +176,41 @@ class Walker extends Walker_Comment {
         ];
 
         $dType = $comment->comment_parent > 0 ? 'reply_' : '';
-        $dateFormatKey = $this->settings[ 'comment_' . $dType . 'date_format' ];
-        if( $dateFormatKey === 'custom' ) {
-            $dateFormat = $this->settings[ 'comment_' . $dType . 'date_format_custom' ];
-        }
-        else {
-            $dateFormat = $preDefinedDates[ $dateFormatKey ];
+        $dateFormatKey = $this->settings['comment_' . $dType . 'date_format'];
+        if ( $dateFormatKey === 'custom' ) {
+            $dateFormat = $this->settings['comment_' . $dType . 'date_format_custom'];
+        } else {
+            $dateFormat = $preDefinedDates[$dateFormatKey];
         }
 
-        $timeFormat = $this->settings[ 'comment_' . $dType . 'time_format_custom' ];
+        $timeFormat = $this->settings['comment_' . $dType . 'time_format_custom'];
 
         $tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
         $id = $comment->comment_ID;
         $class = comment_class( $comment->comment_parent === 0 ? 'parent' : '', $id, $comment->post_ID, false );
-        $avatar = 0 !== $args[ 'avatar_size' ]  ? get_avatar( $comment, $args[ 'avatar_size' ] ) : '';
+        $avatar = 0 !== $args['avatar_size'] ? get_avatar( $comment, $args['avatar_size'] ) : '';
         $type = $comment->comment_parent > 0 ? 'reply' : 'list';
-        $authorStructure = $this->settings[ 'comment_' . $type . '_author_structure' ];
+        $authorStructure = $this->settings['comment_' . $type . '_author_structure'];
         $date = date( $dateFormat, strtotime( $comment->comment_date ) );
-        $time = date( $timeFormat, strtotime($comment->comment_date ) );
-        $dateStructure = $this->settings[ 'comment_' . $type . '_date_structure' ];
+        $time = date( $timeFormat, strtotime( $comment->comment_date ) );
+        $dateStructure = $this->settings['comment_' . $type . '_date_structure'];
 
-        $headerItemsClass = $this->settings[ 'comment_header_break' ] !== 'yes' ? 'elebee-display-inline' : '';
+        $headerItemsClass = $this->settings['comment_header_break'] !== 'yes' ? 'elebee-display-inline' : '';
 
         $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
-        $ratings = isset( $commentMeta[ 'ratings' ] ) ? $commentMeta[ 'ratings' ] : [];
+        $ratings = isset( $commentMeta['ratings'] ) ? $commentMeta['ratings'] : [];
 
         $database = new Database();
-        $categories = $database->categories->getByTargetPostID( $this->settings[ 'comments_from_post' ] != null ? $this->settings[ 'comments_from_post' ] : get_post()->ID );
+        $page = $this->settings['comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
+        }
+
+        $categories = $database->categories->getByTargetPostID( $page );
+
+        if ( empty( $categories ) && class_exists( 'ElementorPro\Classes\Utils' ) ) {
+            $categories = $database->categories->getByTargetPostID( Utils::get_current_post_id() );
+        }
 
         $ratingInfos = [];
 
