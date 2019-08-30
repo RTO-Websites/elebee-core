@@ -2,6 +2,8 @@
 /**
  * WidgetBetterImageGallery.php
  *
+ * @deprecated Uses proprietary gallery source.
+ *
  * @since   0.1.0
  *
  * @package ElebeeCore\Widgets\BetterImageGallery
@@ -100,8 +102,9 @@ class WidgetBetterImageGallery extends WidgetBase {
      * @since 0.1.0
      */
     public function get_title(): string {
+        $deprecated = '<span style="color:#cd0a0a;background-color:#fff">Deprecated</span>: ' ;
 
-        return __( 'Better Image Gallery', 'elebee' );
+        return $deprecated . __( 'Better Image Gallery', 'elebee' );
 
     }
 

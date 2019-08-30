@@ -7,3 +7,51 @@
  */
 @import "utils";
 @import "responsive-aspect-ratio";
+
+
+/* notice */
+$color: (
+        text: #23282d,
+        info: #00a0d2,
+        error: #dc3232,
+        warning: #ffb900,
+        success: #46b450,
+        background: #fff,
+        shadow: transparentize(#000, 0.9)
+);
+
+.elebee-notice {
+  line-height: 19px;
+  padding: 11px 15px;
+  font-size: 14px;
+  text-align: left;
+  margin: 1rem 0;
+  background-color: map-get($color, background);
+  border-left-width: 4px;
+  border-left-style: solid;
+  box-shadow: 1px 0 4px 1px map-get($color, shadow);
+  font-family: Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+
+  &.elebee-notice-info {
+    border-left-color: map-get($color, info);
+  }
+
+  &.elebee-notice-error {
+    border-left-color: map-get($color, error);
+  }
+
+  &.elebee-notice-warning {
+    border-left-color: map-get($color, warning);
+  }
+
+  &.elebee-notice-success {
+    border-left-color: map-get($color, succces);
+  }
+
+  .elebee-notice-title{
+    font-weight: bold;
+    color: map-get($color, text);
+    margin-right: 1rem;
+  }
+}

@@ -14,8 +14,11 @@ namespace ElebeeCore\Elementor\Widgets\CommentList\Lib;
 
 
 use DateTime;
-use Walker_Comment;
+use ElementorPro\Classes\Utils;
 use WP_Comment;
+use Walker_Comment;
+use ElebeeCore\Database\Database;
+use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -40,9 +43,9 @@ class Walker extends Walker_Comment {
     /**
      * Walker constructor.
      *
+     * @param array $args
      * @since 0.1.0
      *
-     * @param array $args
      */
     public function __construct( $args = [] ) {
 
@@ -52,130 +55,206 @@ class Walker extends Walker_Comment {
 
     }
 
+    public function substrwords( $text, $maxchar, $end = '...' ) {
+        if ( strlen( $text ) > $maxchar || $text == '' ) {
+
+            $words = preg_split( '/\s/', $text );
+            $output = '';
+            $i = 0;
+
+            while ( 1 ) {
+                $length = strlen( $output ) + strlen( $words[$i] );
+
+                if ( $length > $maxchar ) {
+                    break;
+                } else {
+                    $output .= " " . $words[$i];
+                    ++$i;
+                }
+            }
+
+            $output .= $end;
+
+        } else {
+
+            $output = $text;
+
+        }
+
+        if ( $output == $end ) {
+            $output = substr( $text, 0, $maxchar ) . $end;
+        }
+
+        return $output;
+    }
+
     /**
      * Outputs a single comment.
      *
-     * @since 0.1.0
-     *
+     * @param WP_Comment $comment Comment to display.
+     * @param int $depth Depth of the current comment.
+     * @param array $args An array of arguments.
      * @see   wp_list_comments()
      *
-     * @param WP_Comment $comment Comment to display.
-     * @param int        $depth   Depth of the current comment.
-     * @param array      $args    An array of arguments.
+     * @since 0.1.0
+     *
      */
     protected function comment( $comment, $depth, $args ) {
+        $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
+        $ratings = isset( $commentMeta['ratings'] ) ? $commentMeta['ratings'] : [];
+        $date = DateTime::createFromFormat( 'Y-m-d H:i:s', $comment->comment_date );
 
-        if ( 'div' == $args['style'] ) {
-            $tag = 'div';
-            $add_below = 'comment';
-        } else {
-            $tag = 'li';
-            $add_below = 'div-comment';
+        $database = new Database();
+        $page = $this->settings['comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
         }
-        ?>
-        <<?php echo $tag; ?><?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
-        <?php if ( 'div' != $args['style'] ) : ?>
-            <div id="div-comment-<?php comment_ID(); ?>" class="comment-body">
-        <?php endif; ?>
-        <div class="comment-author vcard">
-            <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-            <?php
-            /* translators: %s: comment author link */
-            printf( __( '%s <span class="says">says:</span>' ),
-                sprintf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) )
-            );
-            ?>
-        </div>
-        <?php if ( '0' == $comment->comment_approved ) : ?>
-            <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
-            <br/>
-        <?php endif; ?>
 
-        <div class="comment-meta commentmetadata">
-            <a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
-                <?php
-                /* translators: 1: comment date, 2: comment time */
-                printf( __( '%1$s at %2$s', 'elebee' ), get_comment_date( '', $comment ), get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
-            ?>
-        </div>
+        $categories = $database->categories->getByTargetPostID( $page );
 
-        <?php comment_text( $comment, array_merge( $args, [ 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ] ) ); ?>
-
-        <?php
-        if ( 'yes' === $this->settings['comment_list_allow_reply'] ) {
-            comment_reply_link( array_merge( $args, [
-                'add_below' => $add_below,
-                'depth' => $depth,
-                'max_depth' => $args['max_depth'],
-                'before' => '<div class="reply">',
-                'after' => '</div>',
-            ] ) );
+        if ( empty( $categories ) && class_exists( 'ElementorPro\Classes\Utils' ) ) {
+            $categories = $database->categories->getByTargetPostID( Utils::get_current_post_id() );
         }
-        ?>
 
-        <?php if ( 'div' != $args['style'] ) : ?>
-            </div>
-        <?php endif; ?>
-        <?php
+        $ratingInfos = [];
 
+        if ( strlen( $comment->comment_content ) > 100 ) {
+            $comment->comment_content = $this->substrwords( $comment->comment_content, 100 ) . '<br><br><a href="#no-js" class="showmore" data-commentid="' . $comment->comment_ID . '">' . __( 'Show more..', 'elebee' ) . '</a>';
+        }
+
+        foreach ( $ratings as $key => $rating ) {
+            $found = null;
+
+            foreach ( $categories as $category ) {
+                if ( $category->categoryID == $key ) {
+                    $found = $category;
+                }
+            }
+
+            $ratingInfo = [
+                'category' => $found,
+                'rating' => $rating,
+            ];
+
+            array_push( $ratingInfos, $ratingInfo );
+        }
+
+        $vars = [
+            'has_children' => $this->has_children,
+            'comment' => $comment,
+            'args' => $args,
+            'depth' => $depth,
+            'settings' => $this->settings,
+            'ratingInfos' => $ratingInfos,
+            'date' => $date,
+        ];
+
+        $templateLocation = __DIR__ . '/../partials/comment.php';
+        $template = new Template( $templateLocation, $vars );
+        $template->render();
     }
 
     /**
      * Outputs a comment in the HTML5 format.
+     * https://developer.wordpress.org/reference/classes/walker_comment/html5_comment/
+     *
+     * @param WP_Comment $comment Comment to display.
+     * @param int $depth Depth of the current comment.
+     * @param array $args An array of arguments.
+     * @see   wp_list_comments()
      *
      * @since 0.1.0
      *
-     * @see   wp_list_comments()
-     *
-     * @param WP_Comment $comment Comment to display.
-     * @param int        $depth   Depth of the current comment.
-     * @param array      $args    An array of arguments.
      */
     protected function html5_comment( $comment, $depth, $args ) {
+        $preDefinedDates = [
+            'j-f-y' => 'j. F Y',
+            'y-m-d' => 'Y-m-d',
+            'm-d-y' => 'm/d/Y',
+            'd-m-y' => 'd/m/Y',
+            'mdy' => 'm.d.Y',
+        ];
+
+        $dType = $comment->comment_parent > 0 ? 'reply_' : '';
+        $dateFormatKey = $this->settings['comment_' . $dType . 'date_format'];
+        if ( $dateFormatKey === 'custom' ) {
+            $dateFormat = $this->settings['comment_' . $dType . 'date_format_custom'];
+        } else {
+            $dateFormat = $preDefinedDates[$dateFormatKey];
+        }
+
+        $timeFormat = $this->settings['comment_' . $dType . 'time_format_custom'];
 
         $tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
-        ?>
-        <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( $this->has_children ? 'parent' : '', $comment ); ?>>
-        <article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
-            <footer class="comment-meta">
-                <div class="comment-author vcard">
-                    <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-                    <?php
-                    printf( $this->settings['comment_list_author_format'], get_comment_author( $comment ) );
-                    ?>
-                </div><!-- .comment-author -->
+        $id = $comment->comment_ID;
+        $class = comment_class( $comment->comment_parent === 0 ? 'parent' : '', $id, $comment->post_ID, false );
+        $avatar = 0 !== $args['avatar_size'] ? get_avatar( $comment, $args['avatar_size'] ) : '';
+        $type = $comment->comment_parent > 0 ? 'reply' : 'list';
+        $authorStructure = $this->settings['comment_' . $type . '_author_structure'];
+        $date = date( $dateFormat, strtotime( $comment->comment_date ) );
+        $time = date( $timeFormat, strtotime( $comment->comment_date ) );
+        $dateStructure = $this->settings['comment_' . $type . '_date_structure'];
 
-                <div class="comment-metadata">
-                    <time datetime="<?php comment_time( 'c' ); ?>">
-                        <?php
-                        $date = DateTime::createFromFormat( 'Y-m-d H:i:s', $comment->comment_date );
-                        echo $date->format( $this->settings['comment_list_date_format'] );
-                        ?>
-                    </time>
-                    <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
-                </div><!-- .comment-metadata -->
+        $headerItemsClass = $this->settings['comment_header_break'] !== 'yes' ? 'elebee-display-inline' : '';
 
-                <?php if ( '0' == $comment->comment_approved ) : ?>
-                    <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
-                <?php endif; ?>
-            </footer><!-- .comment-meta -->
+        $commentMeta = get_comment_meta( $comment->comment_ID, 'elebeeRatings', true );
+        $ratings = isset( $commentMeta['ratings'] ) ? $commentMeta['ratings'] : [];
 
-            <div class="comment-content">
-                <?php comment_text(); ?>
-            </div><!-- .comment-content -->
+        $database = new Database();
+        $page = $this->settings['comments_from_post'];
+        if ( $page === 'dynamic' ) {
+            $page = get_the_ID();
+        }
 
-            <?php
-            if ( 'yes' === $this->settings['comment_list_allow_reply'] ) {
-                comment_reply_link( array_merge( $args, [
-                    'add_below' => 'div-comment',
-                    'depth' => $depth,
-                    'max_depth' => $args['max_depth'],
-                    'before' => '<div class="reply">',
-                    'after' => '</div>',
-                ] ) );
+        $categories = $database->categories->getByTargetPostID( $page );
+
+        if ( empty( $categories ) && class_exists( 'ElementorPro\Classes\Utils' ) ) {
+            $categories = $database->categories->getByTargetPostID( Utils::get_current_post_id() );
+        }
+
+        $ratingInfos = [];
+
+        if ( strlen( $comment->comment_content ) > 100 ) {
+            $comment->comment_content = $this->substrwords( $comment->comment_content, 100 ) . '<br><br><a href="#no-js" class="showmore" data-commentid="' . $comment->comment_ID . '">' . __( 'Show more..', 'elebee' ) . '</a>';
+        }
+
+        foreach ( $ratings as $key => $rating ) {
+            $found = null;
+
+            foreach ( $categories as $category ) {
+                if ( $category->categoryID == $key ) {
+                    $found = $category;
+                }
             }
-            ?>
-        </article><!-- .comment-body -->
+
+            $ratingInfo = [
+                'category' => $found,
+                'rating' => $rating,
+            ];
+
+            array_push( $ratingInfos, $ratingInfo );
+        }
+
+        $vars = [
+            'id' => $id,
+            'headerItemsClass' => $headerItemsClass,
+            'avatar' => $avatar,
+            'authorStructure' => $authorStructure,
+            'dateStructure' => $dateStructure,
+            'comment' => $comment,
+            'date' => $date,
+            'time' => $time,
+            'settings' => $this->settings,
+            'ratingInfos' => $ratingInfos,
+        ];
+
+        $templateLocation = __DIR__ . '/../partials/html5-comment.php';
+        $template = new Template( $templateLocation, $vars );
+        $template->render();
+
+        ?>
+        <<?php echo $tag; ?> id="comment-<?php echo $id; ?>" <?php echo $class; ?>>
+
         <?php
 
     }

@@ -47,7 +47,7 @@ class WidgetExtensionFitty extends WidgetExtensionBase {
 
     public function enqueueScripts() {
 
-        wp_enqueue_script( 'elebeeFitty', get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Fitty/node_modules/fitty/dist/fitty.min.js', [], Elebee::VERSION );
+        wp_enqueue_script( 'elebeeFitty', get_template_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Extensions/Fitty/js/vendor/fitty.min.js', [], Elebee::VERSION );
 
     }
 
@@ -97,6 +97,5 @@ class WidgetExtensionFitty extends WidgetExtensionBase {
         return $widgetContent;
 
     }
-
 
 }

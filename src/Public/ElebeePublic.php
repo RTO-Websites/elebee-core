@@ -13,7 +13,10 @@
 namespace ElebeeCore\Pub;
 
 
-use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\SettingJQuery;
+use ElebeeCore\Lib\Util\Template;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -72,7 +75,7 @@ class ElebeePublic {
      */
     public function enqueueStyles() {
 
-        wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', [], $this->version, 'all' );
+        wp_enqueue_style( 'elebee-main', get_stylesheet_directory_uri() . '/css/main.min.css', [], $this->version, 'all' );
 
     }
 
@@ -89,11 +92,11 @@ class ElebeePublic {
         switch ( $settingJQuery ) {
             case 'latest-cdn':
                 wp_deregister_script( 'jquery' );
-                wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', [], '3.3.1' );
+                wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js', [], '3.4.1' );
                 break;
             case 'latest-local':
                 wp_deregister_script( 'jquery' );
-                wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/public/assets/js/jquery.min.js', [], '3.3.1' );
+                wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/public/assets/js/jquery.min.js', [], '3.4.1' );
                 break;
         }
 
@@ -107,11 +110,27 @@ class ElebeePublic {
             'isSearch' => number_format( is_search() ),
             'isMobile' => number_format( wp_is_mobile() ),
             'debug' => number_format( WP_DEBUG ),
+            'live' => '<!-- heartbeat alive -->',
         ] );
 
         if ( WP_DEBUG ) {
             wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
+
+    }
+
+    public function embedGoogleAnalytics() {
+        $trackingId = ( new SettingTrackingId() )->getOption();
+
+        if( empty( $trackingId ) ) {
+            return;
+        }
+
+        $googleAnalyticsTemplate = new Template( __DIR__ . '/partials/google-analytics.php', [
+            'gaTrackingId' => $trackingId,
+            'anonymizeIp' => ( new SettingAnonymizeIp() )->getOption() ? 'true' : 'false',
+        ] );
+        $googleAnalyticsTemplate->render();
 
     }
 

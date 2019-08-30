@@ -28,7 +28,7 @@ class AdminNotice {
     /**
      * @var string
      */
-    private $utilUrl = '';
+    private $assetsUrl;
 
     /**
      * @var array
@@ -36,7 +36,8 @@ class AdminNotice {
     private $allowedNotices = [ 'success', 'error', 'warning', 'info' ];
 
     public function __construct() {
-        $this->utilUrl = str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__);
+
+        $this->assetsUrl = untrailingslashit( get_stylesheet_directory_uri() ) . '/vendor/rto-websites/elebee-core/src/Lib/Util/AdminNotice';
 
     }
 
@@ -68,12 +69,12 @@ class AdminNotice {
      * @param bool $isDismissible
      *      Optional. After closing the notice, this will be never shown again for the current user. Default 'true'.
      *
-     * @return void
+     * @return string
      */
     public function getNotice( string $noticeName, string $message, string $type = 'error', bool $isDismissible = true ) {
 
         if ( $this->isNoticeDismissed( $noticeName ) ) {
-            return;
+            return '';
         }
 
         if ( !in_array( $type, $this->allowedNotices ) ) {
@@ -83,7 +84,7 @@ class AdminNotice {
         $additionalClass = $isDismissible === true ? ' is-dismissible' : '';
         $class = $noticeName . ' notice notice-' . $type . $additionalClass;
 
-        printf(
+        return sprintf(
             '<div class="%1$s" data-name="%2$s"><p>%3$s</p></div>',
             esc_attr( $class ), esc_attr( $noticeName ), esc_html( $message )
         );
@@ -98,7 +99,7 @@ class AdminNotice {
      */
     public function enqueueScripts() {
 
-        wp_enqueue_script( $this->utilName, $this->utilUrl . '/js/admin.js', [ 'jquery' ] );
+        wp_enqueue_script( $this->utilName, $this->assetsUrl . '/js/admin.js', [ 'jquery' ] );
 
     }
 

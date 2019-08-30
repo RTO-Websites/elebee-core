@@ -1,34 +1,63 @@
+/**
+ *
+ */
 (function ($) {
   'use strict';
+
+  if ( typeof CodeMirror === "undefined" ) {
+    console.log( 'CodeMirror is missing!');
+    return;
+  }
+
+  let cm,
+    init,
+    configCodeMirror,
+    registerEvents,
+    triggerFunction,
+
+    fns = {};
 
   /**
    *
    */
-  function init() {
+  init = function () {
+    configCodeMirror();
+    registerEvents();
+    window.editor = cm;
+  };
 
-    window.editor = CodeMirror.fromTextArea(document.getElementById('content'), {
+  /**
+   *
+   */
+  configCodeMirror = function () {
+    cm = CodeMirror.fromTextArea(document.getElementById('content'), {
       mode: 'text/x-scss',
       theme: 'mdn-like',
       lineNumbers: true,
+      matchBrackets: true,
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+      // addons
       styleActiveLine: true,
-      selectionPointer: true,
+      styleSelectedText: true,
+      continueComments: true,
+      foldGutter: true,
+      foldOptions: true,
+      showTrailingSpace: true,
+      autoCloseBrackets: true,
+      highlightSelectionMatches: true,
       extraKeys: {
-        'Tab': tabsToSpaces,
-        'Shift-Tab': 'indentLess',
-        'Ctrl-Alt-L': autoIndent,
-        'Cmd-Alt-L': autoIndent,
-        'Ctrl-/': blockComment,
-        'Cmd-/': blockComment,
-        'Ctrl-Alt-/': uncomment,
-        'Cmd-Alt-/': uncomment,
+        'Ctrl-Alt-L': fns.autoIndent,
+        'Cmd-Alt-L': fns.autoIndent,
+        'Ctrl-/': fns.commentBlock,
+        'Cmd-/': fns.commentBlock,
+        'Ctrl-Alt-/': fns.uncommentBlock,
+        'Cmd-Alt-/': fns.uncommentBlock,
+        'Tab': fns.tabsToSpaces,
+        'Shift-Tab': CodeMirror.commands.indentLess,
+        'Cmd-[': CodeMirror.commands.indentLess,
       },
       tabSize: 4,
       indentUnit: 4,
-      autoCloseBrackets: true,
-      continueComments: true,
-      matchBrackets: true,
-      foldGutter: true,
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
       lint: {
         options: {
           // @see https://github.com/blackmiaool/sass-lint
@@ -65,7 +94,7 @@
             'mixins-before-declarations': true,
             'no-disallowed-properties': [],
             'no-duplicate-properties': true,
-            'no-ids': [ 1, true ],
+            'no-ids': [1, true],
             'no-important': true,
             'no-invalid-hex': true,
             'no-mergeable-selectors': true,
@@ -78,7 +107,11 @@
             'one-declaration-per-line': true,
             'placeholder-in-extend': true,
             'placeholder-name-format': true,
-            'pseudo-element': true,
+            'pseudo-element': false,
+            'property-sort-order': [0, {
+              'ignore-custom-properties': true,
+              'order': []
+            }],
             'quotes': [2, {
               'style': 'double'
             }],
@@ -124,68 +157,88 @@
       }
     });
 
-    window.editor.setSize( null, '80vh' );
-
-    editor.on('keyup', autoComplete);
-  }
+    cm.setSize(null, '80vh');
+  };
 
   /**
    *
-   * @param cm
    */
-  function tabsToSpaces(cm) {
-    let spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
-    cm.replaceSelection(spaces);
-  }
+  registerEvents = function () {
+
+    cm.on('keyup', fns.autoComplete);
+
+    $( '.custom-css input[type="button"]' ).on( 'click', triggerFunction );
+
+  };
 
   /**
    *
-   * @param cm
    */
-  function autoIndent(cm) {
+  triggerFunction = function () {
+    let functionName = $( this ).attr( 'name' ),
+      fnName = fns[ functionName ];
 
+    if (typeof fnName === "function") {
+      fnName();
+    }
+    else {
+      cm.execCommand( functionName );
+    }
+  };
+
+  /**
+   *
+   */
+  fns.autoIndent = function () {
     // TODO: Auto remove trailing whitespace using the edit/trailingspace.js addon
 
-    cm.eachLine(function (line) {
-      cm.indentLine(line.lineNo());
-    })
-  }
+    cm.eachLine( function (line) {
+      cm.indentLine( line.lineNo() );
+    });
+  };
 
   /**
    *
-   * @param cm
-   * @param e
    */
-  function autoComplete(cm, e) {
-    if (e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey) {
+  fns.autoComplete = function () {
+    let e = window.event;
+    if ( e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey ) {
       return;
     }
-    editor.execCommand('autocomplete');
-  }
 
-  /**
-   *
-   * @returns {{from: *, to: *}}
-   */
-  function getSelectedRange() {
-    return { from: editor.getCursor( true ), to: editor.getCursor( false ) };
-  }
+    cm.execCommand( 'autocomplete' );
+  };
 
   /**
    *
    */
-  function uncomment() {
-    var range = getSelectedRange();
-    editor.uncomment(range.from, range.to);
-  }
+  fns.commentBlock = function () {
+    cm.blockComment(
+      cm.getCursor(true),
+      cm.getCursor(false),
+      {fullLines: true}
+    );
+  };
 
   /**
    *
    */
-  function blockComment() {
-    var range = getSelectedRange();
-    editor.blockComment(range.from, range.to);
-  }
+  fns.uncommentBlock = function () {
+    cm.uncomment(
+      cm.getCursor(true),
+      cm.getCursor(false),
+      {lineComment: true}
+    );
+  };
+
+  /**
+   *
+   */
+  fns.tabsToSpaces = function () {
+    let spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
+
+    cm.replaceSelection(spaces);
+  };
 
   init();
 

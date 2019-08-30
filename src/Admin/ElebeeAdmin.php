@@ -15,8 +15,11 @@ namespace ElebeeCore\Admin;
 
 
 use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
-use ElebeeCore\Admin\Setting\JQuery\SettingJQuery;
 use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\SettingIsExclusive;
+use ElebeeCore\Admin\Setting\SettingJQuery;
 use ElebeeCore\Lib\Util\Template;
 use Elementor\Settings;
 
@@ -107,6 +110,9 @@ class ElebeeAdmin {
     public function enqueueScripts() {
 
         wp_enqueue_script( $this->themeName . '-admin', $this->jsDirUrl . '/admin.js', [ 'jquery' ], $this->version, false );
+        wp_localize_script( $this->themeName . '-admin', 'l10n', [
+            'noticeGoogleTrackingIdInvalid' => __( 'Goolge Tracking ID format is invalid.', 'elebee' )
+        ] );
 
     }
 
@@ -136,12 +142,32 @@ class ElebeeAdmin {
      */
     public function settingsApiInit() {
 
-        $settingIsExclusive = new SettingIsExclusiv();
+        $settingIsExclusive = new SettingIsExclusive();
         $settingIsExclusive->register( 'elebee_settings' );
 
         $settingJQuery = new SettingJQuery();
         $settingJQuery->register( 'elebee_settings' );
 
+        $settingGoogleAnalyticsTrackingId = new SettingTrackingId();
+        $settingGoogleAnalyticsTrackingId->register( 'elebee_settings', 'default', [
+            'placeholder' => 'UA-XXXXX-X',
+        ] );
+
+        $settingGoogleAnonymizeIp = new SettingAnonymizeIp();
+        $settingGoogleAnonymizeIp->register( 'elebee_settings' );
+
+    }
+
+    /**
+     * @since 0.7.2
+     *
+     * @return void
+     */
+    public function setupCommentForm() {
+        # remove requirement of name and email comment form
+        if( filter_var( get_option( 'require_name_email'), FILTER_VALIDATE_BOOLEAN ) ) {
+            update_option( 'require_name_email', false );
+        }
     }
 
     /**
@@ -171,11 +197,8 @@ class ElebeeAdmin {
      */
     public function elementorNotExists() {
 
-        if ( !class_exists( 'ElebeeCore\Lib\Util\AdminNotice\AdminNotice') ) {
-            return;
-        }
-
-        ( new AdminNotice() )->getNotice(
+        $notice = new AdminNotice();
+        echo $notice->getNotice(
             'elebee-missing-elementor',
             __( 'The theme Eleebee works best with Elementor. Please install or activate Elementor-Plugin.')
         );

@@ -14,24 +14,24 @@
 namespace ElebeeCore\Elementor;
 
 
-use ElebeeCore\Admin\Setting\IsExclusiv\SettingIsExclusiv;
-use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
-use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
-use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
-use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
-use ElebeeCore\Elementor\Skins\SkinArchive;
-use ElebeeCore\Elementor\Widgets\BetterAccordion\WidgetBetterAccordion;
-use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
-use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
-use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
-use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
-use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
-use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
-use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
-use Elementor\Controls_Manager;
-use Elementor\Elements_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
+use Elementor\Elements_Manager;
+use ElebeeCore\Elementor\Skins\SkinArchive;
+use ElebeeCore\Admin\Setting\SettingIsExclusive;
+use ElebeeCore\Elementor\Widgets\Imprint\WidgetImprint;
+use ElebeeCore\Elementor\Extensions\WidgetExtensionBase;
+use ElebeeCore\Elementor\Extensions\Fitty\WidgetExtensionFitty;
+use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
+use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
+use ElebeeCore\Elementor\Widgets\Placeholder\WidgetPlaceholder;
+use ElebeeCore\Elementor\Extensions\Sticky\WidgetExtensionSticky;
+use ElebeeCore\Elementor\Widgets\BetterAccordion\WidgetBetterAccordion;
+use ElebeeCore\Elementor\Widgets\PostTypeArchive\WidgetPostTypeArchive;
+use ElebeeCore\Elementor\Widgets\BetterImageGallery\WidgetBetterImageGallery;
+use ElebeeCore\Elementor\Extensions\ResponsiveAspectRatio\WidgetExtensionResponsiveAspectRatio;
+use ElebeeCore\Elementor\Widgets\BigAndSmallImageWithDescription\WidgetBigAndSmallImageWithDescription;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -120,6 +120,10 @@ class ElebeeElementor {
             'themeUrl' => get_stylesheet_directory_uri(),
         ] );
 
+        wp_enqueue_script( 'comment_form_admin', get_stylesheet_directory_uri() . '/vendor/rto-websites/elebee-core/src/Elementor/Widgets/CommentForm/assets/js/comment-form-admin.js', [ 'jquery' ], time(), true );
+        wp_localize_script( 'comment_form_admin', 'phpInfo',
+            [ 'ajaxURL' => admin_url( 'admin-ajax.php' ) ] );
+
     }
 
     /**
@@ -199,7 +203,7 @@ class ElebeeElementor {
      */
     public function registerExclusiveWidgets() {
 
-        if ( !(new SettingIsExclusiv())->getOption() ) {
+        if ( !( new SettingIsExclusive() )->getOption() ) {
             return;
         }
 

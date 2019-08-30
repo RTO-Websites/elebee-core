@@ -26,7 +26,7 @@ namespace ElebeeCore\Lib\ThemeCustomizer;
  * @licence GPL-3.0
  * @link    https://rto-websites.github.io/elebee-core-api/master/ElebeeCore/Lib/ThemeCustomizer/Section.html
  */
-class Section extends ThemeCustommizerElement {
+class Section extends Root {
 
     /**
      * @since 0.2.0

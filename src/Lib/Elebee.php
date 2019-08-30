@@ -13,24 +13,32 @@
 namespace ElebeeCore\Lib;
 
 
+use Elementor\Settings;
+use ElebeeCore\Lib\Util\Config;
+use ElebeeCore\Pub\ElebeePublic;
 use ElebeeCore\Admin\ElebeeAdmin;
+use ElebeeCore\Lib\Util\Template;
 use ElebeeCore\Elementor\ElebeeElementor;
-use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
-use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeCustomizer\Panel;
 use ElebeeCore\Lib\ThemeCustomizer\Section;
 use ElebeeCore\Lib\ThemeCustomizer\Setting;
-use ElebeeCore\Lib\ThemeCustomizer\ThemeCustommizer;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
+use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportHTML5;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportMenus;
-use ElebeeCore\Lib\ThemeSupport\ThemeSupportSvg;
+use ElebeeCore\Admin\Setting\CoreData\SettingEmail;
+use ElebeeCore\Admin\Setting\CoreData\SettingPhone;
+use ElebeeCore\Lib\ThemeCustomizer\ThemeCustomizer;
+use ElebeeCore\Admin\Setting\CoreData\SettingAddress;
 use ElebeeCore\Lib\ThemeSupport\ThemeSupportTitleTag;
-use ElebeeCore\Lib\Util\AdminNotice\AdminNotice;
-use ElebeeCore\Lib\Util\Config;
-use ElebeeCore\Lib\Util\Template;
-use ElebeeCore\Pub\ElebeePublic;
-use Elementor\Settings;
+use ElebeeCore\Lib\CustomPostType\CustomCss\CustomCss;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportCustomLogo;
+use ElebeeCore\Lib\PostTypeSupport\PostTypeSupportExcerpt;
+use ElebeeCore\Lib\ThemeSupport\ThemeSupportFeaturedImage;
+use ElebeeCore\Elementor\Widgets\CommentList\WidgetCommentList;
+use ElebeeCore\Elementor\Widgets\CommentForm\WidgetCommentForm;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingTrackingId;
+use ElebeeCore\Admin\Setting\Google\Analytics\SettingAnonymizeIp;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -52,7 +60,7 @@ class Elebee {
      * @since 0.1.0
      * @var string The current version of the theme.
      */
-    const VERSION = '0.7.1';
+    const VERSION = '0.8.0';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -73,7 +81,7 @@ class Elebee {
 
     /**
      * @since 0.2.0
-     * @var ThemeCustommizer
+     * @var ThemeCustomizer
      */
     private $themeCustomizer;
 
@@ -203,8 +211,9 @@ class Elebee {
      */
     public function setupThemeCustomizer() {
 
-        $this->themeCustomizer = new ThemeCustommizer();
+        $this->themeCustomizer = new ThemeCustomizer();
         $this->setupThemeSettingsCoreData();
+        $this->setupThemeSettingsGoogle();
         $this->themeCustomizer->register();
 
     }
@@ -216,40 +225,43 @@ class Elebee {
      */
     public function setupThemeSettingsCoreData() {
 
-        $settingCoreDataAddress = new Setting(
-            'elebee_core_data_address',
+        $settingCoreDataAddress = new SettingAddress();
+        $themeCustomizerSettingCoreDataAddress = new Setting(
+            $settingCoreDataAddress->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Address', 'elebee' ),
+                'label' => $settingCoreDataAddress->getTitle(),
                 'description' => __( '[coredata]address[/coredata]', 'elebee' ),
                 'type' => 'textarea',
             ]
         );
 
-        $settingCoreDataEmail = new Setting(
-            'elebee_core_data_email',
+        $settingCoreDataEmail = new SettingEmail();
+        $themeCustomizerSettingCoreDataEmail = new Setting(
+            $settingCoreDataEmail->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'E-Mail address', 'elebee' ),
+                'label' => $settingCoreDataEmail->getTitle(),
                 'description' => __( '[coredata]email[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
         );
 
-        $settingCoreDataPhone = new Setting(
-            'elebee_core_data_phone',
+        $settingCoreDataDataPhone = new SettingPhone();
+        $themeCustomizerSettingCoreDataPhone = new Setting(
+            $settingCoreDataDataPhone->getName(),
             [
                 'type' => 'option',
                 'default' => '',
             ],
             [
-                'label' => __( 'Phone', 'elebee' ),
+                'label' => $settingCoreDataDataPhone->getTitle(),
                 'description' => __( '[coredata]phone[/coredata]', 'elebee' ),
                 'type' => 'text',
             ]
@@ -261,11 +273,65 @@ class Elebee {
             'priority' => 700,
             'description' => $description,
         ] );
-        $sectionCoreData->addSetting( $settingCoreDataAddress );
-        $sectionCoreData->addSetting( $settingCoreDataEmail );
-        $sectionCoreData->addSetting( $settingCoreDataPhone );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataAddress );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataEmail );
+        $sectionCoreData->addSetting( $themeCustomizerSettingCoreDataPhone );
 
-        $this->themeCustomizer->addSection( $sectionCoreData );
+        $this->themeCustomizer->addElement( $sectionCoreData );
+
+    }
+
+    /**
+     *
+     */
+    function setupThemeSettingsGoogle() {
+
+        $settingGoogleAnalyticsTrackingId = new SettingTrackingId();
+        $themeCustomizerSettingGoogleAnalyticsTrackingId = new Setting(
+            $settingGoogleAnalyticsTrackingId->getName(),
+            [
+                'type' => 'option',
+            ],
+            [
+                'label' => $settingGoogleAnalyticsTrackingId->getTitle(),
+                'type' => 'text',
+                'input_attrs' => [
+                    'placeholder' => 'UA-XXXXX-X',
+                ],
+            ]
+        );
+
+        $settingGoogleAnalyticsAnonymizeIp = new SettingAnonymizeIp();
+        $themeCustomizerSettingGoogleAnalyticsAnonymizeIp = new Setting(
+            $settingGoogleAnalyticsAnonymizeIp->getName(),
+            [
+                'type' => 'option',
+                'default' => $settingGoogleAnalyticsAnonymizeIp->getDefault(),
+            ],
+            [
+                'label' => $settingGoogleAnalyticsAnonymizeIp->getTitle(),
+                'type' => 'checkbox',
+                'input_attrs' => [
+                    'checked' => true,
+                ],
+            ]
+        );
+
+        $sectionGoogleAnalytics = new Section( 'elebee_google_analytics_section', [
+            'title' => __( 'Analytics', 'elebee' ),
+            'description' => __( 'After entering the tracking ID, the Google Analytics Script is automatically included.', 'elebee' ),
+        ] );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsTrackingId );
+        $sectionGoogleAnalytics->addSetting( $themeCustomizerSettingGoogleAnalyticsAnonymizeIp );
+
+        $panelGoogle = new Panel( 'elebee_google_panel', [
+            'priority' => 800,
+            'title' => __( 'Google', 'elebee' ),
+            'description' => '',
+        ] );
+        $panelGoogle->addSection( $sectionGoogleAnalytics );
+
+        $this->themeCustomizer->addElement( $panelGoogle );
 
     }
 
@@ -288,11 +354,11 @@ class Elebee {
         $elebeeAdmin = new ElebeeAdmin( $this->getThemeName(), $this->getVersion() );
 
         $this->loader->addAction( 'admin_init', $elebeeAdmin, 'settingsApiInit' );
+        $this->loader->addAction( 'after_setup_theme', $elebeeAdmin, 'setupCommentForm' );
 
         if ( class_exists( 'Elementor\Settings' ) ) {
             $this->loader->addAction( 'admin_menu', $elebeeAdmin, 'addMenuPage', Settings::MENU_PRIORITY_GO_PRO + 1 );
-        }
-        else {
+        } else {
             $this->loader->addAction( 'admin_notices', $elebeeAdmin, 'elementorNotExists' );
         }
 
@@ -300,6 +366,9 @@ class Elebee {
         $this->loader->addAction( 'admin_enqueue_scripts', $elebeeAdmin, 'enqueueScripts' );
 
         $this->loader->addAction( 'wp_ajax_get_post_id_by_url', $elebeeAdmin, 'getPostIdByUrl' );
+        $this->loader->addAction( 'wp_ajax_comment_form', WidgetCommentForm::class, 'ajaxCommentForm' );
+        $this->loader->addAction( 'wp_ajax_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
         $utilAdminNotice = new AdminNotice();
         $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'enqueueScripts' );
@@ -321,11 +390,17 @@ class Elebee {
         $this->loader->addAction( 'init', Config::class, 'cleanUpHead' );
         $this->loader->addAction( 'init', Config::class, 'disableEmojies' );
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
+        $this->loader->addFilter( 'preprocess_comment', WidgetCommentForm::class, 'preprocessComment' );
+        $this->loader->addAction( 'comment_post', WidgetCommentForm::class, 'submitComment' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
-        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles' );
+        $this->loader->addAction( 'wp_head', $elebeePublic, 'embedGoogleAnalytics', 0 );
+        $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles', 100 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
+
+        $this->loader->addAction( 'wp_ajax_nopriv_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
+        $this->loader->addAction( 'wp_ajax_nopriv_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
 
     }
 
@@ -347,7 +422,6 @@ class Elebee {
         $this->loader->addAction( 'elementor/editor/before_enqueue_styles', $elebeeElementor, 'enqueueEditorStyles' );
         $this->loader->addAction( 'elementor/editor/before_enqueue_scripts', $elebeeElementor, 'enqueueEditorScripts', 99999 );
 
-        $this->loader->addAction( 'elementor/preview/enqueue_styles', $elebeeElementor, 'enqueuePreviewStyles' );
         $this->loader->addAction( 'elementor/preview/enqueue_scripts', $elebeeElementor, 'enqueuePreviewScripts' );
 
     }

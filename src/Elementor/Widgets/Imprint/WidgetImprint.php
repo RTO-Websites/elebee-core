@@ -126,7 +126,8 @@ class WidgetImprint extends WidgetBase {
      */
     protected function _register_controls() {
 
-        $this->registerSectionContent();
+        $this->registerSectionContentTitle();
+        $this->registerSectionContentText();
         $this->registerSectionTitleStyle();
         $this->registerSectionTextStyle();
         $this->registerSectionLinkStyle();
@@ -138,37 +139,28 @@ class WidgetImprint extends WidgetBase {
      *
      * @return void
      */
-    private function registerSectionContent() {
+    private function registerSectionContentTitle() {
 
         $this->start_controls_section(
-            'section_content',
+            'section_title',
             [
-                'label' => __( 'Imprint', 'elebee' ),
-            ]
-        );
-
-        $this->add_control(
-            'title_options',
-            [
-                'label' => __( 'Titel', 'elementor' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
+                'label' => __( 'Title', 'elementor' ),
             ]
         );
 
         $this->add_control(
             'title',
             [
-                'label' => __( 'Title', 'elebee' ),
-                'type' => Controls_Manager::TEXTAREA,
-                'default' => __( 'Impressum', 'elebee' ),
+                'label' => __( 'Text', 'elementor' ),
+                'type' => Controls_Manager::TEXT,
+                'default' => __( 'Imprint', 'elebee' ),
             ]
         );
 
         $this->add_control(
-            'header_size',
+            'title-tag',
             [
-                'label' => __( 'HTML Tag', 'elebee' ),
+                'label' => __( 'Element', 'elebee' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     'h1' => __( 'H1', 'elebee' ),
@@ -182,6 +174,58 @@ class WidgetImprint extends WidgetBase {
                     'p' => __( 'p', 'elebee' ),
                 ],
                 'default' => 'h2',
+            ]
+        );
+
+        $this->end_controls_section();
+
+    }
+
+    /**
+     * @return void
+     */
+    private function registerSectionContentText() {
+
+        $this->start_controls_section(
+            'section_content',
+            [
+                'label' => __( 'Text', 'elementor' ),
+            ]
+        );
+
+        $this->add_control(
+            'text',
+            [
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => ( new Template( __DIR__ . '/partials/text-default.php' ) )->getRendered(),
+            ]
+        );
+
+        $this->add_control(
+            'view',
+            [
+                'label' => __( 'View', 'elebee' ),
+                'type' => Controls_Manager::HIDDEN,
+                'default' => 'traditional',
+            ]
+        );
+
+        $this->end_controls_section();
+
+    }
+
+    /**
+     * @since 0.1.0
+     *
+     * @return void
+     */
+    private function registerSectionTitleStyle() {
+
+        $this->start_controls_section(
+            'section_title_style',
+            [
+                'label' => __( 'Title', 'elementor' ),
+                'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
 
@@ -216,55 +260,9 @@ class WidgetImprint extends WidgetBase {
         );
 
         $this->add_control(
-            'imprint_options',
-            [
-                'label' => __( 'Impressum', 'elementor' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
-            ]
-        );
-
-        $this->add_control(
-            'text',
-            [
-                'label' => __( 'Text', 'elebee' ),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => ( new Template( __DIR__ . '/partials/text-default.php' ) )->getRendered(),
-            ]
-        );
-
-        $this->add_control(
-            'view',
-            [
-                'label' => __( 'View', 'elebee' ),
-                'type' => Controls_Manager::HIDDEN,
-                'default' => 'traditional',
-            ]
-        );
-
-        $this->end_controls_section();
-
-    }
-
-    /**
-     * @since 0.1.0
-     *
-     * @return void
-     */
-    private function registerSectionTitleStyle() {
-
-        $this->start_controls_section(
-            'section_title_style',
-            [
-                'label' => __( 'Title', 'elebee' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->add_control(
             'title_color',
             [
-                'label' => __( 'Title Color', 'elebee' ),
+                'label' => __( 'Color', 'elementor' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -314,10 +312,40 @@ class WidgetImprint extends WidgetBase {
             ]
         );
 
+        $this->add_responsive_control(
+            'text-align',
+            [
+                'label' => __( 'Alignment', 'elebee' ),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => __( 'Left', 'elebee' ),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'center' => [
+                        'title' => __( 'Center', 'elebee' ),
+                        'icon' => 'fa fa-align-center',
+                    ],
+                    'right' => [
+                        'title' => __( 'Right', 'elebee' ),
+                        'icon' => 'fa fa-align-right',
+                    ],
+                    'justify' => [
+                        'title' => __( 'Justified', 'elebee' ),
+                        'icon' => 'fa fa-align-justify',
+                    ],
+                ],
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-widget-container' => 'text-align: {{VALUE}};',
+                ],
+            ]
+        );
+
         $this->add_control(
             'h_tag_color',
             [
-                'label' => __( 'H-Tag Color', 'elebee' ),
+                'label' => __( 'Headlines Color', 'elebee' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -394,7 +422,7 @@ class WidgetImprint extends WidgetBase {
         $this->add_control(
             'link_color',
             [
-                'label' => __( 'Link Color', 'elebee' ),
+                'label' => __( 'Color', 'elementor' ),
                 'type' => Controls_Manager::COLOR,
                 'scheme' => [
                     'type' => Scheme_Color::get_type(),
@@ -490,12 +518,11 @@ class WidgetImprint extends WidgetBase {
         }
 
         $this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
-//		$this->add_inline_editing_attributes( 'title' );
 
         $imprintTemplate = new Template( __DIR__ . '/partials/imprint.php', [
             'title' => $settings['title'],
-            'headerSize' => $settings['header_size'],
-            'headerAttributes' => $this->get_render_attribute_string( 'heading' ),
+            'titleTag' => $settings['title-tag'],
+            'headerAttributes' => $this->get_render_attribute_string( 'title' ),
             'text' => $settings['text'],
         ] );
         $imprintTemplate->render();

@@ -6,11 +6,11 @@
   }
 
   function noticeDismiss() {
-    var user_meta_key = $( this ).parent().data( 'name' ),
+    var userMetaKey = $( this ).parent().data( 'name' ),
       data = {
         action: 'dismiss_notice',
         user_id: admin_notice.user_id,
-        user_meta_key: user_meta_key,
+        user_meta_key: userMetaKey,
         nonce: admin_notice.nonce
       };
 

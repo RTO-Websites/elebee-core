@@ -1,0 +1,25 @@
+.custom-css input[type='button'] {
+  vertical-align: bottom;
+  min-width: 45%;
+  cursor: pointer;
+}
+
+.custom-css .button-description {
+  display: inline-block;
+  line-height: 1;
+}
+
+.custom-css .button-description .custom-css-windows {
+  height: 11px;
+  padding-right: 3px;
+}
+
+.custom-css .button-description .custom-css-apple {
+  height: 13px;
+  padding-right: 1px;
+}
+
+/* *** ToDo: remove, if editor selection is integrated *** */
+.wp-editor-container .cm-s-mdn-like.CodeMirror {
+  background-image: none;
+}

@@ -1,3 +1,15 @@
+<?php
+
+/**
+ * @var string $paginationFirst
+ * @var string $paginationPrev
+ * @var string $paginationPages
+ * @var string $paginationNext
+ * @var string $paginationLast
+ */
+
+?>
+
 <ul class="pagination" role="menubar" aria-label="Pagination">
     <?php
     if ( $paginationFirst ) {
