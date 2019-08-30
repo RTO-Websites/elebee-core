@@ -23,3 +23,11 @@
 .wp-editor-container .cm-s-mdn-like.CodeMirror {
   background-image: none;
 }
+
+.edit-post-text-editor{
+  min-width: 90%;
+}
+
+.wp-block{
+  max-width: 100%;
+}

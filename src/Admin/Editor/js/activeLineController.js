@@ -5,17 +5,18 @@
  * Sets a cookie with current active line
  */
 function newActiveLine(cm, sel) {
-  document.cookie = "lastline=" + sel.ranges[0]['anchor']['line']+'+'+sel.ranges[0]['anchor']['ch'];
+  document.cookie = "lastline=" + sel.ranges[0]['anchor']['line'] + '+' + sel.ranges[0]['anchor']['ch'];
+  //window.editor.save; //.toTextArea ....
 }
 
 /**
  *Sets the Editor window to last active line
  */
-function setActiveLine() {
-  cmActiveLineWatcher.focus();
+function setActiveLine(cm) {
+  cm.focus();
   var position = getPostition(getCookie('lastline'));
-  cmActiveLineWatcher.doc.setCursor(parseInt(position[0]),parseInt(position[1]));
-  cmActiveLineWatcher.scrollIntoView(null, cmActiveLineWatcher.getScrollInfo()['clientHeight']/2);
+  cm.doc.setCursor(parseInt(position[0]), parseInt(position[1]));
+  cm.scrollIntoView(null, cm.getScrollInfo()['clientHeight'] / 2);
 }
 
 /**
@@ -46,16 +47,39 @@ function getCookie(cname) {
  * @param query
  * @returns {never|string[]}
  */
-function getPostition(query){
-    var positionArray =query.split('+');
-    return positionArray
+function getPostition(query) {
+  var positionArray = query.split('+');
+  return positionArray
 }
-var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
-var ref = document.referrer;
-if (ref === (window.location.href)
-  || ref === (window.location.href + '&message=1')
-  || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'
-  || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css') {
-  setActiveLine()
-}
-cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
+
+//when codemirror is up
+window.addEventListener('CodeMirrorRunning', function () {
+  //get codemirror instance
+  var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
+  //check if reload
+  if (performance.navigation.type == 1) {
+    setActiveLine(cmActiveLineWatcher);
+  }
+  //var ref = document.referrer;
+  // if (ref === (window.location.href)
+  //   || ref === (window.location.href + '&message=1')
+  //   || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'
+  //   || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css') {
+  //   console.log('!!!!')
+  //   setActiveLine(cmActiveLineWatcher);
+  // }
+
+  //keep track of active line
+  cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
+
+
+  //check if saving...
+  wp.data.subscribe(function () {
+    var isSavingPost = wp.data.select('core/editor').isSavingPost();
+    var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
+    if (isSavingPost && !isAutosavingPost) {
+      setActiveLine(cmActiveLineWatcher);
+    }
+  })
+});
+

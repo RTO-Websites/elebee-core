@@ -14,23 +14,43 @@
     configCodeMirror,
     registerEvents,
     triggerFunction,
-
     fns = {};
+
+
 
   /**
    *
    */
   init = function () {
-    configCodeMirror();
-    registerEvents();
-    window.editor = cm;
+
+    // wait for Dom to be set
+    window.addEventListener('DOMContentLoaded', function(){
+      //CodeMirror
+      configCodeMirror();
+      registerEvents();
+      window.editor = cm;
+      var event = new Event('CodeMirrorRunning');
+      window.dispatchEvent(event);
+
+      cm.setValue(wp.data.select( "core/editor" ).getCurrentPost().content);
+
+      //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself)
+      window.editor.on('change', function(){
+        wp.data.dispatch('core/editor').editPost({ content: window.editor.getValue()})
+      });
+
+    });
+
+
   };
+
 
   /**
    *
    */
   configCodeMirror = function () {
-    cm = CodeMirror.fromTextArea(document.getElementById('content'), {
+
+    cm = CodeMirror.fromTextArea(document.getElementById('post-content-0'), {
       mode: 'text/x-scss',
       theme: 'mdn-like',
       lineNumbers: true,

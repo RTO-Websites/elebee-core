@@ -71,11 +71,10 @@ class CodeMirror extends Hooking {
     public function defineAdminHooks() {
 
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
-
+        $this->getLoader()->addAction( 'enqueue_block_assets', $this, 'enqueuelaterScripts' );
         if ( $this->disableWysiwyg ) {
             add_filter( 'user_can_richedit', '__return_false' );
         }
-
     }
 
     /**
@@ -141,6 +140,8 @@ class CodeMirror extends Hooking {
         #theme
         wp_enqueue_style( 'mdn-like', $this->vendorUrl . 'theme/mdn-like.css', [ 'codemirror' ], $this->version);
 
+
+
         $deps = [
             'codemirror',
             'addon-comment-comment',
@@ -165,11 +166,17 @@ class CodeMirror extends Hooking {
             'addon-selection-mark-selection',
             'mode-css-css',
         ];
-
         wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
         wp_enqueue_style( 'elebee-editor', $this->url . 'css/editor.css', [ 'codemirror' ], Elebee::VERSION );
 
+
     }
+
+    public function enqueuelaterScripts(){
+
+
+    }
+
 
     private function initMetaBox() {
         # ToDo: translate shortcut labels
@@ -262,6 +269,19 @@ class CodeMirror extends Hooking {
         }
 
         $metaBox->register();
+    }
+
+    function editorPageSave( $post_id ) {
+      //  var_dump($this);
+        if( defined( 'DOING_AJAX' ) ) {
+            return;
+        }
+
+        if( isset( $_POST['elebee-global-css'] ) ) {
+
+            $scripts = $_POST['elebee-global-css'];
+            update_post_meta( $post_id, 'elebee-global-css', $scripts );
+        }
     }
 
     private function setIcons() {

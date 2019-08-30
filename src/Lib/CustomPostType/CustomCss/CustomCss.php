@@ -86,7 +86,16 @@ class CustomCss extends CustomPostTypeBase {
                 'revisions',
                 'page-attributes',
             ],
+            'show_in_rest' => true,
+            'template' => array(
+                array( 'core/code', array(
+                    'placeholder' => 'css and stuff',
+                )))
         ];
+
+
+
+
 
         parent::__construct( 'elebee-global-css', $args );
 
@@ -98,18 +107,17 @@ class CustomCss extends CustomPostTypeBase {
     public function defineAdminHooks() {
 
         parent::defineAdminHooks();
-
         $this->getLoader()->addAction( 'current_screen', $this, 'initCodeMirror' );
         $this->getLoader()->addAction( 'wp_ajax_autoUpdate', $this, 'autoUpdate' );
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
         $this->getLoader()->addAction( 'transition_post_status', $this, 'saveToFile', 10, 3 );
         $this->getLoader()->addAction( 'elementor/editor/before_enqueue_scripts', $this, 'enqueueEditorScripts' );
         $this->getLoader()->addAction( 'admin_notices', $this, 'renderError', 9999 );
-
         $this->getLoader()->addFilter( 'wp_insert_post_data', $this, 'verifyPostData', 99, 2 );
         $this->getLoader()->addFilter( 'content_edit_pre', $this, 'restoreEditorContent', 10, 2 );
-
     }
+
+
 
     /**
      * @since 0.3.0
