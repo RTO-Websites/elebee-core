@@ -11,9 +11,9 @@
             </time>
         </div><!-- .comment-metadata -->
 
-        <?php if ( !is_admin() ) {
+        <?php if ( !is_admin() ):
             edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' );
-        }
+        endif;
         ?>
         <?php if ( '0' == $comment->comment_approved ) : ?>
             <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></p>
@@ -57,7 +57,7 @@
 
     <footer>
         <?php
-        if ( 'yes' === $settings['comment_list_allow_reply'] ) {
+        if ( 'yes' === $settings['comment_list_allow_reply'] ):
             comment_reply_link( array_merge( $args, [
                 'add_below' => 'div-comment',
                 'depth' => $depth,
@@ -65,7 +65,7 @@
                 'before' => '<div class="reply">',
                 'after' => '</div>',
             ] ) );
-        }
+        endif;
         ?>
     </footer>
 </article><!-- .comment-body -->
