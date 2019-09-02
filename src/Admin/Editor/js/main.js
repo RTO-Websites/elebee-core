@@ -25,14 +25,22 @@
 
     // wait for Dom to be set
     window.addEventListener('DOMContentLoaded', function(){
+
+      
+      
+      
       //CodeMirror
+
       configCodeMirror();
       registerEvents();
       window.editor = cm;
       var event = new Event('CodeMirrorRunning');
       window.dispatchEvent(event);
 
+      // fill CodeMirror Ed with "rendered"/HTML-free content
       cm.setValue(wp.data.select( "core/editor" ).getCurrentPost().content);
+      // necesseary to prevent losing leading whitespace when saving unedited post
+      wp.data.dispatch('core/editor').editPost({ content: cm.getValue()});
 
       //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself)
       window.editor.on('change', function(){
