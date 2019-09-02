@@ -28,6 +28,15 @@
   min-width: 90%;
 }
 
-.wp-block{
+.post-type-elebee-global-css .wp-block{
   max-width: 100%;
+}
+
+.post-type-elebee-global-css .CodeMirror {
+  min-height: 70vh;
+  height:auto;
+}
+
+.post-type-elebee-global-css .CodeMirror-scroll {
+  min-height: calc(100vh - 400px);
 }

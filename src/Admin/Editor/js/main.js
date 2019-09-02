@@ -29,9 +29,10 @@
       window.editor = cm;
       // fill CodeMirror Ed with "rendered"/HTML-free content
       cm.setValue(wp.data.select("core/editor").getCurrentPost().content);
+
       // necesseary to prevent losing leading whitespace when saving unedited post:
       wp.data.dispatch('core/editor').editPost({content: cm.getValue()});
-      wp.data.dispatch('core/editor').refreshPost();
+      
       setupEvents();
       registerEvents();
     });
@@ -49,6 +50,9 @@
       mode: 'text/x-scss',
       theme: 'mdn-like',
       lineNumbers: true,
+      scrollbarStyle: "null",
+      viewportMargin: Infinity , //change to integer (eg 10) if affecting performance
+      lineWrapping: true,
       matchBrackets: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
       // addons
@@ -171,15 +175,21 @@
         }
       }
     });
-
-    cm.setSize(null, '80vh');
+    cm.setSize(null, 'auto');
   };
 
+
+  /**
+   *
+   *  contains event dispatchers
+   *
+   */
   setupEvents = function () {
 
     //signal cm ready:
     var eventcmup = new Event('CodeMirrorRunning');
     window.dispatchEvent(eventcmup);
+
     //signal Saving:
     var event = new Event('WPsaving');
     wp.data.subscribe(function () {
@@ -187,36 +197,33 @@
       var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
       if (isSavingPost && !isAutosavingPost) {
         window.dispatchEvent(event);
-
       }
     })
-
+    //signal Saved successfull:
     wp.data.subscribe(function () {
       var hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
       if (hasSaved) {
         var event2 = new Event('WPSavedSuccessfull');
         window.dispatchEvent(event2);
-
       }
     })
   }
 
   /**
-   *
+   * contains Listeners and corresponding functionality
    */
   registerEvents = function () {
 
     cm.on('keyup', fns.autoComplete);
-
     $('.custom-css input[type="button"]').on('click', triggerFunction);
-
+    
     //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself):
     window.editor.on('change', function () {
       wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()})
     });
 
     window.addEventListener('WPSavedSuccessfull', function () {
-      // necesseary to prevent losing leading whitespace when saving unedited post:
+      // necesseary to prevent losing leading whitespace when repeatedly saving unedited post:
       wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()});
       // window.editor.setValue(cm.getValue());
     })
