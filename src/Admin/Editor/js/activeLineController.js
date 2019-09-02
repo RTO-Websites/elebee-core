@@ -6,7 +6,7 @@
  */
 function newActiveLine(cm, sel) {
   document.cookie = "lastline=" + sel.ranges[0]['anchor']['line'] + '+' + sel.ranges[0]['anchor']['ch'];
-  //window.editor.save; //.toTextArea ....
+  cm.save();
 }
 
 /**
@@ -56,10 +56,7 @@ function getPostition(query) {
 window.addEventListener('CodeMirrorRunning', function () {
   //get codemirror instance
   var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
-  //check if reload
-  if (performance.navigation.type == 1) {
-    setActiveLine(cmActiveLineWatcher);
-  }
+
   //var ref = document.referrer;
   // if (ref === (window.location.href)
   //   || ref === (window.location.href + '&message=1')
@@ -71,15 +68,14 @@ window.addEventListener('CodeMirrorRunning', function () {
 
   //keep track of active line
   cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
-
-
+  //check if reload
+  if (performance.navigation.type == 1) {
+    setActiveLine(cmActiveLineWatcher);
+  }
   //check if saving...
-  wp.data.subscribe(function () {
-    var isSavingPost = wp.data.select('core/editor').isSavingPost();
-    var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
-    if (isSavingPost && !isAutosavingPost) {
+  window.addEventListener('WPsaving', function () {
       setActiveLine(cmActiveLineWatcher);
     }
-  })
+  )
 });
 

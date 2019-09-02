@@ -4,49 +4,36 @@
 (function ($) {
   'use strict';
 
-  if ( typeof CodeMirror === "undefined" ) {
-    console.log( 'CodeMirror is missing!');
+  if (typeof CodeMirror === "undefined") {
+    console.log('CodeMirror is missing!');
     return;
   }
 
   let cm,
     init,
     configCodeMirror,
+    setupEvents,
     registerEvents,
     triggerFunction,
     fns = {};
-
 
 
   /**
    *
    */
   init = function () {
-
     // wait for Dom to be set
-    window.addEventListener('DOMContentLoaded', function(){
-
-      
-      
-      
+    window.addEventListener('DOMContentLoaded', function () {
       //CodeMirror
-
       configCodeMirror();
-      registerEvents();
       window.editor = cm;
-      var event = new Event('CodeMirrorRunning');
-      window.dispatchEvent(event);
-
       // fill CodeMirror Ed with "rendered"/HTML-free content
-      cm.setValue(wp.data.select( "core/editor" ).getCurrentPost().content);
-      // necesseary to prevent losing leading whitespace when saving unedited post
-      wp.data.dispatch('core/editor').editPost({ content: cm.getValue()});
-
-      //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself)
-      window.editor.on('change', function(){
-        wp.data.dispatch('core/editor').editPost({ content: window.editor.getValue()})
-      });
-
+      cm.setValue(wp.data.select("core/editor").getCurrentPost().content);
+      // necesseary to prevent losing leading whitespace when saving unedited post:
+      wp.data.dispatch('core/editor').editPost({content: cm.getValue()});
+      wp.data.dispatch('core/editor').refreshPost();
+      setupEvents();
+      registerEvents();
     });
 
 
@@ -188,6 +175,32 @@
     cm.setSize(null, '80vh');
   };
 
+  setupEvents = function () {
+
+    //signal cm ready:
+    var eventcmup = new Event('CodeMirrorRunning');
+    window.dispatchEvent(eventcmup);
+    //signal Saving:
+    var event = new Event('WPsaving');
+    wp.data.subscribe(function () {
+      var isSavingPost = wp.data.select('core/editor').isSavingPost();
+      var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
+      if (isSavingPost && !isAutosavingPost) {
+        window.dispatchEvent(event);
+
+      }
+    })
+
+    wp.data.subscribe(function () {
+      var hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
+      if (hasSaved) {
+        var event2 = new Event('WPSavedSuccessfull');
+        window.dispatchEvent(event2);
+
+      }
+    })
+  }
+
   /**
    *
    */
@@ -195,7 +208,18 @@
 
     cm.on('keyup', fns.autoComplete);
 
-    $( '.custom-css input[type="button"]' ).on( 'click', triggerFunction );
+    $('.custom-css input[type="button"]').on('click', triggerFunction);
+
+    //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself):
+    window.editor.on('change', function () {
+      wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()})
+    });
+
+    window.addEventListener('WPSavedSuccessfull', function () {
+      // necesseary to prevent losing leading whitespace when saving unedited post:
+      wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()});
+      // window.editor.setValue(cm.getValue());
+    })
 
   };
 
@@ -203,14 +227,13 @@
    *
    */
   triggerFunction = function () {
-    let functionName = $( this ).attr( 'name' ),
-      fnName = fns[ functionName ];
+    let functionName = $(this).attr('name'),
+      fnName = fns[functionName];
 
     if (typeof fnName === "function") {
       fnName();
-    }
-    else {
-      cm.execCommand( functionName );
+    } else {
+      cm.execCommand(functionName);
     }
   };
 
@@ -220,8 +243,8 @@
   fns.autoIndent = function () {
     // TODO: Auto remove trailing whitespace using the edit/trailingspace.js addon
 
-    cm.eachLine( function (line) {
-      cm.indentLine( line.lineNo() );
+    cm.eachLine(function (line) {
+      cm.indentLine(line.lineNo());
     });
   };
 
@@ -230,11 +253,11 @@
    */
   fns.autoComplete = function () {
     let e = window.event;
-    if ( e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey ) {
+    if (e.keyCode < 65 || e.keyCode > 90 || e.ctrlKey) {
       return;
     }
 
-    cm.execCommand( 'autocomplete' );
+    cm.execCommand('autocomplete');
   };
 
   /**

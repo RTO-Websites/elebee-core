@@ -87,14 +87,7 @@ class CustomCss extends CustomPostTypeBase {
                 'page-attributes',
             ],
             'show_in_rest' => true,
-            'template' => array(
-                array( 'core/code', array(
-                    'placeholder' => 'css and stuff',
-                )))
         ];
-
-
-
 
 
         parent::__construct( 'elebee-global-css', $args );
@@ -118,7 +111,6 @@ class CustomCss extends CustomPostTypeBase {
     }
 
 
-
     /**
      * @since 0.3.0
      */
@@ -131,9 +123,9 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @return void
      * @since 0.3.0
      *
-     * @return void
      */
     public function enqueueAdminScripts() {
 
@@ -147,15 +139,15 @@ class CustomCss extends CustomPostTypeBase {
         wp_enqueue_script( 'elebee-capture-input', $src, [ 'config-codemirror' ], Elebee::VERSION, true );
         wp_localize_script( 'elebee-capture-input', 'customGlobalCss', [
             'postId' => get_the_ID(),
-            'url' => get_template_directory_uri() . '/css/custom-global.css'
+            'url' => get_template_directory_uri() . '/css/custom-global.css',
         ] );
 
     }
 
     /**
+     * @return void
      * @since 0.3.0
      *
-     * @return void
      */
     public function enqueueEditorScripts() {
 
@@ -165,9 +157,9 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @return void
      * @since 0.3.0
      *
-     * @return void
      */
     public function enqueuePublicStyles() {
 
@@ -192,9 +184,9 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @return void
      * @since 0.3.0
      *
-     * @return void
      */
     public function initCodeMirror() {
 
@@ -212,9 +204,9 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @return void
      * @since 0.3.0
      *
-     * @return void
      */
     public function autoUpdate() {
 
@@ -237,11 +229,11 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
-     * @since 0.3.2
-     *
      * @param $content
      * @param $post_id
      * @return string
+     * @since 0.3.2
+     *
      */
     public function restoreEditorContent( $content, $post_id ) {
 
@@ -257,11 +249,11 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
-     * @since 0.3.2
-     *
      * @param $data
      * @param $postArr
      * @return array
+     * @since 0.3.2
+     *
      */
     public function verifyPostData( array $data, array $postArr ): array {
 
@@ -290,12 +282,12 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
-     * @since 0.3.0
-     *
-     * @param string   $newStatus
-     * @param string   $oldStatus
+     * @param string $newStatus
+     * @param string $oldStatus
      * @param \WP_Post $post
      * @return void
+     * @since 0.3.0
+     *
      */
     public function saveToFile( string $newStatus, string $oldStatus, \WP_Post $post ) {
 
@@ -320,12 +312,12 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
-     * @since 0.3.0
-     *
-     * @param null   $postId
+     * @param null $postId
      * @param string $postScss
      * @return string
      * @throws \Exception
+     * @since 0.3.0
+     *
      */
     public function buildCss( $postId = null, $postScss = '' ): string {
 
@@ -361,11 +353,11 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
-     * @since 0.3.0
-     *
      * @param string $scss
      * @return string
      * @throws \Exception
+     * @since 0.3.0
+     *
      */
     public function compile( string $scss ): string {
 
@@ -467,9 +459,9 @@ class CustomCss extends CustomPostTypeBase {
     }
 
     /**
+     * @return void
      * @since 0.3.2
      *
-     * @return void
      */
     public function renderError() {
 
