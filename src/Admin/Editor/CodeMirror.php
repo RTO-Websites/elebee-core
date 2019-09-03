@@ -288,18 +288,7 @@ class CodeMirror extends Hooking {
         $metaBox->register();
     }
 
-    function editorPageSave( $post_id ) {
-        //  var_dump($this);
-        if ( defined( 'DOING_AJAX' ) ) {
-            return;
-        }
 
-        if ( isset( $_POST['elebee-global-css'] ) ) {
-
-            $scripts = $_POST['elebee-global-css'];
-            update_post_meta( $post_id, 'elebee-global-css', $scripts );
-        }
-    }
 
     private function setIcons() {
 
