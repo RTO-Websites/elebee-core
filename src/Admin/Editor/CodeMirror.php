@@ -181,11 +181,9 @@ class CodeMirror extends Hooking {
             'mode-css-css',
         ];
         wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
-        $arg = array(
-            'gutenberg' => json_encode( $this->gutenberg ),
+        wp_localize_script( 'config-codemirror', 'ElebeeCodeMirrorGutenberg',
+            array( 'gutenberg' => json_encode( $this->gutenberg ) )
         );
-        wp_localize_script( 'config-codemirror', 'ElebeeCodeMirrorGutenberg', $arg );
-
         wp_enqueue_style( 'elebee-editor', $this->url . 'css/editor.css', [ 'codemirror' ], Elebee::VERSION );
 
 

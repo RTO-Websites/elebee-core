@@ -18,24 +18,24 @@
     fns = {},
     textarea;
 
-
   /**
    *
    */
   init = function () {
-    if (ElebeeCodeMirrorGutenberg.gutenberg === "true"){
-      ElebeeCodeMirrorGutenberg.gutenberg =true;
-      textarea='post-content-0';
+    //set ElebeeCodeMirrorGutenberg.gutenberg and determine main textarea
+    if (ElebeeCodeMirrorGutenberg.gutenberg === "true") {
+      ElebeeCodeMirrorGutenberg.gutenberg = true;
+      textarea = 'post-content-0';
     } else {
-      ElebeeCodeMirrorGutenberg.gutenberg=false;
-      textarea='content';
+      ElebeeCodeMirrorGutenberg.gutenberg = false;
+      textarea = 'content';
     }
     // wait for Dom to be set
     window.addEventListener('DOMContentLoaded', function () {
       //CodeMirror
       configCodeMirror();
       window.editor = cm;
-      if(ElebeeCodeMirrorGutenberg.gutenberg) {
+      if (ElebeeCodeMirrorGutenberg.gutenberg) {
         // fill CodeMirror Ed with "rendered"/HTML-free content
         cm.setValue(wp.data.select("core/editor").getCurrentPost().content);
         // necesseary to prevent losing leading whitespace when saving unedited post:
@@ -53,13 +53,12 @@
    *
    */
   configCodeMirror = function () {
-
     cm = CodeMirror.fromTextArea(document.getElementById(textarea), {
       mode: 'text/x-scss',
       theme: 'mdn-like',
       lineNumbers: true,
       scrollbarStyle: "null",
-      viewportMargin: Infinity , //change to integer (eg 10) if affecting performance
+      viewportMargin: Infinity, //change to integer (eg 10) if affecting performance
       lineWrapping: true,
       matchBrackets: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
@@ -197,26 +196,26 @@
     //signal cm ready:
     var eventcmup = new Event('CodeMirrorRunning');
     window.dispatchEvent(eventcmup);
-
-
-    if(ElebeeCodeMirrorGutenberg.gutenberg) {
-    //signal Saving:
-    var event = new Event('WPsaving');
-    wp.data.subscribe(function () {
-      var isSavingPost = wp.data.select('core/editor').isSavingPost();
-      var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
-      if (isSavingPost && !isAutosavingPost) {
-        window.dispatchEvent(event);
-      }
-    })
-    //signal Saved successfull:
-    wp.data.subscribe(function () {
-      var hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
-      if (hasSaved) {
-        var event2 = new Event('WPSavedSuccessfull');
-        window.dispatchEvent(event2);
-      }
-    })}
+    
+    if (ElebeeCodeMirrorGutenberg.gutenberg) {
+      //signal Saving:
+      var event = new Event('WPsaving');
+      wp.data.subscribe(function () {
+        var isSavingPost = wp.data.select('core/editor').isSavingPost();
+        var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
+        if (isSavingPost && !isAutosavingPost) {
+          window.dispatchEvent(event);
+        }
+      })
+      //signal Saved successfull:
+      wp.data.subscribe(function () {
+        var hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
+        if (hasSaved) {
+          var event2 = new Event('WPSavedSuccessfull');
+          window.dispatchEvent(event2);
+        }
+      })
+    }
   }
 
   /**
@@ -227,7 +226,7 @@
     cm.on('keyup', fns.autoComplete);
     $('.custom-css input[type="button"]').on('click', triggerFunction);
 
-    if(ElebeeCodeMirrorGutenberg.gutenberg) {
+    if (ElebeeCodeMirrorGutenberg.gutenberg) {
       //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself):
       window.editor.on('change', function () {
         wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()})
@@ -236,7 +235,6 @@
       window.addEventListener('WPSavedSuccessfull', function () {
         // necesseary to prevent losing leading whitespace when repeatedly saving unedited post:
         wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()});
-        // window.editor.setValue(cm.getValue());
       })
     }
   };

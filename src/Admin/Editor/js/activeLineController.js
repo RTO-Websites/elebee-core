@@ -10,7 +10,7 @@ function newActiveLine(cm, sel) {
 }
 
 /**
- *Sets the Editor window to last active line
+ *Sets the Editor window to last active line and position
  */
 function setActiveLine(cm) {
   cm.focus();
@@ -20,7 +20,6 @@ function setActiveLine(cm) {
 }
 
 /**
- * copy from: https://www.w3schools.com/js/js_cookies.asp
  * @param cname
  * @returns {string}
  *
@@ -60,7 +59,7 @@ window.addEventListener('CodeMirrorRunning', function () {
   //keep track of active line
   cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
 
-  if(ElebeeCodeMirrorGutenberg.gutenberg) {
+  if (ElebeeCodeMirrorGutenberg.gutenberg) {
     //check if reload
     if (performance.navigation.type == 1) {
       setActiveLine(cmActiveLineWatcher);
@@ -70,14 +69,12 @@ window.addEventListener('CodeMirrorRunning', function () {
         setActiveLine(cmActiveLineWatcher);
       }
     )
-
-  }else {
+  } else {
     var ref = document.referrer;
     if (ref === (window.location.href)
       || ref === (window.location.href + '&message=1')
       || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'
       || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css') {
-      console.log('!!!!')
       setActiveLine(cmActiveLineWatcher);
     }
   }
