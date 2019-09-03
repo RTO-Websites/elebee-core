@@ -231,9 +231,8 @@
       window.editor.on('change', function () {
         wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()})
       });
-
       window.addEventListener('WPSavedSuccessfull', function () {
-        // necesseary to prevent losing leading whitespace when repeatedly saving unedited post:
+        //necesseary to prevent losing leading whitespace when repeatedly saving unedited post:
         wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()});
       })
     }
