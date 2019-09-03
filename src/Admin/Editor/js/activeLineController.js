@@ -57,25 +57,31 @@ window.addEventListener('CodeMirrorRunning', function () {
   //get codemirror instance
   var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
 
-  //var ref = document.referrer;
-  // if (ref === (window.location.href)
-  //   || ref === (window.location.href + '&message=1')
-  //   || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'
-  //   || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css') {
-  //   console.log('!!!!')
-  //   setActiveLine(cmActiveLineWatcher);
-  // }
-
   //keep track of active line
   cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
-  //check if reload
-  if (performance.navigation.type == 1) {
-    setActiveLine(cmActiveLineWatcher);
-  }
-  //check if saving...
-  window.addEventListener('WPsaving', function () {
+
+  if(ElebeeCodeMirrorGutenberg.gutenberg) {
+    //check if reload
+    if (performance.navigation.type == 1) {
       setActiveLine(cmActiveLineWatcher);
     }
-  )
+    //check if saving...
+    window.addEventListener('WPsaving', function () {
+        setActiveLine(cmActiveLineWatcher);
+      }
+    )
+
+  }else {
+    var ref = document.referrer;
+    if (ref === (window.location.href)
+      || ref === (window.location.href + '&message=1')
+      || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'
+      || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css') {
+      console.log('!!!!')
+      setActiveLine(cmActiveLineWatcher);
+    }
+  }
+
+
 });
 

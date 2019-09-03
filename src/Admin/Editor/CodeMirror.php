@@ -10,6 +10,7 @@ namespace ElebeeCore\Admin\Editor;
 
 use ElebeeCore\Lib\Elebee;
 use ElebeeCore\Lib\MetaBox\MetaKeyButton;
+use ElebeeCore\Lib\Util\Config;
 use ElebeeCore\Lib\Util\Hooking;
 use ElebeeCore\Lib\MetaBox\MetaBox;
 
@@ -38,7 +39,7 @@ class CodeMirror extends Hooking {
 
     private $url = '';
 
-    private $vendorUrl ='';
+    private $vendorUrl = '';
 
     private $version = '5.45.1';
 
@@ -47,6 +48,8 @@ class CodeMirror extends Hooking {
     private $enqueueFiles = [];
 
     private $icons = [];
+
+    private $gutenberg = false;
 
     /**
      * CodeMirror constructor.
@@ -61,6 +64,18 @@ class CodeMirror extends Hooking {
 
         $this->url = trailingslashit( get_stylesheet_directory_uri() ) . 'vendor/rto-websites/elebee-core/src/Admin/Editor/';
         $this->vendorUrl = $this->url . 'js/vendor/';
+
+        if ( function_exists( 'is_gutenberg_page' )
+            && is_gutenberg_page() ) {
+            // The Gutenberg plugin is on.
+            $this->gutenberg = true;
+        }
+        $current_screen = get_current_screen();
+        if ( method_exists( $current_screen, 'is_block_editor' )
+            && $current_screen->is_block_editor() ) {
+            // Gutenberg page on 5+.
+            $this->gutenberg = true;
+        }
 
         $this->initMetaBox();
     }
@@ -115,7 +130,7 @@ class CodeMirror extends Hooking {
         wp_enqueue_script( 'addon-hint-show-hint', $this->vendorUrl . 'addon/hint/show-hint.js', [ 'codemirror' ], $this->version, true );
 
         wp_enqueue_style( 'addon-lint-lint-css', $this->vendorUrl . 'addon/lint/lint.css', [], $this->version );
-        wp_enqueue_script( 'addon-lint-lint', $this->vendorUrl . 'addon/lint/lint.js', [ 'codemirror' ] , $this->version, true );
+        wp_enqueue_script( 'addon-lint-lint', $this->vendorUrl . 'addon/lint/lint.js', [ 'codemirror' ], $this->version, true );
         wp_enqueue_script( 'addon-lint-css-lint', $this->vendorUrl . 'addon/lint/css-lint.js', [ 'addon-lint-lint' ], $this->version, true );
         wp_enqueue_script( 'addon-lint-scss-lint', $this->vendorUrl . 'addon/lint/scss-lint.js', [ 'addon-lint-lint' ], $this->version, true );
 
@@ -131,15 +146,14 @@ class CodeMirror extends Hooking {
         wp_enqueue_script( 'addon-selection-active-line', $this->vendorUrl . 'addon/selection/active-line.js', [ 'codemirror' ], $this->version, true );
         wp_enqueue_script( 'addon-selection-mark-selection', $this->vendorUrl . 'addon/selection/mark-selection.js', [ 'codemirror' ], $this->version, true );
 
-
         wp_enqueue_script( 'addon-active-line-contoller', $this->url . 'js/activeLineController.js', [ 'codemirror' ], $this->version, true );
+
         #mode
         wp_enqueue_style( 'mode-sass-sass-css', $this->vendorUrl . 'mode/sass/sass.js', [ 'mode-css-css' ], $this->version );
         wp_enqueue_script( 'mode-css-css', $this->vendorUrl . 'mode/css/css.js', [ 'codemirror' ], $this->version, true );
 
         #theme
-        wp_enqueue_style( 'mdn-like', $this->vendorUrl . 'theme/mdn-like.css', [ 'codemirror' ], $this->version);
-
+        wp_enqueue_style( 'mdn-like', $this->vendorUrl . 'theme/mdn-like.css', [ 'codemirror' ], $this->version );
 
 
         $deps = [
@@ -167,12 +181,17 @@ class CodeMirror extends Hooking {
             'mode-css-css',
         ];
         wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
+        $arg = array(
+            'gutenberg' => json_encode( $this->gutenberg ),
+        );
+        wp_localize_script( 'config-codemirror', 'ElebeeCodeMirrorGutenberg', $arg );
+
         wp_enqueue_style( 'elebee-editor', $this->url . 'css/editor.css', [ 'codemirror' ], Elebee::VERSION );
 
 
     }
 
-    public function enqueuelaterScripts(){
+    public function enqueuelaterScripts() {
 
 
     }
@@ -184,77 +203,77 @@ class CodeMirror extends Hooking {
         $customCssButtons = [
             # edit
             'auto-indent' => [
-                'label' => __( 'Auto indent', 'elebee'),
+                'label' => __( 'Auto indent', 'elebee' ),
                 'callback' => 'autoIndent',
                 'shortcut' => $this->renderDescription( 'Ctrl-Alt-L', 'Cmd-Alt-L' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'hint' => [
                 'label' => __( 'Hint', 'elebee' ),
                 'callback' => 'hint',
                 'shortcut' => $this->renderDescription( 'Ctrl-Space', 'Cmd-Space' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'block-comment' => [
                 'label' => __( 'Block comment', 'elebee' ),
                 'callback' => 'commentBlock',
                 'shortcut' => $this->renderDescription( 'Ctrl-/', 'Cmd-/' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'uncomment' => [
                 'label' => __( 'Uncomment', 'elebee' ),
                 'callback' => 'uncommentBlock',
                 'shortcut' => $this->renderDescription( 'Ctrl-Alt-/', 'Cmd-Alt/' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'delete-line' => [
                 'label' => __( 'Delete line', 'elebee' ),
                 'callback' => 'deleteLine',
                 'shortcut' => $this->renderDescription( 'Ctrl-D', 'Cmd-D' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'undo' => [
                 'label' => __( 'Undo', 'elebee' ),
                 'callback' => 'undo',
                 'shortcut' => $this->renderDescription( 'Ctrl-Z', 'Cmd-Z' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'redo' => [
                 'label' => __( 'Redo', 'elebee' ),
                 'callback' => 'redo',
                 'shortcut' => $this->renderDescription( 'Ctrl-Y, Shift-Ctrl-Z', 'Cmd-Y, Shift-Cmd-Z' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             # search, replace
             'find' => [
                 'label' => __( 'Find', 'elebee' ),
                 'callback' => 'find',
                 'shortcut' => $this->renderDescription( 'Ctrl-F', 'Cmd-F' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'find-next' => [
                 'label' => __( 'Find next', 'elebee' ),
                 'callback' => 'findNext',
                 'shortcut' => $this->renderDescription( 'Ctrl-G', 'Cmd-G' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'find-prev' => [
                 'label' => __( 'Find previous', 'elebee' ),
                 'callback' => 'findPrev',
                 'shortcut' => $this->renderDescription( 'Shift-Ctrl-G', 'Shift-Cmd-G' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'replace' => [
                 'label' => __( 'Replace', 'elebee' ),
                 'callback' => 'replace',
                 'shortcut' => $this->renderDescription( 'Shift-Ctrl-F', 'Cmd-Alt-F' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
             'replace-all' => [
                 'label' => __( 'Replace all', 'elebee' ),
                 'callback' => 'replaceAll',
                 'shortcut' => $this->renderDescription( 'Shift-Ctrl-R', 'Shift-Cmd-Alt-F' ),
-                'cssClass' => 'custom-css'
+                'cssClass' => 'custom-css',
             ],
         ];
 
@@ -262,7 +281,7 @@ class CodeMirror extends Hooking {
         $metaBox->addPostTypeSupport( 'elebee-global-css' );
 
         foreach ( $customCssButtons as $key => $button ) {
-            $metaButton = new MetaKeyButton( $key, $button[ 'label' ] );
+            $metaButton = new MetaKeyButton( $key, $button['label'] );
             $metaButton->getTemplate()->setVar( 'key', $key );
             $metaButton->getTemplate()->setVar( 'button', $button );
             $metaBox->addMetaKey( $metaButton );
@@ -272,12 +291,12 @@ class CodeMirror extends Hooking {
     }
 
     function editorPageSave( $post_id ) {
-      //  var_dump($this);
-        if( defined( 'DOING_AJAX' ) ) {
+        //  var_dump($this);
+        if ( defined( 'DOING_AJAX' ) ) {
             return;
         }
 
-        if( isset( $_POST['elebee-global-css'] ) ) {
+        if ( isset( $_POST['elebee-global-css'] ) ) {
 
             $scripts = $_POST['elebee-global-css'];
             update_post_meta( $post_id, 'elebee-global-css', $scripts );
@@ -296,8 +315,8 @@ class CodeMirror extends Hooking {
     private function getIcon( $name, $as = 'img' ) {
         $output = '';
 
-        if ( isset( $this->icons[ $name ] ) ) {
-            $output = $this->icons[ $name ];
+        if ( isset( $this->icons[$name] ) ) {
+            $output = $this->icons[$name];
 
             if ( $as === 'img' ) {
                 $output = '<img src="' . $output . '" class="custom-css-' . $name . '" />';
@@ -318,7 +337,7 @@ class CodeMirror extends Hooking {
             $description[] = $this->getIcon( 'apple' ) . $scApple;
         }
 
-        return join( '<br />' , $description );
+        return join( '<br />', $description );
 
     }
 }
