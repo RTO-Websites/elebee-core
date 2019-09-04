@@ -13,10 +13,13 @@ function newActiveLine(cm, sel) {
  *Sets the Editor window to last active line and position
  */
 function setActiveLine(cm) {
-  cm.focus();
-  var position = getPostition(getCookie('lastline'));
-  cm.doc.setCursor(parseInt(position[0]), parseInt(position[1]));
-  cm.scrollIntoView(null, cm.getScrollInfo()['clientHeight'] / 2);
+  let cookie = getCookie('lastline');
+  if (cookie !== "") {
+    cm.focus();
+    let position = getPostition(cookie);
+    cm.doc.setCursor(parseInt(position[0]), parseInt(position[1]));
+    cm.scrollIntoView(null, (window.outerHeight / 2));
+  }
 }
 
 /**
@@ -26,11 +29,11 @@ function setActiveLine(cm) {
  * Finds the value of a cookie
  */
 function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
+  let name = cname + "=";
+  decodedCookie = decodeURIComponent(document.cookie);
+  ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
     }
@@ -47,14 +50,14 @@ function getCookie(cname) {
  * @returns {never|string[]}
  */
 function getPostition(query) {
-  var positionArray = query.split('+');
+  let positionArray = query.split('+');
   return positionArray
 }
 
 //when codemirror is up
 window.addEventListener('CodeMirrorRunning', function () {
   //get codemirror instance
-  var cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
+  let cmActiveLineWatcher = document.querySelector(".CodeMirror").CodeMirror;
 
   //keep track of active line
   cmActiveLineWatcher.on("beforeSelectionChange", newActiveLine);
@@ -70,7 +73,7 @@ window.addEventListener('CodeMirrorRunning', function () {
       }
     )
   } else {
-    var ref = document.referrer;
+    let ref = document.referrer;
     if (ref === (window.location.href)
       || ref === (window.location.href + '&message=1')
       || ref === 'http://localhost:8000/wp-admin/post-new.php?post_type=elebee-global-css&wp-post-new-reload=true'

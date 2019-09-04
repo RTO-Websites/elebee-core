@@ -22,16 +22,18 @@
    *
    */
   init = function () {
-    //set ElebeeCodeMirrorGutenberg.gutenberg and determine main textarea
-    if (ElebeeCodeMirrorGutenberg.gutenberg === "true") {
-      ElebeeCodeMirrorGutenberg.gutenberg = true;
-      textarea = 'post-content-0';
-    } else {
-      ElebeeCodeMirrorGutenberg.gutenberg = false;
-      textarea = 'content';
-    }
+
     // wait for Dom to be set
     window.addEventListener('DOMContentLoaded', function () {
+      //set ElebeeCodeMirrorGutenberg.gutenberg and determine main textarea
+      if (ElebeeCodeMirrorGutenberg.gutenberg === "true") {
+        ElebeeCodeMirrorGutenberg.gutenberg = true;
+        textarea = document.querySelector('.editor-post-text-editor').id;
+      } else {
+        ElebeeCodeMirrorGutenberg.gutenberg = false;
+        textarea = 'content';
+      }
+
       //CodeMirror
       configCodeMirror();
       window.editor = cm;
@@ -196,20 +198,20 @@
     //signal cm ready:
     var eventcmup = new Event('CodeMirrorRunning');
     window.dispatchEvent(eventcmup);
-    
+
     if (ElebeeCodeMirrorGutenberg.gutenberg) {
       //signal Saving:
       var event = new Event('WPsaving');
       wp.data.subscribe(function () {
-        var isSavingPost = wp.data.select('core/editor').isSavingPost();
-        var isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
+        let isSavingPost = wp.data.select('core/editor').isSavingPost();
+        let isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
         if (isSavingPost && !isAutosavingPost) {
           window.dispatchEvent(event);
         }
       })
       //signal Saved successfull:
       wp.data.subscribe(function () {
-        var hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
+        let hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
         if (hasSaved) {
           var event2 = new Event('WPSavedSuccessfull');
           window.dispatchEvent(event2);

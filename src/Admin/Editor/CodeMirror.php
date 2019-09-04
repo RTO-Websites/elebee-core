@@ -49,7 +49,7 @@ class CodeMirror extends Hooking {
 
     private $icons = [];
 
-    private $gutenberg = false;
+    private $hasGutenberg = false;
 
     /**
      * CodeMirror constructor.
@@ -68,13 +68,13 @@ class CodeMirror extends Hooking {
         if ( function_exists( 'is_gutenberg_page' )
             && is_gutenberg_page() ) {
             // The Gutenberg plugin is on.
-            $this->gutenberg = true;
+            $this->hasGutenberg = true;
         }
-        $current_screen = get_current_screen();
-        if ( method_exists( $current_screen, 'is_block_editor' )
-            && $current_screen->is_block_editor() ) {
+        $currentScreen = get_current_screen();
+        if ( method_exists( $currentScreen, 'is_block_editor' )
+            && $currentScreen->is_block_editor() ) {
             // Gutenberg page on 5+.
-            $this->gutenberg = true;
+            $this->hasGutenberg = true;
         }
 
         $this->initMetaBox();
@@ -86,7 +86,7 @@ class CodeMirror extends Hooking {
     public function defineAdminHooks() {
 
         $this->getLoader()->addAction( 'admin_enqueue_scripts', $this, 'enqueueAdminScripts' );
-        $this->getLoader()->addAction( 'enqueue_block_assets', $this, 'enqueuelaterScripts' );
+
         if ( $this->disableWysiwyg ) {
             add_filter( 'user_can_richedit', '__return_false' );
         }
@@ -182,18 +182,12 @@ class CodeMirror extends Hooking {
         ];
         wp_enqueue_script( 'config-codemirror', $this->url . 'js/main.js', $deps, Elebee::VERSION, true );
         wp_localize_script( 'config-codemirror', 'ElebeeCodeMirrorGutenberg',
-            array( 'gutenberg' => json_encode( $this->gutenberg ) )
+            [ 'gutenberg' => json_encode( $this->hasGutenberg ) ]
         );
         wp_enqueue_style( 'elebee-editor', $this->url . 'css/editor.css', [ 'codemirror' ], Elebee::VERSION );
 
 
     }
-
-    public function enqueuelaterScripts() {
-
-
-    }
-
 
     private function initMetaBox() {
         # ToDo: translate shortcut labels
@@ -287,7 +281,6 @@ class CodeMirror extends Hooking {
 
         $metaBox->register();
     }
-
 
 
     private function setIcons() {
