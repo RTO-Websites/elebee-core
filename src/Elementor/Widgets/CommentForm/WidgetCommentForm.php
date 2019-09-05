@@ -176,6 +176,16 @@ class WidgetCommentForm extends WidgetBase {
         );
 
         $this->add_control(
+            'emails',
+            [
+                'label' => __( 'E-Mail', 'elebee' ),
+                'description' => __( 'The E-Mail which should receive the notifications.', 'elebee' ),
+                'type' => Controls_Manager::TEXT,
+                'label_block' => true,
+                'default' => '', // Todo: enter email
+            ] );
+
+        $this->add_control(
             'open_comments_pages',
             [
                 'label' => __( 'Display Warning', 'elebee' ),
@@ -1672,7 +1682,7 @@ class WidgetCommentForm extends WidgetBase {
      *
      * @since  0.7.2
      */
-    public function ajaxCommentForm () {
+    public static function ajaxCommentForm () {
         $postID = filter_input( INPUT_POST, 'postID' );
         $commentForms = filter_input( INPUT_POST, 'commentForms',
             FILTER_DEFAULT,
@@ -1715,6 +1725,43 @@ class WidgetCommentForm extends WidgetBase {
         foreach ( $commentForms as $commentForm ) {
             if ( ! $commentForm[ 'widgetID' ] ) {
                 continue;
+            }
+
+            $dbEmails = $database->emails->getByWidgetID( $commentForm[ 'widgetID' ] );
+            $emails = explode( ',', $commentForm[ 'emails' ] );
+
+            foreach ( $dbEmails as $dbEmail ) {
+                $found = false;
+
+                foreach ( $emails as $email ) {
+                    if ( $email == $dbEmail->email ) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if ( ! $found ) {
+                    echo var_export( $dbEmail );
+                    $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
+                }
+
+            }
+
+            foreach ( $emails as $email ) {
+                if ( $email == '' ) return;
+
+                $found = false;
+
+                foreach ( $dbEmails as $dbEmail ) {
+                    if ( $email == $dbEmail->email ) {
+                        $found = true;
+                        breaK;
+                    }
+                }
+
+                if ( ! $found ) {
+                    $database->emails->add( $commentForm[ 'widgetID' ], $email );
+                }
             }
 
             $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
@@ -1865,7 +1912,8 @@ class WidgetCommentForm extends WidgetBase {
      * @since  0.7.2
      * @param $commentId
      */
-    public function submitComment ( $commentId ) {
+    public
+    static function submitComment ( $commentId ) {
 
         $widgetID = filter_input( INPUT_POST, 'widgetID' );
         $ratings = filter_has_var( INPUT_POST, 'elebee-ratings' )
@@ -1879,6 +1927,9 @@ class WidgetCommentForm extends WidgetBase {
 
     }
 
+    /**
+     * @since  0.7.2
+     */
     public static function ajaxPostComment () {
         $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
 
@@ -1902,5 +1953,30 @@ class WidgetCommentForm extends WidgetBase {
             'error' => false,
         ] );
         exit;
+    }
+
+    /**
+     * @since 0.8.0
+     * @param $emails
+     * @return mixed
+     */
+    public static function commentNotificationRecipients ( $emails ) {
+        if ( ! $_POST[ 'widgetID' ] ) {
+            return $emails;
+        }
+
+        $dbEmails = ( new Database() )->emails->getByWidgetID( $_POST[ 'widgetID' ] );
+
+        if ( count( $dbEmails ) < 1 ) {
+            return $emails;
+        }
+
+        $emails = [];
+
+        foreach ( $dbEmails as $dbEmail ) {
+            array_push( $emails, $dbEmail->email );
+        }
+
+        return $emails;
     }
 }
