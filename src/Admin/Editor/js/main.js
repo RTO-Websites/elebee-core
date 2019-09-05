@@ -57,7 +57,6 @@
   configCodeMirror = function () {
     cm = CodeMirror.fromTextArea(document.getElementById(textarea), {
       mode: 'text/x-scss',
-      theme: 'mdn-like',
       lineNumbers: true,
       scrollbarStyle: "null",
       viewportMargin: Infinity, //change to integer (eg 10) if affecting performance
