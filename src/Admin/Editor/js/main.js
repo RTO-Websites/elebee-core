@@ -211,7 +211,7 @@
       })
       //signal Saved successfull:
       wp.data.subscribe(function () {
-        let hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed()
+        let hasSaved = wp.data.select("core/editor").didPostSaveRequestSucceed();
         if (hasSaved) {
           var event2 = new Event('WPSavedSuccessfull');
           window.dispatchEvent(event2);
@@ -231,7 +231,7 @@
     if (ElebeeCodeMirrorGutenberg.gutenberg) {
       //sync codemirror changes to central gutenberg post-data object (gutenberg syncs blocks and textarea by itself):
       window.editor.on('change', function () {
-        wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()})
+        wp.data.dispatch('core/editor').editPost({content: window.editor.getValue()});
       });
       window.addEventListener('WPSavedSuccessfull', function () {
         //necesseary to prevent losing leading whitespace when repeatedly saving unedited post:

@@ -29,8 +29,8 @@ function setActiveLine(cm) {
  * Finds the value of a cookie
  */
 function getCookie(cname) {
-  let name = cname + "=";
-  decodedCookie = decodeURIComponent(document.cookie);
+  let name = cname + "=",
+  decodedCookie = decodeURIComponent(document.cookie),
   ca = decodedCookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
@@ -51,7 +51,7 @@ function getCookie(cname) {
  */
 function getPostition(query) {
   let positionArray = query.split('+');
-  return positionArray
+  return positionArray;
 }
 
 //when codemirror is up
