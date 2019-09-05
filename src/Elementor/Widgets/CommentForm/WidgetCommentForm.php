@@ -179,10 +179,13 @@ class WidgetCommentForm extends WidgetBase {
             'emails',
             [
                 'label' => __( 'E-Mail', 'elebee' ),
-                'description' => __( 'The E-Mail which should receive the notifications.', 'elebee' ),
+                'description' => __( 'A comma separated list of emails to which the notifications will be send.', 'elebee' ),
                 'type' => Controls_Manager::TEXT,
                 'label_block' => true,
-                'default' => '', // Todo: enter email
+                'default' => '',
+                'dynamic' => [
+                    'active' => true,
+                ],
             ] );
 
         $this->add_control(
@@ -1728,103 +1731,116 @@ class WidgetCommentForm extends WidgetBase {
             }
 
             $dbEmails = $database->emails->getByWidgetID( $commentForm[ 'widgetID' ] );
-            $emails = explode( ',', $commentForm[ 'emails' ] );
+            if ( $commentForm[ 'emails' ] ) {
+                $emails = explode( ',', $commentForm[ 'emails' ] );
 
-            foreach ( $dbEmails as $dbEmail ) {
-                $found = false;
+                if ( $emails ) {
+                    foreach ( $dbEmails as $dbEmail ) {
+                        $found = false;
 
-                foreach ( $emails as $email ) {
-                    if ( $email == $dbEmail->email ) {
-                        $found = true;
-                        break;
+                        foreach ( $emails as $email ) {
+                            if ( $email == $dbEmail->email ) {
+                                $found = true;
+                                break;
+                            }
+                        }
+
+                        if ( ! $found ) {
+                            echo var_export( $dbEmail );
+                            $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
+                        }
+
+                    }
+
+                    foreach ( $emails as $email ) {
+                        if ( $email == '' ) return;
+
+                        $found = false;
+
+                        foreach ( $dbEmails as $dbEmail ) {
+                            if ( $email == $dbEmail->email ) {
+                                $found = true;
+                                breaK;
+                            }
+                        }
+
+                        if ( ! $found ) {
+                            $database->emails->add( $commentForm[ 'widgetID' ], $email );
+                        }
                     }
                 }
-
-                if ( ! $found ) {
-                    echo var_export( $dbEmail );
-                    $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
-                }
-
-            }
-
-            foreach ( $emails as $email ) {
-                if ( $email == '' ) return;
-
-                $found = false;
-
+            } else {
                 foreach ( $dbEmails as $dbEmail ) {
-                    if ( $email == $dbEmail->email ) {
-                        $found = true;
-                        breaK;
-                    }
-                }
-
-                if ( ! $found ) {
-                    $database->emails->add( $commentForm[ 'widgetID' ], $email );
+                    $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
                 }
             }
 
             $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
+            if ( $commentForm[ 'categories' ] ) {
 
-            foreach ( $dbCategories as $dbCategory ) {
-                $found = false;
+                foreach ( $dbCategories as $dbCategory ) {
+                    $found = false;
 
-                foreach ( $commentForm[ 'categories' ] as $category ) {
-                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
-                        $found = true;
-                        break;
+                    foreach ( $commentForm[ 'categories' ] as $category ) {
+                        if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                            $found = true;
+                            break;
+                        }
+                    }
+
+                    if ( ! $found ) {
+                        $database->categories->archiveByCategoryID( $dbCategory->categoryID );
                     }
                 }
 
-                if ( ! $found ) {
+                if ( ! $commentForm[ 'categories' ] ) {
+                    continue;
+                }
+
+                foreach ( $commentForm[ 'categories' ] as $category ) {
+                    $found = false;
+
+                    foreach ( $dbCategories as $dbCategory ) {
+                        if ( $category[ '_id' ] == $dbCategory->categoryID ) {
+                            $found = true;
+                            breaK;
+                        }
+                    }
+
+                    if ( $found ) {
+                        $database->categories->updateByCategoryID(
+                            $category[ '_id' ],
+                            $postID,
+                            $commentForm[ 'widgetID' ],
+                            $commentForm[ 'targetPostID' ],
+                            $category[ 'category_label' ],
+                            $category[ 'category_icon' ],
+                            $category[ 'category_default_color' ],
+                            $category[ 'category_hover_color' ],
+                            $category[ 'category_selected_color' ],
+                            ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                        );
+                    } else {
+                        $database->categories->add(
+                            $postID,
+                            $commentForm[ 'widgetID' ],
+                            $commentForm[ 'targetPostID' ],
+                            $category[ '_id' ],
+                            $category[ 'category_label' ],
+                            $category[ 'category_icon' ],
+                            $category[ 'category_default_color' ],
+                            $category[ 'category_hover_color' ],
+                            $category[ 'category_selected_color' ],
+                            ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
+                        );
+                    }
+                }
+            } else {
+                foreach ( $dbCategories as $dbCategory ) {
                     $database->categories->archiveByCategoryID( $dbCategory->categoryID );
                 }
             }
-
-            if ( ! $commentForm[ 'categories' ] ) {
-                continue;
-            }
-
-            foreach ( $commentForm[ 'categories' ] as $category ) {
-                $found = false;
-
-                foreach ( $dbCategories as $dbCategory ) {
-                    if ( $category[ '_id' ] == $dbCategory->categoryID ) {
-                        $found = true;
-                        breaK;
-                    }
-                }
-
-                if ( $found ) {
-                    $database->categories->updateByCategoryID(
-                        $category[ '_id' ],
-                        $postID,
-                        $commentForm[ 'widgetID' ],
-                        $commentForm[ 'targetPostID' ],
-                        $category[ 'category_label' ],
-                        $category[ 'category_icon' ],
-                        $category[ 'category_default_color' ],
-                        $category[ 'category_hover_color' ],
-                        $category[ 'category_selected_color' ],
-                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
-                    );
-                } else {
-                    $database->categories->add(
-                        $postID,
-                        $commentForm[ 'widgetID' ],
-                        $commentForm[ 'targetPostID' ],
-                        $category[ '_id' ],
-                        $category[ 'category_label' ],
-                        $category[ 'category_icon' ],
-                        $category[ 'category_default_color' ],
-                        $category[ 'category_hover_color' ],
-                        $category[ 'category_selected_color' ],
-                        ( $category[ 'category_required' ] == 'yes' ? 1 : 0 )
-                    );
-                }
-            }
         }
-
 
         die( json_encode( [
             'error' => false,
@@ -1960,7 +1976,7 @@ class WidgetCommentForm extends WidgetBase {
      * @param $emails
      * @return mixed
      */
-    public static function commentNotificationRecipients ( $emails ) {
+    public static function commentRecipients ( $emails ) {
         if ( ! $_POST[ 'widgetID' ] ) {
             return $emails;
         }

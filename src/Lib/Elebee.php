@@ -393,6 +393,8 @@ class Elebee {
         $this->loader->addFilter( 'status_header', Config::class, 'disableRedirectGuess' );
         $this->loader->addFilter( 'preprocess_comment', WidgetCommentForm::class, 'preprocessComment' );
         $this->loader->addAction( 'comment_post', WidgetCommentForm::class, 'submitComment' );
+        $this->loader->addFilter( 'comment_notification_recipients', WidgetCommentForm::class, 'commentRecipients' );
+        $this->loader->addFilter( 'comment_moderation_recipients', WidgetCommentForm::class, 'commentRecipients' );
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
@@ -402,7 +404,6 @@ class Elebee {
 
         $this->loader->addAction( 'wp_ajax_nopriv_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
         $this->loader->addAction( 'wp_ajax_nopriv_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
-        $this->loader->addFilter( 'comment_notification_recipients', WidgetCommentForm::class, 'commentNotificationRecipients' );
 
     }
 
