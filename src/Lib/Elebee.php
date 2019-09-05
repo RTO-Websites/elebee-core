@@ -375,6 +375,7 @@ class Elebee {
         $this->loader->addAction( 'admin_enqueue_scripts', $utilAdminNotice, 'localizeScripts' );
         $this->loader->addAction( 'wp_ajax_dismiss_notice', $utilAdminNotice, 'dismissNotice' );
 
+
     }
 
     /**
@@ -401,6 +402,7 @@ class Elebee {
 
         $this->loader->addAction( 'wp_ajax_nopriv_post_comment', WidgetCommentForm::class, 'ajaxPostComment' );
         $this->loader->addAction( 'wp_ajax_nopriv_get_comment_content', WidgetCommentList::class, 'getCommentContent' );
+        $this->loader->addFilter( 'comment_notification_recipients', WidgetCommentForm::class, 'commentNotificationRecipients' );
 
     }
 
