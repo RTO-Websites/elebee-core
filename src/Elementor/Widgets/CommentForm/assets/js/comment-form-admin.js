@@ -54,6 +54,7 @@
           d = {
             widgetID: commentForm['id'],
             targetPostID: parseInt(commentForm['settings']['page'] || elementor.config.document.id),
+              emails: commentForm['settings']['emails']
           };
 
         if (commentForm['settings']['list_categories']) {
@@ -65,8 +66,8 @@
         } else {
           d.categories = [];
         }
-
-        data.commentForms.push(d);
+    
+          data.commentForms.push( d );
 
       }
 
