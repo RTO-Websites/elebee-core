@@ -10,6 +10,7 @@ namespace ElebeeCore\Database;
  */
 class Database {
     public $categories;
+    public $emails;
 
     /**
      * Database constructor.
@@ -18,15 +19,9 @@ class Database {
      */
     public function __construct () {
         $this->categories = new Categories();
-        $this->init();
-    }
+        $this->emails = new EMails();
 
-    /**
-     * Initialize the database
-     *
-     * @since 0.7.2
-     */
-    public function init () {
         $this->categories->init();
+        $this->emails->init();
     }
 }
