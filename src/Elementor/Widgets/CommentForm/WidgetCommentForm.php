@@ -1936,12 +1936,13 @@ class WidgetCommentForm extends WidgetBase {
      * @return mixed
      */
     public static function commentRecipients ( $emails ) {
-        if ( ! isset( $_SESSION[ 'emails' ] ) && $_SESSION[ 'emails' ] != '' ) {
+        if ( ! isset( $_SESSION[ 'emails' ] ) || empty( $_SESSION[ 'emails' ] ) ) {
             return $emails;
         }
 
         $newEmails = explode( ',', $_SESSION[ 'emails' ] );
 
+        $_SESSION[ 'emails' ] = '';
         unset( $_SESSION[ 'emails' ] );
 
         return $newEmails;
