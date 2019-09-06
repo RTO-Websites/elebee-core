@@ -1936,7 +1936,7 @@ class WidgetCommentForm extends WidgetBase {
      * @return mixed
      */
     public static function commentRecipients ( $emails ) {
-        if ( ! isset( $_SESSION[ 'emails' ] ) ) {
+        if ( ! isset( $_SESSION[ 'emails' ] ) && $_SESSION[ 'emails' ] != '' ) {
             return $emails;
         }
 
