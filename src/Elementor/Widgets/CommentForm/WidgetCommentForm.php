@@ -1578,6 +1578,8 @@ class WidgetCommentForm extends WidgetBase {
             'logInUrl' => wp_login_url( apply_filters( 'the_permalink', get_permalink() ) ),
         ];
 
+        $_SESSION[ 'emails' ] = $settings[ 'emails' ];
+
         $ratingFieldsArgs = [
             'fieldWidth' => ! empty( $settings[ 'field_width_comment' ] ) ? $settings[ 'field_width_comment' ] : '100',
             'widgetID' => $this->get_id(),
@@ -1728,51 +1730,6 @@ class WidgetCommentForm extends WidgetBase {
         foreach ( $commentForms as $commentForm ) {
             if ( ! $commentForm[ 'widgetID' ] ) {
                 continue;
-            }
-
-            $dbEmails = $database->emails->getByWidgetID( $commentForm[ 'widgetID' ] );
-            if ( $commentForm[ 'emails' ] ) {
-                $emails = explode( ',', $commentForm[ 'emails' ] );
-
-                if ( $emails ) {
-                    foreach ( $dbEmails as $dbEmail ) {
-                        $found = false;
-
-                        foreach ( $emails as $email ) {
-                            if ( $email == $dbEmail->email ) {
-                                $found = true;
-                                break;
-                            }
-                        }
-
-                        if ( ! $found ) {
-                            echo var_export( $dbEmail );
-                            $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
-                        }
-
-                    }
-
-                    foreach ( $emails as $email ) {
-                        if ( $email == '' ) return;
-
-                        $found = false;
-
-                        foreach ( $dbEmails as $dbEmail ) {
-                            if ( $email == $dbEmail->email ) {
-                                $found = true;
-                                breaK;
-                            }
-                        }
-
-                        if ( ! $found ) {
-                            $database->emails->add( $commentForm[ 'widgetID' ], $email );
-                        }
-                    }
-                }
-            } else {
-                foreach ( $dbEmails as $dbEmail ) {
-                    $database->emails->archive( $commentForm[ 'widgetID' ], $dbEmail->email );
-                }
             }
 
             $dbCategories = $database->categories->getByWidgetID( $commentForm[ 'widgetID' ] );
@@ -1972,27 +1929,21 @@ class WidgetCommentForm extends WidgetBase {
     }
 
     /**
+     * Filter which emails should be notified of new comments
+     *
      * @since 0.8.0
      * @param $emails
      * @return mixed
      */
     public static function commentRecipients ( $emails ) {
-        if ( ! $_POST[ 'widgetID' ] ) {
+        if ( ! isset( $_SESSION[ 'emails' ] ) ) {
             return $emails;
         }
 
-        $dbEmails = ( new Database() )->emails->getByWidgetID( $_POST[ 'widgetID' ] );
+        $newEmails = explode( ',', $_SESSION[ 'emails' ] );
 
-        if ( count( $dbEmails ) < 1 ) {
-            return $emails;
-        }
+        unset( $_SESSION[ 'emails' ] );
 
-        $emails = [];
-
-        foreach ( $dbEmails as $dbEmail ) {
-            array_push( $emails, $dbEmail->email );
-        }
-
-        return $emails;
+        return $newEmails;
     }
 }

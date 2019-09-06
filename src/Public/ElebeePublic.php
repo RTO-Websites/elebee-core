@@ -134,4 +134,10 @@ class ElebeePublic {
 
     }
 
+    public function startSession () {
+        if ( ! session_id() ) {
+            session_start();
+        }
+    }
+
 }

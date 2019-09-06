@@ -398,6 +398,7 @@ class Elebee {
 
         $elebeePublic = new ElebeePublic( $this->getThemeName(), $this->getVersion() );
 
+        $this->loader->addAction( 'init', $elebeePublic, 'startSession' );
         $this->loader->addAction( 'wp_head', $elebeePublic, 'embedGoogleAnalytics', 0 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueStyles', 100 );
         $this->loader->addAction( 'wp_enqueue_scripts', $elebeePublic, 'enqueueScripts' );
